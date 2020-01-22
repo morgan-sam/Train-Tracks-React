@@ -7,12 +7,13 @@ function Square(props) {
 }
 
 class Map extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 	render() {
-		let row = 5;
-		let column = 7;
 		let map = [];
-		for (let i = 0; i < column; i++) {
-			map.push(<div className="mapRow">{[ ...Array(row) ].map(() => Square())}</div>);
+		for (let i = 0; i < this.props.columns; i++) {
+			map.push(<div className="mapRow">{[ ...Array(this.props.rows) ].map(() => Square())}</div>);
 		}
 		return <div className="map"> {map}</div>;
 	}
@@ -23,7 +24,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<h1>Train Tracks</h1>
-				<Map />
+				<Map columns={7} rows={5} />
 			</div>
 		);
 	}
