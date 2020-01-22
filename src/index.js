@@ -40,7 +40,7 @@ class Map extends React.Component {
 			map.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
-						if (y === 0 || x === 0) {
+						if (y === 0 || x === this.props.rows) {
 							return this.renderHeadingTile(x);
 						} else {
 							return this.renderMapTile(x);
