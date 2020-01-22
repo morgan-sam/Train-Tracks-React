@@ -21,3 +21,34 @@ code {
 .table-heading {
 	background-color: #ddd;
 }
+
+.triangle {
+	height: 0;
+	width: 0;
+	position: relative;
+	border-style: solid;
+}
+.top-left {
+	border-width: 0 0 2.5rem 2.5rem;
+	border-color: transparent transparent transparent #88b1de;
+}
+.top-right {
+	top: -2.5rem;
+	left: 50%;
+	border-width: 0 2.5rem 2.5rem 0;
+	border-color: transparent #88b1de transparent transparent;
+}
+.bottom-left {
+	bottom: 2.5rem;
+	top: 50%;
+	border-width: 2.5rem 0 0 2.5rem;
+	border-color: transparent transparent transparent #88b1de;
+}
+
+.bottom-right {
+	bottom: 5rem;
+	left: 50%;
+	top: 50%;
+	border-width: 2.5rem 2.5rem 0 0;
+	border-color: transparent #88b1de transparent transparent;
+}

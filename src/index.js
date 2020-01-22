@@ -2,8 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+function TriangleButton(props) {
+	return <div className={`triangle ${props.corner}`} />;
+}
+
 function Square(props) {
-	return <div className={`box ${props.className}`} />;
+	let triangles = (
+		<div>
+			<TriangleButton corner={'top-left'} />
+			<TriangleButton corner={'top-right'} />
+			<TriangleButton corner={'bottom-left'} />
+			<TriangleButton corner={'bottom-right'} />
+		</div>
+	);
+	if (props.className) {
+		triangles = null;
+	}
+	return <div className={`box ${props.className}`}>{triangles}</div>;
 }
 
 class Map extends React.Component {
