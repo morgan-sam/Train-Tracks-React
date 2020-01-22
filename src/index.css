@@ -17,3 +17,7 @@ code {
 	border: 1px solid black;
 	display: inline-block;
 }
+
+.table-heading {
+	background-color: #ddd;
+}

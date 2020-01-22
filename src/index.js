@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function Square(props) {
-	return <div className={`box`} />;
+	return <div className={`box ${props.className}`} />;
 }
 
 class Map extends React.Component {
@@ -11,17 +11,25 @@ class Map extends React.Component {
 		super(props);
 	}
 
-	renderSquare(i) {
-		return <Square className={`box`} key={i} />;
+	renderHeadingTile(i) {
+		return <Square className="table-heading" key={i} />;
+	}
+
+	renderMapTile(i) {
+		return <Square key={i} />;
 	}
 
 	render() {
 		let map = [];
-		for (let i = 0; i < this.props.columns + 1; i++) {
+		for (let y = 0; y < this.props.columns + 1; y++) {
 			map.push(
-				<div className="mapRow" key={i}>
-					{[ ...Array(this.props.rows + 1) ].map((el, i) => {
-						return this.renderSquare(i);
+				<div className="mapRow" key={y}>
+					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
+						if (y === 0 || x === 0) {
+							return this.renderHeadingTile(x);
+						} else {
+							return this.renderMapTile(x);
+						}
 					})}
 				</div>
 			);
