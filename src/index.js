@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function TriangleButton(props) {
+function CornerButton(props) {
 	return <div className={`triangle ${props.corner}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
 }
 
@@ -20,10 +20,10 @@ function Square(props) {
 
 	let triangles = (
 		<div>
-			<TriangleButton corner={'top-left'} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
-			<TriangleButton corner={'top-right'} />
-			<TriangleButton corner={'bottom-left'} />
-			<TriangleButton corner={'bottom-right'} />
+			<CornerButton corner={'top-left'} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
+			<CornerButton corner={'top-right'} />
+			<CornerButton corner={'bottom-left'} />
+			<CornerButton corner={'bottom-right'} />
 		</div>
 	);
 	let centreButtons = (
