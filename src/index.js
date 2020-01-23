@@ -51,7 +51,13 @@ class Map extends React.Component {
 	}
 
 	generateNewMap() {
+		let generatedMap = {};
 		let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
+		generatedMap = {
+			start: startCoordinate,
+			end: endCoordinate
+		};
+		return generatedMap;
 	}
 
 	generateStartEndPoints() {
@@ -94,16 +100,16 @@ class Map extends React.Component {
 
 	render() {
 		let mapComponents = [];
-		let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
+		const generatedMap = this.generateNewMap();
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
 						if (y === 0 || x === this.props.rows) {
 							return this.renderHeadingTile(x);
-						} else if (startCoordinate[0] === x && startCoordinate[1] + 1 === y) {
+						} else if (generatedMap.start[0] === x && generatedMap.start[1] + 1 === y) {
 							return this.renderTrack(x);
-						} else if (endCoordinate[0] === x && endCoordinate[1] + 1 === y) {
+						} else if (generatedMap.end[0] === x && generatedMap.end[1] + 1 === y) {
 							return this.renderTrack(x);
 						} else {
 							return this.renderMapTile(x);
