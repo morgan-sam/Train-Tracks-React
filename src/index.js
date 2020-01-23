@@ -7,7 +7,7 @@ function CornerButton(props) {
 }
 
 function CentreButton(props) {
-	return <div className={`centreButton ${props.edge}`} />;
+	return <div className={`centreButton ${props.edge}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
 }
 
 function Square(props) {
@@ -18,29 +18,24 @@ function Square(props) {
 		console.log('click');
 	}
 
-	let triangles = (
-		<div>
-			<CornerButton corner={'top-left'} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
-			<CornerButton corner={'top-right'} />
-			<CornerButton corner={'bottom-left'} />
-			<CornerButton corner={'bottom-right'} />
-		</div>
-	);
-	let centreButtons = (
-		<div>
-			<CentreButton edge={'top'} />
-			<CentreButton edge={'right'} />
-			<CentreButton edge={'left'} />
-			<CentreButton edge={'bottom'} />
-		</div>
-	);
-	if (props.className) {
-		triangles = null;
+	const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
+	const edges = [ 'top', 'right', 'bottom', 'left' ];
+
+	let cornerButtons = corners.map((el) => (
+		<CornerButton corner={el} key={el} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
+	));
+	let centreButtons = edges.map((el) => (
+		<CentreButton edge={el} key={el} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
+	));
+
+	if (props.className === 'table-heading') {
+		cornerButtons = null;
 		centreButtons = null;
 	}
+
 	return (
 		<div className={`box ${props.className}`}>
-			{triangles}
+			{cornerButtons}
 			{centreButtons}
 		</div>
 	);
