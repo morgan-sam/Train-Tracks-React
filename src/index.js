@@ -33,7 +33,7 @@ function Square(props) {
 	if (props.className === 'table-heading') {
 		cornerButtons = null;
 		centreButtons = null;
-		squareText = '123';
+		squareText = '#';
 	}
 
 	return (
