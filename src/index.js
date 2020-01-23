@@ -51,6 +51,10 @@ class Map extends React.Component {
 	}
 
 	generateNewMap() {
+		// let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
+	}
+
+	generateStartEndPoints() {
 		let edges = this.getEdgeCoordinates();
 		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
 		let endCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
@@ -67,7 +71,7 @@ class Map extends React.Component {
 			coordinates.push([ this.props.rows - 1, y ]); //right
 		}
 		for (let x = this.props.rows - 1; x > 0; x--) {
-			coordinates.push([ x, this.props.rows + 1 ]); //bottom
+			coordinates.push([ x, this.props.columns - 1 ]); //bottom
 		}
 		for (let y = this.props.columns - 1; y > 0; y--) {
 			coordinates.push([ 0, y ]); //left
@@ -90,9 +94,10 @@ class Map extends React.Component {
 
 	render() {
 		let map = [];
-		let [ startCoordinate, endCoordinate ] = this.generateNewMap();
-		console.log(startCoordinate);
-		console.log(endCoordinate);
+		this.getEdgeCoordinates();
+		// let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
+		let startCoordinate = 0;
+		let endCoordinate = 0;
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			map.push(
 				<div className="mapRow" key={y}>
@@ -119,7 +124,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>
-				<Map columns={7} rows={5} />
+				<Map columns={4} rows={4} />
 			</div>
 		);
 	}
