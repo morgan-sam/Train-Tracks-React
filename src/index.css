@@ -12,6 +12,7 @@ code {
 }
 
 .box {
+	position: relative;
 	height: 5rem;
 	width: 5rem;
 	border: 1px solid black;
@@ -23,6 +24,7 @@ code {
 }
 
 .triangle {
+	position: absolute;
 	height: 0;
 	width: 0;
 	position: relative;
@@ -51,4 +53,39 @@ code {
 	top: 50%;
 	border-width: 2.5rem 2.5rem 0 0;
 	border-color: transparent #88b1de transparent transparent;
+}
+
+.centreButton {
+	position: absolute;
+	height: 1.768rem;
+	width: 1.768rem;
+	background-color: rgb(172, 52, 108);
+	z-index: 1;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.top {
+	top: 0.368rem;
+	left: 1.6185rem;
+}
+
+.left {
+	top: 1.6185rem;
+	left: 0.368rem;
+	background-color: #c2f686;
+}
+
+.bottom {
+	left: 1.6185rem;
+	top: 2.869rem;
+	background-color: #86f6ee;
+}
+
+.right {
+	top: 1.6185rem;
+	left: 2.869rem;
+	background-color: #f5f686;
 }

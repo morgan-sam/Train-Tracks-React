@@ -6,6 +6,10 @@ function TriangleButton(props) {
 	return <div className={`triangle ${props.corner}`} />;
 }
 
+function CentreButton(props) {
+	return <div className={`centreButton ${props.edge}`} />;
+}
+
 function Square(props) {
 	let triangles = (
 		<div>
@@ -15,10 +19,24 @@ function Square(props) {
 			<TriangleButton corner={'bottom-right'} />
 		</div>
 	);
+	let centreButtons = (
+		<div>
+			<CentreButton edge={'top'} />
+			<CentreButton edge={'right'} />
+			<CentreButton edge={'left'} />
+			<CentreButton edge={'bottom'} />
+		</div>
+	);
 	if (props.className) {
 		triangles = null;
+		centreButtons = null;
 	}
-	return <div className={`box ${props.className}`}>{triangles}</div>;
+	return (
+		<div className={`box ${props.className}`}>
+			{triangles}
+			{centreButtons}
+		</div>
+	);
 }
 
 class Map extends React.Component {
