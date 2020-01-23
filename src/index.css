@@ -1,3 +1,11 @@
+:root {
+	--color-1: #ffe7bc;
+	--color-2: #ffc095;
+	--color-3: #f4aa91;
+	--color-4: #f49595;
+	--color-5: #ee8096;
+}
+
 body {
 	margin: 0;
 	margin: 1rem;
@@ -20,7 +28,7 @@ code {
 }
 
 .table-heading {
-	background-color: #ddd;
+	background-color: var(--color-1);
 }
 
 .triangle {
@@ -33,33 +41,32 @@ code {
 	top: 0;
 	left: 0;
 	border-width: 0 0 2.5rem 2.5rem;
-	border-color: transparent transparent transparent #88b1de;
+	border-color: transparent transparent transparent var(--color-2);
 }
 .top-right {
 	top: 0;
 	left: 50%;
 	border-width: 0 2.5rem 2.5rem 0;
-	border-color: transparent #88b1de transparent transparent;
+	border-color: transparent var(--color-2) transparent transparent;
 }
 .bottom-left {
 	top: 50%;
 	left: 0;
 	border-width: 2.5rem 0 0 2.5rem;
-	border-color: transparent transparent transparent #88b1de;
+	border-color: transparent transparent transparent var(--color-2);
 }
 
 .bottom-right {
 	top: 50%;
 	left: 50%;
 	border-width: 2.5rem 2.5rem 0 0;
-	border-color: transparent #88b1de transparent transparent;
+	border-color: transparent var(--color-2) transparent transparent;
 }
 
 .centreButton {
 	position: absolute;
 	height: 1.768rem;
 	width: 1.768rem;
-	background-color: rgb(172, 52, 108);
 	z-index: 1;
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
@@ -70,22 +77,23 @@ code {
 .top {
 	top: 0.368rem;
 	left: 1.6185rem;
+	background-color: var(--color-3);
 }
 
 .left {
 	top: 1.6185rem;
 	left: 0.368rem;
-	background-color: #c2f686;
+	background-color: var(--color-4);
 }
 
 .bottom {
 	left: 1.6185rem;
 	top: 2.869rem;
-	background-color: #86f6ee;
+	background-color: var(--color-3);
 }
 
 .right {
 	top: 1.6185rem;
 	left: 2.869rem;
-	background-color: #f5f686;
+	background-color: var(--color-4);
 }
