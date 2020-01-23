@@ -51,7 +51,7 @@ class Map extends React.Component {
 	}
 
 	generateNewMap() {
-		// let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
+		let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
 	}
 
 	generateStartEndPoints() {
@@ -93,13 +93,10 @@ class Map extends React.Component {
 	}
 
 	render() {
-		let map = [];
-		this.getEdgeCoordinates();
-		// let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
-		let startCoordinate = 0;
-		let endCoordinate = 0;
+		let mapComponents = [];
+		let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
 		for (let y = 0; y < this.props.columns + 1; y++) {
-			map.push(
+			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
 						if (y === 0 || x === this.props.rows) {
@@ -115,7 +112,7 @@ class Map extends React.Component {
 				</div>
 			);
 		}
-		return <div className="map"> {map}</div>;
+		return <div className="map"> {mapComponents}</div>;
 	}
 }
 
@@ -124,7 +121,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>
-				<Map columns={4} rows={4} />
+				<Map columns={6} rows={6} />
 			</div>
 		);
 	}
