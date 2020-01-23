@@ -116,3 +116,7 @@ code {
 	position: absolute;
 	font-size: 2rem;
 }
+
+.track {
+	background-color: #333;
+}

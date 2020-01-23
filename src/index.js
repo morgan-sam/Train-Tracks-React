@@ -30,7 +30,7 @@ function Square(props) {
 	));
 	let squareText;
 
-	if (props.className === 'table-heading') {
+	if (props.className === 'table-heading' || props.className === 'track') {
 		cornerButtons = null;
 		centreButtons = null;
 		squareText = '#';
@@ -50,6 +50,32 @@ class Map extends React.Component {
 		super(props);
 	}
 
+	generateNewMap() {
+		let edges = this.getEdgeCoordinates();
+		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
+		let endCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
+		return [ startCoordinate[0], endCoordinate[0] ];
+	}
+
+	getEdgeCoordinates() {
+		//calculates coordinates around edge in clockwise order
+		let coordinates = [];
+		for (let x = 0; x < this.props.rows - 1; x++) {
+			coordinates.push([ x, 0 ]); //top
+		}
+		for (let y = 0; y < this.props.columns - 1; y++) {
+			coordinates.push([ this.props.rows - 1, y ]); //right
+		}
+		for (let x = this.props.rows - 1; x > 0; x--) {
+			coordinates.push([ x, this.props.rows + 1 ]); //bottom
+		}
+		for (let y = this.props.columns - 1; y > 0; y--) {
+			coordinates.push([ 0, y ]); //left
+		}
+		console.log(coordinates);
+		return coordinates;
+	}
+
 	renderHeadingTile(i) {
 		return <Square className="table-heading" key={i} />;
 	}
@@ -58,14 +84,25 @@ class Map extends React.Component {
 		return <Square key={i} />;
 	}
 
+	renderTrack(i) {
+		return <Square className="track" key={i} />;
+	}
+
 	render() {
 		let map = [];
+		let [ startCoordinate, endCoordinate ] = this.generateNewMap();
+		console.log(startCoordinate);
+		console.log(endCoordinate);
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			map.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
 						if (y === 0 || x === this.props.rows) {
 							return this.renderHeadingTile(x);
+						} else if (startCoordinate[0] === x && startCoordinate[1] + 1 === y) {
+							return this.renderTrack(x);
+						} else if (endCoordinate[0] === x && endCoordinate[1] + 1 === y) {
+							return this.renderTrack(x);
 						} else {
 							return this.renderMapTile(x);
 						}
