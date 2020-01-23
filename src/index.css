@@ -6,6 +6,11 @@
 	--color-5: #ee8096;
 }
 
+* {
+	margin: 0;
+	padding: 0;
+}
+
 body {
 	margin: 0;
 	margin: 1rem;
@@ -18,20 +23,29 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+.title {
+	margin-bottom: 1rem;
+}
+
+.mapRow {
+	display: flex;
+}
 
 .box {
 	position: relative;
 	height: 5rem;
 	width: 5rem;
 	border: 1px solid black;
-	display: inline-block;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .table-heading {
 	background-color: var(--color-1);
 }
 
-.triangle {
+.cornerButton {
 	height: 0;
 	width: 0;
 	border-style: solid;
@@ -96,4 +110,8 @@ code {
 	top: 1.6185rem;
 	left: 2.869rem;
 	background-color: var(--color-4);
+}
+
+.boxLabel {
+	position: absolute;
 }

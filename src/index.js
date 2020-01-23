@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function CornerButton(props) {
-	return <div className={`triangle ${props.corner}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
+	return <div className={`cornerButton ${props.corner}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
 }
 
 function CentreButton(props) {
@@ -12,7 +12,8 @@ function CentreButton(props) {
 
 function Square(props) {
 	function hoverEventActive() {
-		console.log('hover');
+		// console.log('hover');
+		// console.log('hover');
 	}
 	function clickEventActive() {
 		console.log('click');
@@ -27,16 +28,19 @@ function Square(props) {
 	let centreButtons = edges.map((el) => (
 		<CentreButton edge={el} key={el} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
 	));
+	let squareText;
 
 	if (props.className === 'table-heading') {
 		cornerButtons = null;
 		centreButtons = null;
+		squareText = '123';
 	}
 
 	return (
 		<div className={`box ${props.className}`}>
 			{cornerButtons}
 			{centreButtons}
+			<p className="boxLabel"> {squareText}</p>
 		</div>
 	);
 }
@@ -77,7 +81,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Train Tracks</h1>
+				<h1 className="title">Train Tracks</h1>
 				<Map columns={7} rows={5} />
 			</div>
 		);
