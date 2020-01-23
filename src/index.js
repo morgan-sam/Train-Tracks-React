@@ -57,7 +57,14 @@ class Map extends React.Component {
 			start: startCoordinate,
 			end: endCoordinate
 		};
+		this.getLegalMoves(startCoordinate);
 		return generatedMap;
+	}
+
+	getLegalMoves(coordinate) {
+		console.log(coordinate);
+		let adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
+		console.log(adjacentMoves);
 	}
 
 	generateStartEndPoints() {
