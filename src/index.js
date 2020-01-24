@@ -13,7 +13,6 @@ function CentreButton(props) {
 function Square(props) {
 	function hoverEventActive() {
 		// console.log('hover');
-		// console.log('hover');
 	}
 	function clickEventActive() {
 		console.log('click');
@@ -55,7 +54,8 @@ class Map extends React.Component {
 		let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
 		generatedMap = {
 			start: startCoordinate,
-			end: endCoordinate
+			end: endCoordinate,
+			tiles: [ startCoordinate, endCoordinate ]
 		};
 		this.getLegalMoves(startCoordinate, endCoordinate);
 		return generatedMap;
@@ -66,7 +66,7 @@ class Map extends React.Component {
 		let legalMoves = adjacentMoves.filter(
 			(el) => el[0] >= 0 && el[1] >= 0 && el[0] < this.props.rows && el[1] < this.props.columns
 		);
-		console.log(legalMoves);
+		// console.log(legalMoves);
 	}
 
 	generateStartEndPoints() {
@@ -91,8 +91,17 @@ class Map extends React.Component {
 		for (let y = this.props.columns - 1; y > 0; y--) {
 			coordinates.push([ 0, y ]); //left
 		}
-		console.log(coordinates);
 		return coordinates;
+	}
+
+	checkIfTrackExists(generatedMap, x, y) {
+		let trackExists = false;
+		generatedMap.tiles.forEach(function(el) {
+			if (el[0] === x && el[1] === y) {
+				trackExists = true;
+			}
+		});
+		return trackExists;
 	}
 
 	renderHeadingTile(i) {
@@ -116,9 +125,7 @@ class Map extends React.Component {
 					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
 						if (y === 0 || x === this.props.rows) {
 							return this.renderHeadingTile(x);
-						} else if (generatedMap.start[0] === x && generatedMap.start[1] + 1 === y) {
-							return this.renderTrack(x);
-						} else if (generatedMap.end[0] === x && generatedMap.end[1] + 1 === y) {
+						} else if (this.checkIfTrackExists(generatedMap, x, y - 1)) {
 							return this.renderTrack(x);
 						} else {
 							return this.renderMapTile(x);
