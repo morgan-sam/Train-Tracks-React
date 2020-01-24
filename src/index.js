@@ -64,8 +64,11 @@ class Map extends React.Component {
 			tiles: [ endCoordinate, startCoordinate ]
 		};
 		console.log(Math.random());
-		for (let i = 0; i < 17; i++) {
-			generatedMap.tiles.push(this.newMove(generatedMap.tiles[generatedMap.tiles.length - 1], generatedMap));
+		let lastMove = startCoordinate;
+		for (let i = 0; i < 18; i++) {
+			let nextMove = this.newMove(lastMove, generatedMap);
+			generatedMap.tiles.push(nextMove);
+			lastMove = nextMove;
 		}
 		return generatedMap;
 	}
@@ -75,29 +78,28 @@ class Map extends React.Component {
 		let legalMoves = adjacentMoves.filter(
 			(el) => el[0] >= 0 && el[1] >= 0 && el[0] < this.props.rows && el[1] < this.props.columns
 		);
-		if (legalMoves) {
-			const compareArrays = this.compareArrays;
-			legalMoves = legalMoves.filter(function(move) {
-				let boo = false;
-				tiles.forEach(function(remove) {
-					if (compareArrays(move, remove)) {
-						boo = true;
-					}
-				});
-				return !boo;
+		const compareArrays = this.compareArrays;
+		legalMoves = legalMoves.filter(function(move) {
+			let boo = false;
+			tiles.forEach(function(remove) {
+				if (compareArrays(move, remove)) {
+					boo = true;
+				}
 			});
-		}
+			return !boo;
+		});
 		return legalMoves;
 	}
 
 	newMove(currentCoordinate, generatedMap) {
+		let nextMove;
 		const legalMoves = this.getLegalMoves(currentCoordinate, generatedMap.tiles);
-		if (legalMoves) {
-			let nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
-			return nextMove;
+		if (Array.isArray(legalMoves) && legalMoves.length) {
+			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 		} else {
-			return [ 0, 0 ];
+			nextMove = [ 0, 5 ];
 		}
+		return nextMove;
 	}
 
 	checkIfPossibleToGetHome() {
