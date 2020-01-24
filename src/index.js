@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import seedrandom from 'seedrandom';
 import './index.css';
 
 function CornerButton(props) {
@@ -55,30 +56,47 @@ class Map extends React.Component {
 		generatedMap = {
 			start: startCoordinate,
 			end: endCoordinate,
-			tiles: [ startCoordinate, endCoordinate ]
+			tiles: [ endCoordinate, startCoordinate ]
 		};
-		this.getLegalMoves(startCoordinate, generatedMap.tiles);
+		console.log(Math.random());
+		for (let i = 0; i < 1; i++) {
+			generatedMap.tiles.push(this.newMove(generatedMap.tiles[generatedMap.tiles.length - 1], generatedMap));
+		}
 		return generatedMap;
 	}
 
 	getLegalMoves(coordinate, tiles) {
-		let adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
+		const adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
 		let legalMoves = adjacentMoves.filter(
 			(el) => el[0] >= 0 && el[1] >= 0 && el[0] < this.props.rows && el[1] < this.props.columns
 		);
-
-		const compareArrays = this.compareArrays;
-		legalMoves = legalMoves.filter(function(move) {
-			let boo = false;
-			tiles.forEach(function(remove) {
-				if (compareArrays(move, remove)) {
-					boo = true;
-				}
+		if (legalMoves) {
+			const compareArrays = this.compareArrays;
+			legalMoves = legalMoves.filter(function(move) {
+				let boo = false;
+				tiles.forEach(function(remove) {
+					if (compareArrays(move, remove)) {
+						boo = true;
+					}
+				});
+				return !boo;
 			});
-			return !boo;
-		});
+		}
+		return legalMoves;
+	}
 
-		console.log(legalMoves);
+	newMove(currentCoordinate, generatedMap) {
+		const legalMoves = this.getLegalMoves(currentCoordinate, generatedMap.tiles);
+		if (legalMoves) {
+			let nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
+			return nextMove;
+		} else {
+			return [ 0, 0 ];
+		}
+	}
+
+	checkIfPossibleToGetHome() {
+		//
 	}
 
 	compareArrays(arr1, arr2) {
@@ -169,4 +187,10 @@ class App extends React.Component {
 	}
 }
 
+seedrandom('12345', { global: true });
 ReactDOM.render(<App />, document.getElementById('root'));
+
+function randomIntFromInterval(min, max) {
+	// min and max included
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
