@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import seedrandom from 'seedrandom';
+import { generateNewMap } from './generateMap';
 import './index.css';
 
 function CornerButton(props) {
@@ -55,90 +56,6 @@ class Map extends React.Component {
 		super(props);
 	}
 
-	generateNewMap() {
-		let generatedMap = {};
-		let [ startCoordinate, endCoordinate ] = this.generateStartEndPoints();
-		generatedMap = {
-			start: startCoordinate,
-			end: endCoordinate,
-			tiles: [ endCoordinate, startCoordinate ]
-		};
-		console.log(Math.random());
-		let lastMove = startCoordinate;
-		for (let i = 0; i < 18; i++) {
-			let nextMove = this.newMove(lastMove, generatedMap);
-			generatedMap.tiles.push(nextMove);
-			lastMove = nextMove;
-		}
-		return generatedMap;
-	}
-
-	getLegalMoves(coordinate, tiles) {
-		const adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
-		let legalMoves = adjacentMoves.filter(
-			(el) => el[0] >= 0 && el[1] >= 0 && el[0] < this.props.rows && el[1] < this.props.columns
-		);
-		const compareArrays = this.compareArrays;
-		legalMoves = legalMoves.filter(function(move) {
-			let boo = false;
-			tiles.forEach(function(remove) {
-				if (compareArrays(move, remove)) {
-					boo = true;
-				}
-			});
-			return !boo;
-		});
-		return legalMoves;
-	}
-
-	newMove(currentCoordinate, generatedMap) {
-		let nextMove;
-		const legalMoves = this.getLegalMoves(currentCoordinate, generatedMap.tiles);
-		if (Array.isArray(legalMoves) && legalMoves.length) {
-			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
-		} else {
-			nextMove = [ 0, 5 ];
-		}
-		return nextMove;
-	}
-
-	checkIfPossibleToGetHome() {
-		//
-	}
-
-	compareArrays(arr1, arr2) {
-		let arrEqual = false;
-		if (arr1.length === arr2.length) {
-			arrEqual = arr1.every((v, i) => v === arr2[i]);
-		}
-		return arrEqual;
-	}
-
-	generateStartEndPoints() {
-		let edges = this.getEdgeCoordinates();
-		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
-		let endCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
-		return [ startCoordinate[0], endCoordinate[0] ];
-	}
-
-	getEdgeCoordinates() {
-		//calculates coordinates around edge in clockwise order
-		let coordinates = [];
-		for (let x = 0; x < this.props.rows - 1; x++) {
-			coordinates.push([ x, 0 ]); //top
-		}
-		for (let y = 0; y < this.props.columns - 1; y++) {
-			coordinates.push([ this.props.rows - 1, y ]); //right
-		}
-		for (let x = this.props.rows - 1; x > 0; x--) {
-			coordinates.push([ x, this.props.columns - 1 ]); //bottom
-		}
-		for (let y = this.props.columns - 1; y > 0; y--) {
-			coordinates.push([ 0, y ]); //left
-		}
-		return coordinates;
-	}
-
 	checkIfTrackExists(generatedMap, x, y) {
 		let trackExists = false;
 		generatedMap.tiles.forEach(function(el) {
@@ -173,7 +90,7 @@ class Map extends React.Component {
 
 	render() {
 		let mapComponents = [];
-		const generatedMap = this.generateNewMap();
+		const generatedMap = generateNewMap(this.props.rows, this.props.columns);
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
@@ -211,8 +128,3 @@ class App extends React.Component {
 
 seedrandom('12345', { global: true });
 ReactDOM.render(<App />, document.getElementById('root'));
-
-function randomIntFromInterval(min, max) {
-	// min and max included
-	return Math.floor(Math.random() * (max - min + 1) + min);
-}
