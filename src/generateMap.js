@@ -8,7 +8,7 @@ export const generateNewMap = (rows, columns) => {
 	};
 	console.log(Math.random());
 	let lastMove = startCoordinate;
-	for (let i = 0; i < 14; i++) {
+	for (let i = 0; i < 20; i++) {
 		let nextMove = newMove(lastMove, generatedMap);
 		generatedMap.tiles.push(nextMove);
 		lastMove = nextMove;
@@ -32,12 +32,15 @@ export const generateNewMap = (rows, columns) => {
 
 	function newMove(currentCoordinate, generatedMap) {
 		let nextMove;
-		const legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
+		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
 		if (Array.isArray(legalMoves) && legalMoves.length) {
+			console.log(generatedMap.tiles.length);
+			console.log(legalMoves);
+			legalMoves = legalMoves.filter((move) => checkIfExitPossible(move, generatedMap));
+			console.log(legalMoves);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 			//check if next move is equal to the exit
 			//if not check if exit is possible
-			console.log(checkIfExitPossible(nextMove, generatedMap));
 		} else {
 			nextMove = [ 0, 5 ]; //no other legal moves
 		}
@@ -59,6 +62,7 @@ export const generateNewMap = (rows, columns) => {
 		takenTiles.forEach(function(el) {
 			if ((el[0] === generatedMap.end[0]) & (el[1] === generatedMap.end[1])) exitPossible = true;
 		});
+		console.log(exitPossible);
 		return exitPossible;
 
 		function waveSpread(prospectiveMove, takenTiles) {
