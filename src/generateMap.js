@@ -39,7 +39,7 @@ export const generateNewMap = (rows, columns) => {
 			return generatedMap.end;
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
-			legalMoves = legalMoves.filter((move) => checkIfExitPossible(move, generatedMap));
+			legalMoves = legalMoves.filter((move) => checkIfTargetMovePossible(move, generatedMap.end, generatedMap));
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 			//check if next move is equal to the exit
 			//if not check if exit is possible
@@ -47,7 +47,7 @@ export const generateNewMap = (rows, columns) => {
 		return nextMove;
 	}
 
-	function checkIfExitPossible(prospectiveMove, generatedMap) {
+	function checkIfTargetMovePossible(prospectiveMove, targetMove, generatedMap) {
 		//spread across all squares bound by border and other tracks
 		//use getLegalMoves() to find where to move
 		//add all tiles to a new array
@@ -56,14 +56,13 @@ export const generateNewMap = (rows, columns) => {
 		//if no exit return false
 		let newTiles;
 		let takenTiles = [ ...generatedMap.tiles ];
-		// console.log(takenTiles);
 		waveSpread(prospectiveMove, takenTiles);
 
-		let exitPossible = false;
+		let targetMovePossible = false;
 		takenTiles.forEach(function(el) {
-			if ((el[0] === generatedMap.end[0]) & (el[1] === generatedMap.end[1])) exitPossible = true;
+			if ((el[0] === targetMove[0]) & (el[1] === targetMove[1])) targetMovePossible = true;
 		});
-		return exitPossible;
+		return targetMovePossible;
 
 		function waveSpread(prospectiveMove, takenTiles) {
 			newTiles = getLegalMoves(prospectiveMove, takenTiles);
