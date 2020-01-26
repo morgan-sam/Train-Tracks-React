@@ -125,6 +125,10 @@ class App extends React.Component {
 		);
 	}
 }
+const seed = Math.random();
+console.log(seed);
+seedrandom(seed, { global: true });
 
-seedrandom('12345', { global: true });
+//example where track wraps around end coordinate:
+//0.2804289302017666
 ReactDOM.render(<App />, document.getElementById('root'));
