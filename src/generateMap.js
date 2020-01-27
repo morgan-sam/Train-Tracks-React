@@ -9,12 +9,16 @@ export const generateNewMap = (rows, columns) => {
 
 	let mapComplete = false;
 	let lastMove = startCoordinate;
+	// for (let i = 0; i < 19; i++) {
 	while (!mapComplete) {
 		let nextMove = newMove(lastMove, generatedMap);
-		if (generatedMap.end[0] === nextMove[0] && generatedMap.end[1] === nextMove[1]) mapComplete = true;
 		generatedMap.tiles.push(nextMove);
 		lastMove = nextMove;
+		if (generatedMap.end[0] === nextMove[0] && generatedMap.end[1] === nextMove[1]) {
+			mapComplete = true;
+		}
 	}
+
 	return generatedMap;
 
 	function getLegalMoves(coordinate, tiles) {
@@ -35,8 +39,10 @@ export const generateNewMap = (rows, columns) => {
 	function newMove(currentCoordinate, generatedMap) {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
-		if (legalMoves[0][0] === generatedMap.end[0] && legalMoves[0][1] === generatedMap.end[1]) {
-			return generatedMap.end;
+		if (legalMoves.length === 1) {
+			if (legalMoves[0][0] === generatedMap.end[0] && legalMoves[0][1] === generatedMap.end[1]) {
+				return generatedMap.end;
+			}
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
 			legalMoves = legalMoves.filter((move) => checkIfTargetMovePossible(move, generatedMap.end, generatedMap));
@@ -54,14 +60,17 @@ export const generateNewMap = (rows, columns) => {
 		//go until exit hit or no other moves
 		//if exit then return true
 		//if no exit return false
-		let newTiles;
-		let takenTiles = [ ...generatedMap.tiles ];
-		waveSpread(prospectiveMove, takenTiles);
-
 		let targetMovePossible = false;
-		takenTiles.forEach(function(el) {
-			if ((el[0] === targetMove[0]) & (el[1] === targetMove[1])) targetMovePossible = true;
-		});
+		let newTiles;
+		if (compareArrays(prospectiveMove, targetMove)) {
+			targetMovePossible = true;
+		} else {
+			let takenTiles = [ ...generatedMap.tiles ];
+			waveSpread(prospectiveMove, takenTiles);
+			takenTiles.forEach(function(el) {
+				if ((el[0] === targetMove[0]) & (el[1] === targetMove[1])) targetMovePossible = true;
+			});
+		}
 		return targetMovePossible;
 
 		function waveSpread(prospectiveMove, takenTiles) {

@@ -127,8 +127,16 @@ class App extends React.Component {
 }
 const seed = Math.random();
 console.log(seed);
-seedrandom(seed, { global: true });
+seedrandom(0.38681828038735433, { global: true });
+
+//no track seeds:
+//0.6113545021869811
+
+//broken seeds:
 
 //example where track wraps around end coordinate:
 //0.2804289302017666
+
+//example where track choses between end coordinate and dead end:
+//0.38681828038735433
 ReactDOM.render(<App />, document.getElementById('root'));
