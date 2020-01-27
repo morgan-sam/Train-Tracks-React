@@ -42,6 +42,10 @@ function Square(props) {
 		squareText = '#';
 	}
 
+	if (props.className === 'track') {
+		squareText = props.text;
+	}
+
 	return (
 		<div className={`box ${props.className}`}>
 			{cornerButtons}
@@ -68,6 +72,18 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
+	getTrackIndex(generatedMap, x, y) {
+		let trackExists = false;
+		generatedMap.tiles.forEach(function(el, i) {
+			if (el[0] === x && el[1] === y) {
+				trackExists = i;
+			}
+		});
+		if (generatedMap.start[0] === x && generatedMap.start[1] === y) trackExists = 'start';
+		if (generatedMap.end[0] === x && generatedMap.end[1] === y) trackExists = 'end';
+		return trackExists;
+	}
+
 	renderHeadingTile(i) {
 		return <Square className="table-heading" key={i} />;
 	}
@@ -84,8 +100,8 @@ class Map extends React.Component {
 		return <Square className="end" key={i} />;
 	}
 
-	renderTrack(i) {
-		return <Square className="track" key={i} />;
+	renderTrack(i, trackIndex) {
+		return <Square className="track" key={i} text={trackIndex} />;
 	}
 
 	render() {
@@ -95,15 +111,15 @@ class Map extends React.Component {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
-						const currentTile = this.checkIfTrackExists(generatedMap, x, y - 1);
+						const trackIndex = this.getTrackIndex(generatedMap, x, y - 1);
 						if (y === 0 || x === this.props.rows) {
 							return this.renderHeadingTile(x);
-						} else if (currentTile === 'start') {
+						} else if (trackIndex === 'start') {
 							return this.renderStart(x);
-						} else if (currentTile === 'end') {
+						} else if (trackIndex === 'end') {
 							return this.renderFinish(x);
-						} else if (currentTile === 'track') {
-							return this.renderTrack(x);
+						} else if (trackIndex) {
+							return this.renderTrack(x, trackIndex);
 						} else {
 							return this.renderMapTile(x);
 						}
@@ -120,14 +136,14 @@ class App extends React.Component {
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>
-				<Map columns={6} rows={6} />
+				<Map columns={8} rows={8} />
 			</div>
 		);
 	}
 }
 const seed = Math.random();
 console.log(seed);
-seedrandom(0.38681828038735433, { global: true });
+seedrandom(seed, { global: true });
 
 //no track seeds:
 //0.6113545021869811
