@@ -9,7 +9,7 @@ export const generateNewMap = (rows, columns) => {
 
 	let mapComplete = false;
 	let lastMove = startCoordinate;
-	// for (let i = 0; i < 19; i++) {
+	// for (let i = 0; i < 20; i++) {
 	while (!mapComplete) {
 		let nextMove = newMove(lastMove, generatedMap);
 		generatedMap.tiles.push(nextMove);
@@ -46,11 +46,29 @@ export const generateNewMap = (rows, columns) => {
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
 			legalMoves = legalMoves.filter((move) => checkIfTargetMovePossible(move, generatedMap.end, generatedMap));
+
+			//if possible remove moves that result in 2x2 of tracks, but if needed to move to exit then oblige
+
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
+			let currentMoveDir = findMoveDirection(nextMove, generatedMap.tiles[generatedMap.tiles.length - 1]);
+			console.log(currentMoveDir);
 			//check if next move is equal to the exit
 			//if not check if exit is possible
 		}
 		return nextMove;
+	}
+
+	function findMoveDirection(currentMove, lastMove) {
+		let moveDirection = 'none';
+
+		const moveCalc = [ currentMove[0] - lastMove[0], currentMove[1] - lastMove[1] ];
+
+		if (compareArrays(moveCalc, [ 0, -1 ])) moveDirection = 'up';
+		if (compareArrays(moveCalc, [ 1, 0 ])) moveDirection = 'right';
+		if (compareArrays(moveCalc, [ 0, 1 ])) moveDirection = 'down';
+		if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 'left';
+
+		return moveDirection;
 	}
 
 	function checkIfTargetMovePossible(prospectiveMove, targetMove, generatedMap) {

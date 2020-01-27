@@ -107,6 +107,7 @@ class Map extends React.Component {
 	render() {
 		let mapComponents = [];
 		const generatedMap = generateNewMap(this.props.rows, this.props.columns);
+
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
@@ -147,8 +148,7 @@ seedrandom(seed, { global: true });
 
 //no track seeds:
 //0.6113545021869811
-
-//broken seeds:
+//0.44704210096626085
 
 //example where track wraps around end coordinate:
 //0.2804289302017666
