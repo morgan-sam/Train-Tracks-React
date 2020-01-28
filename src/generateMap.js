@@ -4,7 +4,8 @@ export const generateNewMap = (rows, columns) => {
 	generatedMap = {
 		start: startCoordinate,
 		end: endCoordinate,
-		tiles: [ startCoordinate ]
+		tiles: [ startCoordinate ],
+		direction: []
 	};
 
 	let mapComplete = false;
@@ -49,13 +50,67 @@ export const generateNewMap = (rows, columns) => {
 
 			//if possible remove moves that result in 2x2 of tracks, but if needed to move to exit then oblige
 
+			//get non hook moves hook:
+			const nonHookMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedMap));
+
+			//only apply if nonHookMoves is a non empty array
+			if (Array.isArray(nonHookMoves) && nonHookMoves.length) legalMoves = nonHookMoves;
+
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
-			let currentMoveDir = findMoveDirection(nextMove, generatedMap.tiles[generatedMap.tiles.length - 1]);
-			console.log(currentMoveDir);
-			//check if next move is equal to the exit
-			//if not check if exit is possible
+			// let currentMoveDir = findMoveDirection(nextMove, generatedMap.tiles[generatedMap.tiles.length - 1]);
 		}
 		return nextMove;
+	}
+
+	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
+		let wasCorner = false;
+		if (generatedMap.tiles.length > 2) {
+			const tileThreeAgo = generatedMap.tiles[generatedMap.tiles.length - 3];
+			const tileTwoAgo = generatedMap.tiles[generatedMap.tiles.length - 2];
+			const tileOneAgo = generatedMap.tiles[generatedMap.tiles.length - 1];
+
+			const firstMove = findMoveDirection(tileTwoAgo, tileThreeAgo);
+			const secondMove = findMoveDirection(tileOneAgo, tileTwoAgo);
+			const thirdMove = findMoveDirection(prospectiveMove, tileOneAgo);
+
+			const dirArr = [ firstMove, secondMove, thirdMove ];
+
+			if (
+				compareArrays(dirArr, [ 0, 1, 2 ]) ||
+				compareArrays(dirArr, [ 1, 2, 3 ]) ||
+				compareArrays(dirArr, [ 2, 3, 0 ]) ||
+				compareArrays(dirArr, [ 3, 0, 1 ])
+			) {
+				wasCorner = true;
+			}
+
+			if (
+				compareArrays(dirArr, [ 3, 2, 1 ]) ||
+				compareArrays(dirArr, [ 2, 1, 0 ]) ||
+				compareArrays(dirArr, [ 1, 0, 3 ]) ||
+				compareArrays(dirArr, [ 0, 3, 2 ])
+			) {
+				wasCorner = true;
+			}
+			/*
+
+			//clockwise turns
+
+			[0,1,2]
+			[1,2,3]
+			[2,3,0]
+			[3,0,1]
+
+			//anticlockwise turns
+
+			[3,2,1]
+			[2,1,0]
+			[1,0,3]
+			[0,3,2]
+
+			*/
+		}
+		return wasCorner;
 	}
 
 	function findMoveDirection(currentMove, lastMove) {
@@ -63,10 +118,10 @@ export const generateNewMap = (rows, columns) => {
 
 		const moveCalc = [ currentMove[0] - lastMove[0], currentMove[1] - lastMove[1] ];
 
-		if (compareArrays(moveCalc, [ 0, -1 ])) moveDirection = 'up';
-		if (compareArrays(moveCalc, [ 1, 0 ])) moveDirection = 'right';
-		if (compareArrays(moveCalc, [ 0, 1 ])) moveDirection = 'down';
-		if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 'left';
+		if (compareArrays(moveCalc, [ 0, -1 ])) moveDirection = 0; //= 'up';
+		if (compareArrays(moveCalc, [ 1, 0 ])) moveDirection = 1; //= 'right';
+		if (compareArrays(moveCalc, [ 0, 1 ])) moveDirection = 2; //= 'down';
+		if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 3; //= 'left';
 
 		return moveDirection;
 	}
