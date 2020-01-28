@@ -10,7 +10,7 @@ export const generateNewMap = (rows, columns) => {
 
 	let mapComplete = false;
 	let lastMove = startCoordinate;
-	// for (let i = 0; i < 20; i++) {
+	// for (let i = 0; i < 10; i++) {
 	while (!mapComplete) {
 		let nextMove = newMove(lastMove, generatedMap);
 		generatedMap.tiles.push(nextMove);
@@ -47,6 +47,8 @@ export const generateNewMap = (rows, columns) => {
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
 			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, generatedMap.end, generatedMap));
+
+			getDirectionWithLessTracks(legalMoves, generatedMap);
 
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 
@@ -91,6 +93,55 @@ export const generateNewMap = (rows, columns) => {
 	function removeOnePossibleMoves(legalMoves, generatedMap) {
 		legalMoves = legalMoves.filter((move) => !checkIfNextMoveWillHaveOnePossibleMove(move, generatedMap));
 		return legalMoves;
+	}
+
+	function getDirectionWithLessTracks(legalMoves, generatedMap) {
+		const currentTile = generatedMap.tiles[generatedMap.tiles.length - 1];
+		const possibleDirections = legalMoves.map((move) => findMoveDirection(move, currentTile));
+		console.log(' ');
+		console.log(`Move ${generatedMap.tiles.length - 1}:`);
+		console.log(`possibleDirections: ${possibleDirections}`);
+		console.log(`currentTile: ${currentTile}`);
+
+		getTilesInEachDirection(currentTile, generatedMap);
+
+		// let emptyTileCount = 0;
+		// console.log(`rows: ${rows}`);
+		// for (let i = 0; i < rows; i++) {
+		// 	let nextTile = [ currentTile[0] + i, currentTile[1] ];
+		// 	let tileExists = false;
+		// 	rowTiles.forEach(function(tile) {
+		// 		if (compareArrays(nextTile, tile)) {
+		// 			tileExists = true;
+		// 		}
+		// 	});
+		// 	if (tileExists) {
+		// 		break;
+		// 	} else {
+		// 		emptyTileCount += 1;
+		// 	}
+		// }
+
+		// const upTiles = columnTiles.filter((tile) => tile[1] < currentTile[1]);
+		// const rightTiles = rowTiles.filter((tile) => tile[0] > currentTile[0]);
+		// const downTiles = columnTiles.filter((tile) => tile[1] > currentTile[1]);
+		// const leftTiles = rowTiles.filter((tile) => tile[0] < currentTile[0]);
+		// console.log(`leftTiles: ${leftTiles.join(' ')}`);
+		// console.log(`rightTiles: ${rightTiles.join(' ')}`);
+		// console.log(`upTiles: ${upTiles.join(' ')}`);
+		// console.log(`downTiles: ${downTiles.join(' ')}`);
+	}
+
+	function getTilesInEachDirection(currentTile, generatedMap) {
+		let tilesInEachDirection = [];
+		for (let i = 0; i < 4; i++) {
+			let sign = -Math.ceil((i % 3) / 2) * 2 + 1;
+			console.log(sign);
+			let lineTiles = generatedMap.tiles.filter((tile) => tile[i % 2] === currentTile[i % 2]);
+			let directionTiles = lineTiles.filter((tile) => tile[(i + 1) % 2] * sign < currentTile[(i + 1) % 2] * sign);
+			tilesInEachDirection.push(directionTiles);
+		}
+		return tilesInEachDirection;
 	}
 
 	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
