@@ -46,20 +46,51 @@ export const generateNewMap = (rows, columns) => {
 			}
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
-			legalMoves = legalMoves.filter((move) => checkIfTargetMovePossible(move, generatedMap.end, generatedMap));
+			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, generatedMap.end, generatedMap));
 
-			//if possible remove moves that result in 2x2 of tracks, but if needed to move to exit then oblige
-
-			//get non hook moves hook:
-			const nonHookMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedMap));
-
-			//only apply if nonHookMoves is a non empty array
-			if (Array.isArray(nonHookMoves) && nonHookMoves.length) legalMoves = nonHookMoves;
+			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 			// let currentMoveDir = findMoveDirection(nextMove, generatedMap.tiles[generatedMap.tiles.length - 1]);
 		}
 		return nextMove;
+	}
+
+	function mutateMoveArray(legalMoves, generatedMap) {
+		//passes possible moves through several calulations to improve the generated map
+		//only takes array input of moves that are possible to reach exit
+
+		const moveMutateFunctions = [ removeHookMoves ];
+
+		for (let i = 0; i < moveMutateFunctions.length; i++) {
+			let currentFunc = moveMutateFunctions[i];
+			let mutatedMoveArray = currentFunc(legalMoves, generatedMap);
+			if (checkArrEmpty(mutatedMoveArray)) {
+				break;
+			} else {
+				legalMoves = mutatedMoveArray;
+			}
+		}
+
+		return legalMoves;
+
+		function checkArrEmpty(arr) {
+			if (Array.isArray(arr) && arr.length) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+
+	function removeHookMoves(legalMoves, generatedMap) {
+		legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedMap));
+		return legalMoves;
+	}
+
+	function removeOnePossibleMoves(legalMoves, generatedMap) {
+		legalMoves = legalMoves.filter((move) => !checkIfNextMoveWillHaveOnePossibleMove(move, generatedMap));
+		return legalMoves;
 	}
 
 	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
@@ -113,6 +144,14 @@ export const generateNewMap = (rows, columns) => {
 		return wasCorner;
 	}
 
+	function checkIfNextMoveWillHaveOnePossibleMove(prospectiveMove, generatedMap) {
+		let onePossibleMove = true;
+		let legalMoves = getLegalMoves(prospectiveMove, generatedMap.tiles);
+		legalMoves = legalMoves.filter((move) => checkPossibleExits(move, generatedMap.end, generatedMap) > 1);
+		if (Array.isArray(legalMoves) && legalMoves.length > 1) onePossibleMove = false;
+		return onePossibleMove;
+	}
+
 	function findMoveDirection(currentMove, lastMove) {
 		let moveDirection = 'none';
 
@@ -126,25 +165,25 @@ export const generateNewMap = (rows, columns) => {
 		return moveDirection;
 	}
 
-	function checkIfTargetMovePossible(prospectiveMove, targetMove, generatedMap) {
+	function checkPossibleExits(prospectiveMove, targetMove, generatedMap) {
 		//spread across all squares bound by border and other tracks
 		//use getLegalMoves() to find where to move
 		//add all tiles to a new array
 		//go until exit hit or no other moves
 		//if exit then return true
 		//if no exit return false
-		let targetMovePossible = false;
+		let possibleExits = 0;
 		let newTiles;
 		if (compareArrays(prospectiveMove, targetMove)) {
-			targetMovePossible = true;
+			possibleExits = true;
 		} else {
 			let takenTiles = [ ...generatedMap.tiles ];
 			waveSpread(prospectiveMove, takenTiles);
 			takenTiles.forEach(function(el) {
-				if ((el[0] === targetMove[0]) & (el[1] === targetMove[1])) targetMovePossible = true;
+				if ((el[0] === targetMove[0]) & (el[1] === targetMove[1])) possibleExits += 1;
 			});
 		}
-		return targetMovePossible;
+		return possibleExits;
 
 		function waveSpread(prospectiveMove, takenTiles) {
 			newTiles = getLegalMoves(prospectiveMove, takenTiles);

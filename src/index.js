@@ -144,7 +144,11 @@ class App extends React.Component {
 }
 const seed = Math.random();
 console.log(seed);
-seedrandom(0.7348937773157953, { global: true });
+seedrandom(0.5961328806995592, { global: true });
+
+//testing:
+//0.5128255307739107
+//0.5961328806995592
 
 //no track seeds:
 //0.6113545021869811
