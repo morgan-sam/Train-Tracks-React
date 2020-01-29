@@ -42,6 +42,10 @@ function Square(props) {
 		squareText = '#';
 	}
 
+	if (props.className === 'table-heading') {
+		squareText = 1;
+	}
+
 	if (props.className === 'track') {
 		squareText = props.text;
 	}
@@ -107,7 +111,7 @@ class Map extends React.Component {
 	render() {
 		let mapComponents = [];
 		const generatedMap = generateNewMap(this.props.rows, this.props.columns);
-
+		console.log(generatedMap);
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
@@ -145,6 +149,7 @@ class App extends React.Component {
 const seed = Math.random();
 console.log(seed);
 seedrandom(0.5989607919685986, { global: true });
+// seedrandom(seed, { global: true });
 
 //testing:
 //0.5128255307739107

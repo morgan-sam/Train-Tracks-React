@@ -5,19 +5,30 @@ export const generateNewMap = (rows, columns) => {
 		start: startCoordinate,
 		end: endCoordinate,
 		tiles: [ startCoordinate ],
-		direction: []
+		direction: [],
+		headerLabels: {
+			x: [],
+			y: []
+		}
 	};
 
 	let mapComplete = false;
 	let lastMove = startCoordinate;
-	for (let i = 0; i < 15; i++) {
-		// while (!mapComplete) {
+	// for (let i = 0; i < 15; i++) {
+	while (!mapComplete) {
 		let nextMove = newMove(lastMove, generatedMap);
 		generatedMap.tiles.push(nextMove);
 		lastMove = nextMove;
 		if (generatedMap.end[0] === nextMove[0] && generatedMap.end[1] === nextMove[1]) {
 			mapComplete = true;
 		}
+	}
+
+	for (let i = 0; i < rows; i++) {
+		generatedMap.headerLabels.x.push(getTilesInEachDirection([ i, -1 ], generatedMap)[2].length);
+	}
+	for (let i = 0; i < columns; i++) {
+		generatedMap.headerLabels.y.push(getTilesInEachDirection([ -1, i ], generatedMap)[1].length);
 	}
 
 	return generatedMap;
@@ -62,7 +73,7 @@ export const generateNewMap = (rows, columns) => {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
 
-		const moveMutateFunctions = [ removeHookMoves, getDirectionWithLessTracks ];
+		const moveMutateFunctions = [ removeHookMoves ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
