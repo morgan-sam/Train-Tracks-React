@@ -10,8 +10,8 @@ export const generateNewMap = (rows, columns) => {
 
 	let mapComplete = false;
 	let lastMove = startCoordinate;
-	// for (let i = 0; i < 10; i++) {
-	while (!mapComplete) {
+	for (let i = 0; i < 15; i++) {
+		// while (!mapComplete) {
 		let nextMove = newMove(lastMove, generatedMap);
 		generatedMap.tiles.push(nextMove);
 		lastMove = nextMove;
@@ -103,7 +103,8 @@ export const generateNewMap = (rows, columns) => {
 		console.log(`possibleDirections: ${possibleDirections}`);
 		console.log(`currentTile: ${currentTile}`);
 
-		getTilesInEachDirection(currentTile, generatedMap);
+		let tilesInEachDirection = getTilesInEachDirection(currentTile, generatedMap);
+		getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection);
 
 		// let emptyTileCount = 0;
 		// console.log(`rows: ${rows}`);
@@ -121,27 +122,89 @@ export const generateNewMap = (rows, columns) => {
 		// 		emptyTileCount += 1;
 		// 	}
 		// }
-
-		// const upTiles = columnTiles.filter((tile) => tile[1] < currentTile[1]);
-		// const rightTiles = rowTiles.filter((tile) => tile[0] > currentTile[0]);
-		// const downTiles = columnTiles.filter((tile) => tile[1] > currentTile[1]);
-		// const leftTiles = rowTiles.filter((tile) => tile[0] < currentTile[0]);
-		// console.log(`leftTiles: ${leftTiles.join(' ')}`);
-		// console.log(`rightTiles: ${rightTiles.join(' ')}`);
-		// console.log(`upTiles: ${upTiles.join(' ')}`);
-		// console.log(`downTiles: ${downTiles.join(' ')}`);
 	}
 
 	function getTilesInEachDirection(currentTile, generatedMap) {
 		let tilesInEachDirection = [];
 		for (let i = 0; i < 4; i++) {
 			let sign = -Math.ceil((i % 3) / 2) * 2 + 1;
-			console.log(sign);
 			let lineTiles = generatedMap.tiles.filter((tile) => tile[i % 2] === currentTile[i % 2]);
 			let directionTiles = lineTiles.filter((tile) => tile[(i + 1) % 2] * sign < currentTile[(i + 1) % 2] * sign);
 			tilesInEachDirection.push(directionTiles);
 		}
 		return tilesInEachDirection;
+	}
+
+	function getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection) {
+		//Doesn't both getting free tiles of non legal moves
+		let freeTilesInEachDirection = legalMoves.map(function(move) {
+			let direction = findMoveDirection(move, currentTile);
+			let freeTiles = 0;
+
+			// direction 0
+			// i = currentTile[1]-1
+			// i > -1
+			// i += -1
+
+			// direction 1
+			// i = currentTile[0]+1
+			// i < rows
+			// i += 1
+
+			// direction 2
+			// i = currentTile[1]+1
+			// i < columns
+			// i += 1
+
+			// direction 3
+			// i = currentTile[0]-1
+			// i > -1
+			// i += -1
+
+			// General:
+
+			//let sign = -Math.ceil((i % 3) / 2) * 2 + 1;
+
+			// i = currentTile[(i+1)%2]+sign
+			// i*sign < edge*sign
+			// i += sign
+
+			let edge;
+			switch (direction) {
+				case 0:
+				case 3:
+					edge = 0;
+					break;
+				case 1:
+					edge = rows - 1;
+					break;
+				case 2:
+					edge = columns - 1;
+					break;
+			}
+			const sign = Math.ceil((direction % 3) / 2) * 2 - 1;
+			for (let i = currentTile[(direction + 1) % 2] + sign; i * sign <= edge * sign; i += sign) {
+				const checkTile = [ i, currentTile[1] ];
+				const checkedTiles = tilesInEachDirection[direction].map(function(takenTile) {
+					if (compareArrays(checkTile, takenTile)) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+				if (checkedTiles.includes(true)) {
+					break;
+				} else {
+					freeTiles += 1;
+				}
+			}
+
+			return {
+				direction,
+				freeTiles
+			};
+		});
+		return freeTilesInEachDirection;
 	}
 
 	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
