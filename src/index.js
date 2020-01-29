@@ -43,7 +43,7 @@ function Square(props) {
 	}
 
 	if (props.className === 'table-heading') {
-		squareText = 1;
+		squareText = props.text;
 	}
 
 	if (props.className === 'track') {
@@ -88,8 +88,8 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
-	renderHeadingTile(i) {
-		return <Square className="table-heading" key={i} />;
+	renderHeadingTile(i, headerLabel) {
+		return <Square className="table-heading" key={i} text={headerLabel} />;
 	}
 
 	renderMapTile(i) {
@@ -117,8 +117,12 @@ class Map extends React.Component {
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
 						const trackIndex = this.getTrackIndex(generatedMap, x, y - 1);
-						if (y === 0 || x === this.props.rows) {
-							return this.renderHeadingTile(x);
+						if (y === 0) {
+							const headerLabel = generatedMap.headerLabels.x[x];
+							return this.renderHeadingTile(x, headerLabel);
+						} else if (x === this.props.rows) {
+							const headerLabel = generatedMap.headerLabels.y[y - 1];
+							return this.renderHeadingTile(x, headerLabel);
 						} else if (trackIndex === 'start') {
 							return this.renderStart(x);
 						} else if (trackIndex === 'end') {
@@ -148,8 +152,8 @@ class App extends React.Component {
 }
 const seed = Math.random();
 console.log(seed);
-seedrandom(0.5989607919685986, { global: true });
-// seedrandom(seed, { global: true });
+// seedrandom(0.5989607919685986, { global: true });
+seedrandom(seed, { global: true });
 
 //testing:
 //0.5128255307739107
