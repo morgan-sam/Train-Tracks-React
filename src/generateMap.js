@@ -53,7 +53,7 @@ export const generateNewMap = (rows, columns) => {
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
-			// let currentMoveDir = findMoveDirection(nextMove, generatedMap.tiles[generatedMap.tiles.length - 1]);
+			// let currentMoveDir = findDirectionFromMove(nextMove, generatedMap.tiles[generatedMap.tiles.length - 1]);
 		}
 		return nextMove;
 	}
@@ -62,7 +62,7 @@ export const generateNewMap = (rows, columns) => {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
 
-		const moveMutateFunctions = [ removeHookMoves ];
+		const moveMutateFunctions = [ removeHookMoves, getDirectionWithLessTracks ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
@@ -97,31 +97,13 @@ export const generateNewMap = (rows, columns) => {
 
 	function getDirectionWithLessTracks(legalMoves, generatedMap) {
 		const currentTile = generatedMap.tiles[generatedMap.tiles.length - 1];
-		const possibleDirections = legalMoves.map((move) => findMoveDirection(move, currentTile));
-		console.log(' ');
-		console.log(`Move ${generatedMap.tiles.length - 1}:`);
-		console.log(`possibleDirections: ${possibleDirections}`);
-		console.log(`currentTile: ${currentTile}`);
-
-		let tilesInEachDirection = getTilesInEachDirection(currentTile, generatedMap);
-		getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection);
-
-		// let emptyTileCount = 0;
-		// console.log(`rows: ${rows}`);
-		// for (let i = 0; i < rows; i++) {
-		// 	let nextTile = [ currentTile[0] + i, currentTile[1] ];
-		// 	let tileExists = false;
-		// 	rowTiles.forEach(function(tile) {
-		// 		if (compareArrays(nextTile, tile)) {
-		// 			tileExists = true;
-		// 		}
-		// 	});
-		// 	if (tileExists) {
-		// 		break;
-		// 	} else {
-		// 		emptyTileCount += 1;
-		// 	}
-		// }
+		const possibleDirections = legalMoves.map((move) => findDirectionFromMove(move, currentTile));
+		const tilesInEachDirection = getTilesInEachDirection(currentTile, generatedMap);
+		const emptyTiles = getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection);
+		const maxFreeTiles = emptyTiles.reduce(function(prev, current) {
+			return prev.freeTiles > current.freeTiles ? prev : current;
+		});
+		return [ findMoveFromDirection(currentTile, maxFreeTiles.direction) ];
 	}
 
 	function getTilesInEachDirection(currentTile, generatedMap) {
@@ -138,7 +120,7 @@ export const generateNewMap = (rows, columns) => {
 	function getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection) {
 		//Doesn't both getting free tiles of non legal moves
 		let freeTilesInEachDirection = legalMoves.map(function(move) {
-			let direction = findMoveDirection(move, currentTile);
+			let direction = findDirectionFromMove(move, currentTile);
 			let freeTiles = 0;
 
 			// direction 0
@@ -214,9 +196,9 @@ export const generateNewMap = (rows, columns) => {
 			const tileTwoAgo = generatedMap.tiles[generatedMap.tiles.length - 2];
 			const tileOneAgo = generatedMap.tiles[generatedMap.tiles.length - 1];
 
-			const firstMove = findMoveDirection(tileTwoAgo, tileThreeAgo);
-			const secondMove = findMoveDirection(tileOneAgo, tileTwoAgo);
-			const thirdMove = findMoveDirection(prospectiveMove, tileOneAgo);
+			const firstMove = findDirectionFromMove(tileTwoAgo, tileThreeAgo);
+			const secondMove = findDirectionFromMove(tileOneAgo, tileTwoAgo);
+			const thirdMove = findDirectionFromMove(prospectiveMove, tileOneAgo);
 
 			const dirArr = [ firstMove, secondMove, thirdMove ];
 
@@ -266,7 +248,7 @@ export const generateNewMap = (rows, columns) => {
 		return onePossibleMove;
 	}
 
-	function findMoveDirection(currentMove, lastMove) {
+	function findDirectionFromMove(currentMove, lastMove) {
 		let moveDirection = 'none';
 
 		const moveCalc = [ currentMove[0] - lastMove[0], currentMove[1] - lastMove[1] ];
@@ -277,6 +259,25 @@ export const generateNewMap = (rows, columns) => {
 		if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 3; //= 'left';
 
 		return moveDirection;
+	}
+
+	function findMoveFromDirection(currentTile, direction) {
+		let newMove;
+		switch (direction) {
+			case 0:
+				newMove = [ currentTile[0], currentTile[1] - 1 ];
+				break;
+			case 1:
+				newMove = [ currentTile[0] + 1, currentTile[1] ];
+				break;
+			case 2:
+				newMove = [ currentTile[0], currentTile[1] + 1 ];
+				break;
+			case 3:
+				newMove = [ currentTile[0] - 1, currentTile[1] ];
+				break;
+		}
+		return newMove;
 	}
 
 	function checkPossibleExits(prospectiveMove, targetMove, generatedMap) {
