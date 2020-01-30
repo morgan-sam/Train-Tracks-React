@@ -14,65 +14,82 @@ function CentreButton(props) {
 	return <div className={`centreButton ${props.edge}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
 }
 
-function Square(props) {
-	function hoverEventActive(e) {
+class Square extends React.Component {
+	constructor(props) {
+		super(props);
+		this.hoverEventActive = this.hoverEventActive.bind(this);
+		this.clickEventActive = this.clickEventActive.bind(this);
+	}
+
+	hoverEventActive(e) {
 		const target = e.currentTarget.className;
 	}
-	function clickEventActive(e) {
+	clickEventActive(e) {
 		const target = e.currentTarget.className;
 		console.log(target);
-		console.log(props);
+		console.log(this.props);
 	}
 
-	const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
-	const edges = [ 'top', 'right', 'bottom', 'left' ];
-
-	let cornerButtons = corners.map((el) => (
-		<CornerButton corner={el} key={el} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
-	));
-	let centreButtons = edges.map((el) => (
-		<CentreButton edge={el} key={el} clickEvent={clickEventActive} hoverEvent={hoverEventActive} />
-	));
-	let squareText;
-
-	if (
-		props.className === 'table-heading' ||
-		props.className === 'start' ||
-		props.className === 'end' ||
-		props.className === 'track'
-	) {
-		cornerButtons = null;
-		centreButtons = null;
-		squareText = '#';
+	generateTileButtons() {
+		let centreButtons = null;
+		let cornerButtons = null;
+		const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
+		const edges = [ 'top', 'right', 'bottom', 'left' ];
+		if (this.props.className === 'mapTile') {
+			centreButtons = edges.map((el) => (
+				<CentreButton
+					edge={el}
+					key={el}
+					clickEvent={this.clickEventActive}
+					hoverEvent={this.hoverEventActive}
+				/>
+			));
+			cornerButtons = corners.map((el) => (
+				<CornerButton
+					corner={el}
+					key={el}
+					clickEvent={this.clickEventActive}
+					hoverEvent={this.hoverEventActive}
+				/>
+			));
+		}
+		return [ centreButtons, cornerButtons ];
 	}
 
-	if (props.className === 'table-heading') {
-		squareText = props.text;
-	}
-
-	if (props.className === 'track') {
-		squareText = props.text;
-	}
-
-	let backgroundTrack;
-
-	// Math.random() > 0.5
+	// props.trackPresent
 	// 	? (backgroundTrack = {
 	// 			backgroundSize: '100% 100%',
 	// 			backgroundImage: `url(${straighttrack})`
 	// 		})
 	// 	: (backgroundTrack = {
 	// 			backgroundSize: '100% 100%',
-	// 			backgroundImage: `url(${curvedtrack})`
+	// 			backgroundImage: `none`
 	// 		});
 
-	return (
-		<div style={backgroundTrack} className={`box ${props.className}`}>
-			{cornerButtons}
-			{centreButtons}
-			<p className="boxLabel"> {squareText}</p>
-		</div>
-	);
+	render() {
+		let squareText;
+		const [ centreButtons, cornerButtons ] = this.generateTileButtons();
+		if (this.props.className === 'start' || this.props.className === 'end') {
+			squareText = '#';
+		}
+
+		if (this.props.className === 'table-heading') {
+			squareText = this.props.text;
+		}
+
+		// if (this.props.className === 'track') {
+		// 	squareText = this.props.text;
+		// }
+
+		let backgroundTrack;
+		return (
+			<div style={backgroundTrack} className={`box ${this.props.className}`}>
+				{cornerButtons}
+				{centreButtons}
+				<p className="boxLabel"> {squareText}</p>
+			</div>
+		);
+	}
 }
 
 class Map extends React.Component {
@@ -109,7 +126,7 @@ class Map extends React.Component {
 	}
 
 	renderMapTile(i, x, y, trackPresent) {
-		return <Square key={i} x={x} y={y} trackPresent={trackPresent} />;
+		return <Square className="mapTile" key={i} x={x} y={y} trackPresent={trackPresent} />;
 	}
 
 	renderStart(i) {
