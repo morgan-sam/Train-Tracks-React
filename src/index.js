@@ -7,15 +7,36 @@ import curvedtrack from './img/curvedtrack.png';
 import straighttrack from './img/straighttrack.png';
 
 function CornerButton(props) {
-	return <div className={`cornerButton ${props.corner}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
-}
-
-function CentreButton(props) {
-	return <div className={`centreButton ${props.edge}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
+	return (
+		<div
+			className={`cornerButton ${props.corner}`}
+			onClick={props.clickEvent}
+			onMouseOver={props.hoverEvent}
+			onMouseLeave={props.hoverEnd}
+		/>
+	);
 }
 
 function MiddleButton(props) {
-	return <div className={`middleButton`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
+	return (
+		<div
+			className={`middleButton ${props.edge}`}
+			onClick={props.clickEvent}
+			onMouseOver={props.hoverEvent}
+			onMouseLeave={props.hoverEnd}
+		/>
+	);
+}
+
+function CentreButton(props) {
+	return (
+		<div
+			className={`centreButton`}
+			onClick={props.clickEvent}
+			onMouseOver={props.hoverEvent}
+			onMouseLeave={props.hoverEnd}
+		/>
+	);
 }
 
 class Square extends React.Component {
@@ -23,13 +44,53 @@ class Square extends React.Component {
 		super(props);
 		this.hoverEventActive = this.hoverEventActive.bind(this);
 		this.clickEventActive = this.clickEventActive.bind(this);
+		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
+
+		this.state = {
+			placedTracks: [],
+			hoverTrack: {
+				x: '-',
+				y: '-',
+				trackType: '-'
+			}
+		};
 	}
 
 	hoverEventActive(e) {
-		const target = e.currentTarget.className;
-		// console.log(target);
-		// console.log(this.props);
+		const className = e.currentTarget.className;
+		const trackType = this.convertButtonClassNameToTrackType(e, className);
+		const x = this.props.x;
+		const y = this.props.y;
+
+		this.setState({
+			hoverTrack: {
+				x,
+				y,
+				trackType
+			}
+		});
 	}
+	hoverEventDisabled(e) {
+		this.setState({
+			hoverTrack: {
+				x: '-',
+				y: '-',
+				trackType: '-'
+			}
+		});
+	}
+
+	convertButtonClassNameToTrackType(e, className) {
+		let trackType;
+		if (e.target.classList.contains('middleButton')) {
+			trackType = straighttrack;
+		}
+		if (e.target.classList.contains('cornerButton')) {
+			trackType = curvedtrack;
+		}
+		return trackType;
+	}
+
 	clickEventActive(e) {
 		const target = e.currentTarget.className;
 		console.log(target);
@@ -37,46 +98,44 @@ class Square extends React.Component {
 	}
 
 	generateTileButtons() {
-		let centreButtons = null;
 		let cornerButtons = null;
-		let middleButton = null;
+		let middleButtons = null;
+		let centreButton = null;
 		const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
 		const edges = [ 'top', 'right', 'bottom', 'left' ];
 		if (this.props.className === 'mapTile') {
-			centreButtons = edges.map((el) => (
-				<CentreButton
-					edge={el}
-					key={el}
-					clickEvent={this.clickEventActive}
-					hoverEvent={this.hoverEventActive}
-				/>
-			));
 			cornerButtons = corners.map((el) => (
 				<CornerButton
 					corner={el}
 					key={el}
 					clickEvent={this.clickEventActive}
 					hoverEvent={this.hoverEventActive}
+					hoverEnd={this.hoverEventDisabled}
 				/>
 			));
-			middleButton = <MiddleButton clickEvent={this.clickEventActive} hoverEvent={this.hoverEventActive} />;
+			middleButtons = edges.map((el) => (
+				<MiddleButton
+					edge={el}
+					key={el}
+					clickEvent={this.clickEventActive}
+					hoverEvent={this.hoverEventActive}
+					hoverEnd={this.hoverEventDisabled}
+				/>
+			));
+			centreButton = (
+				<CentreButton
+					clickEvent={this.clickEventActive}
+					hoverEvent={this.hoverEventActive}
+					hoverEnd={this.hoverEventDisabled}
+				/>
+			);
 		}
-		return [ centreButtons, cornerButtons, middleButton ];
+		return [ cornerButtons, middleButtons, centreButton ];
 	}
-
-	// props.trackPresent
-	// 	? (backgroundTrack = {
-	// 			backgroundSize: '100% 100%',
-	// 			backgroundImage: `url(${straighttrack})`
-	// 		})
-	// 	: (backgroundTrack = {
-	// 			backgroundSize: '100% 100%',
-	// 			backgroundImage: `none`
-	// 		});
 
 	render() {
 		let squareText;
-		const [ centreButtons, cornerButtons, middleButton ] = this.generateTileButtons();
+		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
 		if (this.props.className === 'start' || this.props.className === 'end') {
 			squareText = '#';
 		}
@@ -85,16 +144,18 @@ class Square extends React.Component {
 			squareText = this.props.text;
 		}
 
-		// if (this.props.className === 'track') {
-		// 	squareText = this.props.text;
-		// }
-
 		let backgroundTrack;
+		if (this.props.x === this.state.hoverTrack.x && this.props.y === this.state.hoverTrack.y) {
+			backgroundTrack = {
+				backgroundSize: '100% 100%',
+				backgroundImage: `url(${straighttrack})`
+			};
+		}
 		return (
 			<div style={backgroundTrack} className={`box ${this.props.className}`}>
 				{cornerButtons}
-				{centreButtons}
-				{middleButton}
+				{middleButtons}
+				{centreButton}
 				<p className="boxLabel"> {squareText}</p>
 			</div>
 		);
