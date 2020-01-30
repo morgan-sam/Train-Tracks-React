@@ -14,6 +14,10 @@ function CentreButton(props) {
 	return <div className={`centreButton ${props.edge}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
 }
 
+function MiddleButton(props) {
+	return <div className={`middleButton`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
+}
+
 class Square extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,6 +27,8 @@ class Square extends React.Component {
 
 	hoverEventActive(e) {
 		const target = e.currentTarget.className;
+		// console.log(target);
+		// console.log(this.props);
 	}
 	clickEventActive(e) {
 		const target = e.currentTarget.className;
@@ -33,6 +39,7 @@ class Square extends React.Component {
 	generateTileButtons() {
 		let centreButtons = null;
 		let cornerButtons = null;
+		let middleButton = null;
 		const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
 		const edges = [ 'top', 'right', 'bottom', 'left' ];
 		if (this.props.className === 'mapTile') {
@@ -52,8 +59,9 @@ class Square extends React.Component {
 					hoverEvent={this.hoverEventActive}
 				/>
 			));
+			middleButton = <MiddleButton clickEvent={this.clickEventActive} hoverEvent={this.hoverEventActive} />;
 		}
-		return [ centreButtons, cornerButtons ];
+		return [ centreButtons, cornerButtons, middleButton ];
 	}
 
 	// props.trackPresent
@@ -68,7 +76,7 @@ class Square extends React.Component {
 
 	render() {
 		let squareText;
-		const [ centreButtons, cornerButtons ] = this.generateTileButtons();
+		const [ centreButtons, cornerButtons, middleButton ] = this.generateTileButtons();
 		if (this.props.className === 'start' || this.props.className === 'end') {
 			squareText = '#';
 		}
@@ -86,6 +94,7 @@ class Square extends React.Component {
 			<div style={backgroundTrack} className={`box ${this.props.className}`}>
 				{cornerButtons}
 				{centreButtons}
+				{middleButton}
 				<p className="boxLabel"> {squareText}</p>
 			</div>
 		);

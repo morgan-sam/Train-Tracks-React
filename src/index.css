@@ -79,7 +79,7 @@ code {
 }
 
 .centreButton {
-	opacity: 0;
+	/* opacity: 0; */
 	position: absolute;
 	height: 1.768rem;
 	width: 1.768rem;
@@ -112,6 +112,18 @@ code {
 	top: 1.6185rem;
 	left: 2.869rem;
 	background-color: var(--color-4);
+}
+
+.middleButton {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 2rem;
+	width: 2rem;
+	background-color: var(--color-5);
+	z-index: 1;
+	border-radius: 5rem;
 }
 
 .boxLabel {
