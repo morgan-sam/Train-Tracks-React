@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import seedrandom from 'seedrandom';
 import { generateNewMap } from './generateMap';
 import './index.css';
+import curvedtrack from './img/curvedtrack.png';
+import straighttrack from './img/straighttrack.png';
 
 function CornerButton(props) {
 	return <div className={`cornerButton ${props.corner}`} onClick={props.clickEvent} onMouseOver={props.hoverEvent} />;
@@ -13,11 +15,13 @@ function CentreButton(props) {
 }
 
 function Square(props) {
-	function hoverEventActive() {
-		// console.log('hover');
+	function hoverEventActive(e) {
+		const target = e.currentTarget.className;
 	}
-	function clickEventActive() {
-		console.log('click');
+	function clickEventActive(e) {
+		const target = e.currentTarget.className;
+		console.log(target);
+		console.log(props);
 	}
 
 	const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
@@ -50,8 +54,20 @@ function Square(props) {
 		squareText = props.text;
 	}
 
+	let backgroundTrack;
+
+	// Math.random() > 0.5
+	// 	? (backgroundTrack = {
+	// 			backgroundSize: '100% 100%',
+	// 			backgroundImage: `url(${straighttrack})`
+	// 		})
+	// 	: (backgroundTrack = {
+	// 			backgroundSize: '100% 100%',
+	// 			backgroundImage: `url(${curvedtrack})`
+	// 		});
+
 	return (
-		<div className={`box ${props.className}`}>
+		<div style={backgroundTrack} className={`box ${props.className}`}>
 			{cornerButtons}
 			{centreButtons}
 			<p className="boxLabel"> {squareText}</p>
@@ -92,8 +108,8 @@ class Map extends React.Component {
 		return <Square className="table-heading" key={i} text={headerLabel} />;
 	}
 
-	renderMapTile(i) {
-		return <Square key={i} />;
+	renderMapTile(i, x, y, trackPresent) {
+		return <Square key={i} x={x} y={y} trackPresent={trackPresent} />;
 	}
 
 	renderStart(i) {
@@ -128,9 +144,10 @@ class Map extends React.Component {
 						} else if (trackIndex === 'end') {
 							return this.renderFinish(x);
 						} else if (trackIndex) {
-							return this.renderTrack(x, trackIndex);
+							// return this.renderTrack(x, trackIndex);
+							return this.renderMapTile(x, x, y - 1, true);
 						} else {
-							return this.renderMapTile(x);
+							return this.renderMapTile(x, x, y - 1, false);
 						}
 					})}
 				</div>
@@ -145,7 +162,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>
-				<Map columns={8} rows={8} />
+				<Map columns={7} rows={6} />
 			</div>
 		);
 	}
@@ -153,7 +170,7 @@ class App extends React.Component {
 const seed = Math.random();
 console.log(seed);
 // seedrandom(0.5989607919685986, { global: true });
-seedrandom(seed, { global: true });
+seedrandom(0.2894533878282268, { global: true });
 
 //testing:
 //0.5128255307739107

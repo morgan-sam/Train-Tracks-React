@@ -11,7 +11,6 @@ export const generateNewMap = (rows, columns) => {
 			y: []
 		}
 	};
-
 	let mapComplete = false;
 	let lastMove = startCoordinate;
 	// for (let i = 0; i < 15; i++) {
@@ -23,15 +22,23 @@ export const generateNewMap = (rows, columns) => {
 			mapComplete = true;
 		}
 	}
-
-	for (let i = 0; i < rows; i++) {
-		generatedMap.headerLabels.x.push(getTilesInEachDirection([ i, -1 ], generatedMap)[2].length);
-	}
-	for (let i = 0; i < columns; i++) {
-		generatedMap.headerLabels.y.push(getTilesInEachDirection([ -1, i ], generatedMap)[1].length);
-	}
-
+	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	return generatedMap;
+
+	//create function to check track present in each quadrant
+
+	function getQuadrants(generatedMap) {
+		const x = Math.floor(rows / 2) - 1;
+		const y = Math.floor(columns / 2) - 1;
+		console.log(x, y);
+	}
+
+	//create function to check track length at least rows * columns / 3
+
+	function getTrackLength(generatedMap) {
+		const length = generatedMap.tiles.length;
+		console.log(length);
+	}
 
 	function getLegalMoves(coordinate, tiles) {
 		const adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
@@ -58,8 +65,6 @@ export const generateNewMap = (rows, columns) => {
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
 			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, generatedMap.end, generatedMap));
-
-			getDirectionWithLessTracks(legalMoves, generatedMap);
 
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 
@@ -108,7 +113,7 @@ export const generateNewMap = (rows, columns) => {
 
 	function getDirectionWithLessTracks(legalMoves, generatedMap) {
 		const currentTile = generatedMap.tiles[generatedMap.tiles.length - 1];
-		const possibleDirections = legalMoves.map((move) => findDirectionFromMove(move, currentTile));
+		// const possibleDirections = legalMoves.map((move) => findDirectionFromMove(move, currentTile));
 		const tilesInEachDirection = getTilesInEachDirection(currentTile, generatedMap);
 		const emptyTiles = getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection);
 		const maxFreeTiles = emptyTiles.reduce(function(prev, current) {
@@ -134,34 +139,6 @@ export const generateNewMap = (rows, columns) => {
 			let direction = findDirectionFromMove(move, currentTile);
 			let freeTiles = 0;
 
-			// direction 0
-			// i = currentTile[1]-1
-			// i > -1
-			// i += -1
-
-			// direction 1
-			// i = currentTile[0]+1
-			// i < rows
-			// i += 1
-
-			// direction 2
-			// i = currentTile[1]+1
-			// i < columns
-			// i += 1
-
-			// direction 3
-			// i = currentTile[0]-1
-			// i > -1
-			// i += -1
-
-			// General:
-
-			//let sign = -Math.ceil((i % 3) / 2) * 2 + 1;
-
-			// i = currentTile[(i+1)%2]+sign
-			// i*sign < edge*sign
-			// i += sign
-
 			let edge;
 			switch (direction) {
 				case 0:
@@ -173,6 +150,9 @@ export const generateNewMap = (rows, columns) => {
 					break;
 				case 2:
 					edge = columns - 1;
+					break;
+				default:
+					edge = 'none';
 					break;
 			}
 			const sign = Math.ceil((direction % 3) / 2) * 2 - 1;
@@ -230,23 +210,6 @@ export const generateNewMap = (rows, columns) => {
 			) {
 				wasCorner = true;
 			}
-			/*
-
-			//clockwise turns
-
-			[0,1,2]
-			[1,2,3]
-			[2,3,0]
-			[3,0,1]
-
-			//anticlockwise turns
-
-			[3,2,1]
-			[2,1,0]
-			[1,0,3]
-			[0,3,2]
-
-			*/
 		}
 		return wasCorner;
 	}
@@ -286,6 +249,9 @@ export const generateNewMap = (rows, columns) => {
 				break;
 			case 3:
 				newMove = [ currentTile[0] - 1, currentTile[1] ];
+				break;
+			default:
+				newMove = 'none';
 				break;
 		}
 		return newMove;
@@ -353,6 +319,16 @@ export const generateNewMap = (rows, columns) => {
 			coordinates.push([ 0, y ]); //left
 		}
 		return coordinates;
+	}
+
+	function addHeadersToGeneratedMap(generatedMap) {
+		for (let i = 0; i < rows; i++) {
+			generatedMap.headerLabels.x.push(getTilesInEachDirection([ i, -1 ], generatedMap)[2].length);
+		}
+		for (let i = 0; i < columns; i++) {
+			generatedMap.headerLabels.y.push(getTilesInEachDirection([ -1, i ], generatedMap)[1].length);
+		}
+		return generatedMap;
 	}
 
 	function randomIntFromInterval(min, max) {
