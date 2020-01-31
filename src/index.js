@@ -51,14 +51,15 @@ class Square extends React.Component {
 			hoverTrack: {
 				x: '-',
 				y: '-',
-				trackType: '-'
+				trackType: '-',
+				trackRotation: '-'
 			}
 		};
 	}
 
 	hoverEventActive(e) {
 		const className = e.currentTarget.className;
-		const trackType = this.convertButtonClassNameToTrackType(e, className);
+		const [ trackType, trackRotation ] = this.convertButtonClassNameToTrack(e, className);
 		const x = this.props.x;
 		const y = this.props.y;
 
@@ -66,7 +67,8 @@ class Square extends React.Component {
 			hoverTrack: {
 				x,
 				y,
-				trackType
+				trackType,
+				trackRotation
 			}
 		});
 	}
@@ -76,20 +78,39 @@ class Square extends React.Component {
 			hoverTrack: {
 				x: '-',
 				y: '-',
-				trackType: '-'
+				trackType: '-',
+				trackRotation: '-'
 			}
 		});
 	}
 
-	convertButtonClassNameToTrackType(e, className) {
-		let trackType;
+	convertButtonClassNameToTrack(e, className) {
+		let trackType, trackRotation;
 		if (e.target.classList.contains('middleButton')) {
 			trackType = straighttrack;
+			if (e.target.classList.contains('top') || e.target.classList.contains('down')) {
+				trackRotation = 0;
+			}
+			if (e.target.classList.contains('right') || e.target.classList.contains('left')) {
+				trackRotation = 90;
+			}
 		}
 		if (e.target.classList.contains('cornerButton')) {
 			trackType = curvedtrack;
+			if (e.target.classList.contains('top-left')) {
+				trackRotation = 90;
+			}
+			if (e.target.classList.contains('top-right')) {
+				trackRotation = 180;
+			}
+			if (e.target.classList.contains('bottom-left')) {
+				trackRotation = 0;
+			}
+			if (e.target.classList.contains('bottom-right')) {
+				trackRotation = 270;
+			}
 		}
-		return trackType;
+		return [ trackType, trackRotation ];
 	}
 
 	clickEventActive(e) {
@@ -148,7 +169,8 @@ class Square extends React.Component {
 		let backgroundTrack;
 		if (this.props.x === this.state.hoverTrack.x && this.props.y === this.state.hoverTrack.y) {
 			backgroundTrack = {
-				backgroundImage: `url(${this.state.hoverTrack.trackType})`
+				backgroundImage: `url(${this.state.hoverTrack.trackType})`,
+				transform: `rotate(${this.state.hoverTrack.trackRotation}deg)`
 			};
 		}
 		return (
