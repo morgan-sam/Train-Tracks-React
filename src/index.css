@@ -54,6 +54,11 @@ code {
 	background-size: 100% 100%;
 	border: 1px solid black;
 	z-index: -1;
+	opacity: 0.5;
+}
+
+.placed {
+	opacity: 1;
 }
 
 .box {
