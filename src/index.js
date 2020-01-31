@@ -110,6 +110,9 @@ class Square extends React.Component {
 				trackRotation = 270;
 			}
 		}
+		if (e.target.classList.contains('centreButton')) {
+			trackType = 'T';
+		}
 		return [ trackType, trackRotation ];
 	}
 
@@ -166,12 +169,16 @@ class Square extends React.Component {
 			squareText = this.props.text;
 		}
 
-		let backgroundTrack;
+		let backgroundTrack, trackText;
 		if (this.props.x === this.state.hoverTrack.x && this.props.y === this.state.hoverTrack.y) {
-			backgroundTrack = {
-				backgroundImage: `url(${this.state.hoverTrack.trackType})`,
-				transform: `rotate(${this.state.hoverTrack.trackRotation}deg)`
-			};
+			if (this.state.hoverTrack.trackType !== 'T') {
+				backgroundTrack = {
+					backgroundImage: `url(${this.state.hoverTrack.trackType})`,
+					transform: `rotate(${this.state.hoverTrack.trackRotation}deg)`
+				};
+			} else {
+				trackText = this.state.hoverTrack.trackType;
+			}
 		}
 		return (
 			<div className={'square'}>
@@ -181,7 +188,9 @@ class Square extends React.Component {
 					{centreButton}
 					<p className="boxLabel"> {squareText}</p>
 				</div>
-				<div className={'track-background'} style={backgroundTrack} />
+				<div className={'track-background'} style={backgroundTrack}>
+					{trackText}
+				</div>
 			</div>
 		);
 	}
