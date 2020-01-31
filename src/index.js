@@ -70,6 +70,7 @@ class Square extends React.Component {
 			}
 		});
 	}
+
 	hoverEventDisabled(e) {
 		this.setState({
 			hoverTrack: {
@@ -147,16 +148,18 @@ class Square extends React.Component {
 		let backgroundTrack;
 		if (this.props.x === this.state.hoverTrack.x && this.props.y === this.state.hoverTrack.y) {
 			backgroundTrack = {
-				backgroundSize: '100% 100%',
-				backgroundImage: `url(${straighttrack})`
+				backgroundImage: `url(${this.state.hoverTrack.trackType})`
 			};
 		}
 		return (
-			<div style={backgroundTrack} className={`box ${this.props.className}`}>
-				{cornerButtons}
-				{middleButtons}
-				{centreButton}
-				<p className="boxLabel"> {squareText}</p>
+			<div className={'square'}>
+				<div className={`box ${this.props.className}`}>
+					{cornerButtons}
+					{middleButtons}
+					{centreButton}
+					<p className="boxLabel"> {squareText}</p>
+				</div>
+				<div className={'track-background'} style={backgroundTrack} />
 			</div>
 		);
 	}
