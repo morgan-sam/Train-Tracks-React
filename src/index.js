@@ -45,9 +45,9 @@ class Square extends React.Component {
 		this.hoverEventActive = this.hoverEventActive.bind(this);
 		this.clickEventActive = this.clickEventActive.bind(this);
 		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 
 		this.state = {
-			placedTracks: [],
 			hoverTrack: {
 				x: '-',
 				y: '-',
@@ -120,6 +120,7 @@ class Square extends React.Component {
 		const target = e.currentTarget.className;
 		console.log(target);
 		console.log(this.props);
+		console.log(this.state.placedTracks);
 	}
 
 	generateTileButtons() {
@@ -158,6 +159,10 @@ class Square extends React.Component {
 		return [ cornerButtons, middleButtons, centreButton ];
 	}
 
+	handleClick(event) {
+		this.props.onChildClick(event.target.name); // pass any argument to the callback
+	}
+
 	render() {
 		let squareText;
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
@@ -181,7 +186,7 @@ class Square extends React.Component {
 			}
 		}
 		return (
-			<div className={'square'}>
+			<div className={'square'} onClick={this.handleClick}>
 				<div className={`box ${this.props.className}`}>
 					{cornerButtons}
 					{middleButtons}
@@ -199,6 +204,18 @@ class Square extends React.Component {
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
+		this.handleChildClick = this.handleChildClick.bind(this);
+
+		this.state = {
+			placedTracks: []
+		};
+	}
+
+	handleChildClick() {
+		this.setState((previousState) => ({
+			placedTracks: [ ...previousState.placedTracks, 'new value' ]
+		}));
+		console.log(this.state.placedTracks);
 	}
 
 	checkIfTrackExists(generatedMap, x, y) {
@@ -230,7 +247,16 @@ class Map extends React.Component {
 	}
 
 	renderMapTile(i, x, y, trackPresent) {
-		return <Square className="mapTile" key={i} x={x} y={y} trackPresent={trackPresent} />;
+		return (
+			<Square
+				className="mapTile"
+				key={i}
+				x={x}
+				y={y}
+				trackPresent={trackPresent}
+				onChildClick={this.handleChildClick}
+			/>
+		);
 	}
 
 	renderStart(i) {
@@ -246,9 +272,8 @@ class Map extends React.Component {
 	}
 
 	render() {
+		const generatedMap = this.props.generatedMap;
 		let mapComponents = [];
-		const generatedMap = generateNewMap(this.props.rows, this.props.columns);
-		console.log(generatedMap);
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
@@ -280,10 +305,14 @@ class Map extends React.Component {
 
 class App extends React.Component {
 	render() {
+		const columns = 6;
+		const rows = 7;
+		const generatedMap = generateNewMap(rows, columns);
+		console.log(generatedMap);
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>
-				<Map columns={7} rows={6} />
+				<Map generatedMap={generatedMap} columns={columns} rows={rows} />
 			</div>
 		);
 	}
@@ -291,7 +320,7 @@ class App extends React.Component {
 const seed = Math.random();
 console.log(seed);
 // seedrandom(0.5989607919685986, { global: true });
-seedrandom(0.2894533878282268, { global: true });
+seedrandom(seed, { global: true });
 
 //testing:
 //0.5128255307739107
