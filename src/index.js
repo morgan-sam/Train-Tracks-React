@@ -45,7 +45,6 @@ class Square extends React.Component {
 		this.hoverEventActive = this.hoverEventActive.bind(this);
 		this.clickEventActive = this.clickEventActive.bind(this);
 		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
-		this.handleClick = this.handleClick.bind(this);
 
 		this.state = {
 			hoverTrack: {
@@ -118,9 +117,15 @@ class Square extends React.Component {
 
 	clickEventActive(e) {
 		const target = e.currentTarget.className;
-		console.log(target);
-		console.log(this.props);
-		console.log(this.state.placedTracks);
+		const [ trackType, trackRotation ] = this.convertButtonClassNameToTrack(e, target);
+		const [ x, y ] = [ this.props.x, this.props.y ];
+		const trackSquare = {
+			x,
+			y,
+			trackType,
+			trackRotation
+		};
+		this.props.onChildClick('hi');
 	}
 
 	generateTileButtons() {
@@ -159,10 +164,6 @@ class Square extends React.Component {
 		return [ cornerButtons, middleButtons, centreButton ];
 	}
 
-	handleClick(event) {
-		this.props.onChildClick(event.target.name); // pass any argument to the callback
-	}
-
 	render() {
 		let squareText;
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
@@ -186,7 +187,7 @@ class Square extends React.Component {
 			}
 		}
 		return (
-			<div className={'square'} onClick={this.handleClick}>
+			<div className={'square'}>
 				<div className={`box ${this.props.className}`}>
 					{cornerButtons}
 					{middleButtons}
@@ -211,9 +212,9 @@ class Map extends React.Component {
 		};
 	}
 
-	handleChildClick() {
+	handleChildClick(trackSquare) {
 		this.setState((previousState) => ({
-			placedTracks: [ ...previousState.placedTracks, 'new value' ]
+			placedTracks: [ ...previousState.placedTracks, trackSquare ]
 		}));
 		console.log(this.state.placedTracks);
 	}
