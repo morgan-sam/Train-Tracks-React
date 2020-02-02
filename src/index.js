@@ -244,16 +244,31 @@ class Map extends React.Component {
 		};
 	}
 
-	handleChildClick(trackSquare) {
-		this.setState((previousState) => ({
-			placedTracks: [ ...previousState.placedTracks, trackSquare ]
-		}));
+	removePlacedTrack(trackCoordinates) {
+		const filteredTracks = this.state.placedTracks.filter(function(track) {
+			if (!(track.x === trackCoordinates[0] && track.y === trackCoordinates[1])) return true;
+		});
+		return filteredTracks;
 	}
 
-	handleChildRightClick(trackSquare) {
-		console.log(this.state);
-		this.state.placedTracks.forEach(function(el) {
-			console.log(el);
+	addTrackToPlacedArray(trackSquareInfo) {
+		const trackCoordinates = [ trackSquareInfo.x, trackSquareInfo.y ];
+		const filteredTracks = this.removePlacedTrack(trackCoordinates);
+		const placedTracks = [ ...filteredTracks, trackSquareInfo ];
+		return placedTracks;
+	}
+
+	handleChildClick(trackSquareInfo) {
+		const newTrackArray = this.addTrackToPlacedArray(trackSquareInfo);
+		this.setState({
+			placedTracks: newTrackArray
+		});
+	}
+
+	handleChildRightClick(trackCoordinates) {
+		const filteredTracks = this.removePlacedTrack(trackCoordinates);
+		this.setState({
+			placedTracks: filteredTracks
 		});
 	}
 
