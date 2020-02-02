@@ -189,6 +189,9 @@ class Square extends React.Component {
 				};
 			} else {
 				trackText = this.state.hoverTrack.trackType;
+				squareStyling = {
+					opacity: 0.5
+				};
 			}
 		}
 
@@ -201,6 +204,9 @@ class Square extends React.Component {
 				};
 			} else {
 				trackText = this.props.trackData.trackType;
+				squareStyling = {
+					opacity: 1
+				};
 			}
 		}
 		return (

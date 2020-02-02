@@ -63,10 +63,6 @@ code {
 	align-items: center;
 }
 
-.placed {
-	opacity: 1;
-}
-
 .box {
 	position: absolute;
 	top: 0;
