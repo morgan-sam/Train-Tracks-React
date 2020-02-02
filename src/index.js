@@ -45,6 +45,7 @@ class Square extends React.Component {
 		this.hoverEventActive = this.hoverEventActive.bind(this);
 		this.clickEventActive = this.clickEventActive.bind(this);
 		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
+		this.rightClickEvent = this.rightClickEvent.bind(this);
 
 		this.state = {
 			hoverTrack: {
@@ -164,6 +165,13 @@ class Square extends React.Component {
 		return [ cornerButtons, middleButtons, centreButton ];
 	}
 
+	rightClickEvent(e) {
+		e.preventDefault();
+		const x = this.props.x;
+		const y = this.props.y;
+		this.props.onChildRightClick([ x, y ]);
+	}
+
 	render() {
 		let squareText;
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
@@ -210,7 +218,7 @@ class Square extends React.Component {
 			}
 		}
 		return (
-			<div className={'square'}>
+			<div className={'square'} onContextMenu={this.rightClickEvent}>
 				<div className={`box ${this.props.className}`}>
 					{cornerButtons}
 					{middleButtons}
@@ -229,6 +237,7 @@ class Map extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChildClick = this.handleChildClick.bind(this);
+		this.handleChildRightClick = this.handleChildRightClick.bind(this);
 
 		this.state = {
 			placedTracks: []
@@ -239,6 +248,13 @@ class Map extends React.Component {
 		this.setState((previousState) => ({
 			placedTracks: [ ...previousState.placedTracks, trackSquare ]
 		}));
+	}
+
+	handleChildRightClick(trackSquare) {
+		console.log(this.state);
+		this.state.placedTracks.forEach(function(el) {
+			console.log(el);
+		});
 	}
 
 	checkIfTrackExists(generatedMap, x, y) {
@@ -277,6 +293,7 @@ class Map extends React.Component {
 				x={x}
 				y={y}
 				onChildClick={this.handleChildClick}
+				onChildRightClick={this.handleChildRightClick}
 				trackData={trackData}
 			/>
 		);
