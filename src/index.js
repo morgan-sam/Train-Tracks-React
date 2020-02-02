@@ -125,7 +125,7 @@ class Square extends React.Component {
 			trackType,
 			trackRotation
 		};
-		this.props.onChildClick('hi');
+		this.props.onChildClick(trackSquare);
 	}
 
 	generateTileButtons() {
@@ -290,11 +290,17 @@ class Map extends React.Component {
 							return this.renderStart(x);
 						} else if (trackIndex === 'end') {
 							return this.renderFinish(x);
-						} else if (trackIndex) {
-							// return this.renderTrack(x, trackIndex);
-							return this.renderMapTile(x, x, y - 1, true);
 						} else {
-							return this.renderMapTile(x, x, y - 1, false);
+							let placeTrack = false;
+							this.state.placedTracks.forEach(function(el) {
+								if (el.x === x && el.y === y - 1) placeTrack = true;
+							});
+
+							if (placeTrack) {
+								return this.renderTrack(x, trackIndex);
+							} else {
+								return this.renderMapTile(x, x, y - 1, false);
+							}
 						}
 					})}
 				</div>
