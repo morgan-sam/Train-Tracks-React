@@ -176,7 +176,11 @@ class Square extends React.Component {
 		}
 
 		let backgroundTrack, trackText;
-		if (this.props.x === this.state.hoverTrack.x && this.props.y === this.state.hoverTrack.y) {
+		if (
+			this.props.x === this.state.hoverTrack.x &&
+			this.props.y === this.state.hoverTrack.y &&
+			!this.props.trackData
+		) {
 			if (this.state.hoverTrack.trackType !== 'T') {
 				backgroundTrack = {
 					backgroundImage: `url(${this.state.hoverTrack.trackType})`,
@@ -184,6 +188,18 @@ class Square extends React.Component {
 				};
 			} else {
 				trackText = this.state.hoverTrack.trackType;
+			}
+		}
+
+		if (this.props.trackData) {
+			if (this.props.trackData.trackType !== 'T') {
+				backgroundTrack = {
+					backgroundImage: `url(${this.props.trackData.trackType})`,
+					transform: `rotate(${this.props.trackData.trackRotation}deg)`,
+					opacity: 1
+				};
+			} else {
+				trackText = this.props.trackData.trackType;
 			}
 		}
 		return (
@@ -216,7 +232,6 @@ class Map extends React.Component {
 		this.setState((previousState) => ({
 			placedTracks: [ ...previousState.placedTracks, trackSquare ]
 		}));
-		console.log(this.state.placedTracks);
 	}
 
 	checkIfTrackExists(generatedMap, x, y) {
@@ -247,15 +262,15 @@ class Map extends React.Component {
 		return <Square className="table-heading" key={i} text={headerLabel} />;
 	}
 
-	renderMapTile(i, x, y, trackPresent) {
+	renderMapTile(i, x, y, trackData) {
 		return (
 			<Square
 				className="mapTile"
 				key={i}
 				x={x}
 				y={y}
-				trackPresent={trackPresent}
 				onChildClick={this.handleChildClick}
+				trackData={trackData}
 			/>
 		);
 	}
@@ -266,10 +281,6 @@ class Map extends React.Component {
 
 	renderFinish(i) {
 		return <Square className="end" key={i} />;
-	}
-
-	renderTrack(i, trackIndex) {
-		return <Square className="track" key={i} text={trackIndex} />;
 	}
 
 	render() {
@@ -292,14 +303,18 @@ class Map extends React.Component {
 							return this.renderFinish(x);
 						} else {
 							let placeTrack = false;
+							let trackData;
 							this.state.placedTracks.forEach(function(el) {
-								if (el.x === x && el.y === y - 1) placeTrack = true;
+								if (el.x === x && el.y === y - 1) {
+									placeTrack = true;
+									trackData = el;
+								}
 							});
 
 							if (placeTrack) {
-								return this.renderTrack(x, trackIndex);
+								return this.renderMapTile(x, x, y - 1, trackData);
 							} else {
-								return this.renderMapTile(x, x, y - 1, false);
+								return this.renderMapTile(x, x, y - 1, null);
 							}
 						}
 					})}
