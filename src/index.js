@@ -223,7 +223,7 @@ class Square extends React.Component {
 			}
 		}
 
-		if (this.props.trackData) {
+		if (this.props.trackData || this.props.defaultTrack) {
 			if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
 				squareStyling = {
 					backgroundImage: `url(${this.props.trackData.trackType})`,
@@ -379,8 +379,8 @@ class Map extends React.Component {
 		);
 	}
 
-	renderDefaultTracks(i, x, y) {
-		return <Square className="defaultTracks" key={i} x={x} y={y} />;
+	renderDefaultTrack(i, x, y) {
+		return <Square className="defaultTrack" key={i} x={x} y={y} />;
 	}
 
 	render() {
@@ -391,7 +391,7 @@ class Map extends React.Component {
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
 						const defaultTrack = this.checkIfDefaultTrack(generatedMap, x, y - 1);
-						// console.log(defaultTrack);
+						let trackData;
 						if (y === 0) {
 							const headerLabel = generatedMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
@@ -401,19 +401,15 @@ class Map extends React.Component {
 							const fillState = this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, headerLabel, fillState);
 						} else if (defaultTrack) {
-							this.renderDefaultTracks(x, x, y - 1);
-							// console.log('hi');
+							this.renderDefaultTrack(x, x, y - 1);
 						} else {
-							let placeTrack = false;
-							let trackData;
 							this.state.placedTracks.forEach(function(el) {
 								if (el.x === x && el.y === y - 1) {
-									placeTrack = true;
 									trackData = el;
 								}
 							});
-
-							if (placeTrack) {
+							console.log(trackData);
+							if (trackData) {
 								return this.renderMapTile(x, x, y - 1, trackData);
 							} else {
 								return this.renderMapTile(x, x, y - 1, null);

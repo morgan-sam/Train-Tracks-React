@@ -25,10 +25,9 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		}
 	}
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
-	generatedMap = getDirectionOfEachMove(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
-	console.log(generatedMap);
+
 	return generatedMap;
 
 	//create function to check track present in each quadrant
@@ -340,13 +339,14 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 	}
 
 	function getDirectionOfEachMove(generatedMap) {
-		generatedMap.directions.push(getStartingDirection(generatedMap.start));
+		let directions = [];
+		directions.push(getStartingDirection(generatedMap.start));
 		for (let i = 0; i < generatedMap.tiles.length - 1; i++) {
 			let currentMoveDir = findDirectionFromMove(generatedMap.tiles[i + 1], generatedMap.tiles[i]);
-			generatedMap.directions.push(currentMoveDir);
+			directions.push(currentMoveDir);
 		}
-		generatedMap.directions.push(getEndingDirection(generatedMap.end));
-		return generatedMap;
+		directions.push(getEndingDirection(generatedMap.end));
+		return directions;
 	}
 
 	function getStartingDirection(start) {
@@ -384,7 +384,7 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 	}
 
 	function convertDirectionToTrackDirection(generatedMap) {
-		const dirs = generatedMap.directions;
+		const dirs = getDirectionOfEachMove(generatedMap);
 		for (let i = 0; i < dirs.length; i++) {
 			if ((dirs[i] === 0 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 2)) {
 				generatedMap.trackDirections.push('vertical');
