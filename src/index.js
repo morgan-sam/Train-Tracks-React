@@ -177,9 +177,7 @@ class Square extends React.Component {
 	render() {
 		let squareText, labelStyling;
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
-		if (this.props.className === 'start' || this.props.className === 'end') {
-			squareText = '#';
-		}
+
 		if (this.props.className === 'table-heading') {
 			switch (this.props.fillState) {
 				case 'underfilled':
@@ -353,16 +351,14 @@ class Map extends React.Component {
 		return fillState;
 	}
 
-	getTrackIndex(generatedMap, x, y) {
-		let trackExists = false;
-		generatedMap.tiles.forEach(function(el, i) {
-			if (el[0] === x && el[1] === y) {
-				trackExists = i;
+	checkIfDefaultTrack(generatedMap, x, y) {
+		let defaultTrack = false;
+		generatedMap.tiles.forEach(function(el) {
+			if (el[0] === x && el[1] === y && el.defaultTrack) {
+				defaultTrack = true;
 			}
 		});
-		if (generatedMap.start[0] === x && generatedMap.start[1] === y) trackExists = 'start';
-		if (generatedMap.end[0] === x && generatedMap.end[1] === y) trackExists = 'end';
-		return trackExists;
+		return defaultTrack;
 	}
 
 	renderHeadingTile(i, headerLabel, fillState) {
@@ -383,12 +379,8 @@ class Map extends React.Component {
 		);
 	}
 
-	renderStart(i) {
-		return <Square className="start" key={i} />;
-	}
-
-	renderFinish(i) {
-		return <Square className="end" key={i} />;
+	renderDefaultTracks(i, x, y) {
+		return <Square className="defaultTracks" key={i} x={x} y={y} />;
 	}
 
 	render() {
@@ -398,7 +390,7 @@ class Map extends React.Component {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
-						const trackIndex = this.getTrackIndex(generatedMap, x, y - 1);
+						const defaultTracks = this.checkIfDefaultTrack(generatedMap, x, y - 1);
 						if (y === 0) {
 							const headerLabel = generatedMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
@@ -407,10 +399,9 @@ class Map extends React.Component {
 							const headerLabel = generatedMap.headerLabels.y[y - 1];
 							const fillState = this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, headerLabel, fillState);
-						} else if (trackIndex === 'start') {
-							return this.renderStart(x);
-						} else if (trackIndex === 'end') {
-							return this.renderFinish(x);
+						} else if (defaultTracks) {
+							this.renderDefaultTracks(x, x, y - 1);
+							console.log('hi');
 						} else {
 							let placeTrack = false;
 							let trackData;
@@ -440,6 +431,7 @@ class App extends React.Component {
 		const mapHeight = 6;
 		const mapWidth = 7;
 		const generatedMap = generateNewMap(mapWidth, mapHeight);
+
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>

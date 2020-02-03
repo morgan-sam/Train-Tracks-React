@@ -10,7 +10,8 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 			x: [],
 			y: []
 		},
-		trackDirections: []
+		trackDirections: [],
+		defaultTiles: []
 	};
 	let mapComplete = false;
 	let lastMove = startCoordinate;
@@ -26,6 +27,7 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = getDirectionOfEachMove(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
+	generatedMap = setDefaultTiles(generatedMap);
 	console.log(generatedMap);
 	return generatedMap;
 
@@ -403,6 +405,17 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 				generatedMap.trackDirections.push('topLeftCorner');
 			}
 		}
+		return generatedMap;
+	}
+
+	function setDefaultTiles(generatedMap) {
+		const tileCount = generatedMap.tiles.length;
+		generatedMap.defaultTiles.push(0);
+		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
+			generatedMap.defaultTiles.push(randomIntFromInterval(1, tileCount - 1));
+		}
+		generatedMap.defaultTiles.push(generatedMap.tiles.length);
+		generatedMap.defaultTiles = [ ...new Set(generatedMap.defaultTiles) ];
 		return generatedMap;
 	}
 
