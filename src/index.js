@@ -204,7 +204,7 @@ class Square extends React.Component {
 		}
 
 		if (this.props.trackData) {
-			if (this.props.trackData.trackType !== 'T') {
+			if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
 				squareStyling = {
 					backgroundImage: `url(${this.props.trackData.trackType})`,
 					transform: `rotate(${this.props.trackData.trackRotation}deg)`,
@@ -266,10 +266,35 @@ class Map extends React.Component {
 	}
 
 	handleChildRightClick(trackCoordinates) {
-		const filteredTracks = this.removePlacedTrack(trackCoordinates);
-		this.setState({
-			placedTracks: filteredTracks
+		if (this.checkIfPlacedTrackExists(trackCoordinates)) {
+			const filteredTracks = this.removePlacedTrack(trackCoordinates);
+			this.setState({
+				placedTracks: filteredTracks
+			});
+		} else {
+			const filteredTracks = this.removePlacedTrack(trackCoordinates);
+			this.setState({
+				placedTracks: filteredTracks
+			});
+			const trackSquare = {
+				x: trackCoordinates[0],
+				y: trackCoordinates[1],
+				trackType: 'X',
+				trackRotation: undefined
+			};
+			const newTrackArray = this.addTrackToPlacedArray(trackSquare);
+			this.setState({
+				placedTracks: newTrackArray
+			});
+		}
+	}
+
+	checkIfPlacedTrackExists(trackCoordinates) {
+		let trackExists = false;
+		this.state.placedTracks.forEach(function(el) {
+			if (el.x === trackCoordinates[0] && el.y === trackCoordinates[1]) trackExists = true;
 		});
+		return trackExists;
 	}
 
 	checkIfTrackExists(generatedMap, x, y) {
