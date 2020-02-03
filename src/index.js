@@ -169,7 +169,9 @@ class Square extends React.Component {
 		e.preventDefault();
 		const x = this.props.x;
 		const y = this.props.y;
-		this.props.onChildRightClick([ x, y ]);
+		if (this.props.className.includes('mapTile')) {
+			this.props.onChildRightClick([ x, y ]);
+		}
 	}
 
 	render() {
@@ -218,8 +220,8 @@ class Square extends React.Component {
 			}
 		}
 		return (
-			<div className={'square'} onContextMenu={this.rightClickEvent}>
-				<div className={`box ${this.props.className}`}>
+			<div className={`square ${this.props.className}`} onContextMenu={this.rightClickEvent}>
+				<div className={`box`}>
 					{cornerButtons}
 					{middleButtons}
 					{centreButton}
