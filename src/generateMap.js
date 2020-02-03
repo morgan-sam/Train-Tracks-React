@@ -5,7 +5,6 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		start: startCoordinate,
 		end: endCoordinate,
 		tiles: [ startCoordinate ],
-		directions: [],
 		headerLabels: {
 			x: [],
 			y: []
@@ -15,7 +14,7 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 	};
 	let mapComplete = false;
 	let lastMove = startCoordinate;
-	// for (let i = 0; i < 15; i++) {
+
 	while (!mapComplete) {
 		let nextMove = newMove(lastMove, generatedMap);
 		generatedMap.tiles.push(nextMove);
@@ -72,11 +71,8 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
 			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, generatedMap.end, generatedMap));
-
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
-
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
-			// let currentMoveDir = findDirectionFromMove(nextMove, generatedMap.tiles[generatedMap.tiles.length - 1]);
 		}
 		return nextMove;
 	}
@@ -96,16 +92,7 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 				legalMoves = mutatedMoveArray;
 			}
 		}
-
 		return legalMoves;
-
-		function checkArrEmpty(arr) {
-			if (Array.isArray(arr) && arr.length) {
-				return false;
-			} else {
-				return true;
-			}
-		}
 	}
 
 	function removeHookMoves(legalMoves, generatedMap) {
@@ -120,7 +107,6 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 
 	function getDirectionWithLessTracks(legalMoves, generatedMap) {
 		const currentTile = generatedMap.tiles[generatedMap.tiles.length - 1];
-		// const possibleDirections = legalMoves.map((move) => findDirectionFromMove(move, currentTile));
 		const tilesInEachDirection = getTilesInEachDirection(currentTile, generatedMap);
 		const emptyTiles = getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection);
 		const maxFreeTiles = emptyTiles.reduce(function(prev, current) {
@@ -295,14 +281,6 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		}
 	}
 
-	function compareArrays(arr1, arr2) {
-		let arrEqual = false;
-		if (arr1.length === arr2.length) {
-			arrEqual = arr1.every((v, i) => v === arr2[i]);
-		}
-		return arrEqual;
-	}
-
 	function generateStartEndPoints() {
 		let edges = getEdgeCoordinates();
 		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
@@ -421,8 +399,24 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		return generatedMap;
 	}
 
+	///UTILITY FUNCTIONS
+
 	function randomIntFromInterval(min, max) {
-		// min and max included
-		return Math.floor(Math.random() * (max - min + 1) + min);
+		return Math.floor(Math.random() * (max - min + 1) + min); // min and max included
+	}
+
+	function checkArrEmpty(arr) {
+		if (Array.isArray(arr) && arr.length) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	function compareArrays(arr1, arr2) {
+		let arrEqual = false;
+		if (arr1.length === arr2.length) {
+			arrEqual = arr1.every((v, i) => v === arr2[i]);
+		}
+		return arrEqual;
 	}
 };
