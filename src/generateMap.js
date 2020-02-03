@@ -1,7 +1,6 @@
 export const generateNewMap = (mapWidth, mapHeight) => {
-	let generatedMap = {};
 	let [ startCoordinate, endCoordinate ] = generateStartEndPoints();
-	generatedMap = {
+	let generatedMap = {
 		start: startCoordinate,
 		end: endCoordinate,
 		tiles: [ startCoordinate ],
@@ -12,22 +11,36 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		trackDirections: [],
 		defaultTiles: []
 	};
-	let mapComplete = false;
-	let lastMove = startCoordinate;
 
-	while (!mapComplete) {
-		let nextMove = newMove(lastMove, generatedMap);
-		generatedMap.tiles.push(nextMove);
-		lastMove = nextMove;
-		if (generatedMap.end[0] === nextMove[0] && generatedMap.end[1] === nextMove[1]) {
-			mapComplete = true;
+	let trainTrackMap = {
+		tracks: [],
+		headerLabels: {
+			x: [],
+			y: []
 		}
-	}
+	};
+
+	generatedMap = findTrackPath(generatedMap);
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
 
 	return generatedMap;
+
+	function findTrackPath(generatedMap) {
+		let mapComplete = false;
+		let lastMove = startCoordinate;
+
+		while (!mapComplete) {
+			let nextMove = newMove(lastMove, generatedMap);
+			generatedMap.tiles.push(nextMove);
+			lastMove = nextMove;
+			if (generatedMap.end[0] === nextMove[0] && generatedMap.end[1] === nextMove[1]) {
+				mapComplete = true;
+			}
+		}
+		return generatedMap;
+	}
 
 	//create function to check track present in each quadrant
 

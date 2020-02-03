@@ -391,7 +391,6 @@ class Map extends React.Component {
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
 						const defaultTrack = this.checkIfDefaultTrack(generatedMap, x, y - 1);
-						let trackData;
 						if (y === 0) {
 							const headerLabel = generatedMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
@@ -403,6 +402,7 @@ class Map extends React.Component {
 						} else if (defaultTrack) {
 							this.renderDefaultTrack(x, x, y - 1);
 						} else {
+							let trackData;
 							this.state.placedTracks.forEach(function(el) {
 								if (el.x === x && el.y === y - 1) {
 									trackData = el;
