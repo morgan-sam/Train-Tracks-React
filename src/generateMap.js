@@ -5,7 +5,7 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		start: startCoordinate,
 		end: endCoordinate,
 		tiles: [ startCoordinate ],
-		direction: [],
+		directions: [],
 		headerLabels: {
 			x: [],
 			y: []
@@ -337,30 +337,47 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 	}
 
 	function getDirectionOfEachMove(generatedMap) {
-		getStartingSquareTrackType(generatedMap.start);
+		generatedMap.directions.push(getStartingDirection(generatedMap.start));
 		for (let i = 0; i < generatedMap.tiles.length - 1; i++) {
 			let currentMoveDir = findDirectionFromMove(generatedMap.tiles[i + 1], generatedMap.tiles[i]);
-			console.log(currentMoveDir);
+			generatedMap.directions.push(currentMoveDir);
 		}
-		console.log(generatedMap);
-
+		generatedMap.directions.push(getEndingDirection(generatedMap.end));
 		return generatedMap;
 	}
 
-	function getStartingSquareTrackType(start) {
-		console.log(start);
+	function getStartingDirection(start) {
+		let possibleDirections = [];
 		if (start[0] === 0) {
-			console.log('must come from left');
+			possibleDirections.push(1); // comes in from left
 		}
 		if (start[1] === 0) {
-			console.log('must come from top');
+			possibleDirections.push(2); // comes in from top
 		}
-		if (start[0] === mapHeight) {
-			console.log('must come from right');
+		if (start[0] === mapWidth - 1) {
+			possibleDirections.push(3); // comes in from right
 		}
-		if (start[1] === mapWidth) {
-			console.log('must come from bottom');
+		if (start[1] === mapHeight - 1) {
+			possibleDirections.push(0); // comes in from bottom
 		}
+		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
+	}
+
+	function getEndingDirection(end) {
+		let possibleDirections = [];
+		if (end[0] === 0) {
+			possibleDirections.push(3); // leaves via left
+		}
+		if (end[1] === 0) {
+			possibleDirections.push(0); // leaves via top
+		}
+		if (end[0] === mapWidth - 1) {
+			possibleDirections.push(1); // leaves via right
+		}
+		if (end[1] === mapHeight - 1) {
+			possibleDirections.push(2); // leaves via bottom
+		}
+		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
 	}
 
 	function randomIntFromInterval(min, max) {
