@@ -1,4 +1,4 @@
-export const generateNewMap = (rows, columns) => {
+export const generateNewMap = (mapWidth, mapHeight) => {
 	let generatedMap = {};
 	let [ startCoordinate, endCoordinate ] = generateStartEndPoints();
 	generatedMap = {
@@ -23,17 +23,20 @@ export const generateNewMap = (rows, columns) => {
 		}
 	}
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
+
+	generatedMap = getDirectionOfEachMove(generatedMap);
+
 	return generatedMap;
 
 	//create function to check track present in each quadrant
 
 	function getQuadrants(generatedMap) {
-		const x = Math.floor(rows / 2) - 1;
-		const y = Math.floor(columns / 2) - 1;
+		const x = Math.floor(mapWidth / 2) - 1;
+		const y = Math.floor(mapHeight / 2) - 1;
 		console.log(x, y);
 	}
 
-	//create function to check track length at least rows * columns / 3
+	//create function to check track length at least mapWidth * mapHeight / 3
 
 	function getTrackLength(generatedMap) {
 		const length = generatedMap.tiles.length;
@@ -42,7 +45,9 @@ export const generateNewMap = (rows, columns) => {
 
 	function getLegalMoves(coordinate, tiles) {
 		const adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
-		let legalMoves = adjacentMoves.filter((el) => el[0] >= 0 && el[1] >= 0 && el[0] < rows && el[1] < columns);
+		let legalMoves = adjacentMoves.filter(
+			(el) => el[0] >= 0 && el[1] >= 0 && el[0] < mapWidth && el[1] < mapHeight
+		);
 		legalMoves = legalMoves.filter(function(move) {
 			let boo = false;
 			tiles.forEach(function(remove) {
@@ -146,10 +151,10 @@ export const generateNewMap = (rows, columns) => {
 					edge = 0;
 					break;
 				case 1:
-					edge = rows - 1;
+					edge = mapWidth - 1;
 					break;
 				case 2:
-					edge = columns - 1;
+					edge = mapHeight - 1;
 					break;
 				default:
 					edge = 'none';
@@ -306,29 +311,56 @@ export const generateNewMap = (rows, columns) => {
 	function getEdgeCoordinates() {
 		//calculates coordinates around edge in clockwise order
 		let coordinates = [];
-		for (let x = 0; x < rows - 1; x++) {
+		for (let x = 0; x < mapWidth - 1; x++) {
 			coordinates.push([ x, 0 ]); //top
 		}
-		for (let y = 0; y < columns - 1; y++) {
-			coordinates.push([ rows - 1, y ]); //right
+		for (let y = 0; y < mapHeight - 1; y++) {
+			coordinates.push([ mapWidth - 1, y ]); //right
 		}
-		for (let x = rows - 1; x > 0; x--) {
-			coordinates.push([ x, columns - 1 ]); //bottom
+		for (let x = mapWidth - 1; x > 0; x--) {
+			coordinates.push([ x, mapHeight - 1 ]); //bottom
 		}
-		for (let y = columns - 1; y > 0; y--) {
+		for (let y = mapHeight - 1; y > 0; y--) {
 			coordinates.push([ 0, y ]); //left
 		}
 		return coordinates;
 	}
 
 	function addHeadersToGeneratedMap(generatedMap) {
-		for (let i = 0; i < rows; i++) {
+		for (let i = 0; i < mapWidth; i++) {
 			generatedMap.headerLabels.x.push(getTilesInEachDirection([ i, -1 ], generatedMap)[2].length);
 		}
-		for (let i = 0; i < columns; i++) {
+		for (let i = 0; i < mapHeight; i++) {
 			generatedMap.headerLabels.y.push(getTilesInEachDirection([ -1, i ], generatedMap)[1].length);
 		}
 		return generatedMap;
+	}
+
+	function getDirectionOfEachMove(generatedMap) {
+		getStartingSquareTrackType(generatedMap.start);
+		for (let i = 0; i < generatedMap.tiles.length - 1; i++) {
+			let currentMoveDir = findDirectionFromMove(generatedMap.tiles[i + 1], generatedMap.tiles[i]);
+			console.log(currentMoveDir);
+		}
+		console.log(generatedMap);
+
+		return generatedMap;
+	}
+
+	function getStartingSquareTrackType(start) {
+		console.log(start);
+		if (start[0] === 0) {
+			console.log('must come from left');
+		}
+		if (start[1] === 0) {
+			console.log('must come from top');
+		}
+		if (start[0] === mapHeight) {
+			console.log('must come from right');
+		}
+		if (start[1] === mapWidth) {
+			console.log('must come from bottom');
+		}
 	}
 
 	function randomIntFromInterval(min, max) {

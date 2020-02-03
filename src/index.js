@@ -394,16 +394,16 @@ class Map extends React.Component {
 	render() {
 		const generatedMap = this.props.generatedMap;
 		let mapComponents = [];
-		for (let y = 0; y < this.props.columns + 1; y++) {
+		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
-					{[ ...Array(this.props.rows + 1) ].map((el, x) => {
+					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
 						const trackIndex = this.getTrackIndex(generatedMap, x, y - 1);
 						if (y === 0) {
 							const headerLabel = generatedMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
 							return this.renderHeadingTile(x, headerLabel, fillState);
-						} else if (x === this.props.rows) {
+						} else if (x === this.props.mapWidth) {
 							const headerLabel = generatedMap.headerLabels.y[y - 1];
 							const fillState = this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, headerLabel, fillState);
@@ -437,13 +437,13 @@ class Map extends React.Component {
 
 class App extends React.Component {
 	render() {
-		const columns = 6;
-		const rows = 7;
-		const generatedMap = generateNewMap(rows, columns);
+		const mapHeight = 6;
+		const mapWidth = 7;
+		const generatedMap = generateNewMap(mapWidth, mapHeight);
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>
-				<Map generatedMap={generatedMap} columns={columns} rows={rows} />
+				<Map generatedMap={generatedMap} mapHeight={mapHeight} mapWidth={mapWidth} />
 			</div>
 		);
 	}
