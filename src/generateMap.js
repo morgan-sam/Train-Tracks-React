@@ -9,7 +9,8 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		headerLabels: {
 			x: [],
 			y: []
-		}
+		},
+		trackDirections: []
 	};
 	let mapComplete = false;
 	let lastMove = startCoordinate;
@@ -23,9 +24,9 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		}
 	}
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
-
 	generatedMap = getDirectionOfEachMove(generatedMap);
-
+	generatedMap = convertDirectionToTrackDirection(generatedMap);
+	console.log(generatedMap);
 	return generatedMap;
 
 	//create function to check track present in each quadrant
@@ -378,6 +379,31 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 			possibleDirections.push(2); // leaves via bottom
 		}
 		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
+	}
+
+	function convertDirectionToTrackDirection(generatedMap) {
+		const dirs = generatedMap.directions;
+		for (let i = 0; i < dirs.length; i++) {
+			if ((dirs[i] === 0 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 2)) {
+				generatedMap.trackDirections.push('vertical');
+			}
+			if ((dirs[i] === 1 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 3)) {
+				generatedMap.trackDirections.push('horizontal');
+			}
+			if ((dirs[i] === 2 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 0)) {
+				generatedMap.trackDirections.push('topRightCorner');
+			}
+			if ((dirs[i] === 3 && dirs[i + 1] === 2) || (dirs[i] === 0 && dirs[i + 1] === 1)) {
+				generatedMap.trackDirections.push('bottomRightCorner');
+			}
+			if ((dirs[i] === 0 && dirs[i + 1] === 3) || (dirs[i] === 1 && dirs[i + 1] === 2)) {
+				generatedMap.trackDirections.push('bottomLeftCorner');
+			}
+			if ((dirs[i] === 1 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 3)) {
+				generatedMap.trackDirections.push('topLeftCorner');
+			}
+		}
+		return generatedMap;
 	}
 
 	function randomIntFromInterval(min, max) {
