@@ -259,7 +259,18 @@ class Map extends React.Component {
 	}
 
 	handleChildClick(trackSquareInfo) {
-		const newTrackArray = this.addTrackToPlacedArray(trackSquareInfo);
+		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
+	}
+
+	removePlacedTrackAndSetState(trackCoordinates) {
+		const filteredTracks = this.removePlacedTrack(trackCoordinates);
+		this.setState({
+			placedTracks: filteredTracks
+		});
+	}
+
+	addTrackToPlacedArrayAndSetState(trackSquare) {
+		const newTrackArray = this.addTrackToPlacedArray(trackSquare);
 		this.setState({
 			placedTracks: newTrackArray
 		});
@@ -267,25 +278,16 @@ class Map extends React.Component {
 
 	handleChildRightClick(trackCoordinates) {
 		if (this.checkIfPlacedTrackExists(trackCoordinates)) {
-			const filteredTracks = this.removePlacedTrack(trackCoordinates);
-			this.setState({
-				placedTracks: filteredTracks
-			});
+			this.removePlacedTrackAndSetState(trackCoordinates);
 		} else {
-			const filteredTracks = this.removePlacedTrack(trackCoordinates);
-			this.setState({
-				placedTracks: filteredTracks
-			});
-			const trackSquare = {
+			const trackSquareInfo = {
 				x: trackCoordinates[0],
 				y: trackCoordinates[1],
 				trackType: 'X',
 				trackRotation: undefined
 			};
-			const newTrackArray = this.addTrackToPlacedArray(trackSquare);
-			this.setState({
-				placedTracks: newTrackArray
-			});
+			this.removePlacedTrackAndSetState(trackCoordinates);
+			this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
 		}
 	}
 
