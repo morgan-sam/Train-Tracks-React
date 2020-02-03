@@ -180,16 +180,27 @@ class Square extends React.Component {
 		if (this.props.className === 'start' || this.props.className === 'end') {
 			squareText = '#';
 		}
-
 		if (this.props.className === 'table-heading') {
-			if (Math.random() > 0.5) {
-				labelStyling = {
-					color: 'red'
-				};
-			} else {
-				labelStyling = {
-					color: 'black'
-				};
+			switch (this.props.fillState) {
+				case 'underfilled':
+					labelStyling = {
+						color: 'black'
+					};
+					break;
+				case 'full':
+					labelStyling = {
+						color: 'green'
+					};
+					break;
+				case 'overfilled':
+					labelStyling = {
+						color: 'red'
+					};
+					break;
+				default:
+					labelStyling = {
+						color: 'black'
+					};
 			}
 			squareText = this.props.text;
 		}
@@ -312,25 +323,34 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
-	checkIfColumnOrRowOverfilled(axis, index) {
-		let overfilled = false;
+	getRowColumnFillstate(axis, index) {
+		let fillState = 'underfilled';
 		let placedTrackCount = 0;
+		let tilesOnAxis;
 		if (axis === 'x') {
-			const tilesOnAxis = this.props.generatedMap.tiles.filter((el) => el[0] === index).length;
+			if (this.props.generatedMap.start[0] === index) placedTrackCount++;
+			if (this.props.generatedMap.end[0] === index) placedTrackCount++;
+			tilesOnAxis = this.props.generatedMap.tiles.filter((el) => el[0] === index).length;
 			this.state.placedTracks.forEach(function(el) {
-				if (el.x === index) placedTrackCount++;
+				if (el.x === index && el.trackType !== 'X') placedTrackCount++;
 			});
-			if (tilesOnAxis < placedTrackCount) overfilled = true;
 		}
 		if (axis === 'y') {
-			const tilesOnAxis = this.props.generatedMap.tiles.filter((el) => el[1] === index).length;
+			if (this.props.generatedMap.start[1] === index) placedTrackCount++;
+			if (this.props.generatedMap.end[1] === index) placedTrackCount++;
+			tilesOnAxis = this.props.generatedMap.tiles.filter((el) => el[1] === index).length;
 			this.state.placedTracks.forEach(function(el) {
-				if (el.y === index) placedTrackCount++;
+				if (el.y === index && el.trackType !== 'X') placedTrackCount++;
 			});
-			if (tilesOnAxis < placedTrackCount) overfilled = true;
 		}
-		console.log(overfilled);
-		return overfilled;
+		if (tilesOnAxis < placedTrackCount) {
+			fillState = 'overfilled';
+		} else if (tilesOnAxis === placedTrackCount) {
+			fillState = 'full';
+		} else {
+			fillState = 'underfilled';
+		}
+		return fillState;
 	}
 
 	getTrackIndex(generatedMap, x, y) {
@@ -345,8 +365,8 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
-	renderHeadingTile(i, headerLabel, overfilled) {
-		return <Square className="table-heading" key={i} text={headerLabel} />;
+	renderHeadingTile(i, headerLabel, fillState) {
+		return <Square className="table-heading" key={i} text={headerLabel} fillState={fillState} />;
 	}
 
 	renderMapTile(i, x, y, trackData) {
@@ -373,7 +393,6 @@ class Map extends React.Component {
 
 	render() {
 		const generatedMap = this.props.generatedMap;
-		this.checkIfColumnOrRowOverfilled('x', 0);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			mapComponents.push(
@@ -382,10 +401,12 @@ class Map extends React.Component {
 						const trackIndex = this.getTrackIndex(generatedMap, x, y - 1);
 						if (y === 0) {
 							const headerLabel = generatedMap.headerLabels.x[x];
-							return this.renderHeadingTile(x, headerLabel);
+							const fillState = this.getRowColumnFillstate('x', x);
+							return this.renderHeadingTile(x, headerLabel, fillState);
 						} else if (x === this.props.rows) {
 							const headerLabel = generatedMap.headerLabels.y[y - 1];
-							return this.renderHeadingTile(x, headerLabel);
+							const fillState = this.getRowColumnFillstate('y', y - 1);
+							return this.renderHeadingTile(x, headerLabel, fillState);
 						} else if (trackIndex === 'start') {
 							return this.renderStart(x);
 						} else if (trackIndex === 'end') {
