@@ -299,18 +299,6 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
-	checkIfTrackExists(generatedMap, x, y) {
-		let trackExists = false;
-		generatedMap.tiles.forEach(function(el) {
-			if (el[0] === x && el[1] === y) {
-				trackExists = 'track';
-			}
-		});
-		if (generatedMap.start[0] === x && generatedMap.start[1] === y) trackExists = 'start';
-		if (generatedMap.end[0] === x && generatedMap.end[1] === y) trackExists = 'end';
-		return trackExists;
-	}
-
 	getTrackIndex(generatedMap, x, y) {
 		let trackExists = false;
 		generatedMap.tiles.forEach(function(el, i) {
