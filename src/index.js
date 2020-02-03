@@ -175,13 +175,22 @@ class Square extends React.Component {
 	}
 
 	render() {
-		let squareText;
+		let squareText, labelStyling;
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
 		if (this.props.className === 'start' || this.props.className === 'end') {
 			squareText = '#';
 		}
 
 		if (this.props.className === 'table-heading') {
+			if (Math.random() > 0.5) {
+				labelStyling = {
+					color: 'red'
+				};
+			} else {
+				labelStyling = {
+					color: 'black'
+				};
+			}
 			squareText = this.props.text;
 		}
 
@@ -225,7 +234,9 @@ class Square extends React.Component {
 					{cornerButtons}
 					{middleButtons}
 					{centreButton}
-					<p className="boxLabel"> {squareText}</p>
+					<p className="boxLabel" style={labelStyling}>
+						{squareText}
+					</p>
 				</div>
 				<div className={'track-background'} style={squareStyling}>
 					{trackText}
@@ -301,6 +312,27 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
+	checkIfColumnOrRowOverfilled(axis, index) {
+		let overfilled = false;
+		let placedTrackCount = 0;
+		if (axis === 'x') {
+			const tilesOnAxis = this.props.generatedMap.tiles.filter((el) => el[0] === index).length;
+			this.state.placedTracks.forEach(function(el) {
+				if (el.x === index) placedTrackCount++;
+			});
+			if (tilesOnAxis < placedTrackCount) overfilled = true;
+		}
+		if (axis === 'y') {
+			const tilesOnAxis = this.props.generatedMap.tiles.filter((el) => el[1] === index).length;
+			this.state.placedTracks.forEach(function(el) {
+				if (el.y === index) placedTrackCount++;
+			});
+			if (tilesOnAxis < placedTrackCount) overfilled = true;
+		}
+		console.log(overfilled);
+		return overfilled;
+	}
+
 	getTrackIndex(generatedMap, x, y) {
 		let trackExists = false;
 		generatedMap.tiles.forEach(function(el, i) {
@@ -313,7 +345,7 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
-	renderHeadingTile(i, headerLabel) {
+	renderHeadingTile(i, headerLabel, overfilled) {
 		return <Square className="table-heading" key={i} text={headerLabel} />;
 	}
 
@@ -341,6 +373,7 @@ class Map extends React.Component {
 
 	render() {
 		const generatedMap = this.props.generatedMap;
+		this.checkIfColumnOrRowOverfilled('x', 0);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.columns + 1; y++) {
 			mapComponents.push(
@@ -386,7 +419,6 @@ class App extends React.Component {
 		const columns = 6;
 		const rows = 7;
 		const generatedMap = generateNewMap(rows, columns);
-		console.log(generatedMap);
 		return (
 			<div>
 				<h1 className="title">Train Tracks</h1>
