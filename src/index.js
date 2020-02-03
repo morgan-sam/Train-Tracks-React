@@ -353,8 +353,8 @@ class Map extends React.Component {
 
 	checkIfDefaultTrack(generatedMap, x, y) {
 		let defaultTrack = false;
-		generatedMap.tiles.forEach(function(el) {
-			if (el[0] === x && el[1] === y && el.defaultTrack) {
+		generatedMap.defaultTiles.forEach(function(el) {
+			if (el[0] === x && el[1] === y) {
 				defaultTrack = true;
 			}
 		});
@@ -390,7 +390,8 @@ class Map extends React.Component {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
-						const defaultTracks = this.checkIfDefaultTrack(generatedMap, x, y - 1);
+						const defaultTrack = this.checkIfDefaultTrack(generatedMap, x, y - 1);
+						// console.log(defaultTrack);
 						if (y === 0) {
 							const headerLabel = generatedMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
@@ -399,9 +400,9 @@ class Map extends React.Component {
 							const headerLabel = generatedMap.headerLabels.y[y - 1];
 							const fillState = this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, headerLabel, fillState);
-						} else if (defaultTracks) {
+						} else if (defaultTrack) {
 							this.renderDefaultTracks(x, x, y - 1);
-							console.log('hi');
+							// console.log('hi');
 						} else {
 							let placeTrack = false;
 							let trackData;
@@ -441,7 +442,7 @@ class App extends React.Component {
 	}
 }
 const seed = Math.random();
-console.log(seed);
+// console.log(seed);
 // seedrandom(0.5989607919685986, { global: true });
 seedrandom(seed, { global: true });
 

@@ -410,12 +410,14 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 
 	function setDefaultTiles(generatedMap) {
 		const tileCount = generatedMap.tiles.length;
-		generatedMap.defaultTiles.push(0);
+		generatedMap.defaultTiles.push(generatedMap.start);
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
-			generatedMap.defaultTiles.push(randomIntFromInterval(1, tileCount - 1));
+			generatedMap.defaultTiles.push(generatedMap.tiles[randomIntFromInterval(1, tileCount - 1)]);
 		}
-		generatedMap.defaultTiles.push(generatedMap.tiles.length);
-		generatedMap.defaultTiles = [ ...new Set(generatedMap.defaultTiles) ];
+		generatedMap.defaultTiles.push(generatedMap.end);
+		generatedMap.defaultTiles = generatedMap.defaultTiles.filter(
+			(el, i) => generatedMap.defaultTiles.indexOf(el) === i
+		);
 		return generatedMap;
 	}
 
