@@ -223,7 +223,7 @@ class Square extends React.Component {
 			}
 		}
 
-		if (this.props.trackData || this.props.defaultTrack) {
+		if (this.props.trackData && this.props.className === 'mapTile') {
 			if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
 				squareStyling = {
 					backgroundImage: `url(${this.props.trackData.trackType})`,
@@ -237,6 +237,15 @@ class Square extends React.Component {
 				};
 			}
 		}
+
+		if (this.props.trackData && this.props.className === 'defaultTrack') {
+			squareStyling = {
+				backgroundImage: `url(${this.props.trackData.trackType})`,
+				transform: `rotate(${this.props.trackData.trackRotation}deg)`,
+				opacity: 1
+			};
+		}
+
 		return (
 			<div className={`square ${this.props.className}`} onContextMenu={this.rightClickEvent}>
 				<div className={`box`}>
@@ -321,6 +330,14 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
+	checkIfTrackIsDefault(trainTrackMap, x, y) {
+		let trackDefaultTile = null;
+		trainTrackMap.tracks.forEach(function(el) {
+			if (el.tile[0] === x && el.tile[1] === y && el.defaultTrack) trackDefaultTile = el.railType;
+		});
+		return trackDefaultTile;
+	}
+
 	getRowColumnFillstate(axis, index) {
 		let fillState = 'underfilled';
 		let placedTrackCount = 0;
@@ -353,6 +370,47 @@ class Map extends React.Component {
 		return fillState;
 	}
 
+	convertRailTypeToTrackImage(railType) {
+		let trackData;
+		if (railType === 'vertical') {
+			trackData = {
+				trackType: straighttrack,
+				trackRotation: 0
+			};
+		}
+		if (railType === 'horizontal') {
+			trackData = {
+				trackType: straighttrack,
+				trackRotation: 90
+			};
+		}
+		if (railType === 'bottomLeftCorner') {
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 0
+			};
+		}
+		if (railType === 'topLeftCorner') {
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 90
+			};
+		}
+		if (railType === 'topRightCorner') {
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 180
+			};
+		}
+		if (railType === 'bottomRightCorner') {
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 270
+			};
+		}
+		return trackData;
+	}
+
 	renderHeadingTile(i, headerLabel, fillState) {
 		return <Square className="table-heading" key={i} text={headerLabel} fillState={fillState} />;
 	}
@@ -371,17 +429,29 @@ class Map extends React.Component {
 		);
 	}
 
-	renderDefaultTrack(i, x, y) {
-		return <Square className="defaultTrack" key={i} x={x} y={y} />;
+	renderDefaultTrack(i, x, y, defaultRailType) {
+		return (
+			<Square
+				className="defaultTrack"
+				key={i}
+				x={x}
+				y={y}
+				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
+			/>
+		);
 	}
 
 	render() {
 		const trainTrackMap = this.props.trainTrackMap;
+		console.log(trainTrackMap);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
+						// const tileNumber = (this.props.mapHeight - 1) * y + x;
+						const defaultTile = this.checkIfTrackIsDefault(trainTrackMap, x, y - 1);
+						//Place Map Headers
 						if (y === 0) {
 							const headerLabel = trainTrackMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
@@ -390,16 +460,17 @@ class Map extends React.Component {
 							const headerLabel = trainTrackMap.headerLabels.y[y - 1];
 							const fillState = this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, headerLabel, fillState);
-						} else if (false) {
-							this.renderDefaultTrack(x, x, y - 1);
+						} else if (defaultTile) {
+							//Place Default Tracks
+							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
 						} else {
+							//Place User Placed Tracks
 							let trackData;
 							this.state.placedTracks.forEach(function(el) {
 								if (el.x === x && el.y === y - 1) {
 									trackData = el;
 								}
 							});
-							console.log(trackData);
 							if (trackData) {
 								return this.renderMapTile(x, x, y - 1, trackData);
 							} else {
