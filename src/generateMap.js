@@ -12,20 +12,34 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		defaultTiles: []
 	};
 
-	let trainTrackMap = {
-		tracks: [],
-		headerLabels: {
-			x: [],
-			y: []
-		}
-	};
-
 	generatedMap = findTrackPath(generatedMap);
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
 
-	return generatedMap;
+	const trainTrackMap = createFormattedTraintrackMap(generatedMap);
+	return trainTrackMap;
+
+	function createFormattedTraintrackMap(generatedMap) {
+		let trainTrackMap = {
+			tracks: [],
+			headerLabels: generatedMap.headerLabels
+		};
+
+		for (let i = 0; i < generatedMap.tiles.length; i++) {
+			let isDefaultTrack = false;
+			generatedMap.defaultTiles.forEach(function(defArr) {
+				if (compareArrays(defArr, generatedMap.tiles[i])) isDefaultTrack = true;
+			});
+
+			trainTrackMap.tracks.push({
+				tile: generatedMap.tiles[i],
+				railType: generatedMap.trackDirections[i],
+				defaultTrack: isDefaultTrack
+			});
+		}
+		return trainTrackMap;
+	}
 
 	function findTrackPath(generatedMap) {
 		let mapComplete = false;
