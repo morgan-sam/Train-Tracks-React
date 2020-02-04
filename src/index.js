@@ -330,7 +330,7 @@ class Map extends React.Component {
 		return trackExists;
 	}
 
-	checkIfTrackIsDefault(trainTrackMap, x, y) {
+	checkIfTileIsDefault(trainTrackMap, x, y) {
 		let trackDefaultTile = null;
 		trainTrackMap.tracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y && el.defaultTrack) trackDefaultTile = el.railType;
@@ -338,23 +338,28 @@ class Map extends React.Component {
 		return trackDefaultTile;
 	}
 
+	getAllDefaultTiles(trainTrackMap) {
+		let defaultTileArr = [];
+		trainTrackMap.tracks.forEach(function(el) {
+			if (el.defaultTrack) defaultTileArr.push(el);
+		});
+		return defaultTileArr;
+	}
+
 	getRowColumnFillstate(axis, index) {
 		let fillState = 'underfilled';
 		let placedTrackCount = 0;
+		const defaultTiles = this.getAllDefaultTiles(this.props.trainTrackMap);
 		let tilesOnAxis;
-		const startingTile = this.props.trainTrackMap.tracks[0].tile;
-		const endingTile = this.props.trainTrackMap.tracks[this.props.trainTrackMap.tracks.length - 1].tile;
 		if (axis === 'x') {
-			if (startingTile[0] === index) placedTrackCount++;
-			if (endingTile[0] === index) placedTrackCount++;
+			placedTrackCount += defaultTiles.filter((el) => el.tile[0] === index).length;
 			tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[0] === index).length;
 			this.state.placedTracks.forEach(function(el) {
 				if (el.x === index && el.trackType !== 'X') placedTrackCount++;
 			});
 		}
 		if (axis === 'y') {
-			if (startingTile[1] === index) placedTrackCount++;
-			if (endingTile[1] === index) placedTrackCount++;
+			placedTrackCount += defaultTiles.filter((el) => el.tile[1] === index).length;
 			tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[1] === index).length;
 			this.state.placedTracks.forEach(function(el) {
 				if (el.y === index && el.trackType !== 'X') placedTrackCount++;
@@ -443,14 +448,13 @@ class Map extends React.Component {
 
 	render() {
 		const trainTrackMap = this.props.trainTrackMap;
-		console.log(trainTrackMap);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
 						// const tileNumber = (this.props.mapHeight - 1) * y + x;
-						const defaultTile = this.checkIfTrackIsDefault(trainTrackMap, x, y - 1);
+						const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
 						//Place Map Headers
 						if (y === 0) {
 							const headerLabel = trainTrackMap.headerLabels.x[x];
