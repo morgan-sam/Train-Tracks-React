@@ -166,10 +166,8 @@ class Square extends React.Component {
 		return [ cornerButtons, middleButtons, centreButton ];
 	}
 
-	render() {
-		let squareText, labelStyling;
-		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
-
+	setTableHeadingState() {
+		let labelText, labelStyling;
 		if (this.props.className === 'table-heading') {
 			switch (this.props.fillState) {
 				case 'underfilled':
@@ -192,8 +190,14 @@ class Square extends React.Component {
 						color: 'black'
 					};
 			}
-			squareText = this.props.text;
+			labelText = this.props.text;
 		}
+		return [ labelText, labelStyling ];
+	}
+
+	render() {
+		const [ labelText, labelStyling ] = this.setTableHeadingState();
+		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
 
 		let squareStyling, trackText;
 
@@ -247,7 +251,7 @@ class Square extends React.Component {
 					{middleButtons}
 					{centreButton}
 					<p className="boxLabel" style={labelStyling}>
-						{squareText}
+						{labelText}
 					</p>
 				</div>
 				<div className={'track-background'} style={squareStyling}>
