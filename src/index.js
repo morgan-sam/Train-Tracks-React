@@ -181,7 +181,6 @@ class Square extends React.Component {
 
 	setPlacedTrackImage() {
 		let squareStyling, trackText;
-		console.log(this.props.trackData);
 		if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
 			squareStyling = {
 				backgroundImage: `url(${this.props.trackData.trackType})`,
@@ -317,7 +316,7 @@ class Map extends React.Component {
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
 
 	addTrackToPlacedArray(trackSquareInfo) {
-		const trackCoordinates = [ trackSquareInfo.x, trackSquareInfo.y ];
+		const trackCoordinates = [ trackSquareInfo.tile[0], trackSquareInfo.tile[1] ];
 		const filteredTracks = this.removePlacedTrack(trackCoordinates);
 		const placedTracks = [ ...filteredTracks, trackSquareInfo ];
 		return placedTracks;
@@ -480,6 +479,7 @@ class Map extends React.Component {
 		const trainTrackMap = this.props.trainTrackMap;
 		const convertRailTypeToTrackImage = this.convertRailTypeToTrackImage;
 		let mapComponents = [];
+		// console.log(this.state.placedTracks);
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
