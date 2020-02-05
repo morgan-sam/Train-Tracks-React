@@ -85,28 +85,27 @@ class Square extends React.Component {
 
 	mouseButtonDown(e) {
 		e.preventDefault();
-
-		if (e.button === 0) {
+		if (this.props.className.includes('mapTile')) {
 			const tile = [ this.props.x, this.props.y ];
-			const railType = this.convertButtonClassToRailType(e);
-			const trackSquare = {
-				tile,
-				railType
-			};
-			this.props.onChildClick(trackSquare);
-		}
-		if (e.button === 2) {
-			const x = this.props.x;
-			const y = this.props.y;
-			if (this.props.className.includes('mapTile')) {
-				this.props.onChildRightMouseDown(e, [ x, y ]);
+			if (e.button === 0) {
+				const railType = this.convertButtonClassToRailType(e);
+				const trackSquare = {
+					tile,
+					railType
+				};
+				this.props.onChildClick(trackSquare);
+			}
+			if (e.button === 2) {
+				this.props.onChildRightMouseDown(e, tile);
 			}
 		}
 	}
 	mouseButtonUp(e) {
 		e.preventDefault();
-		if (e.button === 2) {
-			this.props.onChildRightMouseUp();
+		if (this.props.className.includes('mapTile')) {
+			if (e.button === 2) {
+				this.props.onChildRightMouseUp();
+			}
 		}
 	}
 
