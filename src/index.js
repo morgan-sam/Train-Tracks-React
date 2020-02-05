@@ -163,26 +163,48 @@ class Square extends React.Component {
 
 	setHoverTrackImage() {
 		let squareStyling, trackText;
-		if (
-			this.props.x === this.state.hoverTrack.tile[0] &&
-			this.props.y === this.state.hoverTrack.tile[1] &&
-			!this.props.trackData
-		) {
-			const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
-			if (trackImage.trackType !== 'T') {
-				squareStyling = {
-					backgroundImage: `url(${trackImage.trackType})`,
-					transform: `rotate(${trackImage.trackRotation}deg)`,
-					opacity: 0.5
-				};
-			} else {
-				trackText = trackImage.trackType;
-				squareStyling = {
-					opacity: 0.5
-				};
-			}
+		const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
+		if (trackImage.trackType !== 'T') {
+			squareStyling = {
+				backgroundImage: `url(${trackImage.trackType})`,
+				transform: `rotate(${trackImage.trackRotation}deg)`,
+				opacity: 0.5
+			};
+		} else {
+			trackText = trackImage.trackType;
+			squareStyling = {
+				opacity: 0.5
+			};
 		}
 		return [ squareStyling, trackText ];
+	}
+
+	setPlacedTrackImage() {
+		let squareStyling, trackText;
+		console.log(this.props.trackData);
+		if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
+			squareStyling = {
+				backgroundImage: `url(${this.props.trackData.trackType})`,
+				transform: `rotate(${this.props.trackData.trackRotation}deg)`,
+				opacity: 1
+			};
+		} else {
+			trackText = this.props.trackData.trackType;
+			squareStyling = {
+				opacity: 1
+			};
+		}
+		return [ squareStyling, trackText ];
+	}
+
+	setDefaultTrackImage() {
+		let squareStyling;
+		squareStyling = {
+			backgroundImage: `url(${this.props.trackData.trackType})`,
+			transform: `rotate(${this.props.trackData.trackRotation}deg)`,
+			opacity: 1
+		};
+		return [ squareStyling, null ];
 	}
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
@@ -226,29 +248,22 @@ class Square extends React.Component {
 	render() {
 		const [ labelText, labelStyling ] = this.setTableHeadingState();
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
-		let [ squareStyling, trackText ] = this.setHoverTrackImage();
+		let squareStyling, trackText;
+
+		if (
+			this.props.x === this.state.hoverTrack.tile[0] &&
+			this.props.y === this.state.hoverTrack.tile[1] &&
+			!this.props.trackData
+		) {
+			[ squareStyling, trackText ] = this.setHoverTrackImage();
+		}
 
 		if (this.props.trackData && this.props.className === 'mapTile') {
-			if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
-				squareStyling = {
-					backgroundImage: `url(${this.props.trackData.trackType})`,
-					transform: `rotate(${this.props.trackData.trackRotation}deg)`,
-					opacity: 1
-				};
-			} else {
-				trackText = this.props.trackData.trackType;
-				squareStyling = {
-					opacity: 1
-				};
-			}
+			[ squareStyling, trackText ] = this.setPlacedTrackImage();
 		}
 
 		if (this.props.trackData && this.props.className === 'defaultTrack') {
-			squareStyling = {
-				backgroundImage: `url(${this.props.trackData.trackType})`,
-				transform: `rotate(${this.props.trackData.trackRotation}deg)`,
-				opacity: 1
-			};
+			[ squareStyling, trackText ] = this.setDefaultTrackImage();
 		}
 
 		return (
