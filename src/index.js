@@ -181,14 +181,14 @@ class Square extends React.Component {
 
 	setPlacedTrackImage() {
 		let squareStyling, trackText;
-		if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
+		if (this.props.railImage.trackType !== 'T' && this.props.railImage.trackType !== 'X') {
 			squareStyling = {
-				backgroundImage: `url(${this.props.trackData.trackType})`,
-				transform: `rotate(${this.props.trackData.trackRotation}deg)`,
+				backgroundImage: `url(${this.props.railImage.trackType})`,
+				transform: `rotate(${this.props.railImage.trackRotation}deg)`,
 				opacity: 1
 			};
 		} else {
-			trackText = this.props.trackData.trackType;
+			trackText = this.props.railImage.trackType;
 			squareStyling = {
 				opacity: 1
 			};
@@ -257,7 +257,7 @@ class Square extends React.Component {
 			[ squareStyling, trackText ] = this.setHoverTrackImage();
 		}
 
-		if (this.props.trackData && this.props.className === 'mapTile') {
+		if (this.props.railImage && this.props.className === 'mapTile') {
 			[ squareStyling, trackText ] = this.setPlacedTrackImage();
 		}
 
@@ -425,7 +425,7 @@ class Map extends React.Component {
 				trackType: curvedtrack,
 				trackRotation: 270
 			};
-		} else if (railType === 'T') {
+		} else if (railType === 'T' || railType === 'X') {
 			trackData = { trackType: railType, trackRotation: 'none' };
 		} else {
 			trackData = { trackType: 'none', trackRotation: 'none' };
@@ -439,7 +439,7 @@ class Map extends React.Component {
 		return <Square className="table-heading" key={i} text={headerLabel} fillState={fillState} />;
 	}
 
-	renderMapTile(i, x, y, trackData) {
+	renderMapTile(i, x, y, railImage) {
 		return (
 			<Square
 				className="mapTile"
@@ -448,8 +448,8 @@ class Map extends React.Component {
 				y={y}
 				onChildClick={this.handleChildClick}
 				onChildRightClick={this.handleChildRightClick}
-				trackData={trackData}
 				convertRailTypeToTrackImage={this.convertRailTypeToTrackImage}
+				railImage={railImage}
 			/>
 		);
 	}
@@ -470,7 +470,6 @@ class Map extends React.Component {
 		const trainTrackMap = this.props.trainTrackMap;
 		const convertRailTypeToTrackImage = this.convertRailTypeToTrackImage;
 		let mapComponents = [];
-		// console.log(this.state.placedTracks);
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
@@ -497,6 +496,7 @@ class Map extends React.Component {
 									railImage = convertRailTypeToTrackImage(el.railType);
 								}
 							});
+							console.log(railImage);
 							if (railImage) {
 								return this.renderMapTile(x, x, y - 1, railImage);
 							} else {
