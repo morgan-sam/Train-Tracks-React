@@ -380,14 +380,14 @@ class Map extends React.Component {
 			placedTrackCount += defaultTiles.filter((el) => el.tile[0] === index).length;
 			tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[0] === index).length;
 			this.state.placedTracks.forEach(function(el) {
-				if (el.x === index && el.trackType !== 'X') placedTrackCount++;
+				if (el.tile[0] === index && el.railType !== 'X') placedTrackCount++;
 			});
 		}
 		if (axis === 'y') {
 			placedTrackCount += defaultTiles.filter((el) => el.tile[1] === index).length;
 			tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[1] === index).length;
 			this.state.placedTracks.forEach(function(el) {
-				if (el.y === index && el.trackType !== 'X') placedTrackCount++;
+				if (el.tile[1] === index && el.railType !== 'X') placedTrackCount++;
 			});
 		}
 		if (tilesOnAxis < placedTrackCount) {
