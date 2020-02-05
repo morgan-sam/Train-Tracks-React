@@ -492,7 +492,7 @@ class Map extends React.Component {
 class App extends React.Component {
 	render() {
 		const mapHeight = 6;
-		const mapWidth = 7;
+		const mapWidth = 5;
 		const trainTrackMap = generateNewMap(mapWidth, mapHeight);
 
 		return (
