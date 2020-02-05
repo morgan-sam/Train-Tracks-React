@@ -46,6 +46,8 @@ class Square extends React.Component {
 		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
 		this.mouseButtonDown = this.mouseButtonDown.bind(this);
 		this.mouseButtonUp = this.mouseButtonUp.bind(this);
+		this.squareHoverActive = this.squareHoverActive.bind(this);
+		this.squareHoverDisabled = this.squareHoverDisabled.bind(this);
 
 		this.state = {
 			hoverTrack: {
@@ -83,6 +85,14 @@ class Square extends React.Component {
 		});
 	}
 
+	squareHoverActive(e) {
+		//
+	}
+
+	squareHoverDisabled() {
+		//
+	}
+
 	mouseButtonDown(e) {
 		e.preventDefault();
 		if (this.props.className.includes('mapTile')) {
@@ -100,6 +110,7 @@ class Square extends React.Component {
 			}
 		}
 	}
+
 	mouseButtonUp(e) {
 		e.preventDefault();
 		if (this.props.className.includes('mapTile')) {
@@ -114,7 +125,7 @@ class Square extends React.Component {
 	convertButtonClassToRailType(e) {
 		let railType;
 		if (e.target.classList.contains('middleButton')) {
-			if (e.target.classList.contains('top') || e.target.classList.contains('down')) {
+			if (e.target.classList.contains('top') || e.target.classList.contains('bottom')) {
 				railType = 'vertical';
 			}
 			if (e.target.classList.contains('right') || e.target.classList.contains('left')) {
@@ -284,6 +295,8 @@ class Square extends React.Component {
 				onContextMenu={(e) => e.preventDefault()}
 				onMouseDown={this.mouseButtonDown}
 				onMouseUp={this.mouseButtonUp}
+				// onMouseOver={this.squareHoverActive}
+				// onMouseLeave={this.squareHoverDisabled}
 			>
 				<div className={`box`}>
 					{cornerButtons}
