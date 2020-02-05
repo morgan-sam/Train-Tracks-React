@@ -43,32 +43,27 @@ class Square extends React.Component {
 	constructor(props) {
 		super(props);
 		this.hoverEventActive = this.hoverEventActive.bind(this);
-		this.clickEventActive = this.clickEventActive.bind(this);
 		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
+		this.leftClickEvent = this.leftClickEvent.bind(this);
 		this.rightClickEvent = this.rightClickEvent.bind(this);
 
 		this.state = {
 			hoverTrack: {
-				x: '-',
-				y: '-',
-				trackType: '-',
-				trackRotation: '-'
+				tile: '-',
+				railType: '-'
 			}
 		};
 	}
 
-	hoverEventActive(e) {
-		const className = e.currentTarget.className;
-		const [ trackType, trackRotation ] = this.convertButtonClassNameToTrack(e, className);
-		const x = this.props.x;
-		const y = this.props.y;
+	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
+	hoverEventActive(e) {
+		const tile = [ this.props.x, this.props.y ];
+		const railType = this.convertButtonClassToRailType(e);
 		this.setState({
 			hoverTrack: {
-				x,
-				y,
-				trackType,
-				trackRotation
+				tile,
+				railType
 			}
 		});
 	}
@@ -76,58 +71,64 @@ class Square extends React.Component {
 	hoverEventDisabled(e) {
 		this.setState({
 			hoverTrack: {
-				x: '-',
-				y: '-',
-				trackType: '-',
-				trackRotation: '-'
+				tile: '-',
+				railType: '-'
 			}
 		});
 	}
 
-	convertButtonClassNameToTrack(e, className) {
-		let trackType, trackRotation;
-		if (e.target.classList.contains('middleButton')) {
-			trackType = straighttrack;
-			if (e.target.classList.contains('top') || e.target.classList.contains('down')) {
-				trackRotation = 0;
-			}
-			if (e.target.classList.contains('right') || e.target.classList.contains('left')) {
-				trackRotation = 90;
-			}
-		}
-		if (e.target.classList.contains('cornerButton')) {
-			trackType = curvedtrack;
-			if (e.target.classList.contains('top-left')) {
-				trackRotation = 90;
-			}
-			if (e.target.classList.contains('top-right')) {
-				trackRotation = 180;
-			}
-			if (e.target.classList.contains('bottom-left')) {
-				trackRotation = 0;
-			}
-			if (e.target.classList.contains('bottom-right')) {
-				trackRotation = 270;
-			}
-		}
-		if (e.target.classList.contains('centreButton')) {
-			trackType = 'T';
-		}
-		return [ trackType, trackRotation ];
-	}
-
-	clickEventActive(e) {
-		const target = e.currentTarget.className;
-		const [ trackType, trackRotation ] = this.convertButtonClassNameToTrack(e, target);
-		const [ x, y ] = [ this.props.x, this.props.y ];
+	leftClickEvent(e) {
+		const tile = [ this.props.x, this.props.y ];
+		const railType = this.convertButtonClassToRailType(e);
 		const trackSquare = {
-			x,
-			y,
-			trackType,
-			trackRotation
+			tile,
+			railType
 		};
 		this.props.onChildClick(trackSquare);
 	}
+
+	rightClickEvent(e) {
+		e.preventDefault();
+		const x = this.props.x;
+		const y = this.props.y;
+		if (this.props.className.includes('mapTile')) {
+			this.props.onChildRightClick([ x, y ]);
+		}
+	}
+
+	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
+
+	convertButtonClassToRailType(e) {
+		let railType;
+		if (e.target.classList.contains('middleButton')) {
+			if (e.target.classList.contains('top') || e.target.classList.contains('down')) {
+				railType = 'vertical';
+			}
+			if (e.target.classList.contains('right') || e.target.classList.contains('left')) {
+				railType = 'horizontal';
+			}
+		}
+		if (e.target.classList.contains('cornerButton')) {
+			if (e.target.classList.contains('top-left')) {
+				railType = 'topLeftCorner';
+			}
+			if (e.target.classList.contains('top-right')) {
+				railType = 'topRightCorner';
+			}
+			if (e.target.classList.contains('bottom-left')) {
+				railType = 'bottomLeftCorner';
+			}
+			if (e.target.classList.contains('bottom-right')) {
+				railType = 'bottomRightCorner';
+			}
+		}
+		if (e.target.classList.contains('centreButton')) {
+			railType = 'T';
+		}
+		return railType;
+	}
+
+	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
 	generateTileButtons() {
 		let cornerButtons = null;
@@ -140,7 +141,7 @@ class Square extends React.Component {
 				<CornerButton
 					corner={el}
 					key={el}
-					clickEvent={this.clickEventActive}
+					clickEvent={this.leftClickEvent}
 					hoverEvent={this.hoverEventActive}
 					hoverEnd={this.hoverEventDisabled}
 				/>
@@ -149,29 +150,20 @@ class Square extends React.Component {
 				<MiddleButton
 					edge={el}
 					key={el}
-					clickEvent={this.clickEventActive}
+					clickEvent={this.leftClickEvent}
 					hoverEvent={this.hoverEventActive}
 					hoverEnd={this.hoverEventDisabled}
 				/>
 			));
 			centreButton = (
 				<CentreButton
-					clickEvent={this.clickEventActive}
+					clickEvent={this.leftClickEvent}
 					hoverEvent={this.hoverEventActive}
 					hoverEnd={this.hoverEventDisabled}
 				/>
 			);
 		}
 		return [ cornerButtons, middleButtons, centreButton ];
-	}
-
-	rightClickEvent(e) {
-		e.preventDefault();
-		const x = this.props.x;
-		const y = this.props.y;
-		if (this.props.className.includes('mapTile')) {
-			this.props.onChildRightClick([ x, y ]);
-		}
 	}
 
 	render() {
@@ -204,19 +196,21 @@ class Square extends React.Component {
 		}
 
 		let squareStyling, trackText;
+
 		if (
-			this.props.x === this.state.hoverTrack.x &&
-			this.props.y === this.state.hoverTrack.y &&
+			this.props.x === this.state.hoverTrack.tile[0] &&
+			this.props.y === this.state.hoverTrack.tile[1] &&
 			!this.props.trackData
 		) {
-			if (this.state.hoverTrack.trackType !== 'T') {
+			const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
+			if (trackImage.trackType !== 'T') {
 				squareStyling = {
-					backgroundImage: `url(${this.state.hoverTrack.trackType})`,
-					transform: `rotate(${this.state.hoverTrack.trackRotation}deg)`,
+					backgroundImage: `url(${trackImage.trackType})`,
+					transform: `rotate(${trackImage.trackRotation}deg)`,
 					opacity: 0.5
 				};
 			} else {
-				trackText = this.state.hoverTrack.trackType;
+				trackText = trackImage.trackType;
 				squareStyling = {
 					opacity: 0.5
 				};
@@ -275,12 +269,26 @@ class Map extends React.Component {
 		};
 	}
 
-	removePlacedTrack(trackCoordinates) {
-		const filteredTracks = this.state.placedTracks.filter(function(track) {
-			if (!(track.x === trackCoordinates[0] && track.y === trackCoordinates[1])) return true;
-		});
-		return filteredTracks;
+	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
+
+	handleChildClick(trackSquareInfo) {
+		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
 	}
+
+	handleChildRightClick(trackCoordinates) {
+		if (this.checkIfPlacedTrackExists(trackCoordinates)) {
+			this.removePlacedTrackAndSetState(trackCoordinates);
+		} else {
+			const trackSquareInfo = {
+				tile: trackCoordinates,
+				railType: 'X'
+			};
+			this.removePlacedTrackAndSetState(trackCoordinates);
+			this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
+		}
+	}
+
+	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
 
 	addTrackToPlacedArray(trackSquareInfo) {
 		const trackCoordinates = [ trackSquareInfo.x, trackSquareInfo.y ];
@@ -289,15 +297,11 @@ class Map extends React.Component {
 		return placedTracks;
 	}
 
-	handleChildClick(trackSquareInfo) {
-		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
-	}
-
-	removePlacedTrackAndSetState(trackCoordinates) {
-		const filteredTracks = this.removePlacedTrack(trackCoordinates);
-		this.setState({
-			placedTracks: filteredTracks
+	removePlacedTrack(trackCoordinates) {
+		const filteredTracks = this.state.placedTracks.filter(function(track) {
+			if (!(track.x === trackCoordinates[0] && track.y === trackCoordinates[1])) return true;
 		});
+		return filteredTracks;
 	}
 
 	addTrackToPlacedArrayAndSetState(trackSquare) {
@@ -307,20 +311,14 @@ class Map extends React.Component {
 		});
 	}
 
-	handleChildRightClick(trackCoordinates) {
-		if (this.checkIfPlacedTrackExists(trackCoordinates)) {
-			this.removePlacedTrackAndSetState(trackCoordinates);
-		} else {
-			const trackSquareInfo = {
-				x: trackCoordinates[0],
-				y: trackCoordinates[1],
-				trackType: 'X',
-				trackRotation: undefined
-			};
-			this.removePlacedTrackAndSetState(trackCoordinates);
-			this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
-		}
+	removePlacedTrackAndSetState(trackCoordinates) {
+		const filteredTracks = this.removePlacedTrack(trackCoordinates);
+		this.setState({
+			placedTracks: filteredTracks
+		});
 	}
+
+	///////////// MAP - ... FUNCTIONS /////////////
 
 	checkIfPlacedTrackExists(trackCoordinates) {
 		let trackExists = false;
@@ -345,6 +343,8 @@ class Map extends React.Component {
 		});
 		return defaultTileArr;
 	}
+
+	///////////// MAP - HEADER FUNCTIONS /////////////
 
 	getRowColumnFillstate(axis, index) {
 		let fillState = 'underfilled';
@@ -375,6 +375,8 @@ class Map extends React.Component {
 		return fillState;
 	}
 
+	///////////// MAP - RAIL IMAGE FUNCTIONS /////////////
+
 	convertRailTypeToTrackImage(railType) {
 		let trackData;
 		if (railType === 'vertical') {
@@ -382,39 +384,40 @@ class Map extends React.Component {
 				trackType: straighttrack,
 				trackRotation: 0
 			};
-		}
-		if (railType === 'horizontal') {
+		} else if (railType === 'horizontal') {
 			trackData = {
 				trackType: straighttrack,
 				trackRotation: 90
 			};
-		}
-		if (railType === 'bottomLeftCorner') {
+		} else if (railType === 'bottomLeftCorner') {
 			trackData = {
 				trackType: curvedtrack,
 				trackRotation: 0
 			};
-		}
-		if (railType === 'topLeftCorner') {
+		} else if (railType === 'topLeftCorner') {
 			trackData = {
 				trackType: curvedtrack,
 				trackRotation: 90
 			};
-		}
-		if (railType === 'topRightCorner') {
+		} else if (railType === 'topRightCorner') {
 			trackData = {
 				trackType: curvedtrack,
 				trackRotation: 180
 			};
-		}
-		if (railType === 'bottomRightCorner') {
+		} else if (railType === 'bottomRightCorner') {
 			trackData = {
 				trackType: curvedtrack,
 				trackRotation: 270
 			};
+		} else if (railType === 'T') {
+			trackData = { trackType: railType, trackRotation: 'none' };
+		} else {
+			trackData = { trackType: 'none', trackRotation: 'none' };
 		}
 		return trackData;
 	}
+
+	///////////// MAP - RENDER FUNCTIONS /////////////
 
 	renderHeadingTile(i, headerLabel, fillState) {
 		return <Square className="table-heading" key={i} text={headerLabel} fillState={fillState} />;
@@ -430,6 +433,7 @@ class Map extends React.Component {
 				onChildClick={this.handleChildClick}
 				onChildRightClick={this.handleChildRightClick}
 				trackData={trackData}
+				convertRailTypeToTrackImage={this.convertRailTypeToTrackImage}
 			/>
 		);
 	}
@@ -448,6 +452,7 @@ class Map extends React.Component {
 
 	render() {
 		const trainTrackMap = this.props.trainTrackMap;
+		const convertRailTypeToTrackImage = this.convertRailTypeToTrackImage;
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
@@ -470,11 +475,13 @@ class Map extends React.Component {
 						} else {
 							//Place User Placed Tracks
 							let trackData;
+							console.log(this.state.placedTracks);
 							this.state.placedTracks.forEach(function(el) {
-								if (el.x === x && el.y === y - 1) {
-									trackData = el;
+								if (el.tile[0] === x && el.tile[1] === y - 1) {
+									trackData = convertRailTypeToTrackImage(el.railType);
 								}
 							});
+							console.log(trackData);
 							if (trackData) {
 								return this.renderMapTile(x, x, y - 1, trackData);
 							} else {
