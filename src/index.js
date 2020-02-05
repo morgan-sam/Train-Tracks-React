@@ -195,12 +195,8 @@ class Square extends React.Component {
 		return [ labelText, labelStyling ];
 	}
 
-	render() {
-		const [ labelText, labelStyling ] = this.setTableHeadingState();
-		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
-
+	setHoverTrackImage() {
 		let squareStyling, trackText;
-
 		if (
 			this.props.x === this.state.hoverTrack.tile[0] &&
 			this.props.y === this.state.hoverTrack.tile[1] &&
@@ -220,6 +216,13 @@ class Square extends React.Component {
 				};
 			}
 		}
+		return [ squareStyling, trackText ];
+	}
+
+	render() {
+		const [ labelText, labelStyling ] = this.setTableHeadingState();
+		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
+		let [ squareStyling, trackText ] = this.setHoverTrackImage();
 
 		if (this.props.trackData && this.props.className === 'mapTile') {
 			if (this.props.trackData.trackType !== 'T' && this.props.trackData.trackType !== 'X') {
