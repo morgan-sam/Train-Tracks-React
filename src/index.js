@@ -44,9 +44,8 @@ class Square extends React.Component {
 		super(props);
 		this.hoverEventActive = this.hoverEventActive.bind(this);
 		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
-		this.leftClickEvent = this.leftClickEvent.bind(this);
-		this.rightMouseButtonDown = this.rightMouseButtonDown.bind(this);
-		this.rightMouseButtonUp = this.rightMouseButtonUp.bind(this);
+		this.mouseButtonDown = this.mouseButtonDown.bind(this);
+		this.mouseButtonUp = this.mouseButtonUp.bind(this);
 
 		this.state = {
 			hoverTrack: {
@@ -84,18 +83,18 @@ class Square extends React.Component {
 		});
 	}
 
-	leftClickEvent(e) {
-		const tile = [ this.props.x, this.props.y ];
-		const railType = this.convertButtonClassToRailType(e);
-		const trackSquare = {
-			tile,
-			railType
-		};
-		this.props.onChildClick(trackSquare);
-	}
-
-	rightMouseButtonDown(e) {
+	mouseButtonDown(e) {
 		e.preventDefault();
+
+		if (e.button === 0) {
+			const tile = [ this.props.x, this.props.y ];
+			const railType = this.convertButtonClassToRailType(e);
+			const trackSquare = {
+				tile,
+				railType
+			};
+			this.props.onChildClick(trackSquare);
+		}
 		if (e.button === 2) {
 			const x = this.props.x;
 			const y = this.props.y;
@@ -104,7 +103,7 @@ class Square extends React.Component {
 			}
 		}
 	}
-	rightMouseButtonUp(e) {
+	mouseButtonUp(e) {
 		e.preventDefault();
 		if (e.button === 2) {
 			this.props.onChildRightMouseUp();
@@ -234,7 +233,7 @@ class Square extends React.Component {
 				<CornerButton
 					corner={el}
 					key={el}
-					clickEvent={this.leftClickEvent}
+					clickEvent={this.mouseButtonDown}
 					hoverEvent={this.hoverEventActive}
 					hoverEnd={this.hoverEventDisabled}
 				/>
@@ -243,14 +242,14 @@ class Square extends React.Component {
 				<MiddleButton
 					edge={el}
 					key={el}
-					clickEvent={this.leftClickEvent}
+					clickEvent={this.mouseButtonDown}
 					hoverEvent={this.hoverEventActive}
 					hoverEnd={this.hoverEventDisabled}
 				/>
 			));
 			centreButton = (
 				<CentreButton
-					clickEvent={this.leftClickEvent}
+					clickEvent={this.mouseButtonDown}
 					hoverEvent={this.hoverEventActive}
 					hoverEnd={this.hoverEventDisabled}
 				/>
@@ -284,8 +283,8 @@ class Square extends React.Component {
 			<div
 				className={`square ${this.props.className}`}
 				onContextMenu={(e) => e.preventDefault()}
-				onMouseDown={this.rightMouseButtonDown}
-				onMouseUp={this.rightMouseButtonUp}
+				onMouseDown={this.mouseButtonDown}
+				onMouseUp={this.mouseButtonUp}
 			>
 				<div className={`box`}>
 					{cornerButtons}
