@@ -373,30 +373,21 @@ class Map extends React.Component {
 
 	getRowColumnFillstate(axis, index) {
 		let fillState = 'underfilled';
-		let placedTrackCount = 0;
 		const defaultTiles = this.getAllDefaultTiles(this.props.trainTrackMap);
-		let tilesOnAxis;
-		if (axis === 'x') {
-			placedTrackCount += defaultTiles.filter((el) => el.tile[0] === index).length;
-			tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[0] === index).length;
-			this.state.placedTracks.forEach(function(el) {
-				if (el.tile[0] === index && el.railType !== 'X') placedTrackCount++;
-			});
-		}
-		if (axis === 'y') {
-			placedTrackCount += defaultTiles.filter((el) => el.tile[1] === index).length;
-			tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[1] === index).length;
-			this.state.placedTracks.forEach(function(el) {
-				if (el.tile[1] === index && el.railType !== 'X') placedTrackCount++;
-			});
-		}
+		let axisNum = axis === 'x' ? 0 : 1;
+
+		let placedTrackCount = defaultTiles.filter((el) => el.tile[axisNum] === index).length;
+		const tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[axisNum] === index).length;
+		this.state.placedTracks.forEach(function(el) {
+			if (el.tile[axisNum] === index && el.railType !== 'X') placedTrackCount++;
+		});
+
 		if (tilesOnAxis < placedTrackCount) {
 			fillState = 'overfilled';
 		} else if (tilesOnAxis === placedTrackCount) {
 			fillState = 'full';
-		} else {
-			fillState = 'underfilled';
 		}
+
 		return fillState;
 	}
 
