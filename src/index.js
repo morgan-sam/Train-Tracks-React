@@ -348,7 +348,7 @@ class Map extends React.Component {
 	checkIfPlacedTrackExists(trackCoordinates) {
 		let trackExists = false;
 		this.state.placedTracks.forEach(function(el) {
-			if (el.x === trackCoordinates[0] && el.y === trackCoordinates[1]) trackExists = true;
+			if (el.tile[0] === trackCoordinates[0] && el.tile[1] === trackCoordinates[1]) trackExists = true;
 		});
 		return trackExists;
 	}
@@ -496,7 +496,6 @@ class Map extends React.Component {
 									railImage = convertRailTypeToTrackImage(el.railType);
 								}
 							});
-							console.log(railImage);
 							if (railImage) {
 								return this.renderMapTile(x, x, y - 1, railImage);
 							} else {
