@@ -128,6 +128,63 @@ class Square extends React.Component {
 		return railType;
 	}
 
+	///////////// SQUARE - HEADING FUNCTIONS /////////////
+
+	setTableHeadingState() {
+		let labelText, labelStyling;
+		if (this.props.className === 'table-heading') {
+			switch (this.props.fillState) {
+				case 'underfilled':
+					labelStyling = {
+						color: 'black'
+					};
+					break;
+				case 'full':
+					labelStyling = {
+						color: 'green'
+					};
+					break;
+				case 'overfilled':
+					labelStyling = {
+						color: 'red'
+					};
+					break;
+				default:
+					labelStyling = {
+						color: 'black'
+					};
+			}
+			labelText = this.props.text;
+		}
+		return [ labelText, labelStyling ];
+	}
+
+	///////////// SQUARE - RAIL IMAGE FUNCTIONS /////////////
+
+	setHoverTrackImage() {
+		let squareStyling, trackText;
+		if (
+			this.props.x === this.state.hoverTrack.tile[0] &&
+			this.props.y === this.state.hoverTrack.tile[1] &&
+			!this.props.trackData
+		) {
+			const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
+			if (trackImage.trackType !== 'T') {
+				squareStyling = {
+					backgroundImage: `url(${trackImage.trackType})`,
+					transform: `rotate(${trackImage.trackRotation}deg)`,
+					opacity: 0.5
+				};
+			} else {
+				trackText = trackImage.trackType;
+				squareStyling = {
+					opacity: 0.5
+				};
+			}
+		}
+		return [ squareStyling, trackText ];
+	}
+
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
 	generateTileButtons() {
@@ -164,59 +221,6 @@ class Square extends React.Component {
 			);
 		}
 		return [ cornerButtons, middleButtons, centreButton ];
-	}
-
-	setTableHeadingState() {
-		let labelText, labelStyling;
-		if (this.props.className === 'table-heading') {
-			switch (this.props.fillState) {
-				case 'underfilled':
-					labelStyling = {
-						color: 'black'
-					};
-					break;
-				case 'full':
-					labelStyling = {
-						color: 'green'
-					};
-					break;
-				case 'overfilled':
-					labelStyling = {
-						color: 'red'
-					};
-					break;
-				default:
-					labelStyling = {
-						color: 'black'
-					};
-			}
-			labelText = this.props.text;
-		}
-		return [ labelText, labelStyling ];
-	}
-
-	setHoverTrackImage() {
-		let squareStyling, trackText;
-		if (
-			this.props.x === this.state.hoverTrack.tile[0] &&
-			this.props.y === this.state.hoverTrack.tile[1] &&
-			!this.props.trackData
-		) {
-			const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
-			if (trackImage.trackType !== 'T') {
-				squareStyling = {
-					backgroundImage: `url(${trackImage.trackType})`,
-					transform: `rotate(${trackImage.trackRotation}deg)`,
-					opacity: 0.5
-				};
-			} else {
-				trackText = trackImage.trackType;
-				squareStyling = {
-					opacity: 0.5
-				};
-			}
-		}
-		return [ squareStyling, trackText ];
 	}
 
 	render() {
@@ -306,7 +310,7 @@ class Map extends React.Component {
 
 	removePlacedTrack(trackCoordinates) {
 		const filteredTracks = this.state.placedTracks.filter(function(track) {
-			if (!(track.x === trackCoordinates[0] && track.y === trackCoordinates[1])) return true;
+			if (!(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1])) return true;
 		});
 		return filteredTracks;
 	}
@@ -325,7 +329,7 @@ class Map extends React.Component {
 		});
 	}
 
-	///////////// MAP - ... FUNCTIONS /////////////
+	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
 
 	checkIfPlacedTrackExists(trackCoordinates) {
 		let trackExists = false;
@@ -351,7 +355,7 @@ class Map extends React.Component {
 		return defaultTileArr;
 	}
 
-	///////////// MAP - HEADER FUNCTIONS /////////////
+	///////////// MAP - HEADING FUNCTIONS /////////////
 
 	getRowColumnFillstate(axis, index) {
 		let fillState = 'underfilled';
@@ -481,16 +485,14 @@ class Map extends React.Component {
 							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
 						} else {
 							//Place User Placed Tracks
-							let trackData;
-							console.log(this.state.placedTracks);
+							let railImage;
 							this.state.placedTracks.forEach(function(el) {
 								if (el.tile[0] === x && el.tile[1] === y - 1) {
-									trackData = convertRailTypeToTrackImage(el.railType);
+									railImage = convertRailTypeToTrackImage(el.railType);
 								}
 							});
-							console.log(trackData);
-							if (trackData) {
-								return this.renderMapTile(x, x, y - 1, trackData);
+							if (railImage) {
+								return this.renderMapTile(x, x, y - 1, railImage);
 							} else {
 								return this.renderMapTile(x, x, y - 1, null);
 							}
