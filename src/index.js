@@ -45,7 +45,8 @@ class Square extends React.Component {
 		this.hoverEventActive = this.hoverEventActive.bind(this);
 		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
 		this.leftClickEvent = this.leftClickEvent.bind(this);
-		this.rightClickEvent = this.rightClickEvent.bind(this);
+		this.rightMouseButtonDown = this.rightMouseButtonDown.bind(this);
+		this.rightMouseButtonUp = this.rightMouseButtonUp.bind(this);
 
 		this.state = {
 			hoverTrack: {
@@ -59,13 +60,19 @@ class Square extends React.Component {
 
 	hoverEventActive(e) {
 		const tile = [ this.props.x, this.props.y ];
-		const railType = this.convertButtonClassToRailType(e);
-		this.setState({
-			hoverTrack: {
-				tile,
-				railType
+		if (this.props.rightMouseDown) {
+			if (this.props.className.includes('mapTile')) {
+				this.props.onChildRightMouseDown(e, tile);
 			}
-		});
+		} else {
+			const railType = this.convertButtonClassToRailType(e);
+			this.setState({
+				hoverTrack: {
+					tile,
+					railType
+				}
+			});
+		}
 	}
 
 	hoverEventDisabled(e) {
@@ -87,12 +94,20 @@ class Square extends React.Component {
 		this.props.onChildClick(trackSquare);
 	}
 
-	rightClickEvent(e) {
+	rightMouseButtonDown(e) {
 		e.preventDefault();
-		const x = this.props.x;
-		const y = this.props.y;
-		if (this.props.className.includes('mapTile')) {
-			this.props.onChildRightClick([ x, y ]);
+		if (e.button === 2) {
+			const x = this.props.x;
+			const y = this.props.y;
+			if (this.props.className.includes('mapTile')) {
+				this.props.onChildRightMouseDown(e, [ x, y ]);
+			}
+		}
+	}
+	rightMouseButtonUp(e) {
+		e.preventDefault();
+		if (e.button === 2) {
+			this.props.onChildRightMouseUp();
 		}
 	}
 
@@ -266,7 +281,12 @@ class Square extends React.Component {
 		}
 
 		return (
-			<div className={`square ${this.props.className}`} onContextMenu={this.rightClickEvent}>
+			<div
+				className={`square ${this.props.className}`}
+				onContextMenu={(e) => e.preventDefault()}
+				onMouseDown={this.rightMouseButtonDown}
+				onMouseUp={this.rightMouseButtonUp}
+			>
 				<div className={`box`}>
 					{cornerButtons}
 					{middleButtons}
@@ -287,10 +307,12 @@ class Map extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChildClick = this.handleChildClick.bind(this);
-		this.handleChildRightClick = this.handleChildRightClick.bind(this);
+		this.handleChildRightMouseDown = this.handleChildRightMouseDown.bind(this);
+		this.handleChildRightMouseUp = this.handleChildRightMouseUp.bind(this);
 
 		this.state = {
-			placedTracks: []
+			placedTracks: [],
+			rightMouseDown: false
 		};
 	}
 
@@ -300,10 +322,13 @@ class Map extends React.Component {
 		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
 	}
 
-	handleChildRightClick(trackCoordinates) {
-		if (this.checkIfPlacedTrackExists(trackCoordinates)) {
+	handleChildRightMouseDown(e, trackCoordinates) {
+		if (this.checkIfPlacedTrackExists(trackCoordinates) && !this.state.rightMouseDown) {
 			this.removePlacedTrackAndSetState(trackCoordinates);
 		} else {
+			this.setState({
+				rightMouseDown: true
+			});
 			const trackSquareInfo = {
 				tile: trackCoordinates,
 				railType: 'X'
@@ -311,6 +336,12 @@ class Map extends React.Component {
 			this.removePlacedTrackAndSetState(trackCoordinates);
 			this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
 		}
+	}
+
+	handleChildRightMouseUp(e) {
+		this.setState({
+			rightMouseDown: false
+		});
 	}
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
@@ -447,9 +478,11 @@ class Map extends React.Component {
 				x={x}
 				y={y}
 				onChildClick={this.handleChildClick}
-				onChildRightClick={this.handleChildRightClick}
+				onChildRightMouseDown={this.handleChildRightMouseDown}
+				onChildRightMouseUp={this.handleChildRightMouseUp}
 				convertRailTypeToTrackImage={this.convertRailTypeToTrackImage}
 				railImage={railImage}
+				rightMouseDown={this.state.rightMouseDown}
 			/>
 		);
 	}
