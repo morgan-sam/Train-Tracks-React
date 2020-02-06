@@ -405,26 +405,30 @@ class Map extends React.Component {
 	}
 
 	convertDirectionsToRailType(directions) {
-		let railType;
+		let previousTileRailType;
+		let currentHoverTileRailType;
 		if (directions.length === 1) {
-			if (directions[0] % 2 === 0) railType = 'vertical';
-			if (directions[0] % 2 === 1) railType = 'horizontal';
+			if (directions[0] % 2 === 0) previousTileRailType = 'vertical';
+			if (directions[0] % 2 === 1) previousTileRailType = 'horizontal';
+			currentHoverTileRailType = previousTileRailType;
 		}
 		if (directions.length === 2) {
-			if (directions[0] % 2 === 0 && directions[1] % 2 === 0) railType = 'vertical';
-			if (directions[0] % 2 === 1 && directions[1] % 2 === 1) railType = 'horizontal';
+			if (directions[0] % 2 === 0 && directions[1] % 2 === 0) previousTileRailType = 'vertical';
+			if (directions[0] % 2 === 1 && directions[1] % 2 === 1) previousTileRailType = 'horizontal';
 
-			if (directions[0] === 0 && directions[1] === 1) railType = 'bottomRightCorner';
-			if (directions[0] === 1 && directions[1] === 2) railType = 'bottomLeftCorner';
-			if (directions[0] === 2 && directions[1] === 3) railType = 'topLeftCorner';
-			if (directions[0] === 3 && directions[1] === 0) railType = 'topRightCorner';
+			if (directions[0] === 0 && directions[1] === 1) previousTileRailType = 'bottomRightCorner';
+			if (directions[0] === 1 && directions[1] === 2) previousTileRailType = 'bottomLeftCorner';
+			if (directions[0] === 2 && directions[1] === 3) previousTileRailType = 'topLeftCorner';
+			if (directions[0] === 3 && directions[1] === 0) previousTileRailType = 'topRightCorner';
 
-			if (directions[0] === 3 && directions[1] === 2) railType = 'bottomRightCorner';
-			if (directions[0] === 2 && directions[1] === 1) railType = 'topRightCorner';
-			if (directions[0] === 1 && directions[1] === 0) railType = 'topLeftCorner';
-			if (directions[0] === 0 && directions[1] === 3) railType = 'bottomLeftCorner';
+			if (directions[0] === 3 && directions[1] === 2) previousTileRailType = 'bottomRightCorner';
+			if (directions[0] === 2 && directions[1] === 1) previousTileRailType = 'topRightCorner';
+			if (directions[0] === 1 && directions[1] === 0) previousTileRailType = 'topLeftCorner';
+			if (directions[0] === 0 && directions[1] === 3) previousTileRailType = 'bottomLeftCorner';
+
+			currentHoverTileRailType = directions[1] % 2 === 0 ? 'vertical' : 'horizontal';
 		}
-		return [ railType, directions[1] % 2 === 0 ? 'vertical' : 'horizontal' ];
+		return [ previousTileRailType, currentHoverTileRailType ];
 	}
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
