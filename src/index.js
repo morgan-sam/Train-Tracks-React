@@ -345,7 +345,7 @@ class Map extends React.Component {
         const tileValue = this.getRailTypeOfCoordinate(coordinate);
         this.rightClickDragValue = tileValue === null ? 'X' : 'DELETE';
         if (this.getRailTypeOfCoordinate(coordinate)) {
-            this.removePlacedTrackAndSetState(coordinate);
+            this.removePlacedTrack(coordinate);
         } else {
             this.placeTile(coordinate, this.rightClickDragValue);
         }
@@ -385,7 +385,7 @@ class Map extends React.Component {
             if (this.rightClickDragValue === 'X') {
                 this.placeTile(coordinate, this.rightClickDragValue);
             } else if (this.rightClickDragValue === 'DELETE') {
-                this.removePlacedTrackAndSetState(coordinate);
+                this.removePlacedTrack(coordinate);
             }
         }
     }
@@ -464,12 +464,6 @@ class Map extends React.Component {
         const filteredTracks = this.state.placedTracks.filter(function(track) {
             if (!(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1])) return true;
         });
-        return filteredTracks;
-    }
-
-
-    removePlacedTrackAndSetState(trackCoordinates) {
-        const filteredTracks = this.removePlacedTrack(trackCoordinates);
         this.setState({
             placedTracks: filteredTracks
         });
