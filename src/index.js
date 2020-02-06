@@ -60,6 +60,7 @@ class Square extends React.Component {
 	squareHoverStart(e) {
 		if (this.props.className.includes('mapTile')) {
 			const tile = [ this.props.x, this.props.y ];
+			console.log(this.props.rightClickDragValue);
 			if (this.props.rightClickDragValue) {
 				this.props.hoverStartEvent(e, tile);
 			} else {
@@ -348,7 +349,8 @@ class Map extends React.Component {
 	}
 
 	rightReleaseEvent() {
-		this.rightClickDragValue = null;
+		this.rightClickDragValue = undefined;
+		this.forceUpdate();
 	}
 
 	hoverStartEvent(e, coordinate) {
@@ -356,7 +358,6 @@ class Map extends React.Component {
 			//
 		}
 		if (e.buttons === 2) {
-			console.log(this.rightClickDragValue);
 			if (this.rightClickDragValue === 'X') {
 				this.placeTile(coordinate, this.rightClickDragValue);
 			} else if (this.rightClickDragValue === 'DELETE') {
@@ -541,6 +542,7 @@ class Map extends React.Component {
 	}
 
 	render() {
+		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
 		const convertRailTypeToTrackImage = this.convertRailTypeToTrackImage;
 		let mapComponents = [];
