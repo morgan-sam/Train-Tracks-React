@@ -370,8 +370,10 @@ class Map extends React.Component {
 			if (Array.isArray(this.leftClickDragArray) && this.leftClickDragArray.length) {
 				this.leftClickDragArray.shift();
 				this.leftClickDragArray.push(coordinate);
-				this.placeTile(coordinate, 'T');
-				this.calculateDragDirection();
+				const directions = this.calculateDragDirection();
+				const railType = this.convertDirectionsToRailType(directions);
+				this.placeTile(this.currentHoverTile, railType);
+				// this.placeTile(coordinate, railType);
 			}
 		}
 		if (e.buttons === 2) {
@@ -392,13 +394,35 @@ class Map extends React.Component {
 	calculateDragDirection() {
 		let directions = [];
 		const tiles = this.leftClickDragArray;
-		// console.log(tiles);
 		const numberOfNulls = tiles.findIndex((el) => el !== null);
 		for (let i = numberOfNulls; i < tiles.length - 1; i++) {
 			directions.push(findDirectionFromMove(tiles[i + 1], tiles[i]));
 		}
 		console.log(`directions: ${directions.join(' ')}`);
 		return directions;
+	}
+
+	convertDirectionsToRailType(directions) {
+		let railType = 'none';
+		if (directions.length === 1) {
+			if (directions[0] % 2 === 0) railType = 'vertical';
+			if (directions[0] % 2 === 1) railType = 'horizontal';
+		}
+		if (directions.length === 2) {
+			if (directions[0] % 2 === 0 && directions[1] % 2 === 0) railType = 'vertical';
+			if (directions[0] % 2 === 1 && directions[1] % 2 === 1) railType = 'horizontal';
+
+			if (directions[0] === 0 && directions[1] === 1) railType = 'bottomRightCorner';
+			if (directions[0] === 1 && directions[1] === 2) railType = 'bottomLeftCorner';
+			if (directions[0] === 2 && directions[1] === 3) railType = 'topLeftCorner';
+			if (directions[0] === 3 && directions[1] === 0) railType = 'topRightCorner';
+
+			if (directions[0] === 3 && directions[1] === 2) railType = 'bottomRightCorner';
+			if (directions[0] === 2 && directions[1] === 1) railType = 'topRightCorner';
+			if (directions[0] === 1 && directions[1] === 0) railType = 'topLeftCorner';
+			if (directions[0] === 0 && directions[1] === 3) railType = 'bottomLeftCorner';
+		}
+		return railType;
 	}
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
