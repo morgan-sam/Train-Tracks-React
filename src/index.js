@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import seedrandom from 'seedrandom';
-import { generateNewMap } from './generateMap';
+import { generateNewMap, compareArrays, findDirectionFromMove } from './generateMap';
 import './index.css';
 import curvedtrack from './img/curvedtrack.png';
 import straighttrack from './img/straighttrack.png';
@@ -333,11 +333,13 @@ class Map extends React.Component {
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
 	leftClickEvent(trackSquareInfo) {
+		this.currentHoverTile = trackSquareInfo.tile;
 		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
-		this.leftClickDragArray = [ trackSquareInfo ];
+		this.leftClickDragArray = [ null, null, trackSquareInfo.tile ];
 	}
 
 	rightClickEvent(coordinate) {
+		this.currentHoverTile = coordinate;
 		const tileValue = this.getRailTypeOfCoordinate(coordinate);
 		this.rightClickDragValue = tileValue === null ? 'X' : 'DELETE';
 		if (this.getRailTypeOfCoordinate(coordinate)) {
@@ -358,9 +360,18 @@ class Map extends React.Component {
 	}
 
 	hoverStartEvent(e, coordinate) {
-		if (e.buttons === 1) {
+		let newHoverTile = false;
+		if (!compareArrays(coordinate, this.currentHoverTile)) {
+			this.currentHoverTile = coordinate;
+			newHoverTile = true;
+		}
+
+		if (e.buttons === 1 && newHoverTile) {
 			if (Array.isArray(this.leftClickDragArray) && this.leftClickDragArray.length) {
+				this.leftClickDragArray.shift();
+				this.leftClickDragArray.push(coordinate);
 				this.placeTile(coordinate, 'T');
+				this.calculateDragDirection();
 			}
 		}
 		if (e.buttons === 2) {
@@ -378,7 +389,17 @@ class Map extends React.Component {
 
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
 
-	//
+	calculateDragDirection() {
+		let directions = [];
+		const tiles = this.leftClickDragArray;
+		// console.log(tiles);
+		const numberOfNulls = tiles.findIndex((el) => el !== null);
+		for (let i = numberOfNulls; i < tiles.length - 1; i++) {
+			directions.push(findDirectionFromMove(tiles[i + 1], tiles[i]));
+		}
+		console.log(`directions: ${directions.join(' ')}`);
+		return directions;
+	}
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
 

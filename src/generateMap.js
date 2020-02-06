@@ -242,19 +242,6 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 		return onePossibleMove;
 	}
 
-	function findDirectionFromMove(currentMove, lastMove) {
-		let moveDirection = 'none';
-
-		const moveCalc = [ currentMove[0] - lastMove[0], currentMove[1] - lastMove[1] ];
-
-		if (compareArrays(moveCalc, [ 0, -1 ])) moveDirection = 0; //= 'up';
-		if (compareArrays(moveCalc, [ 1, 0 ])) moveDirection = 1; //= 'right';
-		if (compareArrays(moveCalc, [ 0, 1 ])) moveDirection = 2; //= 'down';
-		if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 3; //= 'left';
-
-		return moveDirection;
-	}
-
 	function findMoveFromDirection(currentTile, direction) {
 		let newMove;
 		switch (direction) {
@@ -439,11 +426,24 @@ export const generateNewMap = (mapWidth, mapHeight) => {
 			return true;
 		}
 	}
-	function compareArrays(arr1, arr2) {
-		let arrEqual = false;
-		if (arr1.length === arr2.length) {
-			arrEqual = arr1.every((v, i) => v === arr2[i]);
-		}
-		return arrEqual;
+};
+export const compareArrays = (arr1, arr2) => {
+	let arrEqual = false;
+	if (arr1.length === arr2.length) {
+		arrEqual = arr1.every((v, i) => v === arr2[i]);
 	}
+	return arrEqual;
+};
+
+export const findDirectionFromMove = (currentMove, lastMove) => {
+	let moveDirection = 'none';
+
+	const moveCalc = [ currentMove[0] - lastMove[0], currentMove[1] - lastMove[1] ];
+
+	if (compareArrays(moveCalc, [ 0, -1 ])) moveDirection = 0; //= 'up';
+	if (compareArrays(moveCalc, [ 1, 0 ])) moveDirection = 1; //= 'right';
+	if (compareArrays(moveCalc, [ 0, 1 ])) moveDirection = 2; //= 'down';
+	if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 3; //= 'left';
+
+	return moveDirection;
 };
