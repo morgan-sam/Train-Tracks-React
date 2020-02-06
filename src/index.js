@@ -323,6 +323,7 @@ class Map extends React.Component {
 		this.rightReleaseEvent = this.rightReleaseEvent.bind(this);
 		this.hoverStartEvent = this.hoverStartEvent.bind(this);
 		this.hoverEndEvent = this.hoverEndEvent.bind(this);
+		this.placeMultipleTiles = this.placeMultipleTiles.bind(this);
 
 		this.state = {
 			placedTracks: [],
@@ -362,6 +363,7 @@ class Map extends React.Component {
 	hoverStartEvent(e, coordinate) {
 		let newHoverTile = false;
 		if (!compareArrays(coordinate, this.currentHoverTile)) {
+			this.previousHoverTile = this.currentHoverTile;
 			this.currentHoverTile = coordinate;
 			newHoverTile = true;
 		}
@@ -372,8 +374,10 @@ class Map extends React.Component {
 				this.leftClickDragArray.push(coordinate);
 				const directions = this.calculateDragDirection();
 				const railType = this.convertDirectionsToRailType(directions);
-				this.placeTile(this.currentHoverTile, railType);
-				// this.placeTile(coordinate, railType);
+				this.placeMultipleTiles([
+					{ tile: this.previousHoverTile, railType: railType[0] },
+					{ tile: this.currentHoverTile, railType: railType[1] }
+				]);
 			}
 		}
 		if (e.buttons === 2) {
@@ -385,9 +389,7 @@ class Map extends React.Component {
 		}
 	}
 
-	hoverEndEvent(e, coordinate) {
-		//
-	}
+	hoverEndEvent(e, coordinate) {}
 
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
 
@@ -403,7 +405,7 @@ class Map extends React.Component {
 	}
 
 	convertDirectionsToRailType(directions) {
-		let railType = 'none';
+		let railType;
 		if (directions.length === 1) {
 			if (directions[0] % 2 === 0) railType = 'vertical';
 			if (directions[0] % 2 === 1) railType = 'horizontal';
@@ -422,7 +424,7 @@ class Map extends React.Component {
 			if (directions[0] === 1 && directions[1] === 0) railType = 'topLeftCorner';
 			if (directions[0] === 0 && directions[1] === 3) railType = 'bottomLeftCorner';
 		}
-		return railType;
+		return [ railType, directions[1] % 2 === 0 ? 'vertical' : 'horizontal' ];
 	}
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
@@ -434,6 +436,25 @@ class Map extends React.Component {
 		};
 		this.removePlacedTrackAndSetState(coordinate);
 		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
+	}
+
+	placeMultipleTiles(tileObjArr) {
+		const placedTracks = this.state.placedTracks;
+		let newTrackArray;
+		console.log(placedTracks);
+		//Remove any present tiles of passed track coordinates
+		tileObjArr.forEach(function(el) {
+			newTrackArray = placedTracks.filter(function(track) {
+				if (!(track.tile[0] === el.tile[0] && track.tile[1] === el.tile[1])) return true;
+			});
+		});
+		//Add track coordinates
+		tileObjArr.forEach(function(el) {
+			newTrackArray = [ ...newTrackArray, el ];
+		});
+		this.setState({
+			placedTracks: newTrackArray
+		});
 	}
 
 	addTrackToPlacedArray(trackSquareInfo) {
