@@ -60,7 +60,10 @@ class Square extends React.Component {
 	squareHoverStart(e) {
 		if (this.props.className.includes('mapTile')) {
 			const tile = [ this.props.x, this.props.y ];
-			if (this.props.leftClickHeld || this.props.rightClickDragValue) {
+			if (
+				(Array.isArray(this.props.leftClickDragArray) && this.props.leftClickDragArray.length) ||
+				this.props.rightClickDragValue
+			) {
 				this.props.hoverStartEvent(e, tile);
 			} else {
 				this.setHoverGhostTrack(e, tile);
@@ -331,7 +334,7 @@ class Map extends React.Component {
 
 	leftClickEvent(trackSquareInfo) {
 		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
-		this.leftClickHeld = true;
+		this.leftClickDragArray = [ trackSquareInfo ];
 	}
 
 	rightClickEvent(coordinate) {
@@ -345,7 +348,7 @@ class Map extends React.Component {
 	}
 
 	leftReleaseEvent() {
-		this.leftClickHeld = false;
+		this.leftClickDragArray = [];
 		this.forceUpdate();
 	}
 
@@ -356,7 +359,7 @@ class Map extends React.Component {
 
 	hoverStartEvent(e, coordinate) {
 		if (e.buttons === 1) {
-			if (this.leftClickHeld) {
+			if (Array.isArray(this.leftClickDragArray) && this.leftClickDragArray.length) {
 				this.placeTile(coordinate, 'T');
 			}
 		}
@@ -527,7 +530,7 @@ class Map extends React.Component {
 				rightReleaseEvent={this.rightReleaseEvent}
 				hoverStartEvent={this.hoverStartEvent}
 				hoverEndEvent={this.hoverEndEvent}
-				leftClickHeld={this.leftClickHeld}
+				leftClickDragArray={this.leftClickDragArray}
 				rightClickDragValue={this.rightClickDragValue}
 			/>
 		);
