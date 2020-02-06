@@ -42,12 +42,10 @@ function CentreButton(props) {
 class Square extends React.Component {
 	constructor(props) {
 		super(props);
-		this.hoverEventActive = this.hoverEventActive.bind(this);
-		this.hoverEventDisabled = this.hoverEventDisabled.bind(this);
-		this.mouseButtonDown = this.mouseButtonDown.bind(this);
-		this.mouseButtonUp = this.mouseButtonUp.bind(this);
-		this.squareHoverActive = this.squareHoverActive.bind(this);
-		this.squareHoverDisabled = this.squareHoverDisabled.bind(this);
+		this.squareHoverStart = this.squareHoverStart.bind(this);
+		this.squareHoverEnd = this.squareHoverEnd.bind(this);
+		this.squareMouseDown = this.squareMouseDown.bind(this);
+		this.squareMouseUp = this.squareMouseUp.bind(this);
 
 		this.state = {
 			hoverTrack: {
@@ -59,65 +57,64 @@ class Square extends React.Component {
 
 	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
-	hoverEventActive(e) {
-		const tile = [ this.props.x, this.props.y ];
-		if (this.props.rightMouseDown) {
-			if (this.props.className.includes('mapTile')) {
-				this.props.onChildRightMouseDown(e, tile);
+	squareHoverStart(e) {
+		if (this.props.className.includes('mapTile')) {
+			const tile = [ this.props.x, this.props.y ];
+			if (this.props.rightClickDragValue) {
+				this.props.hoverStartEvent(e, tile);
+			} else {
+				this.setHoverGhostTrack(e, tile);
 			}
-		} else {
-			const railType = this.convertButtonClassToRailType(e);
-			this.setState({
-				hoverTrack: {
-					tile,
-					railType
-				}
-			});
 		}
 	}
 
-	hoverEventDisabled(e) {
+	squareHoverEnd(e) {
+		this.removeHoverGhostTrack();
+	}
+
+	squareMouseDown(e) {
+		const tile = [ this.props.x, this.props.y ];
+		if (e.button === 0) {
+			const trackSquare = {
+				tile,
+				railType: this.convertButtonClassToRailType(e)
+			};
+			this.props.leftClickEvent(trackSquare);
+		}
+		if (e.button === 2) {
+			this.props.rightClickEvent(tile);
+		}
+	}
+
+	squareMouseUp(e) {
+		const coordinate = [ this.props.x, this.props.y ];
+		if (e.button === 0) {
+			this.props.leftReleaseEvent(coordinate);
+		}
+		if (e.button === 2) {
+			this.props.rightReleaseEvent(coordinate);
+		}
+	}
+
+	///////////// SQUARE - HOVER GHOST TRACK FUNCTIONS /////////////
+
+	setHoverGhostTrack(e, tile) {
+		const railType = this.convertButtonClassToRailType(e);
+		this.setState({
+			hoverTrack: {
+				tile,
+				railType
+			}
+		});
+	}
+
+	removeHoverGhostTrack() {
 		this.setState({
 			hoverTrack: {
 				tile: '-',
 				railType: '-'
 			}
 		});
-	}
-
-	squareHoverActive(e) {
-		//
-	}
-
-	squareHoverDisabled() {
-		//
-	}
-
-	mouseButtonDown(e) {
-		e.preventDefault();
-		if (this.props.className.includes('mapTile')) {
-			const tile = [ this.props.x, this.props.y ];
-			if (e.button === 0) {
-				const railType = this.convertButtonClassToRailType(e);
-				const trackSquare = {
-					tile,
-					railType
-				};
-				this.props.onChildClick(trackSquare);
-			}
-			if (e.button === 2) {
-				this.props.onChildRightMouseDown(e, tile);
-			}
-		}
-	}
-
-	mouseButtonUp(e) {
-		e.preventDefault();
-		if (this.props.className.includes('mapTile')) {
-			if (e.button === 2) {
-				this.props.onChildRightMouseUp();
-			}
-		}
 	}
 
 	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
@@ -293,10 +290,10 @@ class Square extends React.Component {
 			<div
 				className={`square ${this.props.className}`}
 				onContextMenu={(e) => e.preventDefault()}
-				onMouseDown={this.mouseButtonDown}
-				onMouseUp={this.mouseButtonUp}
-				// onMouseOver={this.squareHoverActive}
-				// onMouseLeave={this.squareHoverDisabled}
+				onMouseOver={this.squareHoverStart}
+				onMouseLeave={this.squareHoverEnd}
+				onMouseDown={this.squareMouseDown}
+				onMouseUp={this.squareMouseUp}
 			>
 				<div className={`box`}>
 					{cornerButtons}
@@ -317,45 +314,75 @@ class Square extends React.Component {
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleChildClick = this.handleChildClick.bind(this);
-		this.handleChildRightMouseDown = this.handleChildRightMouseDown.bind(this);
-		this.handleChildRightMouseUp = this.handleChildRightMouseUp.bind(this);
+		this.leftClickEvent = this.leftClickEvent.bind(this);
+		this.rightClickEvent = this.rightClickEvent.bind(this);
+		this.leftReleaseEvent = this.leftReleaseEvent.bind(this);
+		this.rightReleaseEvent = this.rightReleaseEvent.bind(this);
+		this.hoverStartEvent = this.hoverStartEvent.bind(this);
+		this.hoverEndEvent = this.hoverEndEvent.bind(this);
 
 		this.state = {
 			placedTracks: [],
-			rightMouseDown: false
+			hoveredTile: []
 		};
 	}
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
-	handleChildClick(trackSquareInfo) {
+	leftClickEvent(trackSquareInfo) {
 		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
 	}
 
-	handleChildRightMouseDown(e, trackCoordinates) {
-		if (this.checkIfPlacedTrackExists(trackCoordinates) && !this.state.rightMouseDown) {
-			this.removePlacedTrackAndSetState(trackCoordinates);
+	rightClickEvent(coordinate) {
+		const tileValue = this.getRailTypeOfCoordinate(coordinate);
+		this.rightClickDragValue = tileValue === null ? 'X' : 'DELETE';
+		if (this.getRailTypeOfCoordinate(coordinate)) {
+			this.removePlacedTrackAndSetState(coordinate);
 		} else {
-			this.setState({
-				rightMouseDown: true
-			});
-			const trackSquareInfo = {
-				tile: trackCoordinates,
-				railType: 'X'
-			};
-			this.removePlacedTrackAndSetState(trackCoordinates);
-			this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
+			this.placeTile(coordinate, this.rightClickDragValue);
 		}
 	}
 
-	handleChildRightMouseUp(e) {
-		this.setState({
-			rightMouseDown: false
-		});
+	leftReleaseEvent() {
+		//
 	}
 
+	rightReleaseEvent() {
+		this.rightClickDragValue = null;
+	}
+
+	hoverStartEvent(e, coordinate) {
+		if (e.buttons === 1) {
+			//
+		}
+		if (e.buttons === 2) {
+			console.log(this.rightClickDragValue);
+			if (this.rightClickDragValue === 'X') {
+				this.placeTile(coordinate, this.rightClickDragValue);
+			} else if (this.rightClickDragValue === 'DELETE') {
+				this.removePlacedTrackAndSetState(coordinate);
+			}
+		}
+	}
+
+	hoverEndEvent(e, coordinate) {
+		//
+	}
+
+	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
+
+	//
+
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
+
+	placeTile(coordinate, value) {
+		const trackSquareInfo = {
+			tile: coordinate,
+			railType: value
+		};
+		this.removePlacedTrackAndSetState(coordinate);
+		this.addTrackToPlacedArrayAndSetState(trackSquareInfo);
+	}
 
 	addTrackToPlacedArray(trackSquareInfo) {
 		const trackCoordinates = [ trackSquareInfo.tile[0], trackSquareInfo.tile[1] ];
@@ -387,12 +414,12 @@ class Map extends React.Component {
 
 	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
 
-	checkIfPlacedTrackExists(trackCoordinates) {
-		let trackExists = false;
+	getRailTypeOfCoordinate(trackCoordinates) {
+		let railType = null;
 		this.state.placedTracks.forEach(function(el) {
-			if (el.tile[0] === trackCoordinates[0] && el.tile[1] === trackCoordinates[1]) trackExists = true;
+			if (el.tile[0] === trackCoordinates[0] && el.tile[1] === trackCoordinates[1]) railType = el.railType;
 		});
-		return trackExists;
+		return railType;
 	}
 
 	checkIfTileIsDefault(trainTrackMap, x, y) {
@@ -488,12 +515,15 @@ class Map extends React.Component {
 				key={i}
 				x={x}
 				y={y}
-				onChildClick={this.handleChildClick}
-				onChildRightMouseDown={this.handleChildRightMouseDown}
-				onChildRightMouseUp={this.handleChildRightMouseUp}
 				convertRailTypeToTrackImage={this.convertRailTypeToTrackImage}
 				railImage={railImage}
-				rightMouseDown={this.state.rightMouseDown}
+				leftClickEvent={this.leftClickEvent}
+				rightClickEvent={this.rightClickEvent}
+				leftReleaseEvent={this.leftReleaseEvent}
+				rightReleaseEvent={this.rightReleaseEvent}
+				hoverStartEvent={this.hoverStartEvent}
+				hoverEndEvent={this.hoverEndEvent}
+				rightClickDragValue={this.rightClickDragValue}
 			/>
 		);
 	}
