@@ -371,14 +371,7 @@ class Map extends React.Component {
 
         if (e.buttons === 1 && newHoverTile) {
             if (Array.isArray(this.leftClickDragArray) && this.leftClickDragArray.length) {
-                this.leftClickDragArray.shift();
-                this.leftClickDragArray.push(coordinate);
-                const directions = this.calculateDragDirection();
-                const railType = this.convertDirectionsToRailType(directions);
-                this.placeMultipleTiles([
-                    { tile: this.previousHoverTile, railType: railType[0] },
-                    { tile: this.currentHoverTile, railType: railType[1] }
-                ]);
+                this.placedDraggedTrack(coordinate);
             }
         }
         if (e.buttons === 2) {
@@ -393,6 +386,17 @@ class Map extends React.Component {
     hoverEndEvent(e, coordinate) {}
 
     ///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
+
+    placedDraggedTrack(coordinate) {
+        this.leftClickDragArray.shift();
+        this.leftClickDragArray.push(coordinate);
+        const directions = this.calculateDragDirection();
+        const railType = this.convertDirectionsToRailType(directions);
+        this.placeMultipleTiles([
+            { tile: this.previousHoverTile, railType: railType[0] },
+            { tile: this.currentHoverTile, railType: railType[1] }
+        ]);
+    }
 
     calculateDragDirection() {
         let directions = [];
