@@ -119,6 +119,7 @@ class Map extends React.Component {
 			if (
 				!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
 				!this.previousValueOfLeftClickTile ||
+				this.previousValueOfLeftClickTile === 'T' ||
 				railShouldChange
 			) {
 				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
