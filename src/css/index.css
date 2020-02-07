@@ -5,7 +5,7 @@
 	--color-4: #f49595;
 	--color-5: #ee8096;
 
-	--box-dim: 5rem;
+	--box-dim: 4rem;
 }
 
 * {
@@ -20,6 +20,7 @@
 button,
 select {
 	text-align: center;
+	margin-right: 1rem;
 	width: 5rem;
 	height: 2rem;
 }
@@ -30,6 +31,7 @@ select {
 	z-index: 0;
 	height: auto;
 	width: auto;
+	margin-bottom: 1rem;
 }
 .map {
 	display: inline-grid;
