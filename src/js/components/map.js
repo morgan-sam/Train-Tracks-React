@@ -353,8 +353,6 @@ class Map extends React.Component {
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
-		console.log(trainTrackMap);
-		console.log(this.state.placedTracks);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
