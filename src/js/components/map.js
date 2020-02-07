@@ -102,11 +102,16 @@ class Map extends React.Component {
 
 		let tilesToPlace = [];
 		if (this.previousHoverTileClass === 'mapTile') {
-			console.log(this.previousValueOfLeftClickTile);
+			let railShouldChange = this.shouldStartRailChange(
+				this.previousValueOfLeftClickTile,
+				this.initialLeftClickValue.tile,
+				coordinate
+			);
 			//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
 			if (
 				!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
-				!this.previousValueOfLeftClickTile
+				!this.previousValueOfLeftClickTile ||
+				railShouldChange
 			) {
 				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
 			}
@@ -115,6 +120,32 @@ class Map extends React.Component {
 			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
 		}
 		this.placeMultipleTiles(tilesToPlace);
+	}
+
+	shouldStartRailChange(startType, startCoordinate, nextCoordinate) {
+		let railShouldChange = false;
+		const direction = findDirectionFromMove(nextCoordinate, startCoordinate);
+		if (direction === 0) {
+			if (startType === 'bottomLeftCorner' || startType === 'bottomRightCorner' || startType === 'horizontal') {
+				railShouldChange = true;
+			}
+		}
+		if (direction === 1) {
+			if (startType === 'bottomLeftCorner' || startType === 'topLeftCorner' || startType === 'vertical') {
+				railShouldChange = true;
+			}
+		}
+		if (direction === 2) {
+			if (startType === 'topLeftCorner' || startType === 'topRightCorner' || startType === 'horizontal') {
+				railShouldChange = true;
+			}
+		}
+		if (direction === 3) {
+			if (startType === 'bottomRightCorner' || startType === 'topRightCorner' || startType === 'vertical') {
+				railShouldChange = true;
+			}
+		}
+		return railShouldChange;
 	}
 
 	calculateDragDirection() {
