@@ -103,8 +103,11 @@ class Map extends React.Component {
 		let tilesToPlace = [];
 		if (this.previousHoverTileClass === 'mapTile') {
 			console.log(this.previousValueOfLeftClickTile);
-			//Only replaces first coordinate if no tile present
-			if (!this.previousValueOfLeftClickTile) {
+			//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
+			if (
+				!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
+				!this.previousValueOfLeftClickTile
+			) {
 				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
 			}
 		}
