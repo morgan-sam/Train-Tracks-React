@@ -21,15 +21,22 @@ class Game extends React.Component {
 	}
 
 	render() {
+		let gameWinDisplay;
+		if (this.state.gameWon) {
+			gameWinDisplay = [ <div className="gameWinDisplay">You Win!</div> ];
+		}
 		return (
 			<div>
-				<Map
-					trainTrackMap={this.props.trainTrackMap}
-					mapHeight={this.props.mapHeight}
-					mapWidth={this.props.mapWidth}
-					setGameWinState={this.setGameWinState}
-				/>
-
+				<div className="gameMapContainer">
+					{gameWinDisplay}
+					<Map
+						className="gameMap"
+						trainTrackMap={this.props.trainTrackMap}
+						mapHeight={this.props.mapHeight}
+						mapWidth={this.props.mapWidth}
+						setGameWinState={this.setGameWinState}
+					/>
+				</div>
 				<p>
 					<button key={'quitBtn'} onClick={() => this.props.setGameState(false)}>
 						Quit Game

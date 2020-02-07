@@ -17,8 +17,40 @@
 	user-select: none; /* Standard */
 }
 
+button,
+select {
+	text-align: center;
+	width: 5rem;
+	height: 2rem;
+}
+
+.gameMapContainer {
+	display: inline-block;
+	position: relative;
+	z-index: 0;
+	height: auto;
+	width: auto;
+}
+.map {
+	display: inline-grid;
+}
+
+.gameWinDisplay {
+	position: absolute;
+	height: 10rem;
+	width: 10rem;
+	line-height: 10rem;
+	text-align: center;
+	background-color: #ccc;
+	font-size: 2rem;
+	z-index: 1;
+	border: 2px black solid;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
 body {
-	margin: 0;
 	margin: 1rem;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
 		'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -34,7 +66,7 @@ code {
 }
 
 .mapRow {
-	display: flex;
+	display: inline-flex;
 	flex-wrap: nowrap;
 }
 
