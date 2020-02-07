@@ -83,9 +83,17 @@ class Map extends React.Component {
 		}
 		if (senderButton === 2) {
 			if (this.rightClickDragValue === 'X') {
-				this.placeTile(coordinate, this.rightClickDragValue);
+				if (senderClassname === 'mapTile') {
+					this.placeTile(coordinate, this.rightClickDragValue);
+				}
 			} else if (this.rightClickDragValue === 'DELETE') {
 				this.removePlacedTrack(coordinate);
+			}
+		}
+
+		if (senderClassname === 'mapTile') {
+			if (senderButton === 3) {
+				this.placeTile(coordinate, 'T');
 			}
 		}
 	}
