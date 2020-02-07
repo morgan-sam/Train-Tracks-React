@@ -32,6 +32,7 @@ class Map extends React.Component {
 		if (senderClassname === 'mapTile') {
 			this.placeMultipleTiles([ trackSquareInfo ]);
 		}
+		this.forceUpdate();
 	}
 
 	rightClickEvent(coordinate, senderClassname) {
@@ -45,6 +46,7 @@ class Map extends React.Component {
 				this.placeTile(coordinate, this.rightClickDragValue);
 			}
 		}
+		this.forceUpdate();
 	}
 
 	leftReleaseEvent() {
