@@ -64,7 +64,8 @@ class Map extends React.Component {
 		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
-	hoverStartEvent(e, coordinate) {
+	hoverStartEvent(senderClassname, coordinate, senderButton) {
+		this.currentHoverTileClass = senderClassname;
 		let newHoverTile = false;
 		if (!compareArrays(coordinate, this.currentHoverTile)) {
 			this.previousHoverTile = this.currentHoverTile;
@@ -72,7 +73,7 @@ class Map extends React.Component {
 			newHoverTile = true;
 		}
 
-		if (e.buttons === 1 && newHoverTile) {
+		if (senderButton === 1 && newHoverTile) {
 			if (
 				Array.isArray(this.leftClickDragArray) &&
 				this.leftClickDragArray.length &&
@@ -80,12 +81,12 @@ class Map extends React.Component {
 			) {
 				this.leftClickDragArray.shift();
 				this.leftClickDragArray.push(coordinate);
-				this.placedDraggedTrack(coordinate);
+				this.placedDraggedTrack(coordinate, senderClassname);
 			} else {
 				this.placeTile(coordinate, this.initialLeftClickValue);
 			}
 		}
-		if (e.buttons === 2) {
+		if (senderButton === 2) {
 			if (this.rightClickDragValue === 'X') {
 				this.placeTile(coordinate, this.rightClickDragValue);
 			} else if (this.rightClickDragValue === 'DELETE') {
@@ -94,17 +95,24 @@ class Map extends React.Component {
 		}
 	}
 
-	hoverEndEvent(e, coordinate) {}
+	hoverEndEvent(senderClassname) {
+		this.previousHoverTileClass = senderClassname;
+	}
 
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
 
-	placedDraggedTrack(coordinate) {
+	placedDraggedTrack(coordinate, senderClassname) {
 		const directions = this.calculateDragDirection();
 		const railType = this.convertDirectionsToRailType(directions);
-		this.placeMultipleTiles([
-			{ tile: this.previousHoverTile, railType: railType[0] },
-			{ tile: this.currentHoverTile, railType: railType[1] }
-		]);
+
+		let tilesToPlace = [];
+		if (this.previousHoverTileClass === 'mapTile') {
+			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+		}
+		if (this.currentHoverTileClass === 'mapTile') {
+			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
+		}
+		this.placeMultipleTiles(tilesToPlace);
 	}
 
 	calculateDragDirection() {
@@ -287,7 +295,6 @@ class Map extends React.Component {
 		}).length;
 
 		if (correctTiles === trainTrackMap.tracks.length && correctTiles === placedMap.length) gameWon = true;
-		print(`gameWon ${gameWon}`);
 		this.props.setGameWinState(gameWon);
 	}
 
@@ -341,6 +348,8 @@ class Map extends React.Component {
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
+		console.log(trainTrackMap);
+		console.log(this.state.placedTracks);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(

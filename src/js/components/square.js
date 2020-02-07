@@ -53,12 +53,13 @@ class Square extends React.Component {
 	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
 	squareHoverStart(e) {
+		const tileClass = this.getTileClassFromEvent(e);
 		const tile = [ this.props.x, this.props.y ];
 		if (
 			(Array.isArray(this.props.leftClickDragArray) && this.props.leftClickDragArray.length) ||
 			this.props.rightClickDragValue
 		) {
-			this.props.hoverStartEvent(e, tile);
+			this.props.hoverStartEvent(tileClass, tile, e.buttons);
 		} else {
 			if (this.props.className.includes('mapTile')) {
 				this.setHoverGhostTrack(e, tile);
@@ -67,7 +68,9 @@ class Square extends React.Component {
 	}
 
 	squareHoverEnd(e) {
+		const tileClass = this.getTileClassFromEvent(e);
 		this.removeHoverGhostTrack();
+		this.props.hoverEndEvent(tileClass);
 	}
 
 	squareMouseDown(e) {
