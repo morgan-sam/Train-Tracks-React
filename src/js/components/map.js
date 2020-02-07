@@ -286,7 +286,7 @@ class Map extends React.Component {
 			return correctTile;
 		}).length;
 
-		if (correctTiles === trainTrackMap.tracks.length) gameWon = true;
+		if (correctTiles === trainTrackMap.tracks.length && correctTiles === placedMap.length) gameWon = true;
 		print(`gameWon ${gameWon}`);
 		this.props.setGameWinState(gameWon);
 	}
@@ -341,9 +341,6 @@ class Map extends React.Component {
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
-		print(trainTrackMap);
-		print(this.state.placedTracks);
-		print(' ');
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
