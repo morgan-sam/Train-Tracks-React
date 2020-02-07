@@ -89,9 +89,14 @@ class Square extends React.Component {
 	}
 
 	squareMouseUp(e) {
+		const tileClass = this.getTileClassFromEvent(e);
 		const coordinate = [ this.props.x, this.props.y ];
 		if (e.button === 0) {
-			this.props.leftReleaseEvent(coordinate);
+			const trackSquare = {
+				tile: coordinate,
+				railType: this.convertButtonClassToRailType(e)
+			};
+			this.props.leftReleaseEvent(trackSquare, tileClass);
 		}
 		if (e.button === 2) {
 			this.props.rightReleaseEvent(coordinate);

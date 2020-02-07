@@ -23,7 +23,11 @@ class Game extends React.Component {
 	render() {
 		let gameWinDisplay;
 		if (this.state.gameWon) {
-			gameWinDisplay = [ <div className="gameWinDisplay">You Win!</div> ];
+			gameWinDisplay = [
+				<div key={'gameWinDisplay'} className="gameWinDisplay">
+					You Win!
+				</div>
+			];
 		}
 		return (
 			<div>

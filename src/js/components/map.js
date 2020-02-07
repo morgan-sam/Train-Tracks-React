@@ -27,12 +27,10 @@ class Map extends React.Component {
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
 	leftClickEvent(trackSquareInfo, senderClassname) {
-		this.initialLeftClickValue = trackSquareInfo.railType;
+		this.previousValueOfLeftClickTile = this.getRailTypeOfCoordinate(trackSquareInfo.tile);
+		this.initialLeftClickValue = trackSquareInfo;
 		this.currentHoverTile = trackSquareInfo.tile;
 		this.leftClickDragArray = [ null, null, trackSquareInfo.tile ];
-		if (senderClassname === 'mapTile') {
-			this.placeMultipleTiles([ trackSquareInfo ]);
-		}
 		this.forceUpdate();
 		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
@@ -52,7 +50,12 @@ class Map extends React.Component {
 		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
-	leftReleaseEvent() {
+	leftReleaseEvent(trackSquareInfo, senderClassname) {
+		if (compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile)) {
+			if (senderClassname === 'mapTile') {
+				this.placeMultipleTiles([ trackSquareInfo ]);
+			}
+		}
 		this.leftClickDragArray = [];
 		this.forceUpdate();
 		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
@@ -74,17 +77,9 @@ class Map extends React.Component {
 		}
 
 		if (senderButton === 1 && newHoverTile) {
-			if (
-				Array.isArray(this.leftClickDragArray) &&
-				this.leftClickDragArray.length &&
-				this.initialLeftClickValue !== 'T'
-			) {
-				this.leftClickDragArray.shift();
-				this.leftClickDragArray.push(coordinate);
-				this.placedDraggedTrack(coordinate, senderClassname);
-			} else {
-				this.placeTile(coordinate, this.initialLeftClickValue);
-			}
+			this.leftClickDragArray.shift();
+			this.leftClickDragArray.push(coordinate);
+			this.placedDraggedTrack(coordinate, senderClassname);
 		}
 		if (senderButton === 2) {
 			if (this.rightClickDragValue === 'X') {
@@ -107,7 +102,11 @@ class Map extends React.Component {
 
 		let tilesToPlace = [];
 		if (this.previousHoverTileClass === 'mapTile') {
-			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+			console.log(this.previousValueOfLeftClickTile);
+			//Only replaces first coordinate if no tile present
+			if (!this.previousValueOfLeftClickTile) {
+				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+			}
 		}
 		if (this.currentHoverTileClass === 'mapTile') {
 			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
