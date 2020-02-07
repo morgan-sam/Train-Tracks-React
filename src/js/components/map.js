@@ -27,6 +27,7 @@ class Map extends React.Component {
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
 	leftClickEvent(trackSquareInfo, senderClassname) {
+		this.initialLeftClickValue = trackSquareInfo.railType;
 		this.currentHoverTile = trackSquareInfo.tile;
 		this.leftClickDragArray = [ null, null, trackSquareInfo.tile ];
 		if (senderClassname === 'mapTile') {
@@ -68,10 +69,16 @@ class Map extends React.Component {
 		}
 
 		if (e.buttons === 1 && newHoverTile) {
-			if (Array.isArray(this.leftClickDragArray) && this.leftClickDragArray.length) {
+			if (
+				Array.isArray(this.leftClickDragArray) &&
+				this.leftClickDragArray.length &&
+				this.initialLeftClickValue !== 'T'
+			) {
 				this.leftClickDragArray.shift();
 				this.leftClickDragArray.push(coordinate);
 				this.placedDraggedTrack(coordinate);
+			} else {
+				this.placeTile(coordinate, this.initialLeftClickValue);
 			}
 		}
 		if (e.buttons === 2) {
@@ -329,7 +336,7 @@ class Map extends React.Component {
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
-		console.log(this.checkIfGameIsComplete(trainTrackMap, this.state.placedTracks));
+		let gameComplete = this.checkIfGameIsComplete(trainTrackMap, this.state.placedTracks);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
