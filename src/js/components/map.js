@@ -265,15 +265,18 @@ class Map extends React.Component {
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfGameIsComplete(trainTrackMap, placedMap) {
-		let correctTiles = trainTrackMap.tracks.filter(function(winning) {
+		let gameWon = false;
+		const correctTiles = trainTrackMap.tracks.filter(function(winning) {
 			let correctTile = winning.defaultTrack;
 			placedMap.forEach(function(placed) {
-				if (compareArrays(winning.tile, placed.tile)) correctTile = true;
+				if (compareArrays(winning.tile, placed.tile) && winning.railType === placed.railType)
+					correctTile = true;
 			});
 			return correctTile;
 		}).length;
 
-		if (correctTiles === trainTrackMap.tracks.length) alert('you placed all tiles in the right place!');
+		if (correctTiles === trainTrackMap.tracks.length) gameWon = true;
+		return gameWon;
 	}
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
@@ -326,7 +329,7 @@ class Map extends React.Component {
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
-		this.checkIfGameIsComplete(trainTrackMap, this.state.placedTracks);
+		console.log(this.checkIfGameIsComplete(trainTrackMap, this.state.placedTracks));
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
