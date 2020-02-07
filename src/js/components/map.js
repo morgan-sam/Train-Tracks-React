@@ -264,7 +264,17 @@ class Map extends React.Component {
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
-	checkIfGameIsComplete(trainTrackMap, placedMap) {}
+	checkIfGameIsComplete(trainTrackMap, placedMap) {
+		let correctTiles = trainTrackMap.tracks.filter(function(winning) {
+			let correctTile = winning.defaultTrack;
+			placedMap.forEach(function(placed) {
+				if (compareArrays(winning.tile, placed.tile)) correctTile = true;
+			});
+			return correctTile;
+		}).length;
+
+		if (correctTiles === trainTrackMap.tracks.length) alert('you placed all tiles in the right place!');
+	}
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
 
@@ -316,7 +326,7 @@ class Map extends React.Component {
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
-		this.checkIfGameIsComplete();
+		this.checkIfGameIsComplete(trainTrackMap, this.state.placedTracks);
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
