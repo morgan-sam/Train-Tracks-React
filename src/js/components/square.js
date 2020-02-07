@@ -298,14 +298,10 @@ class Square extends React.Component {
 			<div
 				className={`square ${this.props.className}`}
 				onContextMenu={(e) => e.preventDefault()}
-				// onMouseOver={this.props.className === 'mapTile' ? this.squareHoverStart : null}
-				// onMouseLeave={this.props.className === 'mapTile' ? this.squareHoverEnd : null}
-				// onMouseDown={this.props.className === 'mapTile' ? this.squareMouseDown : null}
-				// onMouseUp={this.props.className === 'mapTile' ? this.squareMouseUp : null}
-				onMouseOver={this.squareHoverStart}
-				onMouseLeave={this.squareHoverEnd}
-				onMouseDown={this.squareMouseDown}
-				onMouseUp={this.squareMouseUp}
+				onMouseOver={this.props.className !== 'table-heading' ? this.squareHoverStart : null}
+				onMouseLeave={this.props.className !== 'table-heading' ? this.squareHoverEnd : null}
+				onMouseDown={this.props.className !== 'table-heading' ? this.squareMouseDown : null}
+				onMouseUp={this.props.className !== 'table-heading' ? this.squareMouseUp : null}
 			>
 				<div className={`box`}>
 					{cornerButtons}

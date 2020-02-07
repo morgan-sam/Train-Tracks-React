@@ -263,24 +263,7 @@ class Map extends React.Component {
 	///////////// MAP - RENDER FUNCTIONS /////////////
 
 	renderHeadingTile(i, x, y, headerLabel, fillState) {
-		return (
-			<Square
-				className="table-heading"
-				key={i}
-				x={x}
-				y={y}
-				text={headerLabel}
-				fillState={fillState}
-				leftClickEvent={this.leftClickEvent}
-				rightClickEvent={this.rightClickEvent}
-				leftReleaseEvent={this.leftReleaseEvent}
-				rightReleaseEvent={this.rightReleaseEvent}
-				hoverStartEvent={this.hoverStartEvent}
-				hoverEndEvent={this.hoverEndEvent}
-				leftClickDragArray={this.leftClickDragArray}
-				rightClickDragValue={this.rightClickDragValue}
-			/>
-		);
+		return <Square className="table-heading" key={i} x={x} y={y} text={headerLabel} fillState={fillState} />;
 	}
 
 	renderMapTile(i, x, y, railImage) {
