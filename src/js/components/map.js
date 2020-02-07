@@ -154,11 +154,10 @@ class Map extends React.Component {
 			});
 			if (!placedTrackReplaced) newTrackArray.push(track);
 		});
-		//Add track coordinates
+		//Add passed track coordinates
 		tileObjArr.forEach(function(el) {
 			newTrackArray.push(el);
 		});
-		// print(newTrackArray);
 		this.setState({
 			placedTracks: newTrackArray
 		});
@@ -263,6 +262,10 @@ class Map extends React.Component {
 		return trackData;
 	}
 
+	///////////// MAP - WIN STATE FUNCTIONS /////////////
+
+	checkIfGameIsComplete(trainTrackMap, placedMap) {}
+
 	///////////// MAP - RENDER FUNCTIONS /////////////
 
 	renderHeadingTile(i, x, y, headerLabel, fillState) {
@@ -312,9 +315,8 @@ class Map extends React.Component {
 
 	render() {
 		window.state = this.state;
-		// console.log(this.state.placedTracks);
 		const trainTrackMap = this.props.trainTrackMap;
-		const convertRailTypeToTrackImage = this.convertRailTypeToTrackImage;
+		this.checkIfGameIsComplete();
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
@@ -339,9 +341,9 @@ class Map extends React.Component {
 							let railImage;
 							this.state.placedTracks.forEach(function(el) {
 								if (el.tile[0] === x && el.tile[1] === y - 1) {
-									railImage = convertRailTypeToTrackImage(el.railType);
+									railImage = this.convertRailTypeToTrackImage(el.railType);
 								}
-							});
+							}, this);
 							if (railImage) {
 								return this.renderMapTile(x, x, y - 1, railImage);
 							} else {
@@ -358,4 +360,5 @@ class Map extends React.Component {
 function print(value) {
 	console.log(JSON.parse(JSON.stringify(value)));
 }
+
 export default Map;
