@@ -48,6 +48,7 @@ class App extends React.Component {
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
+		this.resetGameDefaults = this.resetGameDefaults.bind(this);
 	}
 
 	mapSizeSelection = (event) => {
@@ -59,6 +60,15 @@ class App extends React.Component {
 	setGameState(boo) {
 		this.setState({
 			gameActive: boo
+		});
+		if (!boo) {
+			this.resetGameDefaults();
+		}
+	}
+
+	resetGameDefaults() {
+		this.setState({
+			mapSize: 6
 		});
 	}
 
