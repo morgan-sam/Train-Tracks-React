@@ -23,14 +23,18 @@ class Game extends React.Component {
 	render() {
 		return (
 			<div>
-				<p>{this.state.gameWon ? 'Game is complete!' : 'Game is incomplete.'}</p>
 				<Map
 					trainTrackMap={this.props.trainTrackMap}
 					mapHeight={this.props.mapHeight}
 					mapWidth={this.props.mapWidth}
 					setGameWinState={this.setGameWinState}
 				/>
-				<button key={'quitBtn'}>Quit Game</button>
+
+				<p>
+					<button key={'quitBtn'} onClick={() => this.props.setGameState(false)}>
+						Quit Game
+					</button>
+				</p>
 			</div>
 		);
 	}
@@ -43,7 +47,7 @@ class App extends React.Component {
 			gameActive: false
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
-		this.setGameStateToActive = this.setGameStateToActive.bind(this);
+		this.setGameState = this.setGameState.bind(this);
 	}
 
 	mapSizeSelection = (event) => {
@@ -52,9 +56,9 @@ class App extends React.Component {
 		});
 	};
 
-	setGameStateToActive() {
+	setGameState(boo) {
 		this.setState({
-			gameActive: true
+			gameActive: boo
 		});
 	}
 
@@ -71,11 +75,12 @@ class App extends React.Component {
 					trainTrackMap={trainTrackMap}
 					mapHeight={this.state.mapSize}
 					mapWidth={this.state.mapSize}
+					setGameState={this.setGameState}
 				/>
 			];
 		} else {
 			menuOptions = [
-				<button key={'startBtn'} onClick={this.setGameStateToActive}>
+				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
 					Start
 				</button>,
 				<select key={'selectMapSize'} name="list" id="mapSizeOption" onChange={this.mapSizeSelection}>
