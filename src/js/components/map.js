@@ -145,17 +145,20 @@ class Map extends React.Component {
 
 	placeMultipleTiles(tileObjArr) {
 		const placedTracks = this.state.placedTracks;
-		let newTrackArray;
+		let newTrackArray = [];
 		//Remove any present tiles of passed track coordinates
-		tileObjArr.forEach(function(el) {
-			newTrackArray = placedTracks.filter(function(track) {
-				if (!(track.tile[0] === el.tile[0] && track.tile[1] === el.tile[1])) return true;
+		placedTracks.forEach(function(track) {
+			let placedTrackReplaced = false;
+			tileObjArr.forEach(function(el) {
+				if (compareArrays(track.tile, el.tile)) placedTrackReplaced = true;
 			});
+			if (!placedTrackReplaced) newTrackArray.push(track);
 		});
 		//Add track coordinates
 		tileObjArr.forEach(function(el) {
-			newTrackArray = [ ...newTrackArray, el ];
+			newTrackArray.push(el);
 		});
+		// print(newTrackArray);
 		this.setState({
 			placedTracks: newTrackArray
 		});
@@ -309,6 +312,7 @@ class Map extends React.Component {
 
 	render() {
 		window.state = this.state;
+		// console.log(this.state.placedTracks);
 		const trainTrackMap = this.props.trainTrackMap;
 		const convertRailTypeToTrackImage = this.convertRailTypeToTrackImage;
 		let mapComponents = [];
@@ -351,5 +355,7 @@ class Map extends React.Component {
 		return <div className="map"> {mapComponents}</div>;
 	}
 }
-
+function print(value) {
+	console.log(JSON.parse(JSON.stringify(value)));
+}
 export default Map;
