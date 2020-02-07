@@ -294,7 +294,12 @@ class Map extends React.Component {
 			return correctTile;
 		}).length;
 
-		if (correctTiles === trainTrackMap.tracks.length && correctTiles === placedMap.length) gameWon = true;
+		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
+		if (
+			correctTiles === trainTrackMap.tracks.length &&
+			trainTrackMap.tracks.length === placedMap.length + defaultTileCount
+		)
+			gameWon = true;
 		this.props.setGameWinState(gameWon);
 	}
 
