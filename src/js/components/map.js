@@ -34,6 +34,7 @@ class Map extends React.Component {
 			this.placeMultipleTiles([ trackSquareInfo ]);
 		}
 		this.forceUpdate();
+		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	rightClickEvent(coordinate, senderClassname) {
@@ -48,16 +49,19 @@ class Map extends React.Component {
 			}
 		}
 		this.forceUpdate();
+		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	leftReleaseEvent() {
 		this.leftClickDragArray = [];
 		this.forceUpdate();
+		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	rightReleaseEvent() {
 		this.rightClickDragValue = undefined;
 		this.forceUpdate();
+		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	hoverStartEvent(e, coordinate) {
@@ -271,7 +275,7 @@ class Map extends React.Component {
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
-	checkIfGameIsComplete(trainTrackMap, placedMap) {
+	checkIfPlacedTilesAllCorrect(trainTrackMap, placedMap) {
 		let gameWon = false;
 		const correctTiles = trainTrackMap.tracks.filter(function(winning) {
 			let correctTile = winning.defaultTrack;
@@ -283,7 +287,8 @@ class Map extends React.Component {
 		}).length;
 
 		if (correctTiles === trainTrackMap.tracks.length) gameWon = true;
-		return gameWon;
+		print(`gameWon ${gameWon}`);
+		this.props.setGameWinState(gameWon);
 	}
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
@@ -336,7 +341,9 @@ class Map extends React.Component {
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
-		let gameComplete = this.checkIfGameIsComplete(trainTrackMap, this.state.placedTracks);
+		print(trainTrackMap);
+		print(this.state.placedTracks);
+		print(' ');
 		let mapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
 			mapComponents.push(
