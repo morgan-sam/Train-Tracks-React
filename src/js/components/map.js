@@ -32,7 +32,6 @@ class Map extends React.Component {
 		this.currentHoverTile = trackSquareInfo.tile;
 		this.leftClickDragArray = [ null, null, trackSquareInfo.tile ];
 		this.forceUpdate();
-		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	rightClickEvent(coordinate, senderClassname) {
@@ -47,7 +46,6 @@ class Map extends React.Component {
 			}
 		}
 		this.forceUpdate();
-		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	leftReleaseEvent(trackSquareInfo, senderClassname) {
@@ -58,13 +56,11 @@ class Map extends React.Component {
 		}
 		this.leftClickDragArray = [];
 		this.forceUpdate();
-		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	rightReleaseEvent() {
 		this.rightClickDragValue = undefined;
 		this.forceUpdate();
-		this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks);
 	}
 
 	hoverStartEvent(senderClassname, coordinate, senderButton) {
@@ -157,6 +153,11 @@ class Map extends React.Component {
 		return railShouldChange;
 	}
 
+	convertConnectedRailToCorner() {
+		//If a rail is connected to another and dragged to the left of direction of the direction:
+		//convert it to a corner rail to maintain the connection
+	}
+
 	calculateDragDirection() {
 		let directions = [];
 		const tiles = this.leftClickDragArray;
@@ -219,18 +220,24 @@ class Map extends React.Component {
 		tileObjArr.forEach(function(el) {
 			newTrackArray.push(el);
 		});
-		this.setState({
-			placedTracks: newTrackArray
-		});
+		this.setState(
+			{
+				placedTracks: newTrackArray
+			},
+			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks)
+		);
 	}
 
 	removePlacedTrack(trackCoordinates) {
 		const filteredTracks = this.state.placedTracks.filter(function(track) {
 			if (!(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1])) return true;
 		});
-		this.setState({
-			placedTracks: filteredTracks
-		});
+		this.setState(
+			{
+				placedTracks: filteredTracks
+			},
+			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks)
+		);
 	}
 
 	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
@@ -326,6 +333,8 @@ class Map extends React.Component {
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfPlacedTilesAllCorrect(trainTrackMap, placedMap) {
+		this.forceUpdate();
+		console.log(placedMap);
 		let gameWon = false;
 		const correctTiles = trainTrackMap.tracks.filter(function(winning) {
 			let correctTile = winning.defaultTrack;
@@ -336,6 +345,7 @@ class Map extends React.Component {
 			return correctTile;
 		}).length;
 
+		console.log(correctTiles);
 		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
 		if (
 			correctTiles === trainTrackMap.tracks.length &&
