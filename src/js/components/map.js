@@ -111,6 +111,7 @@ class Map extends React.Component {
 				this.initialLeftClickValue.tile,
 				coordinate
 			);
+			this.convertConnectedRailToCorner(coordinate, railType);
 			//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
 			if (
 				!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
@@ -153,9 +154,51 @@ class Map extends React.Component {
 		return railShouldChange;
 	}
 
-	convertConnectedRailToCorner() {
+	convertConnectedRailToCorner(newCoordinate, newRailType) {
 		//If a rail is connected to another and dragged to the left of direction of the direction:
 		//convert it to a corner rail to maintain the connection
+		const coordinate = this.initialLeftClickValue.tile;
+		console.log(coordinate);
+		console.log(newCoordinate);
+		console.log(this.previousValueOfLeftClickTile);
+		console.log(newRailType[1]);
+
+		const adjacentTracks = this.getAdjacentTracks(coordinate);
+		console.log(adjacentTracks);
+	}
+
+	getAdjacentTracks(coordinate) {
+		let adjacentTracks = [];
+		let adjTile;
+
+		const pushAdjTileIfExist = (adjTile) => {
+			let adjRail = this.getRailTypeOfCoordinate(adjTile);
+			if (adjRail) {
+				adjacentTracks.push({
+					tile: adjTile,
+					railType: adjRail
+				});
+			}
+		};
+
+		if (coordinate[0] > 0) {
+			adjTile = [ coordinate[0] - 1, coordinate[1] ];
+			pushAdjTileIfExist(adjTile);
+		}
+		if (coordinate[0] < this.props.mapWidth) {
+			adjTile = [ coordinate[0] + 1, coordinate[1] ];
+			pushAdjTileIfExist(adjTile);
+		}
+		if (coordinate[1] > 0) {
+			adjTile = [ coordinate[0], coordinate[1] - 1 ];
+			pushAdjTileIfExist(adjTile);
+		}
+		if (coordinate[1] < this.props.mapHeight) {
+			adjTile = [ coordinate[0], coordinate[1] + 1 ];
+			pushAdjTileIfExist(adjTile);
+		}
+
+		return adjacentTracks;
 	}
 
 	calculateDragDirection() {
@@ -333,8 +376,6 @@ class Map extends React.Component {
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfPlacedTilesAllCorrect(trainTrackMap, placedMap) {
-		this.forceUpdate();
-		console.log(placedMap);
 		let gameWon = false;
 		const correctTiles = trainTrackMap.tracks.filter(function(winning) {
 			let correctTile = winning.defaultTrack;
@@ -345,7 +386,6 @@ class Map extends React.Component {
 			return correctTile;
 		}).length;
 
-		console.log(correctTiles);
 		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
 		if (
 			correctTiles === trainTrackMap.tracks.length &&
