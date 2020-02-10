@@ -104,9 +104,13 @@ class Map extends React.Component {
 		const railType = this.convertDirectionsToRailType(directions);
 
 		let tilesToPlace = [];
+		let newCorner;
 
-		const newCorner = this.convertConnectedRailToCorner(coordinate);
-		if (newCorner && newCorner[0] !== newCorner[1]) {
+		//Only change tile to new corner if on first drag
+		if (compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile)) {
+			newCorner = this.convertConnectedRailToCorner(coordinate);
+		}
+		if (newCorner) {
 			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
 			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
 		} else {
@@ -166,7 +170,6 @@ class Map extends React.Component {
 		const coordinate = this.previousHoverTile;
 		const dragDirection = findDirectionFromMove(newCoordinate, coordinate);
 		let connectedDirections = this.checkAdjacentTracksAreConnected(coordinate);
-
 		if (Array.isArray(connectedDirections) && connectedDirections.length) {
 			const initialDirection = this.getSingleRailConnectionPosition(connectedDirections, dragDirection);
 			const directions = [ initialDirection, dragDirection ];
