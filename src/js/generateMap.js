@@ -16,7 +16,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	};
 
 	generatedMap = findTrackPath(generatedMap);
-	getQuadrants(generatedMap);
+	checkIfVisitedEachQuadrant(generatedMap);
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
@@ -62,16 +62,31 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	//create function to check track present in each quadrant
 
-	function getQuadrants(generatedMap) {
+	function checkIfVisitedEachQuadrant(generatedMap) {
+		const quadrants = getQuadrants();
+		let visitedQuadrants = new Array(quadrants.length).fill(false);
+
+		for (let i = 0; i < quadrants.length; i++) {
+			quadrants[i].forEach(function(quadTile) {
+				generatedMap.tiles.forEach(function(mapTile) {
+					if (compareArrays(quadTile, mapTile)) visitedQuadrants[i] = true;
+				});
+			});
+		}
+		return visitedQuadrants;
+	}
+
+	function getQuadrants() {
 		const xHalfWay = Math.floor(mapWidth / 2);
 		const yHalfWay = Math.floor(mapHeight / 2);
 
-		let quadrantCoordinates = {
-			topLeft: getCoordinatesOfZone(0, xHalfWay, 0, yHalfWay),
-			topRight: getCoordinatesOfZone(xHalfWay, mapWidth, 0, yHalfWay),
-			bottomLeft: getCoordinatesOfZone(0, xHalfWay, yHalfWay, mapHeight),
-			bottomRight: getCoordinatesOfZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
-		};
+		// O: topLeft, 1: topRight, 2: bottomLeft, 3:bottomRight
+		const quadrantCoordinates = [
+			getCoordinatesOfZone(0, xHalfWay, 0, yHalfWay),
+			getCoordinatesOfZone(xHalfWay, mapWidth, 0, yHalfWay),
+			getCoordinatesOfZone(0, xHalfWay, yHalfWay, mapHeight),
+			getCoordinatesOfZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
+		];
 
 		function getCoordinatesOfZone(xLow, xHigh, yLow, yHigh) {
 			let zoneArray = [];
