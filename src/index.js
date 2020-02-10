@@ -47,6 +47,7 @@ class Game extends React.Component {
 					<button key={'quitBtn'} onClick={() => this.props.setGameState(false)}>
 						Quit Game
 					</button>
+					<span>Map Seed: {this.props.mapSeed}</span>
 				</p>
 			</div>
 		);
@@ -58,7 +59,7 @@ class App extends React.Component {
 		this.state = {
 			mapSize: 6,
 			gameActive: false,
-			mapSeed: null
+			mapSeed: Math.floor(Math.random() * Math.pow(10, 15))
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -73,7 +74,7 @@ class App extends React.Component {
 
 	mapSeedInput = (event) => {
 		this.setState({
-			mapSeed: parseInt(event.target.value)
+			mapSeed: event.target.value
 		});
 	};
 
@@ -105,6 +106,7 @@ class App extends React.Component {
 					trainTrackMap={trainTrackMap}
 					mapHeight={this.state.mapSize}
 					mapWidth={this.state.mapSize}
+					mapSeed={this.state.mapSeed}
 					setGameState={this.setGameState}
 				/>
 			];
@@ -122,7 +124,8 @@ class App extends React.Component {
 					type="text"
 					id="mapSeedInput"
 					onChange={this.mapSeedInput}
-					style={{ width: MENU_WIDTH }}
+					defaultValue={this.state.mapSeed}
+					style={{ width: '8rem', textAlign: 'center' }}
 				/>,
 				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
 					Generate Map
