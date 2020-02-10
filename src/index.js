@@ -5,7 +5,7 @@ import { generateNewMap } from './js/generateMap';
 import Map from './js/components/map';
 import './css/index.css';
 
-const DEMO_ACTIVE = false;
+const DEMO_ACTIVE = true;
 const MENU_WIDTH = '12rem';
 
 class Game extends React.Component {
@@ -60,7 +60,7 @@ class App extends React.Component {
 		this.state = {
 			mapSize: 6,
 			gameActive: false,
-			mapSeed: 702197312423826
+			mapSeed: this.getRandomSeed()
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);

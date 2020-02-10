@@ -16,6 +16,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	};
 
 	generatedMap = findTrackPath(generatedMap);
+	getQuadrants(generatedMap);
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
@@ -62,9 +63,27 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	//create function to check track present in each quadrant
 
 	function getQuadrants(generatedMap) {
-		const x = Math.floor(mapWidth / 2) - 1;
-		const y = Math.floor(mapHeight / 2) - 1;
-		console.log(x, y);
+		const xHalfWay = Math.floor(mapWidth / 2);
+		const yHalfWay = Math.floor(mapHeight / 2);
+
+		let quadrantCoordinates = {
+			topLeft: getCoordinatesOfZone(0, xHalfWay, 0, yHalfWay),
+			topRight: getCoordinatesOfZone(xHalfWay, mapWidth, 0, yHalfWay),
+			bottomLeft: getCoordinatesOfZone(0, xHalfWay, yHalfWay, mapHeight),
+			bottomRight: getCoordinatesOfZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
+		};
+
+		function getCoordinatesOfZone(xLow, xHigh, yLow, yHigh) {
+			let zoneArray = [];
+			for (let y = yLow; y < yHigh; y++) {
+				for (let x = xLow; x < xHigh; x++) {
+					zoneArray.push([ x, y ]);
+				}
+			}
+			return zoneArray;
+		}
+
+		return quadrantCoordinates;
 	}
 
 	//create function to check track length at least mapWidth * mapHeight / 3
@@ -450,3 +469,7 @@ export const findDirectionFromMove = (currentMove, lastMove) => {
 
 	return moveDirection;
 };
+
+function print(value) {
+	console.log(JSON.parse(JSON.stringify(value)));
+}
