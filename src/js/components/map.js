@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { generateNewMap, compareArrays, findDirectionFromMove } from '../generateMap';
+import { compareArrays, findDirectionFromMove } from '../generateMap';
 
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
@@ -551,9 +550,6 @@ class Map extends React.Component {
 		}
 		return <div className="map"> {mapComponents}</div>;
 	}
-}
-function print(value) {
-	console.log(JSON.parse(JSON.stringify(value)));
 }
 function removeArrayValue(array, value) {
 	if (Array.isArray(array) && array.length) {
