@@ -527,15 +527,7 @@ class Map extends React.Component {
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
 						const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
-						if (DEMO_ACTIVE) {
-							let defaultTile;
-							trainTrackMap.tracks.forEach(function(el) {
-								if (el.tile[0] === x && el.tile[1] === y - 1) {
-									defaultTile = el.railType;
-								}
-							}, this);
-							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
-						} else if (y === 0) {
+						if (y === 0) {
 							//Place X Map Headers
 							const headerLabel = trainTrackMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
@@ -545,6 +537,14 @@ class Map extends React.Component {
 							const headerLabel = trainTrackMap.headerLabels.y[y - 1];
 							const fillState = this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+						} else if (DEMO_ACTIVE) {
+							let defaultTile;
+							trainTrackMap.tracks.forEach(function(el) {
+								if (el.tile[0] === x && el.tile[1] === y - 1) {
+									defaultTile = el.railType;
+								}
+							});
+							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
 						} else if (defaultTile) {
 							//Place Default Tracks
 							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
