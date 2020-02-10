@@ -60,11 +60,15 @@ class App extends React.Component {
 		this.state = {
 			mapSize: 6,
 			gameActive: false,
-			mapSeed: Math.floor(Math.random() * Math.pow(10, 15))
+			mapSeed: this.getRandomSeed()
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
 		this.resetGameDefaults = this.resetGameDefaults.bind(this);
+	}
+
+	getRandomSeed() {
+		return Math.floor(Math.random() * Math.pow(10, 15));
 	}
 
 	mapSizeSelection = (event) => {
@@ -90,7 +94,8 @@ class App extends React.Component {
 
 	resetGameDefaults() {
 		this.setState({
-			mapSize: 6
+			mapSize: 6,
+			mapSeed: this.getRandomSeed()
 		});
 	}
 
