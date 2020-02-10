@@ -241,6 +241,7 @@ class Map extends React.Component {
 
 		const pushAdjTileIfExist = (adjTile, position) => {
 			let adjRail = this.getRailTypeOfCoordinate(adjTile);
+			if (!adjRail) adjRail = this.checkIfTileIsDefault(this.props.trainTrackMap, adjTile[0], adjTile[1]);
 			if (adjRail) {
 				adjacentTracks.push({
 					tile: adjTile,
