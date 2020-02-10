@@ -25,6 +25,20 @@ select {
 	height: 2rem;
 }
 
+.gameMenuStyle {
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	text-align: center;
+	align-items: center;
+}
+
+.gameMenuStyle > * {
+	padding: 0;
+	margin: 0;
+	margin-bottom: 1rem;
+}
+
 .gameMapContainer {
 	display: inline-block;
 	position: relative;

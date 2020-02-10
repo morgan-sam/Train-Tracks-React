@@ -1,4 +1,7 @@
-export const generateNewMap = (mapWidth, mapHeight) => {
+import seedrandom from 'seedrandom';
+
+export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
+	seedrandom(mapSeed, { global: true });
 	let [ startCoordinate, endCoordinate ] = generateStartEndPoints();
 	let generatedMap = {
 		start: startCoordinate,

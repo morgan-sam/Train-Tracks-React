@@ -5,6 +5,8 @@ import { generateNewMap } from './js/generateMap';
 import Map from './js/components/map';
 import './css/index.css';
 
+const MENU_WIDTH = '12rem';
+
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
@@ -55,7 +57,8 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			mapSize: 6,
-			gameActive: false
+			gameActive: false,
+			mapSeed: null
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -65,6 +68,12 @@ class App extends React.Component {
 	mapSizeSelection = (event) => {
 		this.setState({
 			mapSize: parseInt(event.target.value)
+		});
+	};
+
+	mapSeedInput = (event) => {
+		this.setState({
+			mapSeed: parseInt(event.target.value)
 		});
 	};
 
@@ -88,7 +97,7 @@ class App extends React.Component {
 		let menuOptions;
 
 		if (this.state.gameActive) {
-			const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize);
+			const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, this.state.mapSeed);
 
 			gameObject = [
 				<Game
@@ -101,21 +110,33 @@ class App extends React.Component {
 			];
 		} else {
 			menuOptions = [
-				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
-					Start
-				</button>,
+				<p>Map Size</p>,
 				<select key={'selectMapSize'} name="list" id="mapSizeOption" onChange={this.mapSizeSelection}>
 					<option value={6}>6x6</option>
 					<option value={8}>8x8</option>
 					<option value={10}>10x10</option>
-				</select>
+				</select>,
+				<p>Map Seed</p>,
+				<input
+					key="mapSeedInput"
+					type="text"
+					id="mapSeedInput"
+					onChange={this.mapSeedInput}
+					style={{ width: MENU_WIDTH }}
+				/>,
+				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
+					Generate Map
+				</button>
 			];
 		}
+
 		return (
 			<div>
-				<h1 className="title">Train Tracks</h1>
+				<div className="gameMenuStyle" style={{ width: MENU_WIDTH }}>
+					<h1 className="title">Train Tracks</h1>
+					{menuOptions}
+				</div>
 				{gameObject}
-				{menuOptions}
 			</div>
 		);
 	}
