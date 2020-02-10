@@ -105,26 +105,32 @@ class Map extends React.Component {
 		const railType = this.convertDirectionsToRailType(directions);
 
 		let tilesToPlace = [];
-		if (this.previousHoverTileClass === 'mapTile') {
-			let railShouldChange = this.shouldStartRailChange(
-				this.previousValueOfLeftClickTile,
-				this.initialLeftClickValue.tile,
-				coordinate
-			);
 
-			console.log(this.convertConnectedRailToCorner(coordinate, railType));
-			//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
-			if (
-				!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
-				!this.previousValueOfLeftClickTile ||
-				this.previousValueOfLeftClickTile === 'T' ||
-				railShouldChange
-			) {
-				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+		const newCorner = this.convertConnectedRailToCorner(coordinate, railType);
+
+		if (newCorner) {
+			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
+			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
+		} else {
+			if (this.previousHoverTileClass === 'mapTile') {
+				let railShouldChange = this.shouldStartRailChange(
+					this.previousValueOfLeftClickTile,
+					this.initialLeftClickValue.tile,
+					coordinate
+				);
+				//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
+				if (
+					!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
+					!this.previousValueOfLeftClickTile ||
+					this.previousValueOfLeftClickTile === 'T' ||
+					railShouldChange
+				) {
+					tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+				}
 			}
-		}
-		if (this.currentHoverTileClass === 'mapTile') {
-			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
+			if (this.currentHoverTileClass === 'mapTile') {
+				tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
+			}
 		}
 		this.placeMultipleTiles(tilesToPlace);
 	}
