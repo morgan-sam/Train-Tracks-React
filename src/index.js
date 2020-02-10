@@ -110,13 +110,13 @@ class App extends React.Component {
 			];
 		} else {
 			menuOptions = [
-				<p>Map Size</p>,
+				<p key={'Map Size Label'}>Map Size</p>,
 				<select key={'selectMapSize'} name="list" id="mapSizeOption" onChange={this.mapSizeSelection}>
 					<option value={6}>6x6</option>
 					<option value={8}>8x8</option>
 					<option value={10}>10x10</option>
 				</select>,
-				<p>Map Seed</p>,
+				<p key={'Map Seed Label'}>Map Seed</p>,
 				<input
 					key="mapSeedInput"
 					type="text"
@@ -132,8 +132,10 @@ class App extends React.Component {
 
 		return (
 			<div>
-				<div className="gameMenuStyle" style={{ width: MENU_WIDTH }}>
-					<h1 className="title">Train Tracks</h1>
+				<div key={'gameMenuStyle'} className="gameMenuStyle" style={{ width: MENU_WIDTH }}>
+					<h1 key={'title'} className="title">
+						Train Tracks
+					</h1>
 					{menuOptions}
 				</div>
 				{gameObject}

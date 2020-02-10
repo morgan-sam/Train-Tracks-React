@@ -169,7 +169,7 @@ class Map extends React.Component {
 		//convert it to a corner rail to maintain the connection
 		const coordinate = this.previousHoverTile;
 		const dragDirection = findDirectionFromMove(newCoordinate, coordinate);
-		let connectedDirections = this.checkAdjacentTracksAreConnected(coordinate);
+		let connectedDirections = this.getConnectedAdjacentTracksDirections(coordinate);
 		if (Array.isArray(connectedDirections) && connectedDirections.length) {
 			const initialDirection = this.getSingleRailConnectionPosition(connectedDirections, dragDirection);
 			const directions = [ initialDirection, dragDirection ];
@@ -183,13 +183,14 @@ class Map extends React.Component {
 	}
 
 	getSingleRailConnectionPosition(connectedPositions, dragDirection) {
-		const filteredPositions = removeArrayValue(connectedPositions, dragDirection);
+		let filteredPositions = removeArrayValue(connectedPositions, dragDirection);
+		filteredPositions = filteredPositions.filter((el) => el !== undefined);
 		if (Array.isArray(filteredPositions) && filteredPositions.length) {
 			return filteredPositions[0];
 		} else return false;
 	}
 
-	checkAdjacentTracksAreConnected(coordinate) {
+	getConnectedAdjacentTracksDirections(coordinate) {
 		//checks which tiles are pointing towards the dragged tile
 		const adjacentTracks = this.getAdjacentTracks(coordinate);
 		const connectedDirectionArray = adjacentTracks.map(function(adj) {
