@@ -4,6 +4,7 @@ import { compareArrays, findDirectionFromMove } from '../generateMap';
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 import Square from './square';
+import DEMO_ACTIVE from '../../index.js';
 
 class Map extends React.Component {
 	constructor(props) {
@@ -513,6 +514,10 @@ class Map extends React.Component {
 		);
 	}
 
+	renderDemoTrack(i, x, y) {
+		return <Square className="defaultTrack" key={i} x={x} y={y} />;
+	}
+
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
@@ -521,14 +526,22 @@ class Map extends React.Component {
 			mapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
-						// const tileNumber = (this.props.mapHeight - 1) * y + x;
 						const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
-						//Place Map Headers
-						if (y === 0) {
+						if (DEMO_ACTIVE) {
+							let defaultTile;
+							trainTrackMap.tracks.forEach(function(el) {
+								if (el.tile[0] === x && el.tile[1] === y - 1) {
+									defaultTile = el.railType;
+								}
+							}, this);
+							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
+						} else if (y === 0) {
+							//Place X Map Headers
 							const headerLabel = trainTrackMap.headerLabels.x[x];
 							const fillState = this.getRowColumnFillstate('x', x);
 							return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
 						} else if (x === this.props.mapWidth) {
+							//Place Y Map Headers
 							const headerLabel = trainTrackMap.headerLabels.y[y - 1];
 							const fillState = this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);

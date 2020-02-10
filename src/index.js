@@ -5,6 +5,7 @@ import { generateNewMap } from './js/generateMap';
 import Map from './js/components/map';
 import './css/index.css';
 
+const DEMO_ACTIVE = true;
 const MENU_WIDTH = '12rem';
 
 class Game extends React.Component {
@@ -169,3 +170,5 @@ seedrandom(seed, { global: true });
 //example where track choses between end coordinate and dead end:
 //0.38681828038735433
 ReactDOM.render(<App />, document.getElementById('root'));
+
+export default DEMO_ACTIVE;
