@@ -16,7 +16,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	};
 
 	generatedMap = findTrackPath(generatedMap);
-	checkIfVisitedEachQuadrant(generatedMap);
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
@@ -61,20 +60,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//create function to check track present in each quadrant
-
-	function checkIfVisitedEachQuadrant(generatedMap) {
-		const quadrants = getQuadrants();
-		let visitedQuadrants = new Array(quadrants.length).fill(false);
-
-		for (let i = 0; i < quadrants.length; i++) {
-			quadrants[i].forEach(function(quadTile) {
-				generatedMap.tiles.forEach(function(mapTile) {
-					if (compareArrays(quadTile, mapTile)) visitedQuadrants[i] = true;
-				});
-			});
-		}
-		return visitedQuadrants;
-	}
 
 	function getQuadrants() {
 		const xHalfWay = Math.floor(mapWidth / 2);
@@ -145,7 +130,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
 
-		const moveMutateFunctions = [ removeHookMoves ];
+		const moveMutateFunctions = [ removeHookMoves, checkIfQuadsAllVisited ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
@@ -157,6 +142,50 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		return legalMoves;
+	}
+
+	function checkIfQuadsAllVisited(legalMoves, generatedMap) {
+		const visitedQuadrants = checkIfVisitedEachQuadrant(generatedMap);
+		if (visitedQuadrants.includes(false)) {
+			const unvistedQuadrants = visitedQuadrants
+				.map(function(el, i) {
+					if (el) return i;
+				})
+				.filter((el) => el !== undefined);
+
+			unvistedQuadrants.forEach((el) => getRandomQuadrantTile(el));
+
+			// legalMoves = legalMoves.filter((move) => !removeQuadBlockingMoves(move, generatedMap));
+			return legalMoves;
+		} else {
+			return legalMoves;
+		}
+	}
+
+	function getRandomQuadrantTile(quadvalue) {
+		const quadrants = getQuadrants();
+		const currentQuadrant = quadrants[quadvalue];
+		const selectedTile = currentQuadrant[randomIntFromInterval(0, currentQuadrant.length - 1)];
+		return selectedTile;
+	}
+
+	function removeQuadBlockingMoves() {
+		//
+		//
+	}
+
+	function checkIfVisitedEachQuadrant(generatedMap) {
+		const quadrants = getQuadrants();
+		let visitedQuadrants = new Array(quadrants.length).fill(false);
+
+		for (let i = 0; i < quadrants.length; i++) {
+			quadrants[i].forEach(function(quadTile) {
+				generatedMap.tiles.forEach(function(mapTile) {
+					if (compareArrays(quadTile, mapTile)) visitedQuadrants[i] = true;
+				});
+			});
+		}
+		return visitedQuadrants;
 	}
 
 	function removeHookMoves(legalMoves, generatedMap) {
