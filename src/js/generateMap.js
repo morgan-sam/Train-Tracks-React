@@ -16,6 +16,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	};
 
 	generatedMap = findTrackPath(generatedMap);
+	generatePathCoordinates(generatedMap.start, generatedMap.end);
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
@@ -130,7 +131,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
 
-		const moveMutateFunctions = [ removeHookMoves, checkIfQuadsAllVisited ];
+		const moveMutateFunctions = [ removeHookMoves, checkIfFinishingBeforeQuads ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
@@ -144,22 +145,58 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	function checkIfQuadsAllVisited(legalMoves, generatedMap) {
+	function checkIfFinishingBeforeQuads(legalMoves, generatedMap) {
 		const visitedQuadrants = checkIfVisitedEachQuadrant(generatedMap);
 		if (visitedQuadrants.includes(false)) {
-			const unvistedQuadrants = visitedQuadrants
-				.map(function(el, i) {
-					if (el) return i;
-				})
-				.filter((el) => el !== undefined);
-
-			unvistedQuadrants.forEach((el) => getRandomQuadrantTile(el));
-
-			// legalMoves = legalMoves.filter((move) => !removeQuadBlockingMoves(move, generatedMap));
-			return legalMoves;
-		} else {
-			return legalMoves;
+			legalMoves = legalMoves.filter(function(move) {
+				let includesFinalMove = false;
+				includesFinalMove = compareArrays(move, generatedMap.end);
+				return !includesFinalMove;
+			});
 		}
+		return legalMoves;
+	}
+
+	// Rewrite generateMap function:
+	//
+	// Begins by randomly generating a series of coordinates across the map
+	// Ensure there are at least 1 coordinate in each quadrant
+	// Connects all coordinates to each other
+
+	//
+
+	function generateRoute() {
+		const points = generatePathCoordinates;
+		//
+	}
+
+	function generatePathCoordinates(start, end) {
+		let quadrantIndexs = [ 0, 1, 2, 3 ];
+		let pathCoordinates = [];
+		const startQuad = getQuadrantOfCoordinate(start);
+		const endQuad = getQuadrantOfCoordinate(end);
+
+		quadrantIndexs.splice(quadrantIndexs.indexOf(startQuad), 1);
+		if (startQuad !== endQuad) {
+			quadrantIndexs.splice(quadrantIndexs.indexOf(endQuad), 1);
+		}
+
+		pathCoordinates.push(start);
+		quadrantIndexs.forEach((i) => pathCoordinates.push(getRandomQuadrantTile(i)));
+		pathCoordinates.push(end);
+
+		return pathCoordinates;
+	}
+
+	function getQuadrantOfCoordinate(coordinate) {
+		let coordinateQuadrant;
+		const quadrants = getQuadrants();
+		for (let i = 0; i < quadrants.length; i++) {
+			quadrants[i].forEach(function(el) {
+				if (compareArrays(el, coordinate)) coordinateQuadrant = i;
+			});
+		}
+		return coordinateQuadrant;
 	}
 
 	function getRandomQuadrantTile(quadvalue) {
@@ -167,11 +204,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		const currentQuadrant = quadrants[quadvalue];
 		const selectedTile = currentQuadrant[randomIntFromInterval(0, currentQuadrant.length - 1)];
 		return selectedTile;
-	}
-
-	function removeQuadBlockingMoves() {
-		//
-		//
 	}
 
 	function checkIfVisitedEachQuadrant(generatedMap) {
