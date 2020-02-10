@@ -21,7 +21,7 @@ button,
 select {
 	text-align: center;
 	margin-right: 1rem;
-	width: 5rem;
+	width: auto;
 	height: 2rem;
 }
 
@@ -34,9 +34,13 @@ select {
 }
 
 .gameMenuStyle > * {
-	padding: 0;
 	margin: 0;
 	margin-bottom: 1rem;
+}
+
+button {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 }
 
 .gameMapContainer {
