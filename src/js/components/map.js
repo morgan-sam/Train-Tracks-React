@@ -75,7 +75,9 @@ class Map extends React.Component {
 		if (senderButton === 1 && newHoverTile) {
 			this.leftClickDragArray.shift();
 			this.leftClickDragArray.push(coordinate);
-			this.placedDraggedTrack(coordinate, senderClassname);
+			if (senderClassname === 'mapTile') {
+				this.placedDraggedTrack(coordinate, senderClassname);
+			}
 		}
 		if (senderButton === 2) {
 			if (this.rightClickDragValue === 'X') {
