@@ -111,7 +111,8 @@ class Map extends React.Component {
 				this.initialLeftClickValue.tile,
 				coordinate
 			);
-			this.convertConnectedRailToCorner(coordinate, railType);
+
+			console.log(this.convertConnectedRailToCorner(coordinate, railType));
 			//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
 			if (
 				!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
@@ -155,47 +156,107 @@ class Map extends React.Component {
 	}
 
 	convertConnectedRailToCorner(newCoordinate, newRailType) {
+		let newCorner = [];
 		//If a rail is connected to another and dragged to the left of direction of the direction:
 		//convert it to a corner rail to maintain the connection
 		const coordinate = this.initialLeftClickValue.tile;
-		console.log(coordinate);
-		console.log(newCoordinate);
-		console.log(this.previousValueOfLeftClickTile);
-		console.log(newRailType[1]);
+		const dragDirection = findDirectionFromMove(newCoordinate, coordinate);
+		let connectedDirections = this.checkAdjacentTracksAreConnected(coordinate, this.previousValueOfLeftClickTile);
+		if (Array.isArray(connectedDirections) && connectedDirections.length) {
+			const initialDirection = this.getSingleRailConnectionPosition(connectedDirections, dragDirection);
+			const directions = [ initialDirection, dragDirection ];
+			newCorner = this.convertDirectionsToRailType(directions);
+		}
+		if (newCorner[0] !== undefined) {
+			return newCorner;
+		} else {
+			return false;
+		}
+	}
 
+	getSingleRailConnectionPosition(connectedPositions, dragDirection) {
+		const filteredPositions = removeArrayValue(connectedPositions, dragDirection);
+		if (Array.isArray(filteredPositions) && filteredPositions.length) {
+			return filteredPositions[0];
+		} else return false;
+	}
+
+	checkAdjacentTracksAreConnected(coordinate, railType) {
+		//checks which tiles are pointing towards the dragged tile
 		const adjacentTracks = this.getAdjacentTracks(coordinate);
-		console.log(adjacentTracks);
+		const connectedDirectionArray = adjacentTracks.map(function(adj) {
+			let connectedDirection;
+			if (adj.position === 0) {
+				if (
+					adj.railType === 'vertical' ||
+					adj.railType === 'bottomLeftCorner' ||
+					adj.railType === 'bottomRightCorner'
+				) {
+					connectedDirection = 2;
+				}
+			}
+			if (adj.position === 3) {
+				if (
+					adj.railType === 'horizontal' ||
+					adj.railType === 'bottomRightCorner' ||
+					adj.railType === 'topRightCorner'
+				) {
+					connectedDirection = 1;
+				}
+			}
+			if (adj.position === 2) {
+				if (
+					adj.railType === 'vertical' ||
+					adj.railType === 'topLeftCorner' ||
+					adj.railType === 'topRightCorner'
+				) {
+					connectedDirection = 0;
+				}
+			}
+			if (adj.position === 1) {
+				if (
+					adj.railType === 'horizontal' ||
+					adj.railType === 'topLeftCorner' ||
+					adj.railType === 'bottomLeftCorner'
+				) {
+					connectedDirection = 3;
+				}
+			}
+			return connectedDirection;
+		});
+		return connectedDirectionArray;
 	}
 
 	getAdjacentTracks(coordinate) {
 		let adjacentTracks = [];
 		let adjTile;
 
-		const pushAdjTileIfExist = (adjTile) => {
+		const pushAdjTileIfExist = (adjTile, position) => {
 			let adjRail = this.getRailTypeOfCoordinate(adjTile);
 			if (adjRail) {
 				adjacentTracks.push({
 					tile: adjTile,
-					railType: adjRail
+					railType: adjRail,
+					position
 				});
 			}
 		};
 
 		if (coordinate[0] > 0) {
 			adjTile = [ coordinate[0] - 1, coordinate[1] ];
-			pushAdjTileIfExist(adjTile);
+			pushAdjTileIfExist(adjTile, 3);
 		}
 		if (coordinate[0] < this.props.mapWidth) {
 			adjTile = [ coordinate[0] + 1, coordinate[1] ];
-			pushAdjTileIfExist(adjTile);
+			pushAdjTileIfExist(adjTile, 1);
 		}
 		if (coordinate[1] > 0) {
 			adjTile = [ coordinate[0], coordinate[1] - 1 ];
-			pushAdjTileIfExist(adjTile);
+			pushAdjTileIfExist(adjTile, 0);
 		}
 		if (coordinate[1] < this.props.mapHeight) {
 			adjTile = [ coordinate[0], coordinate[1] + 1 ];
-			pushAdjTileIfExist(adjTile);
+			pushAdjTileIfExist(adjTile, 2);
 		}
 
 		return adjacentTracks;
@@ -487,6 +548,17 @@ class Map extends React.Component {
 }
 function print(value) {
 	console.log(JSON.parse(JSON.stringify(value)));
+}
+function removeArrayValue(array, value) {
+	if (Array.isArray(array) && array.length) {
+		const index = array.indexOf(value);
+		if (index > -1) {
+			array.splice(index, 1);
+		}
+		return array;
+	} else {
+		return null;
+	}
 }
 
 export default Map;
