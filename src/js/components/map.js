@@ -105,9 +105,8 @@ class Map extends React.Component {
 
 		let tilesToPlace = [];
 
-		const newCorner = this.convertConnectedRailToCorner(coordinate, railType);
-
-		if (newCorner) {
+		const newCorner = this.convertConnectedRailToCorner(coordinate);
+		if (newCorner && newCorner[0] !== newCorner[1]) {
 			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
 			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
 		} else {
@@ -160,13 +159,14 @@ class Map extends React.Component {
 		return railShouldChange;
 	}
 
-	convertConnectedRailToCorner(newCoordinate, newRailType) {
+	convertConnectedRailToCorner(newCoordinate) {
 		let newCorner = [];
 		//If a rail is connected to another and dragged to the left of direction of the direction:
 		//convert it to a corner rail to maintain the connection
-		const coordinate = this.initialLeftClickValue.tile;
+		const coordinate = this.previousHoverTile;
 		const dragDirection = findDirectionFromMove(newCoordinate, coordinate);
-		let connectedDirections = this.checkAdjacentTracksAreConnected(coordinate, this.previousValueOfLeftClickTile);
+		let connectedDirections = this.checkAdjacentTracksAreConnected(coordinate);
+
 		if (Array.isArray(connectedDirections) && connectedDirections.length) {
 			const initialDirection = this.getSingleRailConnectionPosition(connectedDirections, dragDirection);
 			const directions = [ initialDirection, dragDirection ];
@@ -186,7 +186,7 @@ class Map extends React.Component {
 		} else return false;
 	}
 
-	checkAdjacentTracksAreConnected(coordinate, railType) {
+	checkAdjacentTracksAreConnected(coordinate) {
 		//checks which tiles are pointing towards the dragged tile
 		const adjacentTracks = this.getAdjacentTracks(coordinate);
 		const connectedDirectionArray = adjacentTracks.map(function(adj) {
