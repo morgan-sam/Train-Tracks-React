@@ -207,31 +207,30 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 			const dirArr = [ firstMove, secondMove, thirdMove ];
 
-			wasCorner = checkIfMoveArrayIsCorner(dirArr);
+			wasCorner = checkIfMoveArrayFormsHook(dirArr);
 		}
 		return wasCorner;
 	}
 
-	function checkIfMoveArrayIsCorner(moveArray) {
-		let wasCorner;
+	function checkIfMoveArrayFormsHook(moveArray) {
+		let movesFormHook = false;
 		if (
 			compareArrays(moveArray, [ 0, 1, 2 ]) ||
 			compareArrays(moveArray, [ 1, 2, 3 ]) ||
 			compareArrays(moveArray, [ 2, 3, 0 ]) ||
 			compareArrays(moveArray, [ 3, 0, 1 ])
 		) {
-			wasCorner = true;
+			movesFormHook = true;
 		}
-
 		if (
 			compareArrays(moveArray, [ 3, 2, 1 ]) ||
 			compareArrays(moveArray, [ 2, 1, 0 ]) ||
 			compareArrays(moveArray, [ 1, 0, 3 ]) ||
 			compareArrays(moveArray, [ 0, 3, 2 ])
 		) {
-			wasCorner = true;
+			movesFormHook = true;
 		}
-		return wasCorner;
+		return movesFormHook;
 	}
 
 	//Almost one clear goal but variable naming is wrong/vague
