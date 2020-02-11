@@ -72,32 +72,46 @@ class Map extends React.Component {
 			newHoverTile = true;
 		}
 
-		if (senderButton === 1 && newHoverTile) {
+		if (senderButton === 1) {
+			this.hoverWhileHoldingLeftMouseButton(coordinate, senderClassname, newHoverTile);
+		}
+		if (senderButton === 2) {
+			this.hoverWhileHoldingRightMouseButton(coordinate, senderClassname, newHoverTile);
+		}
+
+		if (senderButton === 3) {
+			this.hoverWhileHoldingBothMouseButtons(coordinate, senderClassname, newHoverTile);
+		}
+	}
+
+	hoverEndEvent(senderClassname) {
+		this.previousHoverTileClass = senderClassname;
+	}
+
+	hoverWhileHoldingLeftMouseButton(coordinate, senderClassname, newHoverTile) {
+		if (newHoverTile) {
 			this.leftClickDragArray.shift();
 			this.leftClickDragArray.push(coordinate);
 			if (senderClassname === 'mapTile') {
 				this.placedDraggedTrack(coordinate, senderClassname);
 			}
 		}
-		if (senderButton === 2) {
-			if (this.rightClickDragValue === 'X') {
-				if (senderClassname === 'mapTile') {
-					this.placeTile(coordinate, this.rightClickDragValue);
-				}
-			} else if (this.rightClickDragValue === 'DELETE') {
-				this.removePlacedTrack(coordinate);
-			}
-		}
+	}
 
-		if (senderClassname === 'mapTile') {
-			if (senderButton === 3) {
-				this.placeTile(coordinate, 'T');
+	hoverWhileHoldingRightMouseButton(coordinate, senderClassname, newHoverTile) {
+		if (this.rightClickDragValue === 'X') {
+			if (senderClassname === 'mapTile') {
+				this.placeTile(coordinate, this.rightClickDragValue);
 			}
+		} else if (this.rightClickDragValue === 'DELETE') {
+			this.removePlacedTrack(coordinate);
 		}
 	}
 
-	hoverEndEvent(senderClassname) {
-		this.previousHoverTileClass = senderClassname;
+	hoverWhileHoldingBothMouseButtons(coordinate, senderClassname, newHoverTile) {
+		if (senderClassname === 'mapTile') {
+			this.placeTile(coordinate, 'T');
+		}
 	}
 
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
