@@ -362,16 +362,9 @@ class Map extends React.Component {
 	}
 
 	placeMultipleTiles(tileObjArr) {
-		const placedTracks = this.state.placedTracks;
 		let newTrackArray = [];
 		//Remove any present tiles of passed track coordinates
-		placedTracks.forEach(function(track) {
-			let placedTrackReplaced = false;
-			tileObjArr.forEach(function(el) {
-				if (compareArrays(track.tile, el.tile)) placedTrackReplaced = true;
-			});
-			if (!placedTrackReplaced) newTrackArray.push(track);
-		});
+		newTrackArray = this.getAllPlacedTracksExceptConflictingNewTiles(tileObjArr);
 		//Add passed track coordinates
 		tileObjArr.forEach(function(el) {
 			newTrackArray.push(el);
@@ -382,6 +375,18 @@ class Map extends React.Component {
 			},
 			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks)
 		);
+	}
+
+	getAllPlacedTracksExceptConflictingNewTiles(newTiles) {
+		let nonConflictingPlacedTracks = [];
+		this.state.placedTracks.forEach(function(track) {
+			let placedTrackConflict = false;
+			newTiles.forEach(function(el) {
+				if (compareArrays(track.tile, el.tile)) placedTrackConflict = true;
+			});
+			if (!placedTrackConflict) nonConflictingPlacedTracks.push(track);
+		});
+		return nonConflictingPlacedTracks;
 	}
 
 	removePlacedTrack(trackCoordinates) {
@@ -621,3 +626,7 @@ function removeArrayValue(array, value) {
 }
 
 export default Map;
+
+function print(value) {
+	console.log(JSON.parse(JSON.stringify(value)));
+}
