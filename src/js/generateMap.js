@@ -10,14 +10,11 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		defaultTiles: []
 	};
 
-	generatedMap = findTrackPath(generatedMap);
-
-	generatedMap = convertDirectionToTrackDirection(generatedMap);
+	generatedMap = generateMapTiles(generatedMap);
+	generatedMap = directionsToTrackRailType(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
-	print(generatedMap);
 
 	const trainTrackMap = createFormattedTraintrackMap(generatedMap);
-	print(trainTrackMap);
 	return trainTrackMap;
 
 	function createFormattedTraintrackMap(generatedMap) {
@@ -41,7 +38,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return trainTrackMap;
 	}
 
-	function findTrackPath(generatedMap) {
+	function generateMapTiles(generatedMap) {
 		let mapComplete = false;
 		let lastMove = startCoordinate;
 
@@ -321,7 +318,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
 	}
 
-	function convertDirectionToTrackDirection(generatedMap) {
+	function directionsToTrackRailType(generatedMap) {
 		const dirs = getDirectionOfEachMove(generatedMap);
 		for (let i = 0; i < dirs.length; i++) {
 			if ((dirs[i] === 0 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 2)) {
