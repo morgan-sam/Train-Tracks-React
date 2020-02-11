@@ -361,23 +361,20 @@ class Map extends React.Component {
 		this.placeMultipleTiles([ trackSquareInfo ]);
 	}
 
-	placeMultipleTiles(tileObjArr) {
-		let newTrackArray = [];
-		//Remove any present tiles of passed track coordinates
-		newTrackArray = this.getAllPlacedTracksExceptConflictingNewTiles(tileObjArr);
-		//Add passed track coordinates
-		tileObjArr.forEach(function(el) {
-			newTrackArray.push(el);
+	placeMultipleTiles(newTileObjArray) {
+		let newPlacedTrackArray = this.filterPlacedTracksOfNewTiles(newTileObjArray);
+		newTileObjArray.forEach(function(el) {
+			newPlacedTrackArray.push(el);
 		});
 		this.setState(
 			{
-				placedTracks: newTrackArray
+				placedTracks: newPlacedTrackArray
 			},
 			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks)
 		);
 	}
 
-	getAllPlacedTracksExceptConflictingNewTiles(newTiles) {
+	filterPlacedTracksOfNewTiles(newTiles) {
 		let nonConflictingPlacedTracks = [];
 		this.state.placedTracks.forEach(function(track) {
 			let placedTrackConflict = false;
