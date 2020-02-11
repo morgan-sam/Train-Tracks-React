@@ -200,7 +200,6 @@ class Map extends React.Component {
 				}
 				break;
 			default:
-				break;
 		}
 		return railShouldChange;
 	}
@@ -450,40 +449,57 @@ class Map extends React.Component {
 
 	convertRailTypeToTrackImage(railType) {
 		let trackData;
-		if (railType === 'vertical') {
-			trackData = {
-				trackType: straighttrack,
-				trackRotation: 0
-			};
-		} else if (railType === 'horizontal') {
-			trackData = {
-				trackType: straighttrack,
-				trackRotation: 90
-			};
-		} else if (railType === 'bottomLeftCorner') {
-			trackData = {
-				trackType: curvedtrack,
-				trackRotation: 0
-			};
-		} else if (railType === 'topLeftCorner') {
-			trackData = {
-				trackType: curvedtrack,
-				trackRotation: 90
-			};
-		} else if (railType === 'topRightCorner') {
-			trackData = {
-				trackType: curvedtrack,
-				trackRotation: 180
-			};
-		} else if (railType === 'bottomRightCorner') {
-			trackData = {
-				trackType: curvedtrack,
-				trackRotation: 270
-			};
-		} else if (railType === 'T' || railType === 'X') {
-			trackData = { trackType: railType, trackRotation: 'none' };
-		} else {
-			trackData = { trackType: 'none', trackRotation: 'none' };
+		switch (railType) {
+			case 'vertical':
+				trackData = {
+					trackType: straighttrack,
+					trackRotation: 0
+				};
+				break;
+			case 'horizontal':
+				trackData = {
+					trackType: straighttrack,
+					trackRotation: 90
+				};
+				break;
+			case 'bottomLeftCorner':
+				trackData = {
+					trackType: curvedtrack,
+					trackRotation: 0
+				};
+				break;
+			case 'topLeftCorner':
+				trackData = {
+					trackType: curvedtrack,
+					trackRotation: 90
+				};
+				break;
+			case 'topRightCorner':
+				trackData = {
+					trackType: curvedtrack,
+					trackRotation: 180
+				};
+				break;
+			case 'bottomRightCorner':
+				trackData = {
+					trackType: curvedtrack,
+					trackRotation: 270
+				};
+				break;
+			case 'T':
+				trackData = {
+					trackType: railType,
+					trackRotation: 'none'
+				};
+				break;
+			case 'X':
+				trackData = {
+					trackType: railType,
+					trackRotation: 'none'
+				};
+				break;
+			default:
+				trackData = { trackType: 'none', trackRotation: 'none' };
 		}
 		return trackData;
 	}
