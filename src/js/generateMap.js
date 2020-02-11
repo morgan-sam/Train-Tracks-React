@@ -139,7 +139,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
 			let mutatedMoveArray = currentFunc(legalMoves, generatedMap);
-			if (isNonEmptyArray(mutatedMoveArray)) {
+			if (!isNonEmptyArray(mutatedMoveArray)) {
 				break;
 			} else {
 				legalMoves = mutatedMoveArray;
