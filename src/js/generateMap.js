@@ -6,16 +6,12 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	let generatedMap = {
 		tiles: [ startCoordinate ],
-		headerLabels: {
-			x: [],
-			y: []
-		},
 		trackDirections: [],
 		defaultTiles: []
 	};
 
 	generatedMap = findTrackPath(generatedMap);
-	generatedMap.headerLabels = generatedMapHeaders(generatedMap);
+
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
 	print(generatedMap);
@@ -27,7 +23,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function createFormattedTraintrackMap(generatedMap) {
 		let trainTrackMap = {
 			tracks: [],
-			headerLabels: generatedMap.headerLabels
+			headerLabels: generatedMapHeaders(generatedMap)
 		};
 
 		for (let i = 0; i < generatedMap.tiles.length; i++) {
