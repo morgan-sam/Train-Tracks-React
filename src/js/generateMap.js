@@ -15,7 +15,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	};
 
 	generatedMap = findTrackPath(generatedMap);
-	generatedMap = addHeadersToGeneratedMap(generatedMap);
+	generatedMap.headerLabels = generatedMapHeaders(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
 	print(generatedMap);
@@ -269,14 +269,15 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return coordinates;
 	}
 
-	function addHeadersToGeneratedMap(generatedMap) {
+	function generatedMapHeaders(generatedMap) {
+		let mapHeaders = { x: [], y: [] };
 		for (let i = 0; i < mapWidth; i++) {
-			generatedMap.headerLabels.x.push(getTilesInEachDirection([ i, -1 ], generatedMap)[2].length);
+			mapHeaders.x.push(getTilesInEachDirection([ i, -1 ], generatedMap)[2].length);
 		}
 		for (let i = 0; i < mapHeight; i++) {
-			generatedMap.headerLabels.y.push(getTilesInEachDirection([ -1, i ], generatedMap)[1].length);
+			mapHeaders.y.push(getTilesInEachDirection([ -1, i ], generatedMap)[1].length);
 		}
-		return generatedMap;
+		return mapHeaders;
 	}
 
 	function getDirectionOfEachMove(generatedMap) {
