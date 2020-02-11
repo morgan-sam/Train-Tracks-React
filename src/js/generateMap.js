@@ -5,7 +5,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	const [ startCoordinate, endCoordinate ] = generateStartEndPoints();
 
 	let generatedMap = {
-		start: startCoordinate,
 		end: endCoordinate,
 		tiles: [ startCoordinate ],
 		headerLabels: {
@@ -283,7 +282,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	function getDirectionOfEachMove(generatedMap) {
 		let directions = [];
-		directions.push(getStartingDirection(generatedMap.start));
+		directions.push(getStartingDirection(startCoordinate));
 		for (let i = 0; i < generatedMap.tiles.length - 1; i++) {
 			let currentMoveDir = findDirectionFromMove(generatedMap.tiles[i + 1], generatedMap.tiles[i]);
 			directions.push(currentMoveDir);
@@ -353,7 +352,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	function setDefaultTiles(generatedMap) {
 		const tileCount = generatedMap.tiles.length;
-		generatedMap.defaultTiles.push(generatedMap.start);
+		generatedMap.defaultTiles.push(startCoordinate);
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			generatedMap.defaultTiles.push(generatedMap.tiles[randomIntFromInterval(1, tileCount - 1)]);
 		}
