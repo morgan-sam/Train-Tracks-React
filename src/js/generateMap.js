@@ -207,23 +207,29 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 			const dirArr = [ firstMove, secondMove, thirdMove ];
 
-			if (
-				compareArrays(dirArr, [ 0, 1, 2 ]) ||
-				compareArrays(dirArr, [ 1, 2, 3 ]) ||
-				compareArrays(dirArr, [ 2, 3, 0 ]) ||
-				compareArrays(dirArr, [ 3, 0, 1 ])
-			) {
-				wasCorner = true;
-			}
+			wasCorner = checkIfMoveArrayIsCorner(dirArr);
+		}
+		return wasCorner;
+	}
 
-			if (
-				compareArrays(dirArr, [ 3, 2, 1 ]) ||
-				compareArrays(dirArr, [ 2, 1, 0 ]) ||
-				compareArrays(dirArr, [ 1, 0, 3 ]) ||
-				compareArrays(dirArr, [ 0, 3, 2 ])
-			) {
-				wasCorner = true;
-			}
+	function checkIfMoveArrayIsCorner(moveArray) {
+		let wasCorner;
+		if (
+			compareArrays(moveArray, [ 0, 1, 2 ]) ||
+			compareArrays(moveArray, [ 1, 2, 3 ]) ||
+			compareArrays(moveArray, [ 2, 3, 0 ]) ||
+			compareArrays(moveArray, [ 3, 0, 1 ])
+		) {
+			wasCorner = true;
+		}
+
+		if (
+			compareArrays(moveArray, [ 3, 2, 1 ]) ||
+			compareArrays(moveArray, [ 2, 1, 0 ]) ||
+			compareArrays(moveArray, [ 1, 0, 3 ]) ||
+			compareArrays(moveArray, [ 0, 3, 2 ])
+		) {
+			wasCorner = true;
 		}
 		return wasCorner;
 	}
