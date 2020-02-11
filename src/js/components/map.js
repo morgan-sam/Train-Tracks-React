@@ -36,6 +36,7 @@ class Map extends React.Component {
 		this.forceUpdate();
 	}
 
+	//Mixed goals
 	rightClickEvent(coordinate, senderClassname) {
 		this.currentHoverTile = coordinate;
 		const tileValue = this.getRailTypeOfCoordinate(coordinate);
@@ -50,17 +51,20 @@ class Map extends React.Component {
 		this.forceUpdate();
 	}
 
+	//One clear goal
 	leftReleaseEvent(trackSquareInfo, senderClassname) {
 		this.placeTrackIfLeftClickNoDrag(trackSquareInfo, senderClassname);
 		this.leftClickDragArray = [];
 		this.forceUpdate();
 	}
 
+	//One clear goal
 	rightReleaseEvent() {
 		this.rightClickDragValue = undefined;
 		this.forceUpdate();
 	}
 
+	//One goal
 	checkIfHoverTileChanged(coordinate, senderClassname) {
 		let hasChanged = false;
 		if (!compareArrays(coordinate, this.currentHoverTile)) {
@@ -72,14 +76,14 @@ class Map extends React.Component {
 		return hasChanged;
 	}
 
+	//One clear goal
 	placeTrackIfLeftClickNoDrag(trackSquareInfo, senderClassname) {
-		if (compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile)) {
-			if (senderClassname === 'mapTile') {
-				this.placeMultipleTiles([ trackSquareInfo ]);
-			}
+		if (compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile) && senderClassname === 'mapTile') {
+			this.placeMultipleTiles([ trackSquareInfo ]);
 		}
 	}
 
+	//One clear goal
 	hoverStartEvent(senderClassname, coordinate, senderButton) {
 		if (this.checkIfHoverTileChanged(coordinate, senderClassname)) {
 			if (senderButton === 1) {
@@ -94,16 +98,19 @@ class Map extends React.Component {
 		}
 	}
 
+	//One clear goal
 	hoverEndEvent(senderClassname) {
 		this.previousHoverTileClass = senderClassname;
 	}
 
+	//One goal
 	hoverWhileHoldingLeftMouseButton(coordinate, senderClassname) {
 		this.leftClickDragArray.shift();
 		this.leftClickDragArray.push(coordinate);
 		this.placedDraggedTrack(coordinate, senderClassname);
 	}
 
+	//One goal
 	hoverWhileHoldingRightMouseButton(coordinate, senderClassname) {
 		if (this.rightClickDragValue === 'X') {
 			if (senderClassname === 'mapTile') {
@@ -114,6 +121,7 @@ class Map extends React.Component {
 		}
 	}
 
+	//One goal
 	hoverWhileHoldingBothMouseButtons(coordinate, senderClassname) {
 		if (senderClassname === 'mapTile') {
 			this.placeTile(coordinate, 'T');
@@ -164,26 +172,31 @@ class Map extends React.Component {
 
 	shouldStartRailChange(startType, startCoordinate, nextCoordinate) {
 		let railShouldChange = false;
-		const direction = findDirectionFromMove(nextCoordinate, startCoordinate);
-		if (direction === 0) {
-			if (startType === 'bottomLeftCorner' || startType === 'bottomRightCorner' || startType === 'horizontal') {
-				railShouldChange = true;
-			}
-		}
-		if (direction === 1) {
-			if (startType === 'bottomLeftCorner' || startType === 'topLeftCorner' || startType === 'vertical') {
-				railShouldChange = true;
-			}
-		}
-		if (direction === 2) {
-			if (startType === 'topLeftCorner' || startType === 'topRightCorner' || startType === 'horizontal') {
-				railShouldChange = true;
-			}
-		}
-		if (direction === 3) {
-			if (startType === 'bottomRightCorner' || startType === 'topRightCorner' || startType === 'vertical') {
-				railShouldChange = true;
-			}
+		switch (findDirectionFromMove(nextCoordinate, startCoordinate)) {
+			case 0:
+				if (
+					startType === 'bottomLeftCorner' ||
+					startType === 'bottomRightCorner' ||
+					startType === 'horizontal'
+				) {
+					railShouldChange = true;
+				}
+				break;
+			case 1:
+				if (startType === 'bottomLeftCorner' || startType === 'topLeftCorner' || startType === 'vertical') {
+					railShouldChange = true;
+				}
+				break;
+			case 2:
+				if (startType === 'topLeftCorner' || startType === 'topRightCorner' || startType === 'horizontal') {
+					railShouldChange = true;
+				}
+				break;
+			case 3:
+				if (startType === 'bottomRightCorner' || startType === 'topRightCorner' || startType === 'vertical') {
+					railShouldChange = true;
+				}
+				break;
 		}
 		return railShouldChange;
 	}
@@ -313,6 +326,7 @@ class Map extends React.Component {
 		if (dirArr.length === 1) {
 			if (dirArr[0] % 2 === 0) previousTileRailType = 'vertical';
 			if (dirArr[0] % 2 === 1) previousTileRailType = 'horizontal';
+
 			currentHoverTileRailType = previousTileRailType;
 		}
 		if (dirArr.length === 2) {
