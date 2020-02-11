@@ -177,7 +177,9 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	//One Clear Goal
 	function removeHookMoves(legalMoves, generatedMap) {
-		legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedMap));
+		if (generatedMap.tiles.length > 2) {
+			legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedMap));
+		}
 		return legalMoves;
 	}
 
@@ -195,21 +197,19 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	// More than one clear goal, need wasCorner Function and 3 tiles ago Fn
 	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
-		let wasCorner = false;
-		if (generatedMap.tiles.length > 2) {
-			const tileThreeAgo = generatedMap.tiles[generatedMap.tiles.length - 3];
-			const tileTwoAgo = generatedMap.tiles[generatedMap.tiles.length - 2];
-			const tileOneAgo = generatedMap.tiles[generatedMap.tiles.length - 1];
+		const tileThreeAgo = generatedMap.tiles[generatedMap.tiles.length - 3];
+		const tileTwoAgo = generatedMap.tiles[generatedMap.tiles.length - 2];
+		const tileOneAgo = generatedMap.tiles[generatedMap.tiles.length - 1];
 
-			const firstMove = findDirectionFromMove(tileTwoAgo, tileThreeAgo);
-			const secondMove = findDirectionFromMove(tileOneAgo, tileTwoAgo);
-			const thirdMove = findDirectionFromMove(prospectiveMove, tileOneAgo);
+		const firstMove = findDirectionFromMove(tileTwoAgo, tileThreeAgo);
+		const secondMove = findDirectionFromMove(tileOneAgo, tileTwoAgo);
+		const thirdMove = findDirectionFromMove(prospectiveMove, tileOneAgo);
 
-			const dirArr = [ firstMove, secondMove, thirdMove ];
+		const dirArr = [ firstMove, secondMove, thirdMove ];
 
-			wasCorner = checkIfMoveArrayFormsHook(dirArr);
-		}
-		return wasCorner;
+		let wasHook = checkIfMoveArrayFormsHook(dirArr);
+
+		return wasHook;
 	}
 
 	function checkIfMoveArrayFormsHook(moveArray) {
