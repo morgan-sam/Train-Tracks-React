@@ -248,9 +248,9 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	function generateStartEndPoints() {
 		let edges = getEdgeCoordinates();
-		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
-		let endCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1);
-		return [ startCoordinate[0], endCoordinate[0] ];
+		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1)[0];
+		let endCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1)[0];
+		return [ startCoordinate, endCoordinate ];
 	}
 
 	function getEdgeCoordinates() {
