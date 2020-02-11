@@ -8,13 +8,11 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	let generatedMap = {
 		tiles: [ startCoordinate ],
-		trackDirections: [],
-		defaultTiles: []
+		trackDirections: []
 	};
 
 	generatedMap = generateMapTiles(generatedMap);
 	generatedMap = directionsToTrackRailType(generatedMap);
-	generatedMap = setDefaultTiles(generatedMap);
 
 	const trainTrackMap = createFormattedTraintrackMap(generatedMap);
 	return trainTrackMap;
@@ -25,11 +23,10 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			headerLabels: generatedMapHeaders(generatedMap)
 		};
 
+		const defaultTilesIndices = generateDefaultTileIndices(generatedMap.tiles.length);
+
 		for (let i = 0; i < generatedMap.tiles.length; i++) {
-			let isDefaultTrack = false;
-			generatedMap.defaultTiles.forEach(function(defArr) {
-				if (compareArrays(defArr, generatedMap.tiles[i])) isDefaultTrack = true;
-			});
+			let isDefaultTrack = defaultTilesIndices.includes(i);
 
 			trainTrackMap.tracks.push({
 				tile: generatedMap.tiles[i],
@@ -37,6 +34,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				defaultTrack: isDefaultTrack
 			});
 		}
+
 		return trainTrackMap;
 	}
 
@@ -54,32 +52,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		return generatedMap;
-	}
-
-	//One Clear Goal
-	function getQuadrants() {
-		const xHalfWay = Math.floor(mapWidth / 2);
-		const yHalfWay = Math.floor(mapHeight / 2);
-
-		// O: topLeft, 1: topRight, 2: bottomLeft, 3:bottomRight
-		const quadrantCoordinates = [
-			getCoordinatesOfBoundZone(0, xHalfWay, 0, yHalfWay),
-			getCoordinatesOfBoundZone(xHalfWay, mapWidth, 0, yHalfWay),
-			getCoordinatesOfBoundZone(0, xHalfWay, yHalfWay, mapHeight),
-			getCoordinatesOfBoundZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
-		];
-		return quadrantCoordinates;
-	}
-
-	//One Clear Goal
-	function getCoordinatesOfBoundZone(xLow, xHigh, yLow, yHigh) {
-		let zoneArray = [];
-		for (let y = yLow; y < yHigh; y++) {
-			for (let x = xLow; x < xHigh; x++) {
-				zoneArray.push([ x, y ]);
-			}
-		}
-		return zoneArray;
 	}
 
 	//One Clear Goal
@@ -150,33 +122,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		return legalMoves;
-	}
-
-	//One Clear Goal
-	function getQuadrantOfCoordinate(coordinate) {
-		let coordinateQuadrant;
-		const quadrants = getQuadrants();
-		for (let i = 0; i < quadrants.length; i++) {
-			quadrants[i].forEach(function(el) {
-				if (compareArrays(el, coordinate)) coordinateQuadrant = i;
-			});
-		}
-		return coordinateQuadrant;
-	}
-
-	//One Clear Goal
-	function checkIfVisitedEachQuadrant(generatedMap) {
-		const quadrants = getQuadrants();
-		let visitedQuadrants = new Array(quadrants.length).fill(false);
-
-		for (let i = 0; i < quadrants.length; i++) {
-			quadrants[i].forEach(function(quadTile) {
-				generatedMap.tiles.forEach(function(mapTile) {
-					if (compareArrays(quadTile, mapTile)) visitedQuadrants[i] = true;
-				});
-			});
-		}
-		return visitedQuadrants;
 	}
 
 	//One Clear Goal
@@ -386,18 +331,12 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return generatedMap;
 	}
 
-	//Messy function, needs refactoring
-	function setDefaultTiles(generatedMap) {
-		const tileCount = generatedMap.tiles.length;
-		generatedMap.defaultTiles.push(startCoordinate);
+	function generateDefaultTileIndices(tileCount) {
+		let indices = [ 0, tileCount - 1 ];
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
-			generatedMap.defaultTiles.push(generatedMap.tiles[randomIntFromInterval(1, tileCount - 1)]);
+			indices.push(randomIntFromInterval(1, tileCount - 1));
 		}
-		generatedMap.defaultTiles.push(endCoordinate);
-		generatedMap.defaultTiles = generatedMap.defaultTiles.filter(
-			(el, i) => generatedMap.defaultTiles.indexOf(el) === i
-		);
-		return generatedMap;
+		return [ ...new Set(indices) ];
 	}
 
 	///UTILITY FUNCTIONS
@@ -434,6 +373,61 @@ function differenceBetweenTwoMoves(moveOne, moveTwo) {
 	return [ moveOne[0] - moveTwo[0], moveOne[1] - moveTwo[1] ];
 }
 
-function print(value) {
-	console.log(JSON.parse(JSON.stringify(value)));
+// function print(value) {
+// 	console.log(JSON.parse(JSON.stringify(value)));
+// }
+
+/*
+//One Clear Goal
+function getQuadrants() {
+	const xHalfWay = Math.floor(mapWidth / 2);
+	const yHalfWay = Math.floor(mapHeight / 2);
+
+	// O: topLeft, 1: topRight, 2: bottomLeft, 3:bottomRight
+	const quadrantCoordinates = [
+		getCoordinatesOfBoundZone(0, xHalfWay, 0, yHalfWay),
+		getCoordinatesOfBoundZone(xHalfWay, mapWidth, 0, yHalfWay),
+		getCoordinatesOfBoundZone(0, xHalfWay, yHalfWay, mapHeight),
+		getCoordinatesOfBoundZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
+	];
+	return quadrantCoordinates;
 }
+
+//One Clear Goal
+function getCoordinatesOfBoundZone(xLow, xHigh, yLow, yHigh) {
+	let zoneArray = [];
+	for (let y = yLow; y < yHigh; y++) {
+		for (let x = xLow; x < xHigh; x++) {
+			zoneArray.push([ x, y ]);
+		}
+	}
+	return zoneArray;
+}
+
+//One Clear Goal
+function getQuadrantOfCoordinate(coordinate) {
+	let coordinateQuadrant;
+	const quadrants = getQuadrants();
+	for (let i = 0; i < quadrants.length; i++) {
+		quadrants[i].forEach(function(el) {
+			if (compareArrays(el, coordinate)) coordinateQuadrant = i;
+		});
+	}
+	return coordinateQuadrant;
+}
+
+//One Clear Goal
+function checkIfVisitedEachQuadrant(generatedMap) {
+	const quadrants = getQuadrants();
+	let visitedQuadrants = new Array(quadrants.length).fill(false);
+
+	for (let i = 0; i < quadrants.length; i++) {
+		quadrants[i].forEach(function(quadTile) {
+			generatedMap.tiles.forEach(function(mapTile) {
+				if (compareArrays(quadTile, mapTile)) visitedQuadrants[i] = true;
+			});
+		});
+	}
+	return visitedQuadrants;
+}
+*/
