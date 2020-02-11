@@ -183,13 +183,15 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	//Clear goal but variable naming is vague
+	//|Single goal but structure is obtuse and variable naming is vague
 	function getTilesInEachDirection(currentTile, generatedMap) {
 		let tilesInEachDirection = [];
 		for (let i = 0; i < 4; i++) {
-			let sign = -Math.ceil((i % 3) / 2) * 2 + 1;
+			let sign = Math.ceil((i % 3) / 2) * 2 + 1; //
 			let lineTiles = generatedMap.tiles.filter((tile) => tile[i % 2] === currentTile[i % 2]);
-			let directionTiles = lineTiles.filter((tile) => tile[(i + 1) % 2] * sign < currentTile[(i + 1) % 2] * sign);
+			let directionTiles = lineTiles.filter(
+				(tile) => tile[(i + 1) % 2] * -sign < currentTile[(i + 1) % 2] * -sign
+			);
 			tilesInEachDirection.push(directionTiles);
 		}
 		return tilesInEachDirection;
