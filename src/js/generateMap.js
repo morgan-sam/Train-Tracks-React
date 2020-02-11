@@ -7,12 +7,10 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	//Not one clear goal
 
 	let generatedMap = {
-		tiles: [ startCoordinate ],
-		trackDirections: []
+		tiles: [ startCoordinate ]
 	};
 
 	generatedMap = generateMapTiles(generatedMap);
-	generatedMap = directionsToTrackRailType(generatedMap);
 
 	const trainTrackMap = createFormattedTraintrackMap(generatedMap);
 	return trainTrackMap;
@@ -23,6 +21,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			headerLabels: generatedMapHeaders(generatedMap)
 		};
 
+		const moveDirections = getDirectionOfEachMove(generatedMap);
+		const railTypes = directionsToTrackRailType(moveDirections);
 		const defaultTilesIndices = generateDefaultTileIndices(generatedMap.tiles.length);
 
 		for (let i = 0; i < generatedMap.tiles.length; i++) {
@@ -30,11 +30,12 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 			trainTrackMap.tracks.push({
 				tile: generatedMap.tiles[i],
-				railType: generatedMap.trackDirections[i],
+				railType: railTypes[i],
 				defaultTrack: isDefaultTrack
 			});
 		}
 
+		console.log(trainTrackMap);
 		return trainTrackMap;
 	}
 
@@ -306,29 +307,29 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//One clear goal, but should be passed directions instead of calling getDirectionOfEachMove()
-	function directionsToTrackRailType(generatedMap) {
-		const dirs = getDirectionOfEachMove(generatedMap);
+	function directionsToTrackRailType(dirs) {
+		let railTypeArray = [];
 		for (let i = 0; i < dirs.length; i++) {
 			if ((dirs[i] === 0 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 2)) {
-				generatedMap.trackDirections.push('vertical');
+				railTypeArray.push('vertical');
 			}
 			if ((dirs[i] === 1 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 3)) {
-				generatedMap.trackDirections.push('horizontal');
+				railTypeArray.push('horizontal');
 			}
 			if ((dirs[i] === 2 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 0)) {
-				generatedMap.trackDirections.push('topRightCorner');
+				railTypeArray.push('topRightCorner');
 			}
 			if ((dirs[i] === 3 && dirs[i + 1] === 2) || (dirs[i] === 0 && dirs[i + 1] === 1)) {
-				generatedMap.trackDirections.push('bottomRightCorner');
+				railTypeArray.push('bottomRightCorner');
 			}
 			if ((dirs[i] === 0 && dirs[i + 1] === 3) || (dirs[i] === 1 && dirs[i + 1] === 2)) {
-				generatedMap.trackDirections.push('bottomLeftCorner');
+				railTypeArray.push('bottomLeftCorner');
 			}
 			if ((dirs[i] === 1 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 3)) {
-				generatedMap.trackDirections.push('topLeftCorner');
+				railTypeArray.push('topLeftCorner');
 			}
 		}
-		return generatedMap;
+		return railTypeArray;
 	}
 
 	function generateDefaultTileIndices(tileCount) {
