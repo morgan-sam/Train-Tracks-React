@@ -2,64 +2,55 @@ import seedrandom from 'seedrandom';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	const [ startCoordinate, endCoordinate ] = generateStartEndPoints();
 
-	//Not one clear goal
-
-	let generatedMap = {
-		tiles: [ startCoordinate ]
+	let trainTrackMap = {
+		tracks: [],
+		headerLabels: []
 	};
 
-	generatedMap = generateMapTiles(generatedMap);
+	const allTiles = generateMapTiles();
+	const moveDirections = getDirectionOfEachMove(allTiles);
+	const railTypes = directionsToTrackRailType(moveDirections);
+	const defaultTilesIndices = generateDefaultTileIndices(allTiles.length);
 
-	const trainTrackMap = createFormattedTraintrackMap(generatedMap);
-	return trainTrackMap;
+	trainTrackMap.headerLabels = generateMapHeaders(allTiles);
 
-	function createFormattedTraintrackMap(generatedMap) {
-		let trainTrackMap = {
-			tracks: [],
-			headerLabels: generatedMapHeaders(generatedMap)
-		};
+	for (let i = 0; i < allTiles.length; i++) {
+		let isDefaultTrack = defaultTilesIndices.includes(i);
 
-		const moveDirections = getDirectionOfEachMove(generatedMap);
-		const railTypes = directionsToTrackRailType(moveDirections);
-		const defaultTilesIndices = generateDefaultTileIndices(generatedMap.tiles.length);
-
-		for (let i = 0; i < generatedMap.tiles.length; i++) {
-			let isDefaultTrack = defaultTilesIndices.includes(i);
-
-			trainTrackMap.tracks.push({
-				tile: generatedMap.tiles[i],
-				railType: railTypes[i],
-				defaultTrack: isDefaultTrack
-			});
-		}
-
-		console.log(trainTrackMap);
-		return trainTrackMap;
+		trainTrackMap.tracks.push({
+			tile: allTiles[i],
+			railType: railTypes[i],
+			defaultTrack: isDefaultTrack
+		});
 	}
 
+	console.log(trainTrackMap);
+	return trainTrackMap;
+
 	//One Clear Goal
-	function generateMapTiles(generatedMap) {
+	function generateMapTiles() {
+		const [ startCoordinate, endCoordinate ] = generateStartEndPoints();
+		let generatedTiles = [ startCoordinate ];
 		let mapComplete = false;
 		let lastMove = startCoordinate;
 
 		while (!mapComplete) {
-			let nextMove = newMove(lastMove, generatedMap);
-			generatedMap.tiles.push(nextMove);
+			let nextMove = newMove(lastMove, generatedTiles, endCoordinate);
+			generatedTiles.push(nextMove);
 			lastMove = nextMove;
 			if (compareArrays(nextMove, endCoordinate)) {
 				mapComplete = true;
 			}
 		}
-		return generatedMap;
+		return generatedTiles;
 	}
 
 	//One Clear Goal
-	function getLegalMoves(coordinate, tiles) {
+	function getLegalMoves(coordinate, generatedTiles) {
 		const adjacentMoves = getAdjacentTiles(coordinate);
 		let legalMoves = removeOutOfBoundsMoves(adjacentMoves);
-		legalMoves = removeMovesToVisitedTiles(legalMoves, tiles);
+		legalMoves = removeMovesToVisitedTiles(legalMoves, generatedTiles);
 		return legalMoves;
 	}
 
@@ -88,15 +79,15 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//One Goal
-	function newMove(currentCoordinate, generatedMap) {
+	function newMove(currentCoordinate, generatedTiles, endCoordinate) {
 		let nextMove;
-		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
+		let legalMoves = getLegalMoves(currentCoordinate, generatedTiles);
 
 		if (checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate)) {
 			nextMove = endCoordinate;
 		} else {
-			legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, endCoordinate, generatedMap));
-			legalMoves = mutateMoveArray(legalMoves, generatedMap);
+			legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, endCoordinate, generatedTiles));
+			legalMoves = mutateMoveArray(legalMoves, generatedTiles);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 		}
 		return nextMove;
@@ -107,7 +98,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//One Clear Goal
-	function mutateMoveArray(legalMoves, generatedMap) {
+	function mutateMoveArray(legalMoves, generatedTiles) {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
 
@@ -115,7 +106,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
-			let mutatedMoveArray = currentFunc(legalMoves, generatedMap);
+			let mutatedMoveArray = currentFunc(legalMoves, generatedTiles);
 			if (!isNonEmptyArray(mutatedMoveArray)) {
 				break;
 			} else {
@@ -126,19 +117,19 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//One Clear Goal
-	function removeHookMoves(legalMoves, generatedMap) {
-		if (generatedMap.tiles.length > 2) {
-			legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedMap));
+	function removeHookMoves(legalMoves, generatedTiles) {
+		if (generatedTiles.length > 2) {
+			legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedTiles));
 		}
 		return legalMoves;
 	}
 
 	//Single goal but structure is obtuse and variable naming is vague
-	function getTilesInEachDirection(currentTile, generatedMap) {
+	function getTilesInEachDirection(currentTile, generatedTiles) {
 		let tilesInEachDirection = [];
 		for (let i = 0; i < 4; i++) {
 			let sign = Math.ceil((i % 3) / 2) * 2 + 1; //
-			let lineTiles = generatedMap.tiles.filter((tile) => tile[i % 2] === currentTile[i % 2]);
+			let lineTiles = generatedTiles.filter((tile) => tile[i % 2] === currentTile[i % 2]);
 			let directionTiles = lineTiles.filter(
 				(tile) => tile[(i + 1) % 2] * -sign < currentTile[(i + 1) % 2] * -sign
 			);
@@ -147,8 +138,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return tilesInEachDirection;
 	}
 
-	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
-		const lastThreeTiles = getLastSpecifiedAmountOfTiles(3, generatedMap.tiles);
+	function checkIfMoveWillBeHook(prospectiveMove, generatedTiles) {
+		const lastThreeTiles = getLastSpecifiedAmountOfTiles(3, generatedTiles);
 		const prospectiveLastFourTiles = [ prospectiveMove, ...lastThreeTiles ];
 		const dirArr = getSeriesOfDirectionsFromMoveArray(prospectiveLastFourTiles);
 		let wasHook = checkIfMoveArrayFormsHook(dirArr);
@@ -189,7 +180,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//Almost one clear goal but variable naming is wrong/vague
-	function checkIfPossibleToReachTarget(startingTile, targetTile, generatedMap) {
+	function checkIfPossibleToReachTarget(startingTile, targetTile, generatedTiles) {
 		//spread across all squares bound by border and other tracks
 		//use getLegalMoves() to find where to move
 		//add all tiles to a new array
@@ -200,7 +191,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		if (compareArrays(startingTile, targetTile)) {
 			possibleExits = true;
 		} else {
-			let takenTiles = [ ...generatedMap.tiles ];
+			let takenTiles = [ ...generatedTiles ];
 			spreadInAllDirections(startingTile, takenTiles);
 			takenTiles.forEach(function(el) {
 				if ((el[0] === targetTile[0]) & (el[1] === targetTile[1])) possibleExits += 1;
@@ -247,26 +238,26 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//One clear goal
-	function generatedMapHeaders(generatedMap) {
+	function generateMapHeaders(allTiles) {
 		let mapHeaders = { x: [], y: [] };
 		for (let i = 0; i < mapWidth; i++) {
-			mapHeaders.x.push(getTilesInEachDirection([ i, -1 ], generatedMap)[2].length);
+			mapHeaders.x.push(getTilesInEachDirection([ i, -1 ], allTiles)[2].length);
 		}
 		for (let i = 0; i < mapHeight; i++) {
-			mapHeaders.y.push(getTilesInEachDirection([ -1, i ], generatedMap)[1].length);
+			mapHeaders.y.push(getTilesInEachDirection([ -1, i ], allTiles)[1].length);
 		}
 		return mapHeaders;
 	}
 
-	//One clear goal, uses global variables
-	function getDirectionOfEachMove(generatedMap) {
+	//One clear goal
+	function getDirectionOfEachMove(allTiles) {
 		let directions = [];
-		directions.push(getStartingDirection(startCoordinate));
-		for (let i = 0; i < generatedMap.tiles.length - 1; i++) {
-			let currentMoveDir = findDirectionFromMove(generatedMap.tiles[i + 1], generatedMap.tiles[i]);
+		directions.push(getStartingDirection(allTiles[0]));
+		for (let i = 0; i < allTiles.length - 1; i++) {
+			let currentMoveDir = findDirectionFromMove(allTiles[i + 1], allTiles[i]);
 			directions.push(currentMoveDir);
 		}
-		directions.push(getEndingDirection(endCoordinate));
+		directions.push(getEndingDirection(allTiles[allTiles.length - 1]));
 		return directions;
 	}
 
@@ -417,18 +408,4 @@ function getQuadrantOfCoordinate(coordinate) {
 	return coordinateQuadrant;
 }
 
-//One Clear Goal
-function checkIfVisitedEachQuadrant(generatedMap) {
-	const quadrants = getQuadrants();
-	let visitedQuadrants = new Array(quadrants.length).fill(false);
-
-	for (let i = 0; i < quadrants.length; i++) {
-		quadrants[i].forEach(function(quadTile) {
-			generatedMap.tiles.forEach(function(mapTile) {
-				if (compareArrays(quadTile, mapTile)) visitedQuadrants[i] = true;
-			});
-		});
-	}
-	return visitedQuadrants;
-}
 */
