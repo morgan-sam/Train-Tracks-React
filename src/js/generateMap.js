@@ -112,6 +112,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
+	//Not One Clear Goal
 	function newMove(currentCoordinate, generatedMap) {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
@@ -128,6 +129,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return nextMove;
 	}
 
+	//One Clear Goal
 	function mutateMoveArray(legalMoves, generatedMap) {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
@@ -146,6 +148,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
+	//One Clear Goal
 	function getQuadrantOfCoordinate(coordinate) {
 		let coordinateQuadrant;
 		const quadrants = getQuadrants();
@@ -157,6 +160,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return coordinateQuadrant;
 	}
 
+	//One Clear Goal
 	function checkIfVisitedEachQuadrant(generatedMap) {
 		const quadrants = getQuadrants();
 		let visitedQuadrants = new Array(quadrants.length).fill(false);
@@ -171,11 +175,13 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return visitedQuadrants;
 	}
 
+	//One Clear Goal
 	function removeHookMoves(legalMoves, generatedMap) {
 		legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedMap));
 		return legalMoves;
 	}
 
+	//Clear goal but variable naming is vague
 	function getTilesInEachDirection(currentTile, generatedMap) {
 		let tilesInEachDirection = [];
 		for (let i = 0; i < 4; i++) {
@@ -187,6 +193,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return tilesInEachDirection;
 	}
 
+	// More than one clear goal, need wasCorner Function and 3 tiles ago Fn
 	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
 		let wasCorner = false;
 		if (generatedMap.tiles.length > 2) {
@@ -221,6 +228,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return wasCorner;
 	}
 
+	//Almost one clear goal but variable naming is wrong/vague
 	function checkPossibleExits(prospectiveMove, targetMove, generatedMap) {
 		//spread across all squares bound by border and other tracks
 		//use getLegalMoves() to find where to move
@@ -252,6 +260,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		}
 	}
 
+	//One clear goal
 	function generateStartEndPoints() {
 		let edges = getEdgeCoordinates();
 		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1)[0];
@@ -259,6 +268,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return [ startCoordinate, endCoordinate ];
 	}
 
+	//One clear goal
 	function getEdgeCoordinates() {
 		//calculates coordinates around edge in clockwise order
 		let coordinates = [];
@@ -277,6 +287,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return coordinates;
 	}
 
+	//One clear goal
 	function generatedMapHeaders(generatedMap) {
 		let mapHeaders = { x: [], y: [] };
 		for (let i = 0; i < mapWidth; i++) {
@@ -288,6 +299,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return mapHeaders;
 	}
 
+	//One clear goal, uses global variables
 	function getDirectionOfEachMove(generatedMap) {
 		let directions = [];
 		directions.push(getStartingDirection(startCoordinate));
@@ -299,6 +311,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return directions;
 	}
 
+	//Slightly mixed goals
 	function getStartingDirection(start) {
 		let possibleDirections = [];
 		if (start[0] === 0) {
@@ -316,6 +329,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
 	}
 
+	//Slightly mixed goals
 	function getEndingDirection(end) {
 		let possibleDirections = [];
 		if (end[0] === 0) {
@@ -333,6 +347,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
 	}
 
+	//One clear goal, but should be passed directions instead of calling getDirectionOfEachMove()
 	function directionsToTrackRailType(generatedMap) {
 		const dirs = getDirectionOfEachMove(generatedMap);
 		for (let i = 0; i < dirs.length; i++) {
@@ -358,6 +373,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return generatedMap;
 	}
 
+	//Messy function, needs refactoring
 	function setDefaultTiles(generatedMap) {
 		const tileCount = generatedMap.tiles.length;
 		generatedMap.defaultTiles.push(startCoordinate);
@@ -393,18 +409,20 @@ export const compareArrays = (arr1, arr2) => {
 	return arrEqual;
 };
 
+//One Clear Goal
 export const findDirectionFromMove = (currentMove, lastMove) => {
-	let moveDirection = 'none';
-
-	const moveCalc = [ currentMove[0] - lastMove[0], currentMove[1] - lastMove[1] ];
-
+	let moveDirection;
+	const moveCalc = differenceBetweenTwoMoves(currentMove, lastMove);
 	if (compareArrays(moveCalc, [ 0, -1 ])) moveDirection = 0; //= 'up';
 	if (compareArrays(moveCalc, [ 1, 0 ])) moveDirection = 1; //= 'right';
 	if (compareArrays(moveCalc, [ 0, 1 ])) moveDirection = 2; //= 'down';
 	if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 3; //= 'left';
-
 	return moveDirection;
 };
+
+function differenceBetweenTwoMoves(moveOne, moveTwo) {
+	return [ moveOne[0] - moveTwo[0], moveOne[1] - moveTwo[1] ];
+}
 
 function print(value) {
 	console.log(JSON.parse(JSON.stringify(value)));

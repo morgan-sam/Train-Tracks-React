@@ -5,7 +5,7 @@ import { generateNewMap } from './js/generateMap';
 import Map from './js/components/map';
 import './css/index.css';
 
-const DEMO_ACTIVE = true;
+const DEMO_ACTIVE = false;
 const MENU_WIDTH = '12rem';
 
 class Game extends React.Component {
