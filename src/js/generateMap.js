@@ -63,23 +63,23 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 		// O: topLeft, 1: topRight, 2: bottomLeft, 3:bottomRight
 		const quadrantCoordinates = [
-			getCoordinatesOfZone(0, xHalfWay, 0, yHalfWay),
-			getCoordinatesOfZone(xHalfWay, mapWidth, 0, yHalfWay),
-			getCoordinatesOfZone(0, xHalfWay, yHalfWay, mapHeight),
-			getCoordinatesOfZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
+			getCoordinatesOfBoundZone(0, xHalfWay, 0, yHalfWay),
+			getCoordinatesOfBoundZone(xHalfWay, mapWidth, 0, yHalfWay),
+			getCoordinatesOfBoundZone(0, xHalfWay, yHalfWay, mapHeight),
+			getCoordinatesOfBoundZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
 		];
-
-		function getCoordinatesOfZone(xLow, xHigh, yLow, yHigh) {
-			let zoneArray = [];
-			for (let y = yLow; y < yHigh; y++) {
-				for (let x = xLow; x < xHigh; x++) {
-					zoneArray.push([ x, y ]);
-				}
-			}
-			return zoneArray;
-		}
-
 		return quadrantCoordinates;
+	}
+
+	//One Clear Goal
+	function getCoordinatesOfBoundZone(xLow, xHigh, yLow, yHigh) {
+		let zoneArray = [];
+		for (let y = yLow; y < yHigh; y++) {
+			for (let x = xLow; x < xHigh; x++) {
+				zoneArray.push([ x, y ]);
+			}
+		}
+		return zoneArray;
 	}
 
 	//One Clear Goal
@@ -114,7 +114,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	//Not One Clear Goal
+	//One Goal
 	function newMove(currentCoordinate, generatedMap) {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
