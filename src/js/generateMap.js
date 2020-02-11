@@ -402,14 +402,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function randomIntFromInterval(min, max) {
 		return Math.floor(Math.random() * (max - min + 1) + min); // min and max included
 	}
-
-	function checkArrEmpty(arr) {
-		if (Array.isArray(arr) && arr.length) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 };
 export const compareArrays = (arr1, arr2) => {
 	let arrEqual = false;
