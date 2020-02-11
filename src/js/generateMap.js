@@ -5,7 +5,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	const [ startCoordinate, endCoordinate ] = generateStartEndPoints();
 
 	let generatedMap = {
-		end: endCoordinate,
 		tiles: [ startCoordinate ],
 		headerLabels: {
 			x: [],
@@ -54,7 +53,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			let nextMove = newMove(lastMove, generatedMap);
 			generatedMap.tiles.push(nextMove);
 			lastMove = nextMove;
-			if (compareArrays(nextMove, generatedMap.end)) {
+			if (compareArrays(nextMove, endCoordinate)) {
 				mapComplete = true;
 			}
 		}
@@ -109,12 +108,12 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
 		if (legalMoves.length === 1) {
-			if (compareArrays(legalMoves[0], generatedMap.end)) {
-				return generatedMap.end;
+			if (compareArrays(legalMoves[0], endCoordinate)) {
+				return endCoordinate;
 			}
 		}
 		if (Array.isArray(legalMoves) && legalMoves.length) {
-			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, generatedMap.end, generatedMap));
+			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, endCoordinate, generatedMap));
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 		}
@@ -287,7 +286,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			let currentMoveDir = findDirectionFromMove(generatedMap.tiles[i + 1], generatedMap.tiles[i]);
 			directions.push(currentMoveDir);
 		}
-		directions.push(getEndingDirection(generatedMap.end));
+		directions.push(getEndingDirection(endCoordinate));
 		return directions;
 	}
 
@@ -356,7 +355,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			generatedMap.defaultTiles.push(generatedMap.tiles[randomIntFromInterval(1, tileCount - 1)]);
 		}
-		generatedMap.defaultTiles.push(generatedMap.end);
+		generatedMap.defaultTiles.push(endCoordinate);
 		generatedMap.defaultTiles = generatedMap.defaultTiles.filter(
 			(el, i) => generatedMap.defaultTiles.indexOf(el) === i
 		);
