@@ -127,7 +127,9 @@ class Map extends React.Component {
 			newCorner = this.convertConnectedRailToCorner(coordinate);
 		}
 		if (newCorner) {
-			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
+			if (this.previousHoverTileClass === 'mapTile') {
+				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
+			}
 			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
 		} else {
 			if (this.previousHoverTileClass === 'mapTile') {
