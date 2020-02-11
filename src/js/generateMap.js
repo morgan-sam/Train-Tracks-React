@@ -16,7 +16,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	};
 
 	generatedMap = findTrackPath(generatedMap);
-	generatePathCoordinates(generatedMap.start, generatedMap.end);
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
@@ -87,13 +86,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return quadrantCoordinates;
 	}
 
-	//create function to check track length at least mapWidth * mapHeight / 3
-
-	function getTrackLength(generatedMap) {
-		const length = generatedMap.tiles.length;
-		console.log(length);
-	}
-
 	function getLegalMoves(coordinate, tiles) {
 		const adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
 		let legalMoves = adjacentMoves.filter(
@@ -131,7 +123,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
 
-		const moveMutateFunctions = [ removeHookMoves, checkIfFinishingBeforeQuads ];
+		const moveMutateFunctions = [ removeHookMoves ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
@@ -145,49 +137,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	function checkIfFinishingBeforeQuads(legalMoves, generatedMap) {
-		const visitedQuadrants = checkIfVisitedEachQuadrant(generatedMap);
-		if (visitedQuadrants.includes(false)) {
-			legalMoves = legalMoves.filter(function(move) {
-				let includesFinalMove = false;
-				includesFinalMove = compareArrays(move, generatedMap.end);
-				return !includesFinalMove;
-			});
-		}
-		return legalMoves;
-	}
-
-	// Rewrite generateMap function:
-	//
-	// Begins by randomly generating a series of coordinates across the map
-	// Ensure there are at least 1 coordinate in each quadrant
-	// Connects all coordinates to each other
-
-	//
-
-	function generateRoute() {
-		const points = generatePathCoordinates;
-		//
-	}
-
-	function generatePathCoordinates(start, end) {
-		let quadrantIndexs = [ 0, 1, 2, 3 ];
-		let pathCoordinates = [];
-		const startQuad = getQuadrantOfCoordinate(start);
-		const endQuad = getQuadrantOfCoordinate(end);
-
-		quadrantIndexs.splice(quadrantIndexs.indexOf(startQuad), 1);
-		if (startQuad !== endQuad) {
-			quadrantIndexs.splice(quadrantIndexs.indexOf(endQuad), 1);
-		}
-
-		pathCoordinates.push(start);
-		quadrantIndexs.forEach((i) => pathCoordinates.push(getRandomQuadrantTile(i)));
-		pathCoordinates.push(end);
-
-		return pathCoordinates;
-	}
-
 	function getQuadrantOfCoordinate(coordinate) {
 		let coordinateQuadrant;
 		const quadrants = getQuadrants();
@@ -197,13 +146,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			});
 		}
 		return coordinateQuadrant;
-	}
-
-	function getRandomQuadrantTile(quadvalue) {
-		const quadrants = getQuadrants();
-		const currentQuadrant = quadrants[quadvalue];
-		const selectedTile = currentQuadrant[randomIntFromInterval(0, currentQuadrant.length - 1)];
-		return selectedTile;
 	}
 
 	function checkIfVisitedEachQuadrant(generatedMap) {
@@ -225,21 +167,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	function removeOnePossibleMoves(legalMoves, generatedMap) {
-		legalMoves = legalMoves.filter((move) => !checkIfNextMoveWillHaveOnePossibleMove(move, generatedMap));
-		return legalMoves;
-	}
-
-	function getDirectionWithLessTracks(legalMoves, generatedMap) {
-		const currentTile = generatedMap.tiles[generatedMap.tiles.length - 1];
-		const tilesInEachDirection = getTilesInEachDirection(currentTile, generatedMap);
-		const emptyTiles = getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection);
-		const maxFreeTiles = emptyTiles.reduce(function(prev, current) {
-			return prev.freeTiles > current.freeTiles ? prev : current;
-		});
-		return [ findMoveFromDirection(currentTile, maxFreeTiles.direction) ];
-	}
-
 	function getTilesInEachDirection(currentTile, generatedMap) {
 		let tilesInEachDirection = [];
 		for (let i = 0; i < 4; i++) {
@@ -249,53 +176,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			tilesInEachDirection.push(directionTiles);
 		}
 		return tilesInEachDirection;
-	}
-
-	function getAdjacentEmptyTilesForEachDirection(currentTile, legalMoves, tilesInEachDirection) {
-		//Doesn't both getting free tiles of non legal moves
-		let freeTilesInEachDirection = legalMoves.map(function(move) {
-			let direction = findDirectionFromMove(move, currentTile);
-			let freeTiles = 0;
-
-			let edge;
-			switch (direction) {
-				case 0:
-				case 3:
-					edge = 0;
-					break;
-				case 1:
-					edge = mapWidth - 1;
-					break;
-				case 2:
-					edge = mapHeight - 1;
-					break;
-				default:
-					edge = 'none';
-					break;
-			}
-			const sign = Math.ceil((direction % 3) / 2) * 2 - 1;
-			for (let i = currentTile[(direction + 1) % 2] + sign; i * sign <= edge * sign; i += sign) {
-				const checkTile = [ i, currentTile[1] ];
-				const checkedTiles = tilesInEachDirection[direction].map(function(takenTile) {
-					if (compareArrays(checkTile, takenTile)) {
-						return true;
-					} else {
-						return false;
-					}
-				});
-				if (checkedTiles.includes(true)) {
-					break;
-				} else {
-					freeTiles += 1;
-				}
-			}
-
-			return {
-				direction,
-				freeTiles
-			};
-		});
-		return freeTilesInEachDirection;
 	}
 
 	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
@@ -330,36 +210,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		return wasCorner;
-	}
-
-	function checkIfNextMoveWillHaveOnePossibleMove(prospectiveMove, generatedMap) {
-		let onePossibleMove = true;
-		let legalMoves = getLegalMoves(prospectiveMove, generatedMap.tiles);
-		legalMoves = legalMoves.filter((move) => checkPossibleExits(move, generatedMap.end, generatedMap) > 1);
-		if (Array.isArray(legalMoves) && legalMoves.length > 1) onePossibleMove = false;
-		return onePossibleMove;
-	}
-
-	function findMoveFromDirection(currentTile, direction) {
-		let newMove;
-		switch (direction) {
-			case 0:
-				newMove = [ currentTile[0], currentTile[1] - 1 ];
-				break;
-			case 1:
-				newMove = [ currentTile[0] + 1, currentTile[1] ];
-				break;
-			case 2:
-				newMove = [ currentTile[0], currentTile[1] + 1 ];
-				break;
-			case 3:
-				newMove = [ currentTile[0] - 1, currentTile[1] ];
-				break;
-			default:
-				newMove = 'none';
-				break;
-		}
-		return newMove;
 	}
 
 	function checkPossibleExits(prospectiveMove, targetMove, generatedMap) {
