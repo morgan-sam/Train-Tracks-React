@@ -119,9 +119,9 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
 
-		if (checkIfOnlyLegalIsExit(legalMoves, endCoordinate)) nextMove = endCoordinate;
-
-		if (isNonEmptyArray(legalMoves)) {
+		if (checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate)) {
+			nextMove = endCoordinate;
+		} else {
 			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, endCoordinate, generatedMap));
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
@@ -129,7 +129,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return nextMove;
 	}
 
-	function checkIfOnlyLegalIsExit(legalMoves, endCoordinate) {
+	function checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate) {
 		return legalMoves.length === 1 && compareArrays(legalMoves[0], endCoordinate);
 	}
 
