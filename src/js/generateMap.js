@@ -183,7 +183,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	//|Single goal but structure is obtuse and variable naming is vague
+	//Single goal but structure is obtuse and variable naming is vague
 	function getTilesInEachDirection(currentTile, generatedMap) {
 		let tilesInEachDirection = [];
 		for (let i = 0; i < 4; i++) {
@@ -417,6 +417,11 @@ export const compareArrays = (arr1, arr2) => {
 		arrEqual = arr1.every((v, i) => v === arr2[i]);
 	}
 	return arrEqual;
+};
+
+export const isNonEmptyArray = (array) => {
+	//return false if equal to [] or data type other than array
+	return Array.isArray(array) && array.length > 0;
 };
 
 //One Clear Goal
