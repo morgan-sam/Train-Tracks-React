@@ -4,6 +4,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
 	const [ startCoordinate, endCoordinate ] = generateStartEndPoints();
 
+	//Not one clear goal
+
 	let generatedMap = {
 		tiles: [ startCoordinate ],
 		trackDirections: [],
@@ -116,17 +118,19 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function newMove(currentCoordinate, generatedMap) {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
-		if (legalMoves.length === 1) {
-			if (compareArrays(legalMoves[0], endCoordinate)) {
-				return endCoordinate;
-			}
-		}
+
+		if (checkIfOnlyLegalIsExit(legalMoves, endCoordinate)) nextMove = endCoordinate;
+
 		if (isNonEmptyArray(legalMoves)) {
 			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, endCoordinate, generatedMap));
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 		}
 		return nextMove;
+	}
+
+	function checkIfOnlyLegalIsExit(legalMoves, endCoordinate) {
+		return legalMoves.length === 1 && compareArrays(legalMoves[0], endCoordinate);
 	}
 
 	//One Clear Goal
