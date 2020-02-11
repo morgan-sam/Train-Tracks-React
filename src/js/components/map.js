@@ -359,7 +359,7 @@ class Map extends React.Component {
 
 	removePlacedTrack(trackCoordinates) {
 		const filteredTracks = this.state.placedTracks.filter(function(track) {
-			if (!(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1])) return true;
+			return !(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1]);
 		});
 		this.setState(
 			{
