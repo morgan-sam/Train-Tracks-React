@@ -2,7 +2,8 @@ import seedrandom from 'seedrandom';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	let [ startCoordinate, endCoordinate ] = generateStartEndPoints();
+	const [ startCoordinate, endCoordinate ] = generateStartEndPoints();
+
 	let generatedMap = {
 		start: startCoordinate,
 		end: endCoordinate,
@@ -19,8 +20,10 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	generatedMap = addHeadersToGeneratedMap(generatedMap);
 	generatedMap = convertDirectionToTrackDirection(generatedMap);
 	generatedMap = setDefaultTiles(generatedMap);
+	print(generatedMap);
 
 	const trainTrackMap = createFormattedTraintrackMap(generatedMap);
+	print(trainTrackMap);
 	return trainTrackMap;
 
 	function createFormattedTraintrackMap(generatedMap) {
@@ -52,7 +55,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			let nextMove = newMove(lastMove, generatedMap);
 			generatedMap.tiles.push(nextMove);
 			lastMove = nextMove;
-			if (generatedMap.end[0] === nextMove[0] && generatedMap.end[1] === nextMove[1]) {
+			if (compareArrays(nextMove, generatedMap.end)) {
 				mapComplete = true;
 			}
 		}
@@ -107,7 +110,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedMap.tiles);
 		if (legalMoves.length === 1) {
-			if (legalMoves[0][0] === generatedMap.end[0] && legalMoves[0][1] === generatedMap.end[1]) {
+			if (compareArrays(legalMoves[0], generatedMap.end)) {
 				return generatedMap.end;
 			}
 		}
