@@ -197,19 +197,20 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	// More than one clear goal, need wasCorner Function and 3 tiles ago Fn
 	function checkIfMoveWillBeHook(prospectiveMove, generatedMap) {
-		const tileThreeAgo = generatedMap.tiles[generatedMap.tiles.length - 3];
-		const tileTwoAgo = generatedMap.tiles[generatedMap.tiles.length - 2];
-		const tileOneAgo = generatedMap.tiles[generatedMap.tiles.length - 1];
+		const lastThreeTiles = getLastSpecifiedAmountOfTiles(3, generatedMap.tiles);
 
-		const firstMove = findDirectionFromMove(tileTwoAgo, tileThreeAgo);
-		const secondMove = findDirectionFromMove(tileOneAgo, tileTwoAgo);
-		const thirdMove = findDirectionFromMove(prospectiveMove, tileOneAgo);
+		const firstMove = findDirectionFromMove(lastThreeTiles[1], lastThreeTiles[2]);
+		const secondMove = findDirectionFromMove(lastThreeTiles[0], lastThreeTiles[1]);
+		const thirdMove = findDirectionFromMove(prospectiveMove, lastThreeTiles[0]);
 
 		const dirArr = [ firstMove, secondMove, thirdMove ];
 
 		let wasHook = checkIfMoveArrayFormsHook(dirArr);
-
 		return wasHook;
+	}
+
+	function getLastSpecifiedAmountOfTiles(numberOfTiles, tiles) {
+		return tiles.slice(Math.max(tiles.length - numberOfTiles, 0)).reverse();
 	}
 
 	function checkIfMoveArrayFormsHook(moveArray) {
