@@ -38,6 +38,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return trainTrackMap;
 	}
 
+	//One Clear Goal
 	function generateMapTiles(generatedMap) {
 		let mapComplete = false;
 		let lastMove = startCoordinate;
@@ -53,8 +54,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return generatedMap;
 	}
 
-	//create function to check track present in each quadrant
-
+	//One Clear Goal
 	function getQuadrants() {
 		const xHalfWay = Math.floor(mapWidth / 2);
 		const yHalfWay = Math.floor(mapHeight / 2);
@@ -80,12 +80,27 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return quadrantCoordinates;
 	}
 
+	//One Clear Goal
 	function getLegalMoves(coordinate, tiles) {
-		const adjacentMoves = Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
-		let legalMoves = adjacentMoves.filter(
-			(el) => el[0] >= 0 && el[1] >= 0 && el[0] < mapWidth && el[1] < mapHeight
-		);
-		legalMoves = legalMoves.filter(function(move) {
+		const adjacentMoves = getAdjacentTiles(coordinate);
+		let legalMoves = removeOutOfBoundsMoves(adjacentMoves);
+		legalMoves = removeMovesToVisitedTiles(legalMoves, tiles);
+		return legalMoves;
+	}
+
+	//One Clear Goal
+	function getAdjacentTiles(coordinate) {
+		return Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
+	}
+
+	//One Clear Goal
+	function removeOutOfBoundsMoves(moves) {
+		return moves.filter((el) => el[0] >= 0 && el[1] >= 0 && el[0] < mapWidth && el[1] < mapHeight);
+	}
+
+	//One Clear Goal
+	function removeMovesToVisitedTiles(moves, tiles) {
+		let legalMoves = moves.filter(function(move) {
 			let boo = false;
 			tiles.forEach(function(remove) {
 				if (compareArrays(move, remove)) {
