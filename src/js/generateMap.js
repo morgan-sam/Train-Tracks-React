@@ -121,7 +121,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				return endCoordinate;
 			}
 		}
-		if (Array.isArray(legalMoves) && legalMoves.length) {
+		if (isNonEmptyArray(legalMoves)) {
 			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, endCoordinate, generatedMap));
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
@@ -139,7 +139,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
 			let mutatedMoveArray = currentFunc(legalMoves, generatedMap);
-			if (checkArrEmpty(mutatedMoveArray)) {
+			if (isNonEmptyArray(mutatedMoveArray)) {
 				break;
 			} else {
 				legalMoves = mutatedMoveArray;
@@ -261,7 +261,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 		function waveSpread(prospectiveMove, takenTiles) {
 			newTiles = getLegalMoves(prospectiveMove, takenTiles);
-			if (Array.isArray(newTiles) && newTiles.length) {
+			if (isNonEmptyArray(newTiles)) {
 				newTiles.forEach(function(el) {
 					takenTiles.push(el);
 					waveSpread(el, takenTiles);
