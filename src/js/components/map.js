@@ -78,7 +78,6 @@ class Map extends React.Component {
 		if (senderButton === 2) {
 			this.hoverWhileHoldingRightMouseButton(coordinate, senderClassname, newHoverTile);
 		}
-
 		if (senderButton === 3) {
 			this.hoverWhileHoldingBothMouseButtons(coordinate, senderClassname, newHoverTile);
 		}
@@ -299,29 +298,28 @@ class Map extends React.Component {
 		return directions;
 	}
 
-	convertDirectionsToRailType(directions) {
-		let previousTileRailType;
-		let currentHoverTileRailType;
-		if (directions.length === 1) {
-			if (directions[0] % 2 === 0) previousTileRailType = 'vertical';
-			if (directions[0] % 2 === 1) previousTileRailType = 'horizontal';
+	convertDirectionsToRailType(dirArr) {
+		let previousTileRailType, currentHoverTileRailType;
+
+		if (dirArr.length === 1) {
+			if (dirArr[0] % 2 === 0) previousTileRailType = 'vertical';
+			if (dirArr[0] % 2 === 1) previousTileRailType = 'horizontal';
 			currentHoverTileRailType = previousTileRailType;
 		}
-		if (directions.length === 2) {
-			if (directions[0] % 2 === 0 && directions[1] % 2 === 0) previousTileRailType = 'vertical';
-			if (directions[0] % 2 === 1 && directions[1] % 2 === 1) previousTileRailType = 'horizontal';
+		if (dirArr.length === 2) {
+			if (dirArr[0] % 2 === 0 && dirArr[1] % 2 === 0) previousTileRailType = 'vertical';
+			if (dirArr[0] % 2 === 1 && dirArr[1] % 2 === 1) previousTileRailType = 'horizontal';
 
-			if (directions[0] === 0 && directions[1] === 1) previousTileRailType = 'bottomRightCorner';
-			if (directions[0] === 1 && directions[1] === 2) previousTileRailType = 'bottomLeftCorner';
-			if (directions[0] === 2 && directions[1] === 3) previousTileRailType = 'topLeftCorner';
-			if (directions[0] === 3 && directions[1] === 0) previousTileRailType = 'topRightCorner';
+			if ((dirArr[0] === 0 && dirArr[1] === 1) || (dirArr[0] === 3 && dirArr[1] === 2))
+				previousTileRailType = 'bottomRightCorner';
+			if ((dirArr[0] === 1 && dirArr[1] === 2) || (dirArr[0] === 0 && dirArr[1] === 3))
+				previousTileRailType = 'bottomLeftCorner';
+			if ((dirArr[0] === 2 && dirArr[1] === 3) || (dirArr[0] === 1 && dirArr[1] === 0))
+				previousTileRailType = 'topLeftCorner';
+			if ((dirArr[0] === 3 && dirArr[1] === 0) || (dirArr[0] === 2 && dirArr[1] === 1))
+				previousTileRailType = 'topRightCorner';
 
-			if (directions[0] === 3 && directions[1] === 2) previousTileRailType = 'bottomRightCorner';
-			if (directions[0] === 2 && directions[1] === 1) previousTileRailType = 'topRightCorner';
-			if (directions[0] === 1 && directions[1] === 0) previousTileRailType = 'topLeftCorner';
-			if (directions[0] === 0 && directions[1] === 3) previousTileRailType = 'bottomLeftCorner';
-
-			currentHoverTileRailType = directions[1] % 2 === 0 ? 'vertical' : 'horizontal';
+			currentHoverTileRailType = dirArr[1] % 2 === 0 ? 'vertical' : 'horizontal';
 		}
 		return [ previousTileRailType, currentHoverTileRailType ];
 	}
