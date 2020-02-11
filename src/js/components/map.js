@@ -22,6 +22,8 @@ class Map extends React.Component {
 			placedTracks: [],
 			hoveredTile: []
 		};
+
+		this.currentHoverTile = [ null, null ];
 	}
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
@@ -29,7 +31,7 @@ class Map extends React.Component {
 	leftClickEvent(trackSquareInfo, senderClassname) {
 		this.previousValueOfLeftClickTile = this.getRailTypeOfCoordinate(trackSquareInfo.tile);
 		this.initialLeftClickValue = trackSquareInfo;
-		this.currentHoverTile = trackSquareInfo.tile;
+
 		this.leftClickDragArray = [ null, null, trackSquareInfo.tile ];
 		this.forceUpdate();
 	}
@@ -63,23 +65,28 @@ class Map extends React.Component {
 		this.forceUpdate();
 	}
 
-	hoverStartEvent(senderClassname, coordinate, senderButton) {
-		this.currentHoverTileClass = senderClassname;
-		let newHoverTile = false;
+	checkIfHoverTileChanged(coordinate, senderClassname) {
+		let hasChanged = false;
 		if (!compareArrays(coordinate, this.currentHoverTile)) {
 			this.previousHoverTile = this.currentHoverTile;
 			this.currentHoverTile = coordinate;
-			newHoverTile = true;
+			this.currentHoverTileClass = senderClassname;
+			hasChanged = true;
 		}
+		return hasChanged;
+	}
 
-		if (senderButton === 1) {
-			this.hoverWhileHoldingLeftMouseButton(coordinate, senderClassname, newHoverTile);
-		}
-		if (senderButton === 2) {
-			this.hoverWhileHoldingRightMouseButton(coordinate, senderClassname, newHoverTile);
-		}
-		if (senderButton === 3) {
-			this.hoverWhileHoldingBothMouseButtons(coordinate, senderClassname, newHoverTile);
+	hoverStartEvent(senderClassname, coordinate, senderButton) {
+		if (this.checkIfHoverTileChanged(coordinate, senderClassname)) {
+			if (senderButton === 1) {
+				this.hoverWhileHoldingLeftMouseButton(coordinate, senderClassname);
+			}
+			if (senderButton === 2) {
+				this.hoverWhileHoldingRightMouseButton(coordinate, senderClassname);
+			}
+			if (senderButton === 3) {
+				this.hoverWhileHoldingBothMouseButtons(coordinate, senderClassname);
+			}
 		}
 	}
 
@@ -87,17 +94,13 @@ class Map extends React.Component {
 		this.previousHoverTileClass = senderClassname;
 	}
 
-	hoverWhileHoldingLeftMouseButton(coordinate, senderClassname, newHoverTile) {
-		if (newHoverTile) {
-			this.leftClickDragArray.shift();
-			this.leftClickDragArray.push(coordinate);
-			if (senderClassname === 'mapTile') {
-				this.placedDraggedTrack(coordinate, senderClassname);
-			}
-		}
+	hoverWhileHoldingLeftMouseButton(coordinate, senderClassname) {
+		this.leftClickDragArray.shift();
+		this.leftClickDragArray.push(coordinate);
+		this.placedDraggedTrack(coordinate, senderClassname);
 	}
 
-	hoverWhileHoldingRightMouseButton(coordinate, senderClassname, newHoverTile) {
+	hoverWhileHoldingRightMouseButton(coordinate, senderClassname) {
 		if (this.rightClickDragValue === 'X') {
 			if (senderClassname === 'mapTile') {
 				this.placeTile(coordinate, this.rightClickDragValue);
@@ -107,7 +110,7 @@ class Map extends React.Component {
 		}
 	}
 
-	hoverWhileHoldingBothMouseButtons(coordinate, senderClassname, newHoverTile) {
+	hoverWhileHoldingBothMouseButtons(coordinate, senderClassname) {
 		if (senderClassname === 'mapTile') {
 			this.placeTile(coordinate, 'T');
 		}
@@ -504,8 +507,6 @@ class Map extends React.Component {
 				rightReleaseEvent={this.rightReleaseEvent}
 				hoverStartEvent={this.hoverStartEvent}
 				hoverEndEvent={this.hoverEndEvent}
-				leftClickDragArray={this.leftClickDragArray}
-				rightClickDragValue={this.rightClickDragValue}
 			/>
 		);
 	}

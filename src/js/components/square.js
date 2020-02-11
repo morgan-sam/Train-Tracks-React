@@ -54,15 +54,9 @@ class Square extends React.Component {
 	squareHoverStart(e) {
 		const tileClass = this.getTileClassFromEvent(e);
 		const tile = [ this.props.x, this.props.y ];
-		if (
-			(Array.isArray(this.props.leftClickDragArray) && this.props.leftClickDragArray.length) ||
-			this.props.rightClickDragValue
-		) {
-			this.props.hoverStartEvent(tileClass, tile, e.buttons);
-		} else {
-			if (this.props.className.includes('mapTile')) {
-				this.setHoverGhostTrack(e, tile);
-			}
+		this.props.hoverStartEvent(tileClass, tile, e.buttons);
+		if (e.buttons === 0) {
+			this.setHoverGhostTrack(e, tile);
 		}
 	}
 
