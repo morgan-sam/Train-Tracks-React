@@ -51,11 +51,7 @@ class Map extends React.Component {
 	}
 
 	leftReleaseEvent(trackSquareInfo, senderClassname) {
-		if (compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile)) {
-			if (senderClassname === 'mapTile') {
-				this.placeMultipleTiles([ trackSquareInfo ]);
-			}
-		}
+		this.placeTrackIfLeftClickNoDrag(trackSquareInfo, senderClassname);
 		this.leftClickDragArray = [];
 		this.forceUpdate();
 	}
@@ -74,6 +70,14 @@ class Map extends React.Component {
 			hasChanged = true;
 		}
 		return hasChanged;
+	}
+
+	placeTrackIfLeftClickNoDrag(trackSquareInfo, senderClassname) {
+		if (compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile)) {
+			if (senderClassname === 'mapTile') {
+				this.placeMultipleTiles([ trackSquareInfo ]);
+			}
+		}
 	}
 
 	hoverStartEvent(senderClassname, coordinate, senderButton) {
