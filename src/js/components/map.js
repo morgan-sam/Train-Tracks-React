@@ -1,5 +1,5 @@
 import React from 'react';
-import { compareArrays, findDirectionFromMove } from '../generateMap';
+import { isNonEmptyArray, compareArrays, findDirectionFromMove } from '../generateMap';
 
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
@@ -130,6 +130,7 @@ class Map extends React.Component {
 
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
 
+	// Needs to be refactored, far too long
 	placedDraggedTrack(coordinate, senderClassname) {
 		const directions = this.calculateDragDirection();
 		const railType = this.convertDirectionsToRailType(directions);
@@ -170,6 +171,7 @@ class Map extends React.Component {
 		this.placeMultipleTiles(tilesToPlace);
 	}
 
+	//One clear goal
 	shouldStartRailChange(startType, startCoordinate, nextCoordinate) {
 		let railShouldChange = false;
 		switch (findDirectionFromMove(nextCoordinate, startCoordinate)) {
@@ -197,6 +199,8 @@ class Map extends React.Component {
 					railShouldChange = true;
 				}
 				break;
+			default:
+				break;
 		}
 		return railShouldChange;
 	}
@@ -208,7 +212,7 @@ class Map extends React.Component {
 		const coordinate = this.previousHoverTile;
 		const dragDirection = findDirectionFromMove(newCoordinate, coordinate);
 		let connectedDirections = this.getConnectedAdjacentTracksDirections(coordinate);
-		if (Array.isArray(connectedDirections) && connectedDirections.length) {
+		if (isNonEmptyArray(connectedDirections)) {
 			const initialDirection = this.getSingleRailConnectionPosition(connectedDirections, dragDirection);
 			const directions = [ initialDirection, dragDirection ];
 			newCorner = this.convertDirectionsToRailType(directions);
@@ -223,7 +227,7 @@ class Map extends React.Component {
 	getSingleRailConnectionPosition(connectedPositions, dragDirection) {
 		let filteredPositions = removeArrayValue(connectedPositions, dragDirection);
 		filteredPositions = filteredPositions.filter((el) => el !== undefined);
-		if (Array.isArray(filteredPositions) && filteredPositions.length) {
+		if (isNonEmptyArray(filteredPositions)) {
 			return filteredPositions[0];
 		} else return false;
 	}
@@ -605,7 +609,7 @@ class Map extends React.Component {
 	}
 }
 function removeArrayValue(array, value) {
-	if (Array.isArray(array) && array.length) {
+	if (isNonEmptyArray(array)) {
 		const index = array.indexOf(value);
 		if (index > -1) {
 			array.splice(index, 1);
