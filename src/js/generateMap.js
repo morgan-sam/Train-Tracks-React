@@ -122,7 +122,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		if (checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate)) {
 			nextMove = endCoordinate;
 		} else {
-			legalMoves = legalMoves.filter((move) => checkPossibleExits(move, endCoordinate, generatedMap));
+			legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, endCoordinate, generatedMap));
 			legalMoves = mutateMoveArray(legalMoves, generatedMap);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 		}
@@ -243,7 +243,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	//Almost one clear goal but variable naming is wrong/vague
-	function checkPossibleExits(prospectiveMove, targetMove, generatedMap) {
+	function checkIfPossibleToReachTarget(startingTile, targetTile, generatedMap) {
 		//spread across all squares bound by border and other tracks
 		//use getLegalMoves() to find where to move
 		//add all tiles to a new array
@@ -251,24 +251,23 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		//if exit then return true
 		//if no exit return false
 		let possibleExits = 0;
-		let newTiles;
-		if (compareArrays(prospectiveMove, targetMove)) {
+		if (compareArrays(startingTile, targetTile)) {
 			possibleExits = true;
 		} else {
 			let takenTiles = [ ...generatedMap.tiles ];
-			waveSpread(prospectiveMove, takenTiles);
+			spreadInAllDirections(startingTile, takenTiles);
 			takenTiles.forEach(function(el) {
-				if ((el[0] === targetMove[0]) & (el[1] === targetMove[1])) possibleExits += 1;
+				if ((el[0] === targetTile[0]) & (el[1] === targetTile[1])) possibleExits += 1;
 			});
 		}
 		return possibleExits;
 
-		function waveSpread(prospectiveMove, takenTiles) {
-			newTiles = getLegalMoves(prospectiveMove, takenTiles);
+		function spreadInAllDirections(prospectiveMove, takenTiles) {
+			const newTiles = getLegalMoves(prospectiveMove, takenTiles);
 			if (isNonEmptyArray(newTiles)) {
 				newTiles.forEach(function(el) {
 					takenTiles.push(el);
-					waveSpread(el, takenTiles);
+					spreadInAllDirections(el, takenTiles);
 				});
 			}
 		}
