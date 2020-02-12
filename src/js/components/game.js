@@ -45,7 +45,7 @@ class Game extends React.Component {
 				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetCurrentMap()}>
 					Reset Map
 				</button>
-				<button key={'quitBtn'} onClick={() => null}>
+				<button key={'quitBtn'} onClick={() => this.props.saveMapSeed(prompt('Please enter a map name:'))}>
 					Save Map
 				</button>
 				<button key={'newMapBtn'} onClick={() => this.props.newMap()}>
@@ -79,7 +79,6 @@ class Game extends React.Component {
 					/>
 				</div>
 				{optionsButtons}
-
 				<br />
 				<p>
 					<span>Map Seed: {this.props.mapSeed}</span>

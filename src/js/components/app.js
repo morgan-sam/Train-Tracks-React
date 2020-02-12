@@ -1,6 +1,7 @@
 import React from 'react';
 import Game from './game';
 import { generateNewMap } from '../generateMap';
+import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 const MENU_WIDTH = '12rem';
 
 class App extends React.Component {
@@ -54,6 +55,21 @@ class App extends React.Component {
 		});
 	}
 
+	saveMapSeed(inputName) {
+		let mapToSave = {
+			name: inputName,
+			seed: this.state.mapSeed
+		};
+		let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));
+		if (isNonEmptyArray(localMaps)) {
+			const newMapArray = [ ...localMaps, mapToSave ];
+			window.localStorage.setItem('savedMaps', JSON.stringify(newMapArray));
+		} else {
+			window.localStorage.setItem('savedMaps', JSON.stringify([ mapToSave ]));
+		}
+		console.log(JSON.parse(window.localStorage.getItem('savedMaps')));
+	}
+
 	render() {
 		let gameObject;
 		let menuOptions;
@@ -69,6 +85,7 @@ class App extends React.Component {
 					mapSeed={this.state.mapSeed}
 					setGameState={this.setGameState}
 					newMap={() => this.resetMapSeed()}
+					saveMapSeed={(name) => this.saveMapSeed(name)}
 				/>
 			];
 		} else {

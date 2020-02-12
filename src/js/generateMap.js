@@ -1,12 +1,6 @@
 import seedrandom from 'seedrandom';
 
-import {
-	randomIntFromInterval,
-	removeArrayValue,
-	compareArrays,
-	isNonEmptyArray,
-	print
-} from './utility/utilityFunctions';
+import { randomIntFromInterval, compareArrays, isNonEmptyArray } from './utility/utilityFunctions';
 
 //416296017709795 very short map seed
 

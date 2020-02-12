@@ -4,13 +4,7 @@ import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 import Square from './square';
 
-import {
-	randomIntFromInterval,
-	removeArrayValue,
-	compareArrays,
-	isNonEmptyArray,
-	print
-} from '../utility/utilityFunctions';
+import { removeArrayValue, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 
 import { findDirectionFromMove } from '../generateMap';
 
