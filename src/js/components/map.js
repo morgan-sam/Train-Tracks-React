@@ -1,9 +1,18 @@
 import React from 'react';
-import { isNonEmptyArray, compareArrays, findDirectionFromMove } from '../generateMap';
 
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 import Square from './square';
+
+import {
+	randomIntFromInterval,
+	removeArrayValue,
+	compareArrays,
+	isNonEmptyArray,
+	print
+} from '../utility/utilityFunctions';
+
+import { findDirectionFromMove } from '../generateMap';
 
 class Map extends React.Component {
 	constructor(props) {
@@ -604,6 +613,8 @@ class Map extends React.Component {
 		);
 	}
 
+	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
+
 	placeColumnHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.x[x];
 		const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('x', x);
@@ -677,6 +688,8 @@ class Map extends React.Component {
 		return generatedMapComponents;
 	}
 
+	///////////// MAP - MAIN RENDER FUNCTION /////////////
+
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
@@ -684,20 +697,4 @@ class Map extends React.Component {
 		return <div className="map"> {mapComponents}</div>;
 	}
 }
-function removeArrayValue(array, value) {
-	if (isNonEmptyArray(array)) {
-		const index = array.indexOf(value);
-		if (index > -1) {
-			array.splice(index, 1);
-		}
-		return array;
-	} else {
-		return null;
-	}
-}
-
 export default Map;
-
-function print(value) {
-	console.log(JSON.parse(JSON.stringify(value)));
-}
