@@ -204,6 +204,8 @@ class Map extends React.Component {
 		return railShouldChange;
 	}
 
+	//Refactor needed, messy
+
 	convertConnectedRailToCorner(newCoordinate) {
 		let newCorner = [];
 		//If a rail is connected to another and dragged to the left of direction of the direction:
@@ -222,6 +224,8 @@ class Map extends React.Component {
 			return false;
 		}
 	}
+
+	// Poor variable names, ambiguous function
 
 	getSingleRailConnectionPosition(connectedPositions, dragDirection) {
 		let filteredPositions = removeArrayValue(connectedPositions, dragDirection);
@@ -506,6 +510,8 @@ class Map extends React.Component {
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
+	// One goal, but not clean enough
+
 	checkIfPlacedTilesAllCorrect(trainTrackMap, placedMap) {
 		let gameWon = false;
 		const correctTiles = trainTrackMap.tracks.filter(function(winning) {
@@ -518,12 +524,19 @@ class Map extends React.Component {
 		}).length;
 
 		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
+		const placedRailTrackCount = this.getPlacedRailTrackCount();
 		if (
 			correctTiles === trainTrackMap.tracks.length &&
-			trainTrackMap.tracks.length === placedMap.length + defaultTileCount
+			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
 		)
 			gameWon = true;
 		this.props.setGameWinState(gameWon);
+	}
+
+	getPlacedRailTrackCount() {
+		const placedTiles = this.state.placedTracks;
+		const placedRailTrackCount = placedTiles.filter((el) => el.railType !== 'X').length;
+		return placedRailTrackCount;
 	}
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
@@ -575,6 +588,7 @@ class Map extends React.Component {
 		return <Square className="defaultTrack" key={i} x={x} y={y} />;
 	}
 
+	// Refactor needed, far too many responsiblities
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;

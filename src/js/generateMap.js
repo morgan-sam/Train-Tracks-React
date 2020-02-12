@@ -24,8 +24,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			defaultTrack: isDefaultTrack
 		});
 	}
-
-	console.log(trainTrackMap);
 	return trainTrackMap;
 
 	//One Clear Goal
