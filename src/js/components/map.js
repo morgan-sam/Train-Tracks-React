@@ -4,7 +4,6 @@ import { isNonEmptyArray, compareArrays, findDirectionFromMove } from '../genera
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 import Square from './square';
-import DEMO_ACTIVE from '../../index.js';
 
 class Map extends React.Component {
 	constructor(props) {
@@ -20,7 +19,8 @@ class Map extends React.Component {
 
 		this.state = {
 			placedTracks: [],
-			hoveredTile: []
+			hoveredTile: [],
+			gameComplete: false
 		};
 
 		this.currentHoverTile = [ null, null ];
@@ -445,7 +445,6 @@ class Map extends React.Component {
 		} else if (tilesOnAxis === placedTrackCount) {
 			fillState = 'full';
 		}
-
 		return fillState;
 	}
 
@@ -511,16 +510,16 @@ class Map extends React.Component {
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfPlacedTilesAllCorrect(trainTrackMap) {
-		let gameWon = false;
 		const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.state.placedTracks);
 		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
 		const placedRailTrackCount = this.getPlacedRailTrackCount();
 		if (
 			correctTileCount === trainTrackMap.tracks.length &&
 			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
-		)
-			gameWon = true;
-		this.props.setGameWinState(gameWon);
+		) {
+			this.props.setGameWinState(true);
+			this.setState({ gameComplete: true });
+		}
 	}
 
 	getPlacedRailTrackCount() {
@@ -602,14 +601,14 @@ class Map extends React.Component {
 						if (y === 0) {
 							//Place X Map Headers
 							const headerLabel = trainTrackMap.headerLabels.x[x];
-							const fillState = this.getRowColumnFillstate('x', x);
+							const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('x', x);
 							return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
 						} else if (x === this.props.mapWidth) {
 							//Place Y Map Headers
 							const headerLabel = trainTrackMap.headerLabels.y[y - 1];
-							const fillState = this.getRowColumnFillstate('y', y - 1);
+							const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('y', y - 1);
 							return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
-						} else if (DEMO_ACTIVE) {
+						} else if (this.state.gameComplete) {
 							let defaultTile;
 							trainTrackMap.tracks.forEach(function(el) {
 								if (el.tile[0] === x && el.tile[1] === y - 1) {
