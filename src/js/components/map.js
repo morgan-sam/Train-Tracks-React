@@ -510,17 +510,15 @@ class Map extends React.Component {
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfPlacedTilesAllCorrect(trainTrackMap) {
-		if (!this.state.gameComplete) {
-			const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.state.placedTracks);
-			const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
-			const placedRailTrackCount = this.getPlacedRailTrackCount();
-			if (
-				correctTileCount === trainTrackMap.tracks.length &&
-				trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
-			) {
-				this.props.setGameWinState(true);
-				this.setState({ gameComplete: true });
-			}
+		const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.state.placedTracks);
+		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
+		const placedRailTrackCount = this.getPlacedRailTrackCount();
+		if (
+			correctTileCount === trainTrackMap.tracks.length &&
+			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
+		) {
+			this.props.setGameWinState(true);
+			this.setState({ gameComplete: true });
 		}
 	}
 
@@ -586,8 +584,24 @@ class Map extends React.Component {
 		);
 	}
 
-	renderDemoTrack(i, x, y) {
-		return <Square className="defaultTrack" key={i} x={x} y={y} />;
+	renderCompleteTrack(i, x, y, defaultRailType) {
+		return (
+			<Square
+				className="defaultTrack"
+				key={i}
+				x={x}
+				y={y}
+				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
+				leftClickEvent={() => null}
+				rightClickEvent={() => null}
+				leftReleaseEvent={() => null}
+				rightReleaseEvent={() => null}
+				hoverStartEvent={() => null}
+				hoverEndEvent={() => null}
+				leftClickDragArray={null}
+				rightClickDragValue={null}
+			/>
+		);
 	}
 
 	placeColumnHeader(trainTrackMap, x, y) {
@@ -609,7 +623,7 @@ class Map extends React.Component {
 				defaultTile = el.railType;
 			}
 		});
-		return this.renderDefaultTrack(x, x, y - 1, defaultTile);
+		return this.renderCompleteTrack(x, x, y - 1, defaultTile);
 	}
 
 	placeGameActiveMapTrack(trainTrackMap, x, y) {
