@@ -48,7 +48,7 @@ class Game extends React.Component {
 				<button key={'quitBtn'} onClick={() => null}>
 					Save Map
 				</button>
-				<button key={'newMapBtn'} onClick={() => null}>
+				<button key={'newMapBtn'} onClick={() => this.props.newMap()}>
 					New Map
 				</button>
 				<button key={'quitBtn'} onClick={() => this.props.setGameState(false)}>
@@ -69,6 +69,7 @@ class Game extends React.Component {
 				<div className="gameMapContainer">
 					{gameWinDisplay}
 					<Map
+						key={this.props.mapSeed}
 						className="gameMap"
 						trainTrackMap={this.props.trainTrackMap}
 						mapHeight={this.props.mapHeight}

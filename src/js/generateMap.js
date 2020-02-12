@@ -8,8 +8,10 @@ import {
 	print
 } from './utility/utilityFunctions';
 
+//416296017709795 very short map seed
+
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
-	seedrandom(416296017709795, { global: true });
+	seedrandom(mapSeed, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],

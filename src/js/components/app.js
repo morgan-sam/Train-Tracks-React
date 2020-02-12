@@ -48,11 +48,15 @@ class App extends React.Component {
 		});
 	}
 
+	resetMapSeed() {
+		this.setState({
+			mapSeed: this.getRandomSeed()
+		});
+	}
+
 	render() {
 		let gameObject;
 		let menuOptions;
-		console.log(this.state.gameActive);
-
 		if (this.state.gameActive) {
 			const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, this.state.mapSeed);
 
@@ -64,6 +68,7 @@ class App extends React.Component {
 					mapWidth={this.state.mapSize}
 					mapSeed={this.state.mapSeed}
 					setGameState={this.setGameState}
+					newMap={() => this.resetMapSeed()}
 				/>
 			];
 		} else {
