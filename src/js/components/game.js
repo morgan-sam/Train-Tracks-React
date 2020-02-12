@@ -42,7 +42,7 @@ class Game extends React.Component {
 	renderOptionsButtons() {
 		return (
 			<div>
-				<button key={'resetMapBtn'} onClick={() => null}>
+				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetPlacedTracks()}>
 					Reset Map
 				</button>
 				<button key={'quitBtn'} onClick={() => null}>
@@ -69,6 +69,7 @@ class Game extends React.Component {
 				<div className="gameMapContainer">
 					{gameWinDisplay}
 					<Map
+						ref="map"
 						key={this.props.mapSeed}
 						className="gameMap"
 						trainTrackMap={this.props.trainTrackMap}

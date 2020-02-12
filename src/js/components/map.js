@@ -410,6 +410,12 @@ class Map extends React.Component {
 		);
 	}
 
+	resetPlacedTracks() {
+		this.setState({
+			placedTracks: []
+		});
+	}
+
 	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
 
 	getRailTypeOfCoordinate(trackCoordinates) {
