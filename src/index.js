@@ -11,7 +11,8 @@ class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			gameWon: false
+			gameWon: false,
+			gameWinDisplay: false
 		};
 		this.setGameWinState = this.setGameWinState.bind(this);
 	}
@@ -20,14 +21,28 @@ class Game extends React.Component {
 		this.setState({
 			gameWon: boo
 		});
+		this.showGameWinDisplay(true);
+	}
+
+	showGameWinDisplay(boo) {
+		this.setState({
+			gameWinDisplay: boo
+		});
 	}
 
 	render() {
 		let gameWinDisplay;
-		if (this.state.gameWon) {
+		if (this.state.gameWinDisplay) {
 			gameWinDisplay = [
-				<div key={'gameWinDisplay'} className="gameWinDisplay">
+				<div key={'gameWinDisplay'} className="gameWinDisplay" onContextMenu={(e) => e.preventDefault()}>
 					You Win!
+					<button
+						key={'closeWinDisplay'}
+						className={'closeWinDisplay'}
+						onClick={() => this.showGameWinDisplay(false)}
+					>
+						X
+					</button>
 				</div>
 			];
 		}

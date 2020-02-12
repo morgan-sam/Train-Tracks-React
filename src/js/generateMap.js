@@ -1,7 +1,7 @@
 import seedrandom from 'seedrandom';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
-	seedrandom(mapSeed, { global: true });
+	seedrandom(416296017709795, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],

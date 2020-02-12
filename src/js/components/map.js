@@ -510,15 +510,17 @@ class Map extends React.Component {
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfPlacedTilesAllCorrect(trainTrackMap) {
-		const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.state.placedTracks);
-		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
-		const placedRailTrackCount = this.getPlacedRailTrackCount();
-		if (
-			correctTileCount === trainTrackMap.tracks.length &&
-			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
-		) {
-			this.props.setGameWinState(true);
-			this.setState({ gameComplete: true });
+		if (!this.state.gameComplete) {
+			const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.state.placedTracks);
+			const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
+			const placedRailTrackCount = this.getPlacedRailTrackCount();
+			if (
+				correctTileCount === trainTrackMap.tracks.length &&
+				trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
+			) {
+				this.props.setGameWinState(true);
+				this.setState({ gameComplete: true });
+			}
 		}
 	}
 
