@@ -590,55 +590,81 @@ class Map extends React.Component {
 		return <Square className="defaultTrack" key={i} x={x} y={y} />;
 	}
 
-	// Refactor needed, far too many responsiblities
-	render() {
-		window.state = this.state;
-		const trainTrackMap = this.props.trainTrackMap;
-		let mapComponents = [];
+	placeColumnHeader(trainTrackMap, x, y) {
+		const headerLabel = trainTrackMap.headerLabels.x[x];
+		const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('x', x);
+		return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+	}
+
+	placeRowHeader(trainTrackMap, x, y) {
+		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
+		const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('y', y - 1);
+		return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+	}
+
+	placeCompletedMapTrack(trainTrackMap, x, y) {
+		let defaultTile;
+		trainTrackMap.tracks.forEach(function(el) {
+			if (el.tile[0] === x && el.tile[1] === y - 1) {
+				defaultTile = el.railType;
+			}
+		});
+		return this.renderDefaultTrack(x, x, y - 1, defaultTile);
+	}
+
+	placeGameActiveMapTrack(trainTrackMap, x, y) {
+		const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
+		if (defaultTile) {
+			//Place Default Tracks
+			return this.renderDefaultTrack(x, x, y - 1, defaultTile);
+		} else {
+			//Place User Placed Tracks
+			let railImage;
+			this.state.placedTracks.forEach(function(el) {
+				if (el.tile[0] === x && el.tile[1] === y - 1) {
+					railImage = this.convertRailTypeToTrackImage(el.railType);
+				}
+			}, this);
+			if (railImage) {
+				return this.renderMapTile(x, x, y - 1, railImage);
+			} else {
+				return this.renderMapTile(x, x, y - 1, null);
+			}
+		}
+	}
+
+	placeMainMapTile(trainTrackMap, x, y) {
+		if (this.state.gameComplete) {
+			return this.placeCompletedMapTrack(trainTrackMap, x, y);
+		} else {
+			return this.placeGameActiveMapTrack(trainTrackMap, x, y);
+		}
+	}
+
+	generateMapComponents(trainTrackMap) {
+		let generatedMapComponents = [];
 		for (let y = 0; y < this.props.mapHeight + 1; y++) {
-			mapComponents.push(
+			generatedMapComponents.push(
 				<div className="mapRow" key={y}>
 					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
-						const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
 						if (y === 0) {
-							//Place X Map Headers
-							const headerLabel = trainTrackMap.headerLabels.x[x];
-							const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('x', x);
-							return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+							return this.placeColumnHeader(trainTrackMap, x, y);
 						} else if (x === this.props.mapWidth) {
-							//Place Y Map Headers
-							const headerLabel = trainTrackMap.headerLabels.y[y - 1];
-							const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('y', y - 1);
-							return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
-						} else if (this.state.gameComplete) {
-							let defaultTile;
-							trainTrackMap.tracks.forEach(function(el) {
-								if (el.tile[0] === x && el.tile[1] === y - 1) {
-									defaultTile = el.railType;
-								}
-							});
-							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
-						} else if (defaultTile) {
-							//Place Default Tracks
-							return this.renderDefaultTrack(x, x, y - 1, defaultTile);
+							return this.placeRowHeader(trainTrackMap, x, y);
 						} else {
-							//Place User Placed Tracks
-							let railImage;
-							this.state.placedTracks.forEach(function(el) {
-								if (el.tile[0] === x && el.tile[1] === y - 1) {
-									railImage = this.convertRailTypeToTrackImage(el.railType);
-								}
-							}, this);
-							if (railImage) {
-								return this.renderMapTile(x, x, y - 1, railImage);
-							} else {
-								return this.renderMapTile(x, x, y - 1, null);
-							}
+							return this.placeMainMapTile(trainTrackMap, x, y);
 						}
 					})}
 				</div>
 			);
 		}
+		return generatedMapComponents;
+	}
+
+	render() {
+		window.state = this.state;
+		const trainTrackMap = this.props.trainTrackMap;
+		const mapComponents = this.generateMapComponents(trainTrackMap);
 		return <div className="map"> {mapComponents}</div>;
 	}
 }
