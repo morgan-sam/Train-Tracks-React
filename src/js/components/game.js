@@ -6,7 +6,9 @@ class Game extends React.Component {
 		super(props);
 		this.state = {
 			gameWon: false,
-			gameWinDisplay: false
+			gameWinDisplay: false,
+			saveMapDisplay: false,
+			mapSaveName: null
 		};
 		this.setGameWinState = this.setGameWinState.bind(this);
 	}
@@ -18,22 +20,68 @@ class Game extends React.Component {
 		this.showGameWinDisplay(boo);
 	}
 
+	setMapSaveName(name) {
+		this.setState({
+			mapSaveName: name
+		});
+	}
+
 	showGameWinDisplay(boo) {
 		this.setState({
 			gameWinDisplay: boo
 		});
 	}
+	showSaveMapDisplay(boo) {
+		this.setState({
+			saveMapDisplay: boo
+		});
+	}
 
 	renderGameWinDisplay() {
 		return (
-			<div key={'gameWinDisplay'} className="gameWinDisplay" onContextMenu={(e) => e.preventDefault()}>
+			<div key={'gameWinDisplay'} className="popUpWindow winDisplay" onContextMenu={(e) => e.preventDefault()}>
 				You Win!
 				<button
 					key={'closeWinDisplay'}
-					className={'closeWinDisplay'}
+					className={'closePopUpWindow'}
 					onClick={() => this.showGameWinDisplay(false)}
 				>
 					X
+				</button>
+			</div>
+		);
+	}
+
+	renderSaveMapDisplay() {
+		return (
+			<div
+				key={'saveMapDisplay'}
+				className="popUpWindow saveMapDisplay"
+				onContextMenu={(e) => e.preventDefault()}
+			>
+				<p>Enter a name to save map as:</p>
+				<button
+					key={'closeSaveMapDisplay'}
+					className={'closePopUpWindow'}
+					onClick={() => this.showSaveMapDisplay(false)}
+				>
+					X
+				</button>
+				<input
+					key={'saveNameInputBox'}
+					className={'saveNameInputBox'}
+					onChange={(e) => this.setMapSaveName(e.target.value)}
+				/>
+				<button
+					key={'confirmSaveMapBtn'}
+					className={'confirmSaveMapBtn'}
+					onClick={() => {
+						this.props.saveMapSeed(this.state.mapSaveName);
+						this.setMapSaveName(null);
+						this.showSaveMapDisplay(false);
+					}}
+				>
+					Save Map
 				</button>
 			</div>
 		);
@@ -45,7 +93,7 @@ class Game extends React.Component {
 				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetCurrentMap()}>
 					Reset Map
 				</button>
-				<button key={'quitBtn'} onClick={() => this.props.saveMapSeed(prompt('Please enter a map name:'))}>
+				<button key={'quitBtn'} onClick={() => this.showSaveMapDisplay(true)}>
 					Save Map
 				</button>
 				<button key={'newMapBtn'} onClick={() => this.props.newMap()}>
@@ -59,15 +107,16 @@ class Game extends React.Component {
 	}
 
 	render() {
-		let gameWinDisplay;
-		if (this.state.gameWinDisplay) {
-			gameWinDisplay = this.renderGameWinDisplay();
-		}
+		let gameWinDisplay, saveMapDisplay;
+		if (this.state.gameWinDisplay) gameWinDisplay = this.renderGameWinDisplay();
+		if (this.state.saveMapDisplay) saveMapDisplay = this.renderSaveMapDisplay();
+
 		const optionsButtons = this.renderOptionsButtons();
 		return (
 			<div>
 				<div className="gameMapContainer">
 					{gameWinDisplay}
+					{saveMapDisplay}
 					<Map
 						ref="map"
 						key={this.props.mapSeed}

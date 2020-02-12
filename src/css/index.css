@@ -55,22 +55,40 @@ button {
 	display: inline-grid;
 }
 
-.gameWinDisplay {
+.popUpWindow {
 	position: absolute;
-	height: 10rem;
-	width: 10rem;
-	line-height: 10rem;
 	text-align: center;
 	background-color: #ccc;
-	font-size: 2rem;
-	z-index: 1;
+	z-index: 3;
 	border: 2px black solid;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
 }
 
-.closeWinDisplay {
+.winDisplay {
+	height: 10rem;
+	width: 10rem;
+	line-height: 10rem;
+	font-size: 2rem;
+}
+
+.saveMapDisplay {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 0.87rem;
+	padding: 1rem 3rem 1rem 3rem;
+	height: 7rem;
+	width: 12rem;
+}
+
+.saveMapDisplay > * {
+	margin: 0.35rem;
+}
+
+.closePopUpWindow {
 	position: absolute;
 	margin: 0;
 	padding: 0;
