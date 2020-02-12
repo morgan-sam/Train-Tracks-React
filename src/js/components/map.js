@@ -626,24 +626,26 @@ class Map extends React.Component {
 		return this.renderCompleteTrack(x, x, y - 1, defaultTile);
 	}
 
+	placeUserPlacedTrack(x, y) {
+		let railImage;
+		this.state.placedTracks.forEach(function(el) {
+			if (el.tile[0] === x && el.tile[1] === y - 1) {
+				railImage = this.convertRailTypeToTrackImage(el.railType);
+			}
+		}, this);
+		if (railImage) {
+			return this.renderMapTile(x, x, y - 1, railImage);
+		} else {
+			return this.renderMapTile(x, x, y - 1, null);
+		}
+	}
+
 	placeGameActiveMapTrack(trainTrackMap, x, y) {
 		const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
 		if (defaultTile) {
-			//Place Default Tracks
 			return this.renderDefaultTrack(x, x, y - 1, defaultTile);
 		} else {
-			//Place User Placed Tracks
-			let railImage;
-			this.state.placedTracks.forEach(function(el) {
-				if (el.tile[0] === x && el.tile[1] === y - 1) {
-					railImage = this.convertRailTypeToTrackImage(el.railType);
-				}
-			}, this);
-			if (railImage) {
-				return this.renderMapTile(x, x, y - 1, railImage);
-			} else {
-				return this.renderMapTile(x, x, y - 1, null);
-			}
+			return this.placeUserPlacedTrack(x, y);
 		}
 	}
 
