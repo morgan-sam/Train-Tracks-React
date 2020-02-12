@@ -24,21 +24,25 @@ class Game extends React.Component {
 		});
 	}
 
+	renderGameWinDisplay() {
+		return (
+			<div key={'gameWinDisplay'} className="gameWinDisplay" onContextMenu={(e) => e.preventDefault()}>
+				You Win!
+				<button
+					key={'closeWinDisplay'}
+					className={'closeWinDisplay'}
+					onClick={() => this.showGameWinDisplay(false)}
+				>
+					X
+				</button>
+			</div>
+		);
+	}
+
 	render() {
 		let gameWinDisplay;
 		if (this.state.gameWinDisplay) {
-			gameWinDisplay = [
-				<div key={'gameWinDisplay'} className="gameWinDisplay" onContextMenu={(e) => e.preventDefault()}>
-					You Win!
-					<button
-						key={'closeWinDisplay'}
-						className={'closeWinDisplay'}
-						onClick={() => this.showGameWinDisplay(false)}
-					>
-						X
-					</button>
-				</div>
-			];
+			gameWinDisplay = this.renderGameWinDisplay();
 		}
 		return (
 			<div>
