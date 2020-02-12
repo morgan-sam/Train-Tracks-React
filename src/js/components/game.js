@@ -39,11 +39,31 @@ class Game extends React.Component {
 		);
 	}
 
+	renderOptionsButtons() {
+		return (
+			<div>
+				<button key={'resetMapBtn'} onClick={() => null}>
+					Reset Map
+				</button>
+				<button key={'quitBtn'} onClick={() => null}>
+					Save Map
+				</button>
+				<button key={'newMapBtn'} onClick={() => null}>
+					New Map
+				</button>
+				<button key={'quitBtn'} onClick={() => this.props.setGameState(false)}>
+					Quit Game
+				</button>
+			</div>
+		);
+	}
+
 	render() {
 		let gameWinDisplay;
 		if (this.state.gameWinDisplay) {
 			gameWinDisplay = this.renderGameWinDisplay();
 		}
+		const optionsButtons = this.renderOptionsButtons();
 		return (
 			<div>
 				<div className="gameMapContainer">
@@ -56,10 +76,10 @@ class Game extends React.Component {
 						setGameWinState={this.setGameWinState}
 					/>
 				</div>
+				{optionsButtons}
+
+				<br />
 				<p>
-					<button key={'quitBtn'} onClick={() => this.props.setGameState(false)}>
-						Quit Game
-					</button>
 					<span>Map Seed: {this.props.mapSeed}</span>
 				</p>
 			</div>
