@@ -410,10 +410,12 @@ class Map extends React.Component {
 		);
 	}
 
-	resetPlacedTracks() {
+	resetCurrentMap() {
 		this.setState({
-			placedTracks: []
+			placedTracks: [],
+			gameComplete: false
 		});
+		this.props.setGameWinState(false);
 	}
 
 	///////////// MAP - RETRIEVAL FUNCTIONS /////////////

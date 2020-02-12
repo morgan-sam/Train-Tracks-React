@@ -15,7 +15,7 @@ class Game extends React.Component {
 		this.setState({
 			gameWon: boo
 		});
-		this.showGameWinDisplay(true);
+		this.showGameWinDisplay(boo);
 	}
 
 	showGameWinDisplay(boo) {
@@ -42,7 +42,7 @@ class Game extends React.Component {
 	renderOptionsButtons() {
 		return (
 			<div>
-				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetPlacedTracks()}>
+				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetCurrentMap()}>
 					Reset Map
 				</button>
 				<button key={'quitBtn'} onClick={() => null}>
