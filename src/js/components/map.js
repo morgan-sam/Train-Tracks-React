@@ -373,7 +373,7 @@ class Map extends React.Component {
 			{
 				placedTracks: newPlacedTrackArray
 			},
-			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks)
+			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap)
 		);
 	}
 
@@ -397,7 +397,7 @@ class Map extends React.Component {
 			{
 				placedTracks: filteredTracks
 			},
-			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap, this.state.placedTracks)
+			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap)
 		);
 	}
 
@@ -510,23 +510,13 @@ class Map extends React.Component {
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
-	// One goal, but not clean enough
-
-	checkIfPlacedTilesAllCorrect(trainTrackMap, placedMap) {
+	checkIfPlacedTilesAllCorrect(trainTrackMap) {
 		let gameWon = false;
-		const correctTiles = trainTrackMap.tracks.filter(function(winning) {
-			let correctTile = winning.defaultTrack;
-			placedMap.forEach(function(placed) {
-				if (compareArrays(winning.tile, placed.tile) && winning.railType === placed.railType)
-					correctTile = true;
-			});
-			return correctTile;
-		}).length;
-
+		const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.state.placedTracks);
 		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
 		const placedRailTrackCount = this.getPlacedRailTrackCount();
 		if (
-			correctTiles === trainTrackMap.tracks.length &&
+			correctTileCount === trainTrackMap.tracks.length &&
 			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
 		)
 			gameWon = true;
@@ -537,6 +527,17 @@ class Map extends React.Component {
 		const placedTiles = this.state.placedTracks;
 		const placedRailTrackCount = placedTiles.filter((el) => el.railType !== 'X').length;
 		return placedRailTrackCount;
+	}
+
+	getCorrectTileCount(trainTrackMap, placedTracks) {
+		return trainTrackMap.tracks.filter(function(winning) {
+			let correctTile = winning.defaultTrack;
+			placedTracks.forEach(function(placed) {
+				if (compareArrays(winning.tile, placed.tile) && winning.railType === placed.railType)
+					correctTile = true;
+			});
+			return correctTile;
+		}).length;
 	}
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
