@@ -70,6 +70,31 @@ class App extends React.Component {
 		console.log(JSON.parse(window.localStorage.getItem('savedMaps')));
 	}
 
+	renderMenuOptions() {
+		return (
+			<div key={'menuOptions'} className="menuOptions">
+				<p key={'Map Size Label'}>Map Size</p>
+				<select key={'selectMapSize'} name="list" id="mapSizeOption" onChange={this.mapSizeSelection}>
+					<option value={6}>6x6</option>
+					<option value={8}>8x8</option>
+					<option value={10}>10x10</option>
+				</select>
+				<p key={'Map Seed Label'}>Map Seed</p>
+				<input
+					key="mapSeedInput"
+					type="text"
+					id="mapSeedInput"
+					onChange={this.mapSeedInput}
+					defaultValue={this.state.mapSeed}
+					style={{ width: '8rem', textAlign: 'center' }}
+				/>
+				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
+					Generate Map
+				</button>
+			</div>
+		);
+	}
+
 	render() {
 		let gameObject;
 		let menuOptions;
@@ -89,26 +114,7 @@ class App extends React.Component {
 				/>
 			];
 		} else {
-			menuOptions = [
-				<p key={'Map Size Label'}>Map Size</p>,
-				<select key={'selectMapSize'} name="list" id="mapSizeOption" onChange={this.mapSizeSelection}>
-					<option value={6}>6x6</option>
-					<option value={8}>8x8</option>
-					<option value={10}>10x10</option>
-				</select>,
-				<p key={'Map Seed Label'}>Map Seed</p>,
-				<input
-					key="mapSeedInput"
-					type="text"
-					id="mapSeedInput"
-					onChange={this.mapSeedInput}
-					defaultValue={this.state.mapSeed}
-					style={{ width: '8rem', textAlign: 'center' }}
-				/>,
-				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
-					Generate Map
-				</button>
-			];
+			menuOptions = this.renderMenuOptions();
 		}
 
 		return (
