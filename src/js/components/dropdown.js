@@ -61,29 +61,20 @@ const Dropdown = () => {
 		setListOpen(false);
 	};
 
-	const renderDropDownContainer = () => {
-		let dropDownList = [];
-		if (listOpen) {
-			dropDownList = renderDropDownList();
-		}
-
-		return (
-			<div>
-				<div className={'dropdown'} style={containerStyle} onClick={() => setListOpen(!listOpen)}>
-					{`${currentValue} ▼`}
-				</div>
-				<div
-					style={{
-						position: 'absolute'
-					}}
-				>
-					{dropDownList}
-				</div>
+	return (
+		<div>
+			<div className={'dropdown'} style={containerStyle} onClick={() => setListOpen(!listOpen)}>
+				{`${currentValue} ▼`}
 			</div>
-		);
-	};
-
-	return <div>{renderDropDownContainer()}</div>;
+			<div
+				style={{
+					position: 'absolute'
+				}}
+			>
+				{listOpen ? renderDropDownList() : null}
+			</div>
+		</div>
+	);
 };
 
 export default Dropdown;
