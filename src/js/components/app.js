@@ -70,6 +70,25 @@ class App extends React.Component {
 		console.log(JSON.parse(window.localStorage.getItem('savedMaps')));
 	}
 
+	getLocalStorageMaps() {
+		let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));
+		if (!isNonEmptyArray(localMaps)) localMaps = [];
+		return localMaps;
+	}
+
+	renderSavedMapsDropdownValues() {
+		const localMaps = this.getLocalStorageMaps();
+		let dropDownValues = [];
+		localMaps.forEach((el) => {
+			dropDownValues.push(
+				<option key={el.name} value={el.seed}>
+					{el.name}
+				</option>
+			);
+		});
+		return dropDownValues;
+	}
+
 	renderMenuOptions() {
 		return (
 			<div key={'menuOptions'} className="menuOptions">
@@ -91,6 +110,12 @@ class App extends React.Component {
 				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
 					Generate Map
 				</button>
+				<select defaultValue="defaultText">
+					<option value="defaultText" disabled hidden>
+						Select a saved map to load
+					</option>
+					{this.renderSavedMapsDropdownValues()}
+				</select>
 			</div>
 		);
 	}
