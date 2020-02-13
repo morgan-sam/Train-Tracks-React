@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const Dropdown = ({ style, placeholder, options }) => {
+const Dropdown = ({ style, placeholder, options, onChange }) => {
 	const [ listOpen, setListOpen ] = useState(false);
 	const [ currentValue, setCurrentValue ] = useState(placeholder);
 
@@ -30,8 +30,7 @@ const Dropdown = ({ style, placeholder, options }) => {
 					style={{ ...listItemStyle }}
 					key={item}
 					onClick={() => {
-						setCurrentValue(item);
-						setListOpen(false);
+						optionSelected(item);
 					}}
 				>
 					{item}
@@ -59,6 +58,12 @@ const Dropdown = ({ style, placeholder, options }) => {
 		if (e.target.className === 'dropdown') {
 			return;
 		}
+		setListOpen(false);
+	};
+
+	const optionSelected = (item) => {
+		onChange(item);
+		setCurrentValue(item);
 		setListOpen(false);
 	};
 
