@@ -167,7 +167,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<div key={'gameMenuStyle'} className="gameMenuStyle" style={{ width: MENU_WIDTH }}>
-					<h1 key={'title'} className="title">
+					<h1 key={'title'} className="gameTitle">
 						Train Tracks
 					</h1>
 					{menuOptions}

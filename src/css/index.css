@@ -8,9 +8,10 @@
 	--box-dim: 4rem;
 }
 
-* {
-	margin: 0;
-	padding: 0;
+.gameTitle {
+	margin-bottom: 1rem;
+	font-size: 200%;
+	font-weight: bold;
 }
 
 button,
@@ -108,9 +109,6 @@ body {
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-.title {
-	margin-bottom: 1rem;
 }
 
 .mapRow {
