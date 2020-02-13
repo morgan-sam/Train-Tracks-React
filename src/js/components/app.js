@@ -123,7 +123,11 @@ class App extends React.Component {
 					Generate Map
 				</button>
 
-				<Dropdown placeholder={'testValue'} options={[ 1, 2, 3, 4 ]} />
+				<Dropdown
+					style={{ width: '7rem', height: '2rem' }}
+					placeholder={'testValue'}
+					options={[ 1, 2, 3, 4 ]}
+				/>
 
 				<button
 					key={'loadSeedBtn'}

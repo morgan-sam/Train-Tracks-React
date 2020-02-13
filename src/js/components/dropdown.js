@@ -1,21 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const DROPDOWN_WIDTH = 7;
-const DROPDOWN_HEIGHT = 2;
-const itemList = [ 'Apples', 'Berries', 'Citrus' ];
-
-const Dropdown = ({ placeholder, options }) => {
+const Dropdown = ({ style, placeholder, options }) => {
 	const [ listOpen, setListOpen ] = useState(false);
-
 	const [ currentValue, setCurrentValue ] = useState(placeholder);
 
 	const containerStyle = {
-		position: 'relative',
-		width: `${DROPDOWN_WIDTH}rem`,
-		height: `${DROPDOWN_HEIGHT}rem`,
-		lineHeight: `${DROPDOWN_HEIGHT}rem`,
 		backgroundColor: '#eee',
 		border: '1px black solid',
+		lineHeight: style.height,
+		...style,
+		position: 'relative',
 		WebkitUserSelect: 'none',
 		MozUserSelect: 'none',
 		msUserSelect: 'none',
@@ -48,12 +42,14 @@ const Dropdown = ({ placeholder, options }) => {
 	};
 
 	const renderDropdownArrow = () => {
-		const arrowStyling = { fontSize: '0.7rem', position: 'absolute', top: '0px', right: '5px' };
+		const arrowStyling = { fontSize: '0.75rem', position: 'absolute', right: '7.5%' };
 		return <span style={arrowStyling}>▼</span>;
 	};
 
 	useEffect(() => {
-		if (listOpen) document.addEventListener('mousedown', whileDropdownOpenClick);
+		if (listOpen) {
+			document.addEventListener('mousedown', whileDropdownOpenClick);
+		}
 		return () => document.removeEventListener('mousedown', whileDropdownOpenClick);
 	});
 
