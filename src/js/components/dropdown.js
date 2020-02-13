@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
-const DROPDOWN_WIDTH = '7rem';
-const DROPDOWN_HEIGHT = '2rem';
+const DROPDOWN_WIDTH = 7;
+const DROPDOWN_HEIGHT = 2;
 const itemList = [ 'Apples', 'Berries', 'Citrus' ];
 
 const Dropdown = () => {
@@ -12,9 +12,10 @@ const Dropdown = () => {
 	const [ currentValue, setCurrentValue ] = useState('Dropdown');
 
 	const containerStyle = {
-		width: DROPDOWN_WIDTH,
-		height: DROPDOWN_HEIGHT,
-		lineHeight: DROPDOWN_HEIGHT,
+		position: 'relative',
+		width: `${DROPDOWN_WIDTH}rem`,
+		height: `${DROPDOWN_HEIGHT}rem`,
+		lineHeight: `${DROPDOWN_HEIGHT}rem`,
 		backgroundColor: '#eee',
 		border: '1px black solid',
 		WebkitUserSelect: 'none',
@@ -23,14 +24,17 @@ const Dropdown = () => {
 		userSelect: 'none'
 	};
 
-	const listItemStyle = { ...containerStyle, borderTop: 'none' };
+	const listItemStyle = {
+		...containerStyle,
+		borderTop: 'none'
+	};
 
 	const renderDropDownList = () => {
 		let dropDownList = [];
-		itemList.forEach((item) => {
+		itemList.forEach((item, i) => {
 			dropDownList.push(
 				<div
-					style={listItemStyle}
+					style={{ ...listItemStyle }}
 					key={item}
 					onClick={() => {
 						setCurrentValue(item);
@@ -55,7 +59,13 @@ const Dropdown = () => {
 				<div style={containerStyle} onClick={() => setListOpen(true)}>
 					{`${currentValue} ▼`}
 				</div>
-				{dropDownList}
+				<div
+					style={{
+						position: 'absolute'
+					}}
+				>
+					{dropDownList}
+				</div>
 			</div>
 		);
 	};
