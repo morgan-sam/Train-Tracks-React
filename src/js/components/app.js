@@ -27,9 +27,9 @@ class App extends React.Component {
 		});
 	};
 
-	mapSeedInput = (event) => {
+	setMapSeed = (seed) => {
 		this.setState({
-			mapSeed: event.target.value
+			mapSeed: seed
 		});
 	};
 
@@ -103,19 +103,23 @@ class App extends React.Component {
 					key="mapSeedInput"
 					type="text"
 					id="mapSeedInput"
-					onChange={this.mapSeedInput}
+					onChange={(e) => this.setMapSeed(e.target.value)}
 					defaultValue={this.state.mapSeed}
 					style={{ width: '8rem', textAlign: 'center' }}
 				/>
-				<button key={'startBtn'} onClick={() => this.setGameState(true)}>
+				<button key={'generateMapBtn'} onClick={() => this.setGameState(true)}>
 					Generate Map
 				</button>
+
 				<select defaultValue="defaultText">
 					<option value="defaultText" disabled hidden>
 						Select a saved map to load
 					</option>
 					{this.renderSavedMapsDropdownValues()}
 				</select>
+				<button key={'loadSeedBtn'} onClick={() => this.setGameState(true)}>
+					Load Map
+				</button>
 			</div>
 		);
 	}
