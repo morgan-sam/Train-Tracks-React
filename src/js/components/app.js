@@ -2,6 +2,7 @@ import React from 'react';
 import Game from './game';
 import { generateNewMap } from '../generateMap';
 import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
+import seedrandom from 'seedrandom';
 const MENU_WIDTH = '12rem';
 
 class App extends React.Component {
@@ -16,6 +17,10 @@ class App extends React.Component {
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
 		this.resetGameDefaults = this.resetGameDefaults.bind(this);
+	}
+
+	setSeedrandomToDate() {
+		seedrandom(Date.now(), { global: true });
 	}
 
 	getRandomSeed() {
@@ -152,6 +157,7 @@ class App extends React.Component {
 					setGameState={this.setGameState}
 					newMap={() => this.resetMapSeed()}
 					saveMapSeed={(name) => this.saveMapSeed(name)}
+					setSeedrandomToDate={this.setSeedrandomToDate}
 				/>
 			];
 		} else {

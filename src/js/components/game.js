@@ -99,7 +99,13 @@ class Game extends React.Component {
 				<button key={'newMapBtn'} onClick={() => this.props.newMap()}>
 					New Map
 				</button>
-				<button key={'quitBtn'} onClick={() => this.props.setGameState(false)}>
+				<button
+					key={'quitBtn'}
+					onClick={() => {
+						this.props.setSeedrandomToDate();
+						this.props.setGameState(false);
+					}}
+				>
 					Quit Game
 				</button>
 			</div>
