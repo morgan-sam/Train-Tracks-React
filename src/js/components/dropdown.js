@@ -49,6 +49,8 @@ const Dropdown = ({ style, placeholder, options }) => {
 	useEffect(() => {
 		if (listOpen) {
 			document.addEventListener('mousedown', whileDropdownOpenClick);
+		} else {
+			document.removeEventListener('mousedown', whileDropdownOpenClick);
 		}
 		return () => document.removeEventListener('mousedown', whileDropdownOpenClick);
 	});
