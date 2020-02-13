@@ -34,7 +34,7 @@ class App extends React.Component {
 		});
 	};
 
-	selectedSavedMap(seed) {
+	setSelectedSavedMap(seed) {
 		this.setState({
 			selectedSavedMap: parseInt(seed)
 		});
@@ -92,11 +92,10 @@ class App extends React.Component {
 		const localMaps = this.getLocalStorageMaps();
 		let dropDownValues = [];
 		localMaps.forEach((el) => {
-			dropDownValues.push(
-				<option key={el.name} value={el.seed}>
-					{el.name}
-				</option>
-			);
+			dropDownValues.push({
+				display: el.name,
+				value: el.seed
+			});
 		});
 		return dropDownValues;
 	}
@@ -124,10 +123,10 @@ class App extends React.Component {
 				</button>
 
 				<Dropdown
-					style={{ width: '7rem', height: '2rem' }}
-					placeholder={'testValue'}
-					options={[ 1, 2, 3, 4 ]}
-					onChange={(value) => console.log(value)}
+					style={{ width: '12rem', height: '2rem' }}
+					placeholder={'Select a map'}
+					options={this.renderSavedMapsDropdownValues()}
+					onChange={(value) => this.setSelectedSavedMap(value)}
 				/>
 
 				<button

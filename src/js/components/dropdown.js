@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Dropdown = ({ style, placeholder, options, onChange }) => {
 	const [ listOpen, setListOpen ] = useState(false);
-	const [ currentValue, setCurrentValue ] = useState(placeholder);
+	const [ defaultValue, setDefaultValue ] = useState(placeholder);
 
 	const containerStyle = {
 		backgroundColor: '#eee',
@@ -28,12 +28,13 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 				<div
 					className={'dropdown'}
 					style={{ ...listItemStyle }}
-					key={item}
+					key={`dropdownOption${i}`}
 					onClick={() => {
-						optionSelected(item);
+						optionSelected(item.value);
+						setDefaultValue(item.display);
 					}}
 				>
-					{item}
+					{item.display}
 				</div>
 			);
 		});
@@ -41,7 +42,7 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 	};
 
 	const renderDropdownArrow = () => {
-		const arrowStyling = { fontSize: '0.75rem', position: 'absolute', right: '7.5%' };
+		const arrowStyling = { fontSize: '0.75rem', position: 'absolute', right: '5%' };
 		return <span style={arrowStyling}>▼</span>;
 	};
 
@@ -63,14 +64,13 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 
 	const optionSelected = (item) => {
 		onChange(item);
-		setCurrentValue(item);
 		setListOpen(false);
 	};
 
 	return (
 		<div>
 			<div className={'dropdown'} style={containerStyle} onClick={() => setListOpen(!listOpen)}>
-				{currentValue}
+				{defaultValue}
 				{renderDropdownArrow()}
 			</div>
 			<div
