@@ -123,14 +123,7 @@ class App extends React.Component {
 					Generate Map
 				</button>
 
-				{/* <select defaultValue="defaultText" onChange={(e) => this.selectedSavedMap(e.target.value)}>
-					<option value="defaultText" disabled hidden>
-						Select a saved map to load
-					</option>
-					{this.renderSavedMapsDropdownValues()}
-				</select> */}
-
-				<Dropdown>yo</Dropdown>
+				<Dropdown placeholder={'testValue'} options={[ 1, 2, 3, 4 ]} />
 
 				<button
 					key={'loadSeedBtn'}

@@ -4,12 +4,10 @@ const DROPDOWN_WIDTH = 7;
 const DROPDOWN_HEIGHT = 2;
 const itemList = [ 'Apples', 'Berries', 'Citrus' ];
 
-const Dropdown = () => {
-	const node = useRef();
-
+const Dropdown = ({ placeholder, options }) => {
 	const [ listOpen, setListOpen ] = useState(false);
 
-	const [ currentValue, setCurrentValue ] = useState('Dropdown');
+	const [ currentValue, setCurrentValue ] = useState(placeholder);
 
 	const containerStyle = {
 		position: 'relative',
@@ -29,9 +27,9 @@ const Dropdown = () => {
 		borderTop: 'none'
 	};
 
-	const renderDropDownList = () => {
+	const renderDropDownList = (options) => {
 		let dropDownList = [];
-		itemList.forEach((item, i) => {
+		options.forEach((item, i) => {
 			dropDownList.push(
 				<div
 					className={'dropdown'}
@@ -71,7 +69,7 @@ const Dropdown = () => {
 					position: 'absolute'
 				}}
 			>
-				{listOpen ? renderDropDownList() : null}
+				{listOpen ? renderDropDownList(options) : null}
 			</div>
 		</div>
 	);
