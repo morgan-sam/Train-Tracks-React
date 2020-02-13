@@ -1,65 +1,59 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 const DROPDOWN_WIDTH = '7rem';
 const DROPDOWN_HEIGHT = '2rem';
 const itemList = [ 'apples', 'berries', 'citrus' ];
 
-class Dropdown extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			defaultValue: 'Dropdown',
-			listOpen: false
-		};
-	}
+const Dropdown = () => {
+	const node = useRef();
 
-	setListOpenState(boo) {
-		this.setState({
-			listOpen: boo
-		});
-	}
+	const [ listOpen, setListOpen ] = useState(false);
 
-	renderDropDownList() {
-		console.log('123');
-	}
+	const [ currentValue, setCurrentValue ] = useState('Dropdown');
 
-	renderDropDownContainer() {
-		const containerStyle = {
-			width: DROPDOWN_WIDTH,
-			height: DROPDOWN_HEIGHT,
-			lineHeight: DROPDOWN_HEIGHT,
-			backgroundColor: '#eee',
-			border: '1px black solid',
-			WebkitUserSelect: 'none',
-			MozUserSelect: 'none',
-			msUserSelect: 'none',
-			userSelect: 'none'
-		};
-		const itemItemStyle = { ...containerStyle, borderTop: 'none' };
+	const containerStyle = {
+		width: DROPDOWN_WIDTH,
+		height: DROPDOWN_HEIGHT,
+		lineHeight: DROPDOWN_HEIGHT,
+		backgroundColor: '#eee',
+		border: '1px black solid',
+		WebkitUserSelect: 'none',
+		MozUserSelect: 'none',
+		msUserSelect: 'none',
+		userSelect: 'none'
+	};
+
+	const listItemStyle = { ...containerStyle, borderTop: 'none' };
+
+	const renderDropDownList = (itemItemStyle) => {
 		let dropDownList = [];
-		if (this.state.listOpen) {
-			itemList.forEach((el) => {
-				dropDownList.push(
-					<div style={itemItemStyle} key={el}>
-						{el}
-					</div>
-				);
-			});
+		itemList.forEach((el) => {
+			dropDownList.push(
+				<div style={listItemStyle} key={el}>
+					{el}
+				</div>
+			);
+		});
+		return dropDownList;
+	};
+
+	const renderDropDownContainer = () => {
+		let dropDownList = [];
+		if (listOpen) {
+			dropDownList = renderDropDownList();
 		}
 
 		return (
 			<div>
-				<div style={containerStyle} onClick={() => this.setListOpenState(true)}>
-					{this.state.defaultValue} ▼
+				<div style={containerStyle} onClick={() => setListOpen(true)}>
+					{`${currentValue} ▼`}
 				</div>
 				{dropDownList}
 			</div>
 		);
-	}
+	};
 
-	render() {
-		return <div>{this.renderDropDownContainer()}</div>;
-	}
-}
+	return <div>{renderDropDownContainer()}</div>;
+};
 
 export default Dropdown;
