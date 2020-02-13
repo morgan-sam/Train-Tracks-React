@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const DROPDOWN_WIDTH = 7;
 const DROPDOWN_HEIGHT = 2;
@@ -34,6 +34,7 @@ const Dropdown = () => {
 		itemList.forEach((item, i) => {
 			dropDownList.push(
 				<div
+					className={'dropdownOption'}
 					style={{ ...listItemStyle }}
 					key={item}
 					onClick={() => {
@@ -46,6 +47,18 @@ const Dropdown = () => {
 			);
 		});
 		return dropDownList;
+	};
+
+	useEffect(() => {
+		if (listOpen) document.addEventListener('mousedown', whileDropdownOpenClick);
+		return () => document.removeEventListener('mousedown', whileDropdownOpenClick);
+	});
+
+	const whileDropdownOpenClick = (e) => {
+		if (e.target.className === 'dropdownOption') {
+			return;
+		}
+		setListOpen(false);
 	};
 
 	const renderDropDownContainer = () => {
