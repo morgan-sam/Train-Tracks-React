@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 const Dropdown = ({ style, placeholder, options, onChange }) => {
 	const [ listOpen, setListOpen ] = useState(false);
 	const [ defaultValue, setDefaultValue ] = useState(placeholder);
+	const [ hoveredOption, setHoveredOption ] = useState(null);
 
 	const containerStyle = {
 		backgroundColor: '#eee',
@@ -27,12 +28,18 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 			dropDownList.push(
 				<div
 					className={'dropdown'}
-					style={{ ...listItemStyle }}
+					style={{
+						...listItemStyle,
+						backgroundColor: hoveredOption === i ? '#9999FF' : '#eee',
+						color: hoveredOption === i ? 'white' : 'black'
+					}}
 					key={`dropdownOption${i}`}
 					onClick={() => {
 						optionSelected(item.value);
 						setDefaultValue(item.display);
 					}}
+					onMouseOver={() => setHoveredOption(i)}
+					onMouseLeave={() => setHoveredOption(null)}
 				>
 					{item.display}
 				</div>
@@ -69,7 +76,11 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 
 	return (
 		<div>
-			<div className={'dropdown'} style={containerStyle} onClick={() => setListOpen(!listOpen)}>
+			<div
+				className={'dropdown'}
+				style={{ ...containerStyle, backgroundColor: listOpen ? '#ccc' : '#eee' }}
+				onClick={() => setListOpen(!listOpen)}
+			>
 				{defaultValue}
 				{renderDropdownArrow()}
 			</div>
