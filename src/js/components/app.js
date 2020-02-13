@@ -1,5 +1,6 @@
 import React from 'react';
 import Game from './game';
+import Dropdown from './dropdown';
 import { generateNewMap } from '../generateMap';
 import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import seedrandom from 'seedrandom';
@@ -122,12 +123,15 @@ class App extends React.Component {
 					Generate Map
 				</button>
 
-				<select defaultValue="defaultText" onChange={(e) => this.selectedSavedMap(e.target.value)}>
+				{/* <select defaultValue="defaultText" onChange={(e) => this.selectedSavedMap(e.target.value)}>
 					<option value="defaultText" disabled hidden>
 						Select a saved map to load
 					</option>
 					{this.renderSavedMapsDropdownValues()}
-				</select>
+				</select> */}
+
+				<Dropdown />
+
 				<button
 					key={'loadSeedBtn'}
 					onClick={() => {
