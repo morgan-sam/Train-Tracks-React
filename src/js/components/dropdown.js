@@ -35,11 +35,12 @@ class Dropdown extends React.Component {
 			msUserSelect: 'none',
 			userSelect: 'none'
 		};
+		const itemItemStyle = { ...containerStyle, borderTop: 'none' };
 		let dropDownList = [];
 		if (this.state.listOpen) {
 			itemList.forEach((el) => {
 				dropDownList.push(
-					<div style={containerStyle} key={el}>
+					<div style={itemItemStyle} key={el}>
 						{el}
 					</div>
 				);
@@ -57,7 +58,6 @@ class Dropdown extends React.Component {
 	}
 
 	render() {
-		const dropDownList = this.renderDropDownList;
 		return <div>{this.renderDropDownContainer()}</div>;
 	}
 }
