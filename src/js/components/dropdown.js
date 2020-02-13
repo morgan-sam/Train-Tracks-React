@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 
 const DROPDOWN_WIDTH = '7rem';
 const DROPDOWN_HEIGHT = '2rem';
-const itemList = [ 'apples', 'berries', 'citrus' ];
+const itemList = [ 'Apples', 'Berries', 'Citrus' ];
 
 const Dropdown = () => {
 	const node = useRef();
@@ -25,12 +25,19 @@ const Dropdown = () => {
 
 	const listItemStyle = { ...containerStyle, borderTop: 'none' };
 
-	const renderDropDownList = (itemItemStyle) => {
+	const renderDropDownList = () => {
 		let dropDownList = [];
-		itemList.forEach((el) => {
+		itemList.forEach((item) => {
 			dropDownList.push(
-				<div style={listItemStyle} key={el}>
-					{el}
+				<div
+					style={listItemStyle}
+					key={item}
+					onClick={() => {
+						setCurrentValue(item);
+						setListOpen(false);
+					}}
+				>
+					{item}
 				</div>
 			);
 		});
