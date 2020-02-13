@@ -47,6 +47,11 @@ const Dropdown = ({ placeholder, options }) => {
 		return dropDownList;
 	};
 
+	const renderDropdownArrow = () => {
+		const arrowStyling = { fontSize: '0.7rem', position: 'absolute', top: '0px', right: '5px' };
+		return <span style={arrowStyling}>▼</span>;
+	};
+
 	useEffect(() => {
 		if (listOpen) document.addEventListener('mousedown', whileDropdownOpenClick);
 		return () => document.removeEventListener('mousedown', whileDropdownOpenClick);
@@ -62,7 +67,8 @@ const Dropdown = ({ placeholder, options }) => {
 	return (
 		<div>
 			<div className={'dropdown'} style={containerStyle} onClick={() => setListOpen(!listOpen)}>
-				{`${currentValue} ▼`}
+				{currentValue}
+				{renderDropdownArrow()}
 			</div>
 			<div
 				style={{
