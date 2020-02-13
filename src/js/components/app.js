@@ -10,7 +10,8 @@ class App extends React.Component {
 		this.state = {
 			mapSize: 6,
 			gameActive: false,
-			mapSeed: this.getRandomSeed()
+			mapSeed: this.getRandomSeed(),
+			selectedSavedMap: null
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -27,9 +28,15 @@ class App extends React.Component {
 		});
 	};
 
+	selectedSavedMap(seed) {
+		this.setState({
+			selectedSavedMap: parseInt(seed)
+		});
+	}
+
 	setMapSeed = (seed) => {
 		this.setState({
-			mapSeed: seed
+			mapSeed: parseInt(seed)
 		});
 	};
 
@@ -67,7 +74,6 @@ class App extends React.Component {
 		} else {
 			window.localStorage.setItem('savedMaps', JSON.stringify([ mapToSave ]));
 		}
-		console.log(JSON.parse(window.localStorage.getItem('savedMaps')));
 	}
 
 	getLocalStorageMaps() {
@@ -111,13 +117,19 @@ class App extends React.Component {
 					Generate Map
 				</button>
 
-				<select defaultValue="defaultText">
+				<select defaultValue="defaultText" onChange={(e) => this.selectedSavedMap(e.target.value)}>
 					<option value="defaultText" disabled hidden>
 						Select a saved map to load
 					</option>
 					{this.renderSavedMapsDropdownValues()}
 				</select>
-				<button key={'loadSeedBtn'} onClick={() => this.setGameState(true)}>
+				<button
+					key={'loadSeedBtn'}
+					onClick={() => {
+						this.setMapSeed(this.state.selectedSavedMap);
+						this.setGameState(true);
+					}}
+				>
 					Load Map
 				</button>
 			</div>
