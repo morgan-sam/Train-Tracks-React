@@ -34,7 +34,7 @@ const Dropdown = () => {
 		itemList.forEach((item, i) => {
 			dropDownList.push(
 				<div
-					className={'dropdownOption'}
+					className={'dropdown'}
 					style={{ ...listItemStyle }}
 					key={item}
 					onClick={() => {
@@ -55,7 +55,7 @@ const Dropdown = () => {
 	});
 
 	const whileDropdownOpenClick = (e) => {
-		if (e.target.className === 'dropdownOption') {
+		if (e.target.className === 'dropdown') {
 			return;
 		}
 		setListOpen(false);
@@ -69,7 +69,7 @@ const Dropdown = () => {
 
 		return (
 			<div>
-				<div style={containerStyle} onClick={() => setListOpen(true)}>
+				<div className={'dropdown'} style={containerStyle} onClick={() => setListOpen(!listOpen)}>
 					{`${currentValue} ▼`}
 				</div>
 				<div
