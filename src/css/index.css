@@ -29,6 +29,13 @@ select {
 	align-items: center;
 }
 
+.menuOptions {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	align-items: center;
+}
+
 .menuOptions > * {
 	margin: 0.5rem;
 }
