@@ -31,6 +31,36 @@ class App extends React.Component {
 		return Math.floor(Math.random() * Math.pow(10, 15));
 	}
 
+	//////////////////////////////////////////
+	////////// APP STATE MANAGEMENT //////////
+	//////////////////////////////////////////
+
+	loadSavedMap() {
+		const mapSeed = this.state.selectedSavedMap;
+		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
+		this.setState({
+			trainTrackMap: trainTrackMap,
+			mapSeed,
+			gameActive: true
+		});
+	}
+
+	generateCurrentMapState() {
+		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, this.state.mapSeed);
+		this.setState({
+			trainTrackMap: trainTrackMap
+		});
+	}
+
+	generateNewMapState() {
+		const mapSeed = this.getRandomSeed();
+		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
+		this.setState({
+			trainTrackMap,
+			mapSeed
+		});
+	}
+
 	mapSizeSelection = (event) => {
 		this.setState({
 			mapSize: parseInt(event.target.value)
@@ -71,6 +101,10 @@ class App extends React.Component {
 		});
 	}
 
+	//////////////////////////////////////////
+	//////// LOCAL STORAGE MANAGEMENT ////////
+	//////////////////////////////////////////
+
 	saveMapToLocal(inputName, mapObject) {
 		let mapToSave = {
 			name: inputName,
@@ -102,6 +136,10 @@ class App extends React.Component {
 		});
 		return dropDownValues;
 	}
+
+	//////////////////////////////////////////
+	////////// APP RENDER FUNCTIONS //////////
+	//////////////////////////////////////////
 
 	renderMenuOptions() {
 		return (
@@ -148,32 +186,6 @@ class App extends React.Component {
 				</button>
 			</div>
 		);
-	}
-
-	loadSavedMap() {
-		const mapSeed = this.state.selectedSavedMap;
-		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
-		this.setState({
-			trainTrackMap: trainTrackMap,
-			mapSeed,
-			gameActive: true
-		});
-	}
-
-	generateCurrentMapState() {
-		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, this.state.mapSeed);
-		this.setState({
-			trainTrackMap: trainTrackMap
-		});
-	}
-
-	generateNewMapState() {
-		const mapSeed = this.getRandomSeed();
-		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
-		this.setState({
-			trainTrackMap,
-			mapSeed
-		});
 	}
 
 	render() {
