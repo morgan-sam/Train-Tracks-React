@@ -15,8 +15,8 @@ class App extends React.Component {
 			gameActive: false,
 			mapSeed: this.getRandomSeed(),
 			selectedSavedMap: null,
-			mapIcon: null,
-			trainTrackMap: null
+			trainTrackMap: null,
+			mapIcon: null
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -101,6 +101,13 @@ class App extends React.Component {
 		});
 	}
 
+	setMapIcon = async () => {
+		const mapIcon = await generateMapIcon();
+		this.setState({
+			mapIcon
+		});
+	};
+
 	//////////////////////////////////////////
 	//////// LOCAL STORAGE MANAGEMENT ////////
 	//////////////////////////////////////////
@@ -136,7 +143,6 @@ class App extends React.Component {
 		});
 		return dropDownValues;
 	}
-
 	//////////////////////////////////////////
 	////////// APP RENDER FUNCTIONS //////////
 	//////////////////////////////////////////
@@ -164,6 +170,7 @@ class App extends React.Component {
 					onClick={() => {
 						this.generateCurrentMapState();
 						this.setGameState(true);
+						this.setMapIcon();
 					}}
 				>
 					Generate Map
@@ -183,6 +190,9 @@ class App extends React.Component {
 					}}
 				>
 					Load Map
+				</button>
+				<button key={'showMapIcon'} onClick={() => this.setMapIcon()}>
+					Show Map Icon
 				</button>
 			</div>
 		);
@@ -205,9 +215,7 @@ class App extends React.Component {
 					}}
 					saveMapToLocal={(name, map) => this.saveMapToLocal(name, map)}
 					setSeedrandomToDate={this.setSeedrandomToDate}
-				/>,
-
-				<img src={this.state.mapIcon} />
+				/>
 			];
 		} else {
 			menuOptions = this.renderMenuOptions();
@@ -222,6 +230,7 @@ class App extends React.Component {
 					{menuOptions}
 				</div>
 				{gameObject}
+				<img src={this.state.mapIcon} />
 			</div>
 		);
 	}

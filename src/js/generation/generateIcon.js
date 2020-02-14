@@ -1,32 +1,29 @@
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 
-export const generateMapIcon = async (mapObject) => {
+export const generateMapIcon = async () => {
 	const canvas = await generateCanvas();
-	const image = await canvas.toDataURL('image/png');
+	const image = canvas.toDataURL('image/png');
 	return image;
 };
 
-function generateCanvas() {
+const generateCanvas = async () => {
 	let canvas = document.createElement('canvas');
-	canvas.width = 200;
-	canvas.height = 200;
+	canvas.width = 250;
+	canvas.height = 250;
 	let context = canvas.getContext('2d');
-
-	context.beginPath();
-	// const mapWidth = mapObject.headerLabels.x.length;
-	// const mapHeight = mapObject.headerLabels.y.length;
-
 	context.fillStyle = 'blue';
-	context.fillRect(0, 0, 200, 200);
-	context.fillStyle = 'red';
-	context.fillRect(0, 0, 150, 100);
-	const img = new Image();
-	img.onload = function() {
-		context.drawImage(img, 0, 0);
-	};
-	img.src = straighttrack;
-
-	context.stroke();
+	context.fillRect(0, 0, 250, 250);
+	let railTrack = await loadImage(straighttrack);
+	context.drawImage(railTrack, 0, 0, 250, 250);
 	return canvas;
-}
+};
+
+const loadImage = (imgURL) => {
+	return new Promise((resolve, reject) => {
+		let img = new Image();
+		img.onload = () => resolve(img);
+		img.onerror = reject;
+		img.src = imgURL;
+	});
+};
