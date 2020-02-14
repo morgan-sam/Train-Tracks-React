@@ -81,7 +81,10 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 			<div
 				className={'dropdown'}
 				style={{ ...containerStyle, backgroundColor: listOpen ? '#ccc' : '#eee' }}
-				onClick={() => setListOpen(!listOpen)}
+				onMouseDown={(e) => {
+					if (e.buttons === 1) setListOpen(!listOpen);
+				}}
+				onContextMenu={(e) => e.preventDefault()}
 			>
 				{defaultValue}
 				{renderDropdownArrow()}
