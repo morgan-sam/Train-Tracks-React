@@ -7,7 +7,7 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 
 	const containerStyle = {
 		backgroundColor: '#eee',
-		border: '1px black solid',
+		border: '1px #aaa solid',
 		lineHeight: style.height,
 		...style,
 		position: 'relative',
