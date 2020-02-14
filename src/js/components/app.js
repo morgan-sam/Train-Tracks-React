@@ -14,7 +14,9 @@ class App extends React.Component {
 			mapSize: 6,
 			gameActive: false,
 			mapSeed: this.getRandomSeed(),
-			selectedSavedMap: null
+			selectedSavedMap: null,
+			mapIcon: null,
+			trainTrackMap: null
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -70,7 +72,6 @@ class App extends React.Component {
 	}
 
 	saveMapToLocal(inputName, mapObject) {
-		generateMapIcon(mapObject);
 		let mapToSave = {
 			name: inputName,
 			seed: this.state.mapSeed
@@ -120,7 +121,13 @@ class App extends React.Component {
 					defaultValue={this.state.mapSeed}
 					style={{ width: '8rem', textAlign: 'center' }}
 				/>
-				<button key={'generateMapBtn'} onClick={() => this.setGameState(true)}>
+				<button
+					key={'generateMapBtn'}
+					onClick={() => {
+						this.generateCurrentMapState();
+						this.setGameState(true);
+					}}
+				>
 					Generate Map
 				</button>
 
@@ -144,24 +151,42 @@ class App extends React.Component {
 		);
 	}
 
+	generateCurrentMapState() {
+		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, this.state.mapSeed);
+		this.setState({
+			trainTrackMap: trainTrackMap
+		});
+	}
+
+	generateNewMapState() {
+		const mapSeed = this.getRandomSeed();
+		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
+		this.setState({
+			trainTrackMap,
+			mapSeed
+		});
+	}
+
 	render() {
 		let gameObject;
 		let menuOptions;
 		if (this.state.gameActive) {
-			const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, this.state.mapSeed);
-
 			gameObject = [
 				<Game
 					key={'game'}
-					trainTrackMap={trainTrackMap}
+					trainTrackMap={this.state.trainTrackMap}
 					mapHeight={this.state.mapSize}
 					mapWidth={this.state.mapSize}
 					mapSeed={this.state.mapSeed}
 					setGameState={this.setGameState}
-					newMap={() => this.resetMapSeed()}
+					newMap={() => {
+						this.generateNewMapState();
+					}}
 					saveMapToLocal={(name, map) => this.saveMapToLocal(name, map)}
 					setSeedrandomToDate={this.setSeedrandomToDate}
-				/>
+				/>,
+
+				<img src={this.state.mapIcon} />
 			];
 		} else {
 			menuOptions = this.renderMenuOptions();
