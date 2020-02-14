@@ -5,8 +5,10 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 	const [ defaultValue, setDefaultValue ] = useState(placeholder);
 	const [ hoveredOption, setHoveredOption ] = useState(null);
 
+	const boxBackground = 'linear-gradient(#fcfcfc, #ddd)';
+
 	const containerStyle = {
-		backgroundColor: '#eee',
+		background: boxBackground,
 		border: '1px #aaa solid',
 		lineHeight: style.height,
 		...style,
@@ -30,7 +32,7 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 					className={'dropdown'}
 					style={{
 						...listItemStyle,
-						backgroundColor: hoveredOption === i ? '#9999FF' : '#eee',
+						background: hoveredOption === i ? '#9999FF' : '#f3f3f3',
 						color: hoveredOption === i ? 'white' : 'black'
 					}}
 					key={`dropdownOption${i}`}
