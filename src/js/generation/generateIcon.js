@@ -6,6 +6,7 @@ export const generateMapIcon = async (mapObject) => {
 	const image = canvas.toDataURL('image/png');
 	return image;
 };
+
 const getRotationFromRailType = (railType) => {
 	let rotation;
 	switch (railType) {
@@ -33,21 +34,18 @@ const generateCanvas = async (mapObject) => {
 	const mapWidth = mapObject.headerLabels.x.length;
 	const mapHeight = mapObject.headerLabels.y.length;
 
-	canvas.width = 300;
-	canvas.height = 300;
+	canvas.width = 250;
+	canvas.height = 250;
 	const iconTileWidth = canvas.width / mapWidth;
 	const iconTileHeight = canvas.height / mapHeight;
 
 	let context = canvas.getContext('2d');
-	context.fillStyle = 'white';
-	context.fillRect(0, 0, 300, 300);
+
 	let curvedTrackImage = await loadImage(curvedtrack);
 	let straightTrackImage = await loadImage(straighttrack);
-	console.log(mapObject);
 
 	const drawRotatedImage = (el) => {
 		let rotation = getRotationFromRailType(el.railType);
-		console.log(rotation);
 		context.save();
 		context.translate(
 			el.tile[0] * iconTileWidth + iconTileWidth / 2,
@@ -63,6 +61,20 @@ const generateCanvas = async (mapObject) => {
 		);
 		context.restore();
 	};
+
+	const drawStraightImage = (el) => {
+		context.drawImage(
+			el.railType === 'vertical' || el.railType === 'horizontal' ? straightTrackImage : curvedTrackImage,
+			el.tile[0] * iconTileWidth,
+			el.tile[1] * iconTileHeight,
+			iconTileWidth,
+			iconTileHeight
+		);
+	};
+
+	context.fillStyle = 'white';
+	context.fillRect(0, 0, canvas.width, canvas.height);
+
 	mapObject.tracks.forEach((el) => {
 		if (
 			el.railType === 'horizontal' ||
@@ -72,13 +84,7 @@ const generateCanvas = async (mapObject) => {
 		) {
 			drawRotatedImage(el);
 		} else {
-			context.drawImage(
-				el.railType === 'vertical' || el.railType === 'horizontal' ? straightTrackImage : curvedTrackImage,
-				el.tile[0] * iconTileWidth,
-				el.tile[1] * iconTileHeight,
-				iconTileWidth,
-				iconTileHeight
-			);
+			drawStraightImage(el);
 		}
 	});
 
