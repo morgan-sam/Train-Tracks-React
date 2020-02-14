@@ -76,7 +76,7 @@ class Game extends React.Component {
 					key={'confirmSaveMapBtn'}
 					className={'confirmSaveMapBtn'}
 					onClick={() => {
-						this.props.saveMapSeed(this.state.mapSaveName);
+						this.props.saveMapToLocal(this.state.mapSaveName);
 						this.setMapSaveName(null);
 						this.showSaveMapDisplay(false);
 					}}

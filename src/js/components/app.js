@@ -68,7 +68,7 @@ class App extends React.Component {
 		});
 	}
 
-	saveMapSeed(inputName) {
+	saveMapToLocal(inputName) {
 		let mapToSave = {
 			name: inputName,
 			seed: this.state.mapSeed
@@ -157,7 +157,7 @@ class App extends React.Component {
 					mapSeed={this.state.mapSeed}
 					setGameState={this.setGameState}
 					newMap={() => this.resetMapSeed()}
-					saveMapSeed={(name) => this.saveMapSeed(name)}
+					saveMapToLocal={(name) => this.saveMapToLocal(name)}
 					setSeedrandomToDate={this.setSeedrandomToDate}
 				/>
 			];

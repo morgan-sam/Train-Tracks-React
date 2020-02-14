@@ -4,6 +4,8 @@ import { randomIntFromInterval, compareArrays, isNonEmptyArray } from './utility
 
 //416296017709795 very short map seed
 
+//901299041677033 drag feature bug bottom left corner
+
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
 
