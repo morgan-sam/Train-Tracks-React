@@ -141,14 +141,23 @@ class App extends React.Component {
 				<button
 					key={'loadSeedBtn'}
 					onClick={() => {
-						this.setMapSeed(this.state.selectedSavedMap);
-						this.setGameState(true);
+						this.loadSavedMap();
 					}}
 				>
 					Load Map
 				</button>
 			</div>
 		);
+	}
+
+	loadSavedMap() {
+		const mapSeed = this.state.selectedSavedMap;
+		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
+		this.setState({
+			trainTrackMap: trainTrackMap,
+			mapSeed,
+			gameActive: true
+		});
 	}
 
 	generateCurrentMapState() {
