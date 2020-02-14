@@ -102,7 +102,7 @@ class App extends React.Component {
 	}
 
 	setMapIcon = async () => {
-		const mapIcon = await generateMapIcon();
+		const mapIcon = await generateMapIcon(this.state.trainTrackMap);
 		this.setState({
 			mapIcon
 		});
@@ -170,7 +170,6 @@ class App extends React.Component {
 					onClick={() => {
 						this.generateCurrentMapState();
 						this.setGameState(true);
-						this.setMapIcon();
 					}}
 				>
 					Generate Map
