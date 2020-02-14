@@ -42,6 +42,7 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 					}}
 					onMouseOver={() => setHoveredOption(i)}
 					onMouseLeave={() => setHoveredOption(null)}
+					onContextMenu={(e) => e.preventDefault()}
 				>
 					{item.display}
 				</div>
