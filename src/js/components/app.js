@@ -1,7 +1,8 @@
 import React from 'react';
 import Game from './game';
 import Dropdown from './dropdown';
-import { generateNewMap } from '../generateMap';
+import { generateNewMap } from '../generation/generateMap';
+import { generateMapIcon } from '../generation/generateIcon';
 import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import seedrandom from 'seedrandom';
 const MENU_WIDTH = '12rem';
@@ -68,7 +69,8 @@ class App extends React.Component {
 		});
 	}
 
-	saveMapToLocal(inputName) {
+	saveMapToLocal(inputName, mapObject) {
+		generateMapIcon(mapObject);
 		let mapToSave = {
 			name: inputName,
 			seed: this.state.mapSeed
@@ -157,7 +159,7 @@ class App extends React.Component {
 					mapSeed={this.state.mapSeed}
 					setGameState={this.setGameState}
 					newMap={() => this.resetMapSeed()}
-					saveMapToLocal={(name) => this.saveMapToLocal(name)}
+					saveMapToLocal={(name, map) => this.saveMapToLocal(name, map)}
 					setSeedrandomToDate={this.setSeedrandomToDate}
 				/>
 			];

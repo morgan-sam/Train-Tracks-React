@@ -6,7 +6,7 @@ import Square from './square';
 
 import { removeArrayValue, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 
-import { findDirectionFromMove } from '../generateMap';
+import { findDirectionFromMove } from '../generation/generateMap';
 
 class Map extends React.Component {
 	constructor(props) {
