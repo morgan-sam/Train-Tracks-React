@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Dropdown = ({ style, placeholder, options, onChange }) => {
+const Dropdown = ({ style, placeholder, options, onChange, onHover }) => {
 	const [ listOpen, setListOpen ] = useState(false);
 	const [ defaultValue, setDefaultValue ] = useState(placeholder);
 	const [ hoveredOption, setHoveredOption ] = useState(null);
@@ -40,8 +40,14 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 						optionSelected(item.value);
 						setDefaultValue(item.display);
 					}}
-					onMouseOver={() => setHoveredOption(i)}
-					onMouseLeave={() => setHoveredOption(null)}
+					onMouseOver={() => {
+						optionHovered(item.icon);
+						setHoveredOption(i);
+					}}
+					onMouseLeave={() => {
+						optionHovered(null);
+						setHoveredOption(null);
+					}}
 					onContextMenu={(e) => e.preventDefault()}
 				>
 					{item.display}
@@ -75,6 +81,10 @@ const Dropdown = ({ style, placeholder, options, onChange }) => {
 	const optionSelected = (item) => {
 		onChange(item);
 		setListOpen(false);
+	};
+
+	const optionHovered = (item) => {
+		onHover(item);
 	};
 
 	return (

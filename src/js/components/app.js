@@ -41,7 +41,8 @@ class App extends React.Component {
 		this.setState({
 			trainTrackMap: trainTrackMap,
 			mapSeed,
-			gameActive: true
+			gameActive: true,
+			mapIcon: null
 		});
 	}
 
@@ -91,7 +92,8 @@ class App extends React.Component {
 	resetGameDefaults() {
 		this.setState({
 			mapSize: 6,
-			mapSeed: this.getRandomSeed()
+			mapSeed: this.getRandomSeed(),
+			mapIcon: null
 		});
 	}
 
@@ -101,30 +103,24 @@ class App extends React.Component {
 		});
 	}
 
-	setMapIcon = async () => {
-		const mapIcon = await generateMapIcon(this.state.trainTrackMap);
-		this.setState({
-			mapIcon
-		});
-	};
-
 	//////////////////////////////////////////
 	//////// LOCAL STORAGE MANAGEMENT ////////
 	//////////////////////////////////////////
 
-	saveMapToLocal(inputName, mapObject) {
+	saveMapToLocal = async (inputName, mapObject) => {
 		let mapToSave = {
 			name: inputName,
-			seed: this.state.mapSeed
+			seed: this.state.mapSeed,
+			mapIcon: await generateMapIcon(mapObject)
 		};
 		let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));
 		if (isNonEmptyArray(localMaps)) {
 			const newMapArray = [ ...localMaps, mapToSave ];
-			window.localStorage.setItem('savedMaps', JSON.stringify(newMapArray));
+			await window.localStorage.setItem('savedMaps', JSON.stringify(newMapArray));
 		} else {
-			window.localStorage.setItem('savedMaps', JSON.stringify([ mapToSave ]));
+			await window.localStorage.setItem('savedMaps', JSON.stringify([ mapToSave ]));
 		}
-	}
+	};
 
 	getLocalStorageMaps() {
 		let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));
@@ -138,10 +134,17 @@ class App extends React.Component {
 		localMaps.forEach((el) => {
 			dropDownValues.push({
 				display: el.name,
-				value: el.seed
+				value: el.seed,
+				icon: el.mapIcon
 			});
 		});
 		return dropDownValues;
+	}
+
+	displaySavedGameMapIcon(hoveredIcon) {
+		this.setState({
+			mapIcon: hoveredIcon
+		});
 	}
 	//////////////////////////////////////////
 	////////// APP RENDER FUNCTIONS //////////
@@ -180,6 +183,7 @@ class App extends React.Component {
 					placeholder={'Select a map'}
 					options={this.renderSavedMapsDropdownValues()}
 					onChange={(value) => this.setSelectedSavedMap(value)}
+					onHover={(hoveredMapIcon) => this.displaySavedGameMapIcon(hoveredMapIcon)}
 				/>
 
 				<button
@@ -189,9 +193,6 @@ class App extends React.Component {
 					}}
 				>
 					Load Map
-				</button>
-				<button key={'showMapIcon'} onClick={() => this.setMapIcon()}>
-					Show Map Icon
 				</button>
 			</div>
 		);
