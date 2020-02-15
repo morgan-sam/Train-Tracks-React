@@ -230,7 +230,7 @@ class App extends React.Component {
 					{menuOptions}
 				</div>
 				{gameObject}
-				<img src={this.state.mapIcon} />
+				<img alt="" src={this.state.mapIcon} />
 			</div>
 		);
 	}
