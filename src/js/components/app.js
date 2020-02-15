@@ -178,22 +178,26 @@ class App extends React.Component {
 					Generate Map
 				</button>
 
-				<Dropdown
-					style={{ width: '12rem', height: '2rem' }}
-					placeholder={'Select a map'}
-					options={this.renderSavedMapsDropdownValues()}
-					onChange={(value) => this.setSelectedSavedMap(value)}
-					onHover={(hoveredMapIcon) => this.displaySavedGameMapIcon(hoveredMapIcon)}
-				/>
+				<div className="loadMapSection">
+					<Dropdown
+						style={{ width: '12rem', height: '2rem' }}
+						placeholder={'Select a map'}
+						options={this.renderSavedMapsDropdownValues()}
+						onChange={(value) => this.setSelectedSavedMap(value)}
+						onHover={(hoveredMapIcon) => this.displaySavedGameMapIcon(hoveredMapIcon)}
+					/>
+					<img alt="" src={this.state.mapIcon} className="mapIcon" />
 
-				<button
-					key={'loadSeedBtn'}
-					onClick={() => {
-						this.loadSavedMap();
-					}}
-				>
-					Load Map
-				</button>
+					<button
+						className="loadSaveMapBtn"
+						key={'loadSeedBtn'}
+						onClick={() => {
+							this.loadSavedMap();
+						}}
+					>
+						Load Map
+					</button>
+				</div>
 			</div>
 		);
 	}
@@ -230,7 +234,6 @@ class App extends React.Component {
 					{menuOptions}
 				</div>
 				{gameObject}
-				<img alt="" src={this.state.mapIcon} />
 			</div>
 		);
 	}

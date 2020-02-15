@@ -40,6 +40,21 @@ select {
 	margin: 0.5rem;
 }
 
+.mapIcon {
+	position: absolute;
+	left: 100%;
+	top: -50%;
+	margin: 2rem;
+}
+
+.loadMapSection {
+	position: relative;
+}
+
+.loadSaveMapBtn {
+	margin: 1rem auto;
+}
+
 button {
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
