@@ -76,15 +76,17 @@ const generateCanvas = async (mapObject) => {
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
 	mapObject.tracks.forEach((el) => {
-		if (
-			el.railType === 'horizontal' ||
-			el.railType === 'topLeftCorner' ||
-			el.railType === 'topRightCorner' ||
-			el.railType === 'bottomRightCorner'
-		) {
-			drawRotatedImage(el);
-		} else {
-			drawStraightImage(el);
+		if (el.defaultTrack) {
+			if (
+				el.railType === 'horizontal' ||
+				el.railType === 'topLeftCorner' ||
+				el.railType === 'topRightCorner' ||
+				el.railType === 'bottomRightCorner'
+			) {
+				drawRotatedImage(el);
+			} else {
+				drawStraightImage(el);
+			}
 		}
 	});
 
