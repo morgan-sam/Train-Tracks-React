@@ -90,6 +90,15 @@ const generateCanvas = async (mapObject) => {
 		}
 	});
 
+	(function drawGrid() {
+		context.fillStyle = 'black';
+		for (let i = 0; i < mapWidth * mapHeight; i++) {
+			let x = i % mapWidth;
+			let y = Math.floor(i / mapHeight);
+			context.strokeRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
+		}
+	})();
+
 	return canvas;
 };
 
