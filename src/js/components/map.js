@@ -31,32 +31,32 @@ class Map extends React.Component {
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
-	leftClickEvent(trackSquareInfo, senderClassname) {
-		this.previousValueOfLeftClickTile = this.getRailTypeOfCoordinate(trackSquareInfo.tile);
-		this.initialLeftClickValue = trackSquareInfo;
+	leftClickEvent(mouseEventObject) {
+		this.previousValueOfLeftClickTile = this.getRailTypeOfCoordinate(mouseEventObject.tile);
+		this.initialLeftClickValue = mouseEventObject;
 
-		this.leftClickDragArray = [ null, null, trackSquareInfo.tile ];
+		this.leftClickDragArray = [ null, null, mouseEventObject.tile ];
 		this.forceUpdate();
 	}
 
 	//Mixed goals
-	rightClickEvent(coordinate, senderClassname) {
-		this.currentHoverTile = coordinate;
-		const tileValue = this.getRailTypeOfCoordinate(coordinate);
+	rightClickEvent(mouseEventObject) {
+		this.currentHoverTile = mouseEventObject.tile;
+		const tileValue = mouseEventObject.railType;
 		this.rightClickDragValue = tileValue === null ? 'X' : 'DELETE';
-		if (this.getRailTypeOfCoordinate(coordinate)) {
-			this.removePlacedTrack(coordinate);
+		if (this.getRailTypeOfCoordinate(mouseEventObject.tile)) {
+			this.removePlacedTrack(mouseEventObject.tile);
 		} else {
-			if (senderClassname === 'mapTile') {
-				this.placeTile(coordinate, this.rightClickDragValue);
+			if (mouseEventObject.tileClass === 'mapTile') {
+				this.placeTile(mouseEventObject.tile, this.rightClickDragValue);
 			}
 		}
 		this.forceUpdate();
 	}
 
 	//One clear goal
-	leftReleaseEvent(trackSquareInfo, senderClassname) {
-		this.placeTrackIfLeftClickNoDrag(trackSquareInfo, senderClassname);
+	leftReleaseEvent(mouseEventObject) {
+		this.placeTrackIfLeftClickNoDrag(mouseEventObject);
 		this.leftClickDragArray = [];
 		this.forceUpdate();
 	}
@@ -68,35 +68,38 @@ class Map extends React.Component {
 	}
 
 	//One goal
-	checkIfHoverTileChanged(coordinate, senderClassname) {
+	checkIfHoverTileChanged(mouseEventObject) {
 		let hasChanged = false;
-		if (!compareArrays(coordinate, this.currentHoverTile)) {
+		if (!compareArrays(mouseEventObject.tile, this.currentHoverTile)) {
 			this.previousHoverTile = this.currentHoverTile;
-			this.currentHoverTile = coordinate;
-			this.currentHoverTileClass = senderClassname;
+			this.currentHoverTile = mouseEventObject.tile;
+			this.currentHoverTileClass = mouseEventObject.tileClass;
 			hasChanged = true;
 		}
 		return hasChanged;
 	}
 
 	//One clear goal
-	placeTrackIfLeftClickNoDrag(trackSquareInfo, senderClassname) {
-		if (compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile) && senderClassname === 'mapTile') {
-			this.placeMultipleTiles([ trackSquareInfo ]);
+	placeTrackIfLeftClickNoDrag(mouseEventObject) {
+		if (
+			compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile) &&
+			mouseEventObject.tileClass === 'mapTile'
+		) {
+			this.placeTile(mouseEventObject.tile, mouseEventObject.railType);
 		}
 	}
 
 	//One clear goal
-	hoverStartEvent(senderClassname, coordinate, senderButton) {
-		if (this.checkIfHoverTileChanged(coordinate, senderClassname)) {
-			if (senderButton === 1) {
-				this.hoverWhileHoldingLeftMouseButton(coordinate, senderClassname);
+	hoverStartEvent(mouseEventObject) {
+		if (this.checkIfHoverTileChanged(mouseEventObject)) {
+			if (mouseEventObject.mouseButton === 1) {
+				this.hoverWhileHoldingLeftMouseButton(mouseEventObject);
 			}
-			if (senderButton === 2) {
-				this.hoverWhileHoldingRightMouseButton(coordinate, senderClassname);
+			if (mouseEventObject.mouseButton === 2) {
+				this.hoverWhileHoldingRightMouseButton(mouseEventObject);
 			}
-			if (senderButton === 3) {
-				this.hoverWhileHoldingBothMouseButtons(coordinate, senderClassname);
+			if (mouseEventObject.mouseButton === 3) {
+				this.hoverWhileHoldingBothMouseButtons(mouseEventObject);
 			}
 		}
 	}
@@ -107,34 +110,34 @@ class Map extends React.Component {
 	}
 
 	//One goal
-	hoverWhileHoldingLeftMouseButton(coordinate, senderClassname) {
+	hoverWhileHoldingLeftMouseButton(mouseEventObject) {
 		this.leftClickDragArray.shift();
-		this.leftClickDragArray.push(coordinate);
-		this.placedDraggedTrack(coordinate, senderClassname);
+		this.leftClickDragArray.push(mouseEventObject.tile);
+		this.placedDraggedTrack(mouseEventObject.tile);
 	}
 
 	//One goal
-	hoverWhileHoldingRightMouseButton(coordinate, senderClassname) {
+	hoverWhileHoldingRightMouseButton(mouseEventObject) {
 		if (this.rightClickDragValue === 'X') {
-			if (senderClassname === 'mapTile') {
-				this.placeTile(coordinate, this.rightClickDragValue);
+			if (mouseEventObject.tileClass === 'mapTile') {
+				this.placeTile(mouseEventObject.tile, this.rightClickDragValue);
 			}
 		} else if (this.rightClickDragValue === 'DELETE') {
-			this.removePlacedTrack(coordinate);
+			this.removePlacedTrack(mouseEventObject.tile);
 		}
 	}
 
 	//One goal
-	hoverWhileHoldingBothMouseButtons(coordinate, senderClassname) {
-		if (senderClassname === 'mapTile') {
-			this.placeTile(coordinate, 'T');
+	hoverWhileHoldingBothMouseButtons(mouseEventObject) {
+		if (mouseEventObject.tileClass === 'mapTile') {
+			this.placeTile(mouseEventObject.tile, 'T');
 		}
 	}
 
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
 
 	// Needs to be refactored, far too long
-	placedDraggedTrack(coordinate, senderClassname) {
+	placedDraggedTrack(coordinate) {
 		const directions = this.calculateDragDirection();
 		const railType = this.convertDirectionsToRailType(directions);
 

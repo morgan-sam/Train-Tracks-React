@@ -51,12 +51,21 @@ class Square extends React.Component {
 
 	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
+	getMouseEventObject(e) {
+		const mouseEventObject = {
+			tile: [ this.props.x, this.props.y ],
+			railType: this.convertButtonClassToRailType(e),
+			tileClass: this.getTileClassFromEvent(e),
+			mouseButton: e.buttons
+		};
+		return mouseEventObject;
+	}
+
 	squareHoverStart(e) {
-		const tileClass = this.getTileClassFromEvent(e);
-		const tile = [ this.props.x, this.props.y ];
-		this.props.hoverStartEvent(tileClass, tile, e.buttons);
+		const mouseEventObject = this.getMouseEventObject(e);
+		this.props.hoverStartEvent(mouseEventObject);
 		if (e.buttons === 0) {
-			this.setHoverGhostTrack(e, tile);
+			this.setHoverGhostTrack(mouseEventObject);
 		}
 	}
 
@@ -67,43 +76,32 @@ class Square extends React.Component {
 	}
 
 	squareMouseDown(e) {
-		const tileClass = this.getTileClassFromEvent(e);
-		const tile = [ this.props.x, this.props.y ];
+		const mouseEventObject = this.getMouseEventObject(e);
 		if (e.button === 0) {
-			const trackSquare = {
-				tile,
-				railType: this.convertButtonClassToRailType(e)
-			};
-			this.props.leftClickEvent(trackSquare, tileClass);
+			this.props.leftClickEvent(mouseEventObject);
 		}
 		if (e.button === 2) {
-			this.props.rightClickEvent(tile, tileClass);
+			this.props.rightClickEvent(mouseEventObject);
 		}
 	}
 
 	squareMouseUp(e) {
-		const tileClass = this.getTileClassFromEvent(e);
-		const coordinate = [ this.props.x, this.props.y ];
+		const mouseEventObject = this.getMouseEventObject(e);
 		if (e.button === 0) {
-			const trackSquare = {
-				tile: coordinate,
-				railType: this.convertButtonClassToRailType(e)
-			};
-			this.props.leftReleaseEvent(trackSquare, tileClass);
+			this.props.leftReleaseEvent(mouseEventObject);
 		}
 		if (e.button === 2) {
-			this.props.rightReleaseEvent(coordinate);
+			this.props.rightReleaseEvent();
 		}
 	}
 
 	///////////// SQUARE - HOVER GHOST TRACK FUNCTIONS /////////////
 
-	setHoverGhostTrack(e, tile) {
-		const railType = this.convertButtonClassToRailType(e);
+	setHoverGhostTrack(mouseEventObject) {
 		this.setState({
 			hoverTrack: {
-				tile,
-				railType
+				tile: mouseEventObject.tile,
+				railType: mouseEventObject.railType
 			}
 		});
 	}
