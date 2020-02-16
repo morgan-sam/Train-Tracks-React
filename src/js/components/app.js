@@ -36,14 +36,16 @@ class App extends React.Component {
 	//////////////////////////////////////////
 
 	loadSavedMap() {
-		const mapSeed = this.state.selectedSavedMap;
-		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
-		this.setState({
-			trainTrackMap: trainTrackMap,
-			mapSeed,
-			gameActive: true,
-			mapIcon: null
-		});
+		if (this.state.selectedSavedMap) {
+			const mapSeed = this.state.selectedSavedMap;
+			const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
+			this.setState({
+				trainTrackMap: trainTrackMap,
+				mapSeed,
+				gameActive: true,
+				mapIcon: null
+			});
+		}
 	}
 
 	generateCurrentMapState() {
@@ -93,7 +95,8 @@ class App extends React.Component {
 		this.setState({
 			mapSize: 6,
 			mapSeed: this.getRandomSeed(),
-			mapIcon: null
+			mapIcon: null,
+			selectedSavedMap: null
 		});
 	}
 
