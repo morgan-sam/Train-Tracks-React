@@ -189,7 +189,7 @@ class App extends React.Component {
 						onChange={(value) => this.setSelectedSavedMap(value)}
 						onHover={(hoveredMapIcon) => this.displaySavedGameMapIcon(hoveredMapIcon)}
 					/>
-					<img alt="" src={this.state.mapIcon} className="mapIcon" />
+					<img alt="" src={this.state.mapIcon} className="mapIcon" style={{ border: '1px black solid' }} />
 
 					<button
 						className="loadSaveMapBtn"
