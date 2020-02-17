@@ -152,7 +152,9 @@ class Map extends React.Component {
 			if (this.previousHoverTileClass === 'mapTile') {
 				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
 			}
-			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
+			if (this.currentHoverTileClass === 'mapTile') {
+				tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
+			}
 		} else {
 			if (this.previousHoverTileClass === 'mapTile') {
 				let railShouldChange = this.shouldStartRailChange(
