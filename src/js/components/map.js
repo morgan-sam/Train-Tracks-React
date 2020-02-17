@@ -41,7 +41,6 @@ class Map extends React.Component {
 
 	//Mixed goals
 	rightClickEvent(mouseEventObject) {
-		this.currentHoverTile = mouseEventObject.tile;
 		const tileValue = this.getRailTypeOfCoordinate(mouseEventObject.tile);
 		this.rightClickDragValue = tileValue === null ? 'X' : 'DELETE';
 		if (this.getRailTypeOfCoordinate(mouseEventObject.tile)) {
