@@ -93,10 +93,22 @@ class Game extends React.Component {
 				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetCurrentMap()}>
 					Reset Map
 				</button>
-				<button key={'saveMapBtn'} onClick={() => this.showSaveMapDisplay(true)}>
+				<button
+					key={'saveMapBtn'}
+					onClick={() => {
+						this.showSaveMapDisplay(true);
+						this.showGameWinDisplay(false);
+					}}
+				>
 					Save Map
 				</button>
-				<button key={'newMapBtn'} onClick={() => this.props.newMap()}>
+				<button
+					key={'newMapBtn'}
+					onClick={() => {
+						this.props.newMap();
+						this.showGameWinDisplay(false);
+					}}
+				>
 					New Map
 				</button>
 				<button
