@@ -41,16 +41,24 @@ class Map extends React.Component {
 
 	//Mixed goals
 	rightClickEvent(mouseEventObject) {
+		this.setRightClickDragValue(mouseEventObject);
+		this.determineRemoveOrPlaceX(mouseEventObject);
+		this.forceUpdate();
+	}
+
+	setRightClickDragValue(mouseEventObject) {
 		const tileValue = this.getRailTypeOfCoordinate(mouseEventObject.tile);
 		this.rightClickDragValue = tileValue === null ? 'X' : 'DELETE';
-		if (this.getRailTypeOfCoordinate(mouseEventObject.tile)) {
-			this.removePlacedTrack(mouseEventObject.tile);
-		} else {
-			if (mouseEventObject.tileClass === 'mapTile') {
+	}
+
+	determineRemoveOrPlaceX(mouseEventObject) {
+		if (mouseEventObject.tileClass === 'mapTile') {
+			if (this.getRailTypeOfCoordinate(mouseEventObject.tile)) {
+				this.removePlacedTrack(mouseEventObject.tile);
+			} else {
 				this.placeTile(mouseEventObject.tile, this.rightClickDragValue);
 			}
 		}
-		this.forceUpdate();
 	}
 
 	//One clear goal
