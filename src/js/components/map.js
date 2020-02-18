@@ -167,25 +167,25 @@ class Map extends React.Component {
 		if (newCorner) {
 			tilesToPlace.unshift(...this.getNewCornerTiles(newCorner));
 		} else {
-			if (this.previousHoverTileClass === 'mapTile') {
-				let railShouldChange = this.shouldStartRailChange(
-					this.previousValueOfLeftClickTile,
-					this.initialLeftClickValue.tile,
-					coordinate
-				);
-				//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
-				if (
-					!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
-					!this.previousValueOfLeftClickTile ||
-					this.previousValueOfLeftClickTile === 'T' ||
-					railShouldChange
-				) {
-					tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
-				}
-			}
-			if (this.currentHoverTileClass === 'mapTile') {
-				tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
-			}
+			// if (this.previousHoverTileClass === 'mapTile') {
+			// 	let railShouldChange = this.shouldStartRailChange(
+			// 		this.previousValueOfLeftClickTile,
+			// 		this.initialLeftClickValue.tile,
+			// 		coordinate
+			// 	);
+			// 	//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
+			// 	if (
+			// 		!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
+			// 		!this.previousValueOfLeftClickTile ||
+			// 		this.previousValueOfLeftClickTile === 'T' ||
+			// 		railShouldChange
+			// 	) {
+			// 		tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+			// 	}
+			// }
+			// if (this.currentHoverTileClass === 'mapTile') {
+			// 	tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
+			// }
 		}
 		this.placeMultipleTiles(tilesToPlace);
 	}
@@ -268,46 +268,48 @@ class Map extends React.Component {
 	getConnectedAdjacentTracksDirections(coordinate) {
 		//checks which tiles are pointing towards the dragged tile
 		const adjacentTracks = this.getAdjacentTracks(coordinate);
-		const connectedDirectionArray = adjacentTracks.map(function(adj) {
-			let connectedDirection;
-			if (adj.position === 0) {
-				if (
-					adj.railType === 'vertical' ||
-					adj.railType === 'bottomLeftCorner' ||
-					adj.railType === 'bottomRightCorner'
-				) {
-					connectedDirection = 2;
+		const connectedDirectionArray = adjacentTracks
+			.map(function(adj) {
+				let connectedDirection;
+				if (adj.position === 0) {
+					if (
+						adj.railType === 'vertical' ||
+						adj.railType === 'bottomLeftCorner' ||
+						adj.railType === 'bottomRightCorner'
+					) {
+						connectedDirection = 2;
+					}
 				}
-			}
-			if (adj.position === 3) {
-				if (
-					adj.railType === 'horizontal' ||
-					adj.railType === 'bottomRightCorner' ||
-					adj.railType === 'topRightCorner'
-				) {
-					connectedDirection = 1;
+				if (adj.position === 3) {
+					if (
+						adj.railType === 'horizontal' ||
+						adj.railType === 'bottomRightCorner' ||
+						adj.railType === 'topRightCorner'
+					) {
+						connectedDirection = 1;
+					}
 				}
-			}
-			if (adj.position === 2) {
-				if (
-					adj.railType === 'vertical' ||
-					adj.railType === 'topLeftCorner' ||
-					adj.railType === 'topRightCorner'
-				) {
-					connectedDirection = 0;
+				if (adj.position === 2) {
+					if (
+						adj.railType === 'vertical' ||
+						adj.railType === 'topLeftCorner' ||
+						adj.railType === 'topRightCorner'
+					) {
+						connectedDirection = 0;
+					}
 				}
-			}
-			if (adj.position === 1) {
-				if (
-					adj.railType === 'horizontal' ||
-					adj.railType === 'topLeftCorner' ||
-					adj.railType === 'bottomLeftCorner'
-				) {
-					connectedDirection = 3;
+				if (adj.position === 1) {
+					if (
+						adj.railType === 'horizontal' ||
+						adj.railType === 'topLeftCorner' ||
+						adj.railType === 'bottomLeftCorner'
+					) {
+						connectedDirection = 3;
+					}
 				}
-			}
-			return connectedDirection;
-		});
+				return connectedDirection;
+			})
+			.filter((el) => el !== undefined);
 		return connectedDirectionArray;
 	}
 
