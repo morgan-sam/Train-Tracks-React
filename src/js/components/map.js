@@ -13,6 +13,7 @@ class Map extends React.Component {
 		super(props);
 		this.leftClickEvent = this.leftClickEvent.bind(this);
 		this.rightClickEvent = this.rightClickEvent.bind(this);
+		this.bothClickEvent = this.bothClickEvent.bind(this);
 		this.leftReleaseEvent = this.leftReleaseEvent.bind(this);
 		this.rightReleaseEvent = this.rightReleaseEvent.bind(this);
 		this.hoverStartEvent = this.hoverStartEvent.bind(this);
@@ -34,16 +35,18 @@ class Map extends React.Component {
 	leftClickEvent(mouseEventObject) {
 		this.previousValueOfLeftClickTile = this.getRailTypeOfCoordinate(mouseEventObject.tile);
 		this.initialLeftClickValue = mouseEventObject;
-
 		this.leftClickDragArray = [ null, null, mouseEventObject.tile ];
 		this.forceUpdate();
 	}
 
-	//Mixed goals
 	rightClickEvent(mouseEventObject) {
 		this.setRightClickDragValue(mouseEventObject);
 		this.determineRemoveOrPlaceX(mouseEventObject);
 		this.forceUpdate();
+	}
+
+	bothClickEvent(mouseEventObject) {
+		this.determineIfToPlaceT(mouseEventObject);
 	}
 
 	setRightClickDragValue(mouseEventObject) {
@@ -136,8 +139,14 @@ class Map extends React.Component {
 
 	//One goal
 	hoverWhileHoldingBothMouseButtons(mouseEventObject) {
-		if (mouseEventObject.tileClass === 'mapTile') {
-			this.placeTile(mouseEventObject.tile, 'T');
+		this.determineIfToPlaceT(mouseEventObject);
+	}
+
+	determineIfToPlaceT(mouseEventObject) {
+		if (mouseEventObject.mouseButton === 3) {
+			if (mouseEventObject.tileClass === 'mapTile') {
+				this.placeTile(mouseEventObject.tile, 'T');
+			}
 		}
 	}
 
@@ -579,6 +588,7 @@ class Map extends React.Component {
 				railImage={railImage}
 				leftClickEvent={this.leftClickEvent}
 				rightClickEvent={this.rightClickEvent}
+				bothClickEvent={this.bothClickEvent}
 				leftReleaseEvent={this.leftReleaseEvent}
 				rightReleaseEvent={this.rightReleaseEvent}
 				hoverStartEvent={this.hoverStartEvent}
@@ -597,6 +607,7 @@ class Map extends React.Component {
 				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
 				leftClickEvent={this.leftClickEvent}
 				rightClickEvent={this.rightClickEvent}
+				bothClickEvent={this.bothClickEvent}
 				leftReleaseEvent={this.leftReleaseEvent}
 				rightReleaseEvent={this.rightReleaseEvent}
 				hoverStartEvent={this.hoverStartEvent}
@@ -617,6 +628,7 @@ class Map extends React.Component {
 				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
 				leftClickEvent={() => null}
 				rightClickEvent={() => null}
+				bothClickEvent={() => null}
 				leftReleaseEvent={() => null}
 				rightReleaseEvent={() => null}
 				hoverStartEvent={() => null}

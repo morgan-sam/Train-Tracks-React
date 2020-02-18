@@ -77,11 +77,15 @@ class Square extends React.Component {
 
 	squareMouseDown(e) {
 		const mouseEventObject = this.getMouseEventObject(e);
-		if (e.button === 0) {
+		console.log(mouseEventObject);
+		if (mouseEventObject.mouseButton === 1) {
 			this.props.leftClickEvent(mouseEventObject);
 		}
-		if (e.button === 2) {
+		if (mouseEventObject.mouseButton === 2) {
 			this.props.rightClickEvent(mouseEventObject);
+		}
+		if (mouseEventObject.mouseButton === 3) {
+			this.props.bothClickEvent(mouseEventObject);
 		}
 	}
 
