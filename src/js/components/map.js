@@ -158,19 +158,14 @@ class Map extends React.Component {
 		const railType = this.convertDirectionsToRailType(directions);
 
 		let tilesToPlace = [];
-		let newCorner;
 
+		let newCorner;
 		//Only change tile to new corner if on first drag
 		if (compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile)) {
 			newCorner = this.convertConnectedRailToCorner(coordinate);
 		}
 		if (newCorner) {
-			if (this.previousHoverTileClass === 'mapTile') {
-				tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
-			}
-			if (this.currentHoverTileClass === 'mapTile') {
-				tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
-			}
+			tilesToPlace.unshift(...this.getNewCornerTiles(newCorner));
 		} else {
 			if (this.previousHoverTileClass === 'mapTile') {
 				let railShouldChange = this.shouldStartRailChange(
@@ -193,6 +188,17 @@ class Map extends React.Component {
 			}
 		}
 		this.placeMultipleTiles(tilesToPlace);
+	}
+
+	getNewCornerTiles(newCorner) {
+		let tilesToPlace = [];
+		if (this.previousHoverTileClass === 'mapTile') {
+			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
+		}
+		if (this.currentHoverTileClass === 'mapTile') {
+			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
+		}
+		return tilesToPlace;
 	}
 
 	//One clear goal
