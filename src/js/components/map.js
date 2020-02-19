@@ -167,27 +167,31 @@ class Map extends React.Component {
 		if (newCorner) {
 			tilesToPlace.unshift(...this.getNewCornerTiles(newCorner));
 		} else {
-			// if (this.previousHoverTileClass === 'mapTile') {
-			// 	let railShouldChange = this.shouldStartRailChange(
-			// 		this.previousValueOfLeftClickTile,
-			// 		this.initialLeftClickValue.tile,
-			// 		coordinate
-			// 	);
-			// 	//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
-			// 	if (
-			// 		!compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile) ||
-			// 		!this.previousValueOfLeftClickTile ||
-			// 		this.previousValueOfLeftClickTile === 'T' ||
-			// 		railShouldChange
-			// 	) {
-			// 		tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
-			// 	}
-			// }
-			// if (this.currentHoverTileClass === 'mapTile') {
-			// 	tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
-			// }
+			if (this.previousHoverTileClass === 'mapTile') {
+				let railShouldChange = this.shouldStartRailChange(
+					this.previousValueOfLeftClickTile,
+					this.initialLeftClickValue.tile,
+					coordinate
+				);
+				//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
+				if (
+					this.checkIfNotFirstDragTile() ||
+					!this.previousValueOfLeftClickTile ||
+					this.previousValueOfLeftClickTile === 'T' ||
+					railShouldChange
+				) {
+					tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+				}
+			}
+			if (this.currentHoverTileClass === 'mapTile') {
+				tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
+			}
 		}
 		this.placeMultipleTiles(tilesToPlace);
+	}
+
+	checkIfNotFirstDragTile() {
+		return !compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile);
 	}
 
 	getNewCornerTiles(newCorner) {
