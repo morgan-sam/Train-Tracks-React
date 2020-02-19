@@ -174,12 +174,8 @@ class Map extends React.Component {
 					coordinate
 				);
 				//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
-				if (
-					this.checkIfNotFirstDragTile() ||
-					!this.previousValueOfLeftClickTile ||
-					this.previousValueOfLeftClickTile === 'T' ||
-					railShouldChange
-				) {
+
+				if (this.checkIfNotFirstDragTile() || this.checkIfFirstDragTileIsEmptyOrT() || railShouldChange) {
 					tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
 				}
 			}
@@ -188,6 +184,10 @@ class Map extends React.Component {
 			}
 		}
 		this.placeMultipleTiles(tilesToPlace);
+	}
+
+	checkIfFirstDragTileIsEmptyOrT() {
+		return !this.previousValueOfLeftClickTile || this.previousValueOfLeftClickTile === 'T';
 	}
 
 	checkIfNotFirstDragTile() {
