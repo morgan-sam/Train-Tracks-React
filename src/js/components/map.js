@@ -609,13 +609,14 @@ class Map extends React.Component {
 		);
 	}
 
-	renderDefaultTrack(i, x, y, defaultRailType) {
+	renderDefaultTrack(i, x, y, defaultRailType, highlighted) {
 		return (
 			<Square
 				className="defaultTrack"
 				key={i}
 				x={x}
 				y={y}
+				highlighted={highlighted}
 				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
 				leftClickEvent={this.leftClickEvent}
 				rightClickEvent={this.rightClickEvent}
@@ -692,7 +693,7 @@ class Map extends React.Component {
 	placeGameActiveMapTrack(trainTrackMap, x, y) {
 		const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
 		if (defaultTile) {
-			return this.renderDefaultTrack(x, x, y - 1, defaultTile);
+			return this.renderDefaultTrack(x, x, y - 1, defaultTile, this.props.defaultTilesHighlighted);
 		} else {
 			return this.placeUserPlacedTrack(x, y);
 		}

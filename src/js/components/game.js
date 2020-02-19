@@ -8,7 +8,8 @@ class Game extends React.Component {
 			gameWon: false,
 			gameWinDisplay: false,
 			saveMapDisplay: false,
-			mapSaveName: null
+			mapSaveName: null,
+			defaultTilesHighlighted: false
 		};
 		this.setGameWinState = this.setGameWinState.bind(this);
 	}
@@ -23,6 +24,12 @@ class Game extends React.Component {
 	setMapSaveName(name) {
 		this.setState({
 			mapSaveName: name
+		});
+	}
+
+	setDefaultTilesHighlighted(boo) {
+		this.setState({
+			defaultTilesHighlighted: boo
 		});
 	}
 
@@ -90,6 +97,12 @@ class Game extends React.Component {
 	renderOptionsButtons() {
 		return (
 			<div>
+				<button
+					key={'highlightDefaultTilesBtn'}
+					onClick={() => this.setDefaultTilesHighlighted(!this.state.defaultTilesHighlighted)}
+				>
+					{this.state.defaultTilesHighlighted ? 'Hide' : 'Show'} Default Tiles
+				</button>
 				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetCurrentMap()}>
 					Reset Map
 				</button>
@@ -139,6 +152,7 @@ class Game extends React.Component {
 						ref="map"
 						key={this.props.mapSeed}
 						className="gameMap"
+						defaultTilesHighlighted={this.state.defaultTilesHighlighted}
 						trainTrackMap={this.props.trainTrackMap}
 						mapHeight={this.props.mapHeight}
 						mapWidth={this.props.mapWidth}
