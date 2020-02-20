@@ -91,13 +91,19 @@ const generateCanvas = async (mapObject) => {
 	});
 
 	(function drawGrid() {
-		context.fillStyle = 'black';
-		for (let i = 0; i < mapWidth * mapHeight; i++) {
-			let x = i % mapWidth;
-			let y = Math.floor(i / mapHeight);
-			context.strokeRect(x * iconTileWidth, (y + 1) * iconTileHeight, iconTileWidth, iconTileHeight);
+		for (let i = 0; i < (mapWidth + 1) * (mapHeight + 1); i++) {
+			let x = i % (mapWidth + 1);
+			let y = Math.floor(i / (mapHeight + 1));
+			if (x === mapWidth || y === 0) drawHeaderBox(x, y);
+			context.fillStyle = 'black';
+			context.strokeRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
 		}
 	})();
+
+	function drawHeaderBox(x, y) {
+		context.fillStyle = '#FFE4B5';
+		context.fillRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
+	}
 
 	return canvas;
 };
