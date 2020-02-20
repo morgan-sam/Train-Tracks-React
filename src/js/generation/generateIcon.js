@@ -102,7 +102,7 @@ const generateCanvas = async (mapObject) => {
 
 	function drawHeaderBox(x, y) {
 		drawHeaderBoxBackground(x, y);
-		drawHeaderBoxText(x, y);
+		if ((y === 0 && x !== mapWidth) || (x === mapWidth && y !== 0)) drawHeaderBoxText(x, y);
 	}
 
 	function drawHeaderBoxBackground(x, y) {
@@ -111,12 +111,18 @@ const generateCanvas = async (mapObject) => {
 	}
 
 	function drawHeaderBoxText(x, y) {
-		console.log(mapObject);
 		context.fillStyle = 'black';
-		context.font = '20px Georgia';
+		context.font = '1.5rem Georgia';
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';
-		context.fillText('0', (x + 0.5) * iconTileWidth, (y + 0.5) * iconTileHeight);
+		context.fillText(getHeaderBoxText(x, y), (x + 0.5) * iconTileWidth, (y + 0.5) * iconTileHeight);
+	}
+
+	function getHeaderBoxText(x, y) {
+		let headerText = 'ERROR';
+		if (y === 0 && x !== mapWidth) headerText = mapObject.headerLabels.x[x];
+		if (x === mapWidth && y !== 0) headerText = mapObject.headerLabels.y[y - 1];
+		return headerText;
 	}
 
 	return canvas;
