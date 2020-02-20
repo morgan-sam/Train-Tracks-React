@@ -101,9 +101,17 @@ const generateCanvas = async (mapObject) => {
 	})();
 
 	function drawHeaderBox(x, y) {
-		console.log(mapObject);
+		drawHeaderBoxBackground(x, y);
+		drawHeaderBoxText(x, y);
+	}
+
+	function drawHeaderBoxBackground(x, y) {
 		context.fillStyle = '#FFE4B5';
 		context.fillRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
+	}
+
+	function drawHeaderBoxText(x, y) {
+		console.log(mapObject);
 		context.fillStyle = 'black';
 		context.font = '20px Georgia';
 		context.textAlign = 'center';
