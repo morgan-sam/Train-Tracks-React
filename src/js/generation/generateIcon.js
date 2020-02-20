@@ -36,8 +36,8 @@ const generateCanvas = async (mapObject) => {
 
 	canvas.width = 250;
 	canvas.height = 250;
-	const iconTileWidth = canvas.width / mapWidth;
-	const iconTileHeight = canvas.height / mapHeight;
+	const iconTileWidth = canvas.width / (mapWidth + 1);
+	const iconTileHeight = canvas.height / (mapHeight + 1);
 
 	let context = canvas.getContext('2d');
 
@@ -49,7 +49,7 @@ const generateCanvas = async (mapObject) => {
 		context.save();
 		context.translate(
 			el.tile[0] * iconTileWidth + iconTileWidth / 2,
-			el.tile[1] * iconTileHeight + iconTileHeight / 2
+			(el.tile[1] + 1) * iconTileHeight + iconTileHeight / 2
 		);
 		context.rotate(rotation * (Math.PI / 180));
 		context.drawImage(
@@ -66,7 +66,7 @@ const generateCanvas = async (mapObject) => {
 		context.drawImage(
 			el.railType === 'vertical' || el.railType === 'horizontal' ? straightTrackImage : curvedTrackImage,
 			el.tile[0] * iconTileWidth,
-			el.tile[1] * iconTileHeight,
+			(el.tile[1] + 1) * iconTileHeight,
 			iconTileWidth,
 			iconTileHeight
 		);
@@ -95,7 +95,7 @@ const generateCanvas = async (mapObject) => {
 		for (let i = 0; i < mapWidth * mapHeight; i++) {
 			let x = i % mapWidth;
 			let y = Math.floor(i / mapHeight);
-			context.strokeRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
+			context.strokeRect(x * iconTileWidth, (y + 1) * iconTileHeight, iconTileWidth, iconTileHeight);
 		}
 	})();
 
