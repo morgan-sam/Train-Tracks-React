@@ -287,7 +287,7 @@ class App extends React.Component {
 
 	deleteMapConfirmationScreen() {
 		return (
-			<div>
+			<div className="deleteConfirmationScreen">
 				<h3>
 					Are you sure you want to delete{' '}
 					{this.state.deleteModeOnAll ? 'ALL saved maps?' : 'the following saved map?'}

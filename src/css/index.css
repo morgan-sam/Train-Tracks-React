@@ -86,6 +86,19 @@ button {
 	padding-right: 0.5rem;
 }
 
+.confirmDeleteBtn {
+	width: 5rem;
+}
+.cancelDeleteBtn {
+	width: 5rem;
+}
+
+.deleteConfirmationScreen {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .rerollSeedBtn {
 	width: 1.4rem;
 	height: 1.4rem;
