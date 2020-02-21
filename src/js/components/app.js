@@ -10,6 +10,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			menuScreen: 'mainMenu',
 			mapSize: 6,
 			gameActive: false,
 			mapSeed: this.getRandomSeed(),
@@ -20,6 +21,9 @@ class App extends React.Component {
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
 		this.resetGameDefaults = this.resetGameDefaults.bind(this);
+		this.mainMenuScreen = this.mainMenuScreen.bind(this);
+		this.generateMapScreen = this.generateMapScreen.bind(this);
+		this.loadMapScreen = this.loadMapScreen.bind(this);
 	}
 
 	setSeedrandomToDate() {
@@ -33,6 +37,12 @@ class App extends React.Component {
 	//////////////////////////////////////////
 	////////// APP STATE MANAGEMENT //////////
 	//////////////////////////////////////////
+
+	setMenuScreen(screen) {
+		this.setState({
+			menuScreen: screen
+		});
+	}
 
 	loadSavedMap() {
 		if (this.state.selectedSavedMap) {
@@ -152,16 +162,7 @@ class App extends React.Component {
 	////////// APP RENDER FUNCTIONS //////////
 	//////////////////////////////////////////
 
-	renderMenuOptions() {
-		return (
-			<div key={'menuOptions'} className="menuOptions">
-				{this.generateMapOptionSection()}
-				{this.loadMapOptionSection()}
-			</div>
-		);
-	}
-
-	generateMapOptionSection() {
+	generateMapScreen() {
 		return (
 			<div className="generateMapSection">
 				<p key={'Map Size Label'}>Map Size</p>
@@ -189,11 +190,12 @@ class App extends React.Component {
 				>
 					Generate Map
 				</button>
+				{this.renderReturnToMainMenuBtn()}
 			</div>
 		);
 	}
 
-	loadMapOptionSection() {
+	loadMapScreen() {
 		return (
 			<div className="loadMapSection">
 				<Dropdown
@@ -219,31 +221,92 @@ class App extends React.Component {
 				>
 					Load Map
 				</button>
+				{this.renderReturnToMainMenuBtn()}
 			</div>
 		);
 	}
 
-	render() {
-		let gameObject;
-		let menuOptions;
-		if (this.state.gameActive) {
-			gameObject = [
-				<Game
-					key={'game'}
-					trainTrackMap={this.state.trainTrackMap}
-					mapHeight={this.state.mapSize}
-					mapWidth={this.state.mapSize}
-					mapSeed={this.state.mapSeed}
-					setGameState={this.setGameState}
-					newMap={() => {
-						this.generateNewMapState();
+	mainMenuScreen() {
+		return (
+			<div className="mainMenuScreen" key="mainMenuScreen">
+				<button
+					className="startGameBtn"
+					key={'startGameBtn'}
+					onClick={() => {
+						this.setMenuScreen('generateMap');
 					}}
-					saveMapToLocal={(name, map) => this.saveMapToLocal(name, map)}
-					setSeedrandomToDate={this.setSeedrandomToDate}
-				/>
-			];
+				>
+					Start Game
+				</button>
+				<button
+					className="loadSavedGameBtn"
+					key={'loadSavedGameBtn'}
+					onClick={() => {
+						this.setMenuScreen('loadMap');
+					}}
+				>
+					Load Saved Map
+				</button>
+			</div>
+		);
+	}
+
+	renderGameObject() {
+		return (
+			<Game
+				key={'game'}
+				trainTrackMap={this.state.trainTrackMap}
+				mapHeight={this.state.mapSize}
+				mapWidth={this.state.mapSize}
+				mapSeed={this.state.mapSeed}
+				setGameState={this.setGameState}
+				newMap={() => {
+					this.generateNewMapState();
+				}}
+				saveMapToLocal={(name, map) => this.saveMapToLocal(name, map)}
+				setSeedrandomToDate={this.setSeedrandomToDate}
+			/>
+		);
+	}
+
+	renderReturnToMainMenuBtn() {
+		return (
+			<button
+				className="returnToMainMenuBtn"
+				key={'returnToMainMenuBtn'}
+				onClick={() => {
+					this.setMenuScreen('mainMenu');
+				}}
+			>
+				Return To Main Menu
+			</button>
+		);
+	}
+
+	chooseMenuScreen() {
+		let menuScreen;
+		switch (this.state.menuScreen) {
+			case 'mainMenu':
+				menuScreen = this.mainMenuScreen();
+				break;
+			case 'generateMap':
+				menuScreen = this.generateMapScreen();
+				break;
+			case 'loadMap':
+				menuScreen = this.loadMapScreen();
+				break;
+			default:
+				menuScreen = this.mainMenuScreen();
+		}
+		return menuScreen;
+	}
+
+	render() {
+		let gameObject, menuScreen;
+		if (this.state.gameActive) {
+			gameObject = this.renderGameObject();
 		} else {
-			menuOptions = this.renderMenuOptions();
+			menuScreen = this.chooseMenuScreen();
 		}
 
 		return (
@@ -252,7 +315,7 @@ class App extends React.Component {
 					<h1 key={'title'} className="gameTitle">
 						Train Tracks
 					</h1>
-					{menuOptions}
+					{menuScreen}
 				</div>
 				{gameObject}
 			</div>
