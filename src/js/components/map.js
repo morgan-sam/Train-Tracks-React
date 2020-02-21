@@ -66,9 +66,11 @@ class Map extends React.Component {
 
 	//One clear goal
 	leftReleaseEvent(mouseEventObject) {
-		this.placeTrackIfLeftClickNoDrag(mouseEventObject);
-		this.leftClickDragArray = [];
-		this.forceUpdate();
+		if (isNonEmptyArray(this.leftClickDragArray)) {
+			this.placeTrackIfLeftClickNoDrag(mouseEventObject);
+			this.leftClickDragArray = [];
+			this.forceUpdate();
+		}
 	}
 
 	//One clear goal
@@ -124,9 +126,11 @@ class Map extends React.Component {
 
 	//One goal
 	hoverWhileHoldingLeftMouseButton(mouseEventObject) {
-		this.leftClickDragArray.shift();
-		this.leftClickDragArray.push(mouseEventObject.tile);
-		this.placedDraggedTrack(mouseEventObject.tile);
+		if (isNonEmptyArray(this.leftClickDragArray)) {
+			this.leftClickDragArray.shift();
+			this.leftClickDragArray.push(mouseEventObject.tile);
+			this.placedDraggedTrack(mouseEventObject.tile);
+		}
 	}
 
 	//One goal
