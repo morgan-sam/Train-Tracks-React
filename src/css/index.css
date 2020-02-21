@@ -89,6 +89,9 @@ button {
 	-ms-user-select: none;
 	user-select: none;
 }
+.loadMapDropdown {
+	z-index: 2;
+}
 
 .mapSeedInput {
 	display: flex;

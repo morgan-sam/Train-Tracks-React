@@ -199,6 +199,7 @@ class App extends React.Component {
 		return (
 			<div className="loadMapSection">
 				<Dropdown
+					className="loadMapDropdown"
 					style={{ width: '12rem', height: '2rem' }}
 					placeholder={'Select a map'}
 					options={this.renderSavedMapsDropdownValues()}

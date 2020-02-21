@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Dropdown = ({ style, placeholder, options, onChange, onHover }) => {
+const Dropdown = ({ style, placeholder, options, onChange, onHover, className }) => {
 	const [ listOpen, setListOpen ] = useState(false);
 	const [ defaultValue, setDefaultValue ] = useState(placeholder);
 	const [ hoveredOption, setHoveredOption ] = useState(null);
@@ -88,7 +88,7 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover }) => {
 	};
 
 	return (
-		<div>
+		<div className={className}>
 			<div
 				className={'dropdown'}
 				style={{ ...containerStyle, backgroundColor: listOpen ? '#ccc' : '#eee' }}
