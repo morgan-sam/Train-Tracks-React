@@ -156,6 +156,15 @@ class App extends React.Component {
 	renderMenuOptions() {
 		return (
 			<div key={'menuOptions'} className="menuOptions">
+				{this.generateMapOptionSection()}
+				{this.loadMapOptionSection()}
+			</div>
+		);
+	}
+
+	generateMapOptionSection() {
+		return (
+			<div className="generateMapSection">
 				<p key={'Map Size Label'}>Map Size</p>
 				<select key={'selectMapSize'} name="list" id="mapSizeOption" onChange={this.mapSizeSelection}>
 					<option value={6}>6x6</option>
@@ -180,32 +189,36 @@ class App extends React.Component {
 				>
 					Generate Map
 				</button>
+			</div>
+		);
+	}
 
-				<div className="loadMapSection">
-					<Dropdown
-						style={{ width: '12rem', height: '2rem' }}
-						placeholder={'Select a map'}
-						options={this.renderSavedMapsDropdownValues()}
-						onChange={(value) => this.setSelectedSavedMap(value)}
-						onHover={(hoveredMapIcon) => this.displaySavedGameMapIcon(hoveredMapIcon)}
-					/>
-					<img
-						alt=""
-						src={this.state.mapIcon}
-						className="mapIcon"
-						style={{ border: this.state.mapIcon ? '0.15rem #aaa solid' : 'none' }}
-					/>
+	loadMapOptionSection() {
+		return (
+			<div className="loadMapSection">
+				<Dropdown
+					style={{ width: '12rem', height: '2rem' }}
+					placeholder={'Select a map'}
+					options={this.renderSavedMapsDropdownValues()}
+					onChange={(value) => this.setSelectedSavedMap(value)}
+					onHover={(hoveredMapIcon) => this.displaySavedGameMapIcon(hoveredMapIcon)}
+				/>
+				<img
+					alt=""
+					src={this.state.mapIcon}
+					className="mapIcon"
+					style={{ border: this.state.mapIcon ? '0.15rem #aaa solid' : 'none' }}
+				/>
 
-					<button
-						className="loadSaveMapBtn"
-						key={'loadSeedBtn'}
-						onClick={() => {
-							this.loadSavedMap();
-						}}
-					>
-						Load Map
-					</button>
-				</div>
+				<button
+					className="loadSaveMapBtn"
+					key={'loadSeedBtn'}
+					onClick={() => {
+						this.loadSavedMap();
+					}}
+				>
+					Load Map
+				</button>
 			</div>
 		);
 	}

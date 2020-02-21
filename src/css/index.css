@@ -47,12 +47,14 @@ select {
 	margin: 2rem;
 }
 
-.loadMapSection {
+.generateMapSection > * {
+	margin: 0.5rem auto;
 	position: relative;
 }
 
-.loadSaveMapBtn {
-	margin: 1rem auto;
+.loadMapSection > * {
+	position: relative;
+	margin: 0.5rem auto;
 }
 
 button {
