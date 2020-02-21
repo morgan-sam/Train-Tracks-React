@@ -260,21 +260,14 @@ class Map extends React.Component {
 		return railShouldChange;
 	}
 
-	//Refactor needed, messy
-
 	convertConnectedRailToCorner(newCoordinate) {
-		let newCorner = [];
-		//If a rail is connected to another and dragged to the left of direction of the direction:
-		//convert it to a corner rail to maintain the connection
-		const coordinate = this.previousHoverTile;
-		const dragDirection = findDirectionFromMove(newCoordinate, coordinate);
-		let connectedDirections = this.getConnectedAdjacentTracksDirections(coordinate);
+		const dragDirection = findDirectionFromMove(newCoordinate, this.previousHoverTile);
+		let connectedDirections = this.getConnectedAdjacentTracksDirections(this.previousHoverTile);
 		if (isNonEmptyArray(connectedDirections)) {
 			const initialDirection = this.getSingleRailConnectionPosition(connectedDirections, dragDirection);
 			const directions = [ initialDirection, dragDirection ];
-			newCorner = this.convertDirectionsToRailType(directions);
+			return this.convertDirectionsToRailType(directions);
 		}
-		return newCorner;
 	}
 
 	// Poor variable names, ambiguous function
