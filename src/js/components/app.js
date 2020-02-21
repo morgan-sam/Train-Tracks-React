@@ -312,7 +312,7 @@ class App extends React.Component {
 
 		return (
 			<div key={'appScreen'} className="appScreen">
-				<div key={'gameMenuStyle'} className="gameMenuStyle">
+				<div key={'menuScreen'} className="menuScreen">
 					<h1 key={'title'} className="gameTitle">
 						Train Tracks
 					</h1>

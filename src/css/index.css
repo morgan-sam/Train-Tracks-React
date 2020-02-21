@@ -36,11 +36,11 @@ select {
 	align-items: center;
 	justify-content: center;
 }
-.gameMenuStyle > * {
+.menuScreen > * {
 	display: flex;
 	flex-direction: column;
 }
-.gameMenuStyle > * > * {
+.menuScreen > * > * {
 	margin: 0.4rem;
 }
 .menuOptions {
