@@ -83,7 +83,6 @@ class App extends React.Component {
 	};
 
 	setSelectedSavedMap(seed, mapObject) {
-		console.log(mapObject);
 		this.setState({
 			selectedSavedMapSeed: parseInt(seed),
 			selectedSavedMapObject: mapObject
@@ -110,7 +109,8 @@ class App extends React.Component {
 			mapSize: 6,
 			mapSeed: this.getRandomSeed(),
 			mapIcon: null,
-			selectedSavedMapSeed: null
+			selectedSavedMapSeed: null,
+			selectedSavedMapObject: null
 		});
 	}
 
