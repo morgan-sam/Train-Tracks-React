@@ -427,7 +427,7 @@ class Map extends React.Component {
 	placeMultipleTiles(newTileObjArray) {
 		let newPlacedTrackArray = this.filterPlacedTracksOfNewTiles(newTileObjArray);
 		newTileObjArray.forEach(function(el) {
-			newPlacedTrackArray.push(el);
+			if (el.railType) newPlacedTrackArray.push(el);
 		});
 		this.setState(
 			{
