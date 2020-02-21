@@ -41,7 +41,7 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 						setDefaultValue(item.display);
 					}}
 					onMouseOver={() => {
-						optionHovered(item.icon);
+						optionHovered(item.mapObject);
 						setHoveredOption(i);
 					}}
 					onMouseLeave={() => {
@@ -76,6 +76,7 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 			return;
 		}
 		setListOpen(false);
+		onHover(false);
 	};
 
 	const optionSelected = (item) => {

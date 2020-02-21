@@ -125,7 +125,7 @@ class App extends React.Component {
 		let mapToSave = {
 			name: inputName,
 			seed: this.state.mapSeed,
-			mapIcon: await generateMapIcon(mapObject)
+			mapObject: mapObject
 		};
 		let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));
 		if (isNonEmptyArray(localMaps)) {
@@ -142,24 +142,24 @@ class App extends React.Component {
 		return localMaps;
 	}
 
-	renderSavedMapsDropdownValues() {
+	renderSavedMapsDropdownValues = () => {
 		const localMaps = this.getLocalStorageMaps();
 		let dropDownValues = [];
-		localMaps.forEach((el) => {
+		localMaps.forEach(async (el) => {
 			dropDownValues.push({
 				display: el.name,
 				value: el.seed,
-				icon: el.mapIcon
+				mapObject: el.mapObject
 			});
 		});
 		return dropDownValues;
-	}
+	};
 
-	displaySavedGameMapIcon(hoveredIcon) {
+	displaySavedGameMapIcon = async (mapObject) => {
 		this.setState({
-			mapIcon: hoveredIcon
+			mapIcon: mapObject ? await generateMapIcon(mapObject) : null
 		});
-	}
+	};
 
 	setMapSeedInputValue(mapSeed) {
 		const mapSeedInput = document.getElementById('mapSeedInput');
@@ -223,7 +223,9 @@ class App extends React.Component {
 					placeholder={'Select a map'}
 					options={this.renderSavedMapsDropdownValues()}
 					onChange={(value) => this.setSelectedSavedMap(value)}
-					onHover={(hoveredMapIcon) => this.displaySavedGameMapIcon(hoveredMapIcon)}
+					onHover={(mapObject) => {
+						if (mapObject !== null) this.displaySavedGameMapIcon(mapObject);
+					}}
 				/>
 				<img
 					alt=""
