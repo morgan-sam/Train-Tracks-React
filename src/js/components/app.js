@@ -14,7 +14,8 @@ class App extends React.Component {
 			mapSize: 6,
 			gameActive: false,
 			mapSeed: this.getRandomSeed(),
-			selectedSavedMap: null,
+			selectedSavedMapSeed: null,
+			selectedSavedMapObject: null,
 			trainTrackMap: null,
 			mapIcon: null,
 			deleteModeOnAll: false
@@ -46,8 +47,8 @@ class App extends React.Component {
 	}
 
 	loadSavedMap() {
-		if (this.state.selectedSavedMap) {
-			const mapSeed = this.state.selectedSavedMap;
+		if (this.state.selectedSavedMapSeed) {
+			const mapSeed = this.state.selectedSavedMapSeed;
 			const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
 			this.setState({
 				trainTrackMap: trainTrackMap,
@@ -81,9 +82,11 @@ class App extends React.Component {
 		});
 	};
 
-	setSelectedSavedMap(seed) {
+	setSelectedSavedMap(seed, mapObject) {
+		console.log(mapObject);
 		this.setState({
-			selectedSavedMap: parseInt(seed)
+			selectedSavedMapSeed: parseInt(seed),
+			selectedSavedMapObject: mapObject
 		});
 	}
 
@@ -107,7 +110,7 @@ class App extends React.Component {
 			mapSize: 6,
 			mapSeed: this.getRandomSeed(),
 			mapIcon: null,
-			selectedSavedMap: null
+			selectedSavedMapSeed: null
 		});
 	}
 
@@ -215,6 +218,8 @@ class App extends React.Component {
 	}
 
 	loadMapScreen() {
+		if (this.state.selectedSavedMapObject && !this.state.mapIcon)
+			this.displaySavedGameMapIcon(this.state.selectedSavedMapObject);
 		return (
 			<div className="loadMapSection">
 				<Dropdown
@@ -222,7 +227,7 @@ class App extends React.Component {
 					style={{ width: '12rem', height: '2rem' }}
 					placeholder={'Select a map'}
 					options={this.renderSavedMapsDropdownValues()}
-					onChange={(value) => this.setSelectedSavedMap(value)}
+					onChange={(value, mapObject) => this.setSelectedSavedMap(value, mapObject)}
 					onHover={(mapObject) => {
 						if (mapObject !== null) this.displaySavedGameMapIcon(mapObject);
 					}}

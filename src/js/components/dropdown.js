@@ -37,7 +37,7 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 					}}
 					key={`dropdownOption${i}`}
 					onClick={() => {
-						optionSelected(item.value);
+						optionSelected(item.value, item.mapObject);
 						setDefaultValue(item.display);
 					}}
 					onMouseOver={() => {
@@ -79,8 +79,8 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 		onHover(false);
 	};
 
-	const optionSelected = (item) => {
-		onChange(item);
+	const optionSelected = (item, mapObject) => {
+		onChange(item, mapObject);
 		setListOpen(false);
 	};
 
