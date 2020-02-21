@@ -9,7 +9,7 @@
 }
 
 .gameTitle {
-	margin-bottom: 1rem;
+	margin: 2rem;
 	font-size: 200%;
 	font-weight: bold;
 }
@@ -36,13 +36,16 @@ select {
 	align-items: center;
 	justify-content: center;
 }
+
 .menuScreen > * {
 	display: flex;
 	flex-direction: column;
 }
+
 .menuScreen > * > * {
 	margin: 0.4rem;
 }
+
 .menuOptions {
 	display: flex;
 	flex-direction: column;
@@ -77,6 +80,10 @@ button {
 	padding-right: 0.5rem;
 }
 
+.returnToMainMenuBtn {
+	margin: 2rem;
+}
+
 .gameMapContainer {
 	display: inline-block;
 	position: relative;
@@ -100,7 +107,9 @@ button {
 .map {
 	display: inline-grid;
 }
-
+.inGameOptions {
+	margin: 0.5rem;
+}
 .inGameOptions > * {
 	padding: 0.5rem;
 }
