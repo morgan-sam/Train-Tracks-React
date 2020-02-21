@@ -151,6 +151,10 @@ class App extends React.Component {
 		await window.localStorage.setItem('savedMaps', JSON.stringify(newMapArray));
 	};
 
+	deleteAllLocalSavedMaps = async () => {
+		await window.localStorage.setItem('savedMaps', JSON.stringify([]));
+	};
+
 	renderSavedMapsDropdownValues = () => {
 		const localMaps = this.getLocalStorageMaps();
 		let dropDownValues = [];
@@ -297,7 +301,8 @@ class App extends React.Component {
 					className="confirmDeleteBtn"
 					key={'confirmDeleteBtn'}
 					onClick={() => {
-						this.deleteLocalSavedMap(this.state.selectedSavedMapSeed);
+						if (this.state.deleteModeOnAll) this.deleteAllLocalSavedMaps();
+						else this.deleteLocalSavedMap(this.state.selectedSavedMapSeed);
 						this.resetGameDefaults();
 						this.setMenuScreen('loadMap');
 					}}
