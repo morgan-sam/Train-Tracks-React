@@ -77,16 +77,18 @@ class Map extends React.Component {
 		this.forceUpdate();
 	}
 
-	//One goal
 	checkIfHoverTileChanged(mouseEventObject) {
 		let hasChanged = false;
 		if (!compareArrays(mouseEventObject.tile, this.currentHoverTile)) {
-			this.previousHoverTile = this.currentHoverTile;
-			this.currentHoverTile = mouseEventObject.tile;
-			this.currentHoverTileClass = mouseEventObject.tileClass;
 			hasChanged = true;
 		}
 		return hasChanged;
+	}
+
+	updateHoverTileState(mouseEventObject) {
+		this.previousHoverTile = this.currentHoverTile;
+		this.currentHoverTile = mouseEventObject.tile;
+		this.currentHoverTileClass = mouseEventObject.tileClass;
 	}
 
 	//One clear goal
@@ -102,6 +104,7 @@ class Map extends React.Component {
 	//One clear goal
 	hoverStartEvent(mouseEventObject) {
 		if (this.checkIfHoverTileChanged(mouseEventObject)) {
+			this.updateHoverTileState(mouseEventObject);
 			if (mouseEventObject.mouseButton === 1) {
 				this.hoverWhileHoldingLeftMouseButton(mouseEventObject);
 			}
