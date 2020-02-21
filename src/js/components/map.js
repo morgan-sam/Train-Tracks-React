@@ -189,6 +189,7 @@ class Map extends React.Component {
 			newCorner = this.convertConnectedRailToCorner(coordinate);
 		}
 		if (newCorner) {
+			console.log(this.currentHoverTile);
 			tilesToPlace.unshift(...this.getNewCornerTiles(newCorner));
 		} else {
 			if (this.previousHoverTileClass === 'mapTile') {
@@ -203,11 +204,19 @@ class Map extends React.Component {
 					tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
 				}
 			}
-			if (this.currentHoverTileClass === 'mapTile') {
+			if (this.currentHoverTileClass === 'mapTile' && !this.checkIfCurrentTileIsConnectedToLast()) {
 				tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
 			}
 		}
 		this.placeMultipleTiles(tilesToPlace);
+	}
+
+	checkIfCurrentTileIsConnectedToLast() {
+		let moveDirection = findDirectionFromMove(this.previousHoverTile, this.currentHoverTile);
+		let connectedDirections = this.getConnectedAdjacentTracksDirections(this.previousHoverTile);
+		let connection = connectedDirections.includes(moveDirection);
+		console.log(connection);
+		return connection;
 	}
 
 	checkIfFirstDragTileIsEmptyOrT() {
@@ -223,7 +232,7 @@ class Map extends React.Component {
 		if (this.previousHoverTileClass === 'mapTile') {
 			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
 		}
-		if (this.currentHoverTileClass === 'mapTile') {
+		if (this.currentHoverTileClass === 'mapTile' && !this.checkIfCurrentTileIsConnectedToLast()) {
 			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
 		}
 		return tilesToPlace;
