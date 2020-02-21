@@ -632,13 +632,14 @@ class Map extends React.Component {
 		);
 	}
 
-	renderCompleteTrack(i, x, y, defaultRailType) {
+	renderCompleteTrack(i, x, y, defaultRailType, highlighted) {
 		return (
 			<Square
 				className="defaultTrack"
 				key={i}
 				x={x}
 				y={y}
+				highlighted={highlighted}
 				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
 				leftClickEvent={() => null}
 				rightClickEvent={() => null}
@@ -669,12 +670,14 @@ class Map extends React.Component {
 
 	placeCompletedMapTrack(trainTrackMap, x, y) {
 		let defaultTile;
+		let highlighted = false;
 		trainTrackMap.tracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y - 1) {
 				defaultTile = el.railType;
+				if (this.props.defaultTilesHighlighted && el.defaultTrack) highlighted = true;
 			}
-		});
-		return this.renderCompleteTrack(x, x, y - 1, defaultTile);
+		}, this);
+		return this.renderCompleteTrack(x, x, y - 1, defaultTile, highlighted);
 	}
 
 	placeUserPlacedTrack(x, y) {
