@@ -39,6 +39,7 @@ class App extends React.Component {
 	//////////////////////////////////////////
 
 	setMenuScreen(screen) {
+		this.resetGameDefaults();
 		this.setState({
 			menuScreen: screen
 		});
