@@ -64,7 +64,6 @@ class Map extends React.Component {
 		}
 	}
 
-	//One clear goal
 	leftReleaseEvent(mouseEventObject) {
 		if (isNonEmptyArray(this.leftClickDragArray)) {
 			this.placeTrackIfLeftClickNoDrag(mouseEventObject);
@@ -73,7 +72,6 @@ class Map extends React.Component {
 		}
 	}
 
-	//One clear goal
 	rightReleaseEvent() {
 		this.rightClickDragValue = undefined;
 		this.forceUpdate();
@@ -93,7 +91,6 @@ class Map extends React.Component {
 		this.currentHoverTileClass = mouseEventObject.tileClass;
 	}
 
-	//One clear goal
 	placeTrackIfLeftClickNoDrag(mouseEventObject) {
 		if (
 			compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile) &&
@@ -103,7 +100,6 @@ class Map extends React.Component {
 		}
 	}
 
-	//One clear goal
 	hoverStartEvent(mouseEventObject) {
 		if (this.checkIfHoverTileChanged(mouseEventObject)) {
 			this.updateHoverTileState(mouseEventObject);
@@ -136,12 +132,10 @@ class Map extends React.Component {
 		return hoverAdjacent;
 	}
 
-	//One clear goal
 	hoverEndEvent(senderClassname) {
 		this.previousHoverTileClass = senderClassname;
 	}
 
-	//One goal
 	hoverWhileHoldingLeftMouseButton(mouseEventObject) {
 		if (isNonEmptyArray(this.leftClickDragArray)) {
 			this.leftClickDragArray.shift();
@@ -150,7 +144,6 @@ class Map extends React.Component {
 		}
 	}
 
-	//One goal
 	hoverWhileHoldingRightMouseButton(mouseEventObject) {
 		if (this.rightClickDragValue === 'X') {
 			if (mouseEventObject.tileClass === 'mapTile') {
@@ -161,7 +154,6 @@ class Map extends React.Component {
 		}
 	}
 
-	//One goal
 	hoverWhileHoldingBothMouseButtons(mouseEventObject) {
 		this.determineIfToPlaceT(mouseEventObject);
 	}
@@ -188,8 +180,7 @@ class Map extends React.Component {
 		if (compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile)) {
 			newCorner = this.convertConnectedRailToCorner(coordinate);
 		}
-		if (newCorner) {
-			console.log(this.currentHoverTile);
+		if (isNonEmptyArray(newCorner)) {
 			tilesToPlace.unshift(...this.getNewCornerTiles(newCorner));
 		} else {
 			if (this.previousHoverTileClass === 'mapTile') {
@@ -215,7 +206,6 @@ class Map extends React.Component {
 		let moveDirection = findDirectionFromMove(this.previousHoverTile, this.currentHoverTile);
 		let connectedDirections = this.getConnectedAdjacentTracksDirections(this.previousHoverTile);
 		let connection = connectedDirections.includes(moveDirection);
-		console.log(connection);
 		return connection;
 	}
 
@@ -238,7 +228,6 @@ class Map extends React.Component {
 		return tilesToPlace;
 	}
 
-	//One clear goal
 	shouldStartRailChange(startType, startCoordinate, nextCoordinate) {
 		let railShouldChange = false;
 		switch (findDirectionFromMove(nextCoordinate, startCoordinate)) {
@@ -285,11 +274,7 @@ class Map extends React.Component {
 			const directions = [ initialDirection, dragDirection ];
 			newCorner = this.convertDirectionsToRailType(directions);
 		}
-		if (newCorner[0] !== undefined) {
-			return newCorner;
-		} else {
-			return false;
-		}
+		return newCorner;
 	}
 
 	// Poor variable names, ambiguous function
