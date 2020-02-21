@@ -72,6 +72,7 @@ class App extends React.Component {
 			trainTrackMap,
 			mapSeed
 		});
+		this.setMapSeedInputValue(mapSeed);
 	}
 
 	mapSizeSelection = (event) => {
@@ -159,6 +160,11 @@ class App extends React.Component {
 			mapIcon: hoveredIcon
 		});
 	}
+
+	setMapSeedInputValue(mapSeed) {
+		const mapSeedInput = document.getElementById('mapSeedInput');
+		if (mapSeedInput) mapSeedInput.value = mapSeed;
+	}
 	//////////////////////////////////////////
 	////////// APP RENDER FUNCTIONS //////////
 	//////////////////////////////////////////
@@ -178,10 +184,19 @@ class App extends React.Component {
 					type="text"
 					className="mapSeedInput"
 					id="mapSeedInput"
-					onChange={(e) => this.setMapSeed(e.target.value)}
 					defaultValue={this.state.mapSeed}
+					onChange={(e) => this.setMapSeed(e.target.value)}
 					style={{ width: '8rem', textAlign: 'center' }}
 				/>
+				<button
+					key="rerollSeedBtn"
+					className="rerollSeedBtn"
+					onClick={() => {
+						this.generateNewMapState();
+					}}
+				>
+					⚄
+				</button>
 				<button
 					key={'generateMapBtn'}
 					onClick={() => {
