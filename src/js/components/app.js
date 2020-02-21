@@ -5,7 +5,6 @@ import { generateNewMap } from '../generation/generateMap';
 import { generateMapIcon } from '../generation/generateIcon';
 import { isNonEmptyArray } from '../utility/utilityFunctions';
 import seedrandom from 'seedrandom';
-const MENU_WIDTH = '12rem';
 
 class App extends React.Component {
 	constructor(props) {
@@ -175,6 +174,7 @@ class App extends React.Component {
 				<input
 					key="mapSeedInput"
 					type="text"
+					className="mapSeedInput"
 					id="mapSeedInput"
 					onChange={(e) => this.setMapSeed(e.target.value)}
 					defaultValue={this.state.mapSeed}
@@ -247,8 +247,8 @@ class App extends React.Component {
 		}
 
 		return (
-			<div>
-				<div key={'gameMenuStyle'} className="gameMenuStyle" style={{ width: MENU_WIDTH }}>
+			<div key={'appScreen'} className="appScreen">
+				<div key={'gameMenuStyle'} className="gameMenuStyle">
 					<h1 key={'title'} className="gameTitle">
 						Train Tracks
 					</h1>
