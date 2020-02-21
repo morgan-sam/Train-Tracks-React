@@ -95,6 +95,10 @@ button {
 	display: inline-grid;
 }
 
+.inGameOptions > * {
+	padding: 0.5rem;
+}
+
 .popUpWindow {
 	position: absolute;
 	text-align: center;

@@ -103,56 +103,60 @@ class Game extends React.Component {
 
 	renderOptionsButtons() {
 		return (
-			<div>
-				<button
-					key={'highlightDefaultTilesBtn'}
-					onClick={() => this.setDefaultTilesHighlighted(!this.state.defaultTilesHighlighted)}
-				>
-					{this.state.defaultTilesHighlighted ? 'Hide' : 'Show'} Default Tiles
-				</button>
-				<button
-					key={'showMapSolutionBtn'}
-					onClick={() => this.setMapSolutionVisibility(!this.state.mapSolutionVisible)}
-				>
-					{this.state.mapSolutionVisible ? 'Hide' : 'Show'} Map Solution
-				</button>
-				<button
-					key={'resetMapBtn'}
-					onClick={() => {
-						this.refs.map.resetCurrentMap();
-						this.setMapSolutionVisibility(false);
-					}}
-				>
-					Reset Map
-				</button>
-				<button
-					key={'saveMapBtn'}
-					onClick={() => {
-						this.showSaveMapDisplay(true);
-						this.showGameWinDisplay(false);
-					}}
-				>
-					Save Map
-				</button>
-				<button
-					key={'newMapBtn'}
-					onClick={() => {
-						this.props.newMap();
-						this.showGameWinDisplay(false);
-						this.setMapSolutionVisibility(false);
-					}}
-				>
-					New Map
-				</button>
-				<button
-					key={'quitBtn'}
-					onClick={() => {
-						this.props.setSeedrandomToDate();
-						this.props.setGameState(false);
-					}}
-				>
-					Quit Game
-				</button>
+			<div className="inGameOptions">
+				<div>
+					<button
+						key={'resetMapBtn'}
+						onClick={() => {
+							this.refs.map.resetCurrentMap();
+							this.setMapSolutionVisibility(false);
+						}}
+					>
+						Reset Map
+					</button>
+					<button
+						key={'highlightDefaultTilesBtn'}
+						onClick={() => this.setDefaultTilesHighlighted(!this.state.defaultTilesHighlighted)}
+					>
+						{this.state.defaultTilesHighlighted ? 'Hide' : 'Show'} Default Tiles
+					</button>
+					<button
+						key={'showMapSolutionBtn'}
+						onClick={() => this.setMapSolutionVisibility(!this.state.mapSolutionVisible)}
+					>
+						{this.state.mapSolutionVisible ? 'Hide' : 'Show'} Map Solution
+					</button>
+				</div>
+				<div>
+					<button
+						key={'saveMapBtn'}
+						onClick={() => {
+							this.showSaveMapDisplay(true);
+							this.showGameWinDisplay(false);
+						}}
+					>
+						Save Map
+					</button>
+					<button
+						key={'newMapBtn'}
+						onClick={() => {
+							this.props.newMap();
+							this.showGameWinDisplay(false);
+							this.setMapSolutionVisibility(false);
+						}}
+					>
+						New Map
+					</button>
+					<button
+						key={'quitBtn'}
+						onClick={() => {
+							this.props.setSeedrandomToDate();
+							this.props.setGameState(false);
+						}}
+					>
+						Quit Game
+					</button>
+				</div>
 			</div>
 		);
 	}
