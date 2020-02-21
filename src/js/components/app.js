@@ -179,24 +179,27 @@ class App extends React.Component {
 					<option value={10}>10x10</option>
 				</select>
 				<p key={'Map Seed Label'}>Map Seed</p>
-				<input
-					key="mapSeedInput"
-					type="text"
-					className="mapSeedInput"
-					id="mapSeedInput"
-					defaultValue={this.state.mapSeed}
-					onChange={(e) => this.setMapSeed(e.target.value)}
-					style={{ width: '8rem', textAlign: 'center' }}
-				/>
-				<button
-					key="rerollSeedBtn"
-					className="rerollSeedBtn"
-					onClick={() => {
-						this.generateNewMapState();
-					}}
-				>
-					⚄
-				</button>
+				<div className="mapSeedOptionRow">
+					<input
+						key="mapSeedInput"
+						type="text"
+						className="mapSeedInput"
+						id="mapSeedInput"
+						defaultValue={this.state.mapSeed}
+						onChange={(e) => this.setMapSeed(e.target.value)}
+						style={{ width: '8rem', textAlign: 'center' }}
+					/>
+					<div
+						key="rerollSeedBtn"
+						className="rerollSeedBtn"
+						onClick={(e) => {
+							e.preventDefault();
+							this.generateNewMapState();
+						}}
+					>
+						<span className="diceSymbol">⚄</span>
+					</div>
+				</div>
 				<button
 					key={'generateMapBtn'}
 					onClick={() => {
