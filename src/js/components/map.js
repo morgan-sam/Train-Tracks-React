@@ -272,11 +272,11 @@ class Map extends React.Component {
 
 	// Poor variable names, ambiguous function
 
-	getSingleRailConnectionPosition(connectedPositions, dragDirection) {
-		let filteredPositions = removeArrayValue(connectedPositions, dragDirection);
-		filteredPositions = filteredPositions.filter((el) => el !== undefined);
-		if (isNonEmptyArray(filteredPositions)) {
-			return filteredPositions[0];
+	getSingleRailConnectionPosition(connectedInwardDirections, dragDirection) {
+		let filteredInwardDirections = removeArrayValue(connectedInwardDirections, dragDirection);
+		filteredInwardDirections = filteredInwardDirections.filter((el) => el !== undefined);
+		if (isNonEmptyArray(filteredInwardDirections)) {
+			return filteredInwardDirections[0];
 		} else return false;
 	}
 
