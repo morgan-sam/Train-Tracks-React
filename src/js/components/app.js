@@ -3,7 +3,7 @@ import Game from './game';
 import Dropdown from './dropdown';
 import { generateNewMap } from '../generation/generateMap';
 import { generateMapIcon } from '../generation/generateIcon';
-import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
+import { isNonEmptyArray } from '../utility/utilityFunctions';
 import seedrandom from 'seedrandom';
 const MENU_WIDTH = '12rem';
 
