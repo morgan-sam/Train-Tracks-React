@@ -9,7 +9,8 @@ class Game extends React.Component {
 			gameWinDisplay: false,
 			saveMapDisplay: false,
 			mapSaveName: null,
-			defaultTilesHighlighted: false
+			defaultTilesHighlighted: false,
+			mapSolutionVisible: false
 		};
 		this.setGameWinState = this.setGameWinState.bind(this);
 	}
@@ -30,6 +31,12 @@ class Game extends React.Component {
 	setDefaultTilesHighlighted(boo) {
 		this.setState({
 			defaultTilesHighlighted: boo
+		});
+	}
+
+	setMapSolutionVisibility(boo) {
+		this.setState({
+			mapSolutionVisible: boo
 		});
 	}
 
@@ -103,7 +110,19 @@ class Game extends React.Component {
 				>
 					{this.state.defaultTilesHighlighted ? 'Hide' : 'Show'} Default Tiles
 				</button>
-				<button key={'resetMapBtn'} onClick={() => this.refs.map.resetCurrentMap()}>
+				<button
+					key={'showMapSolutionBtn'}
+					onClick={() => this.setMapSolutionVisibility(!this.state.mapSolutionVisible)}
+				>
+					{this.state.mapSolutionVisible ? 'Hide' : 'Show'} Map Solution
+				</button>
+				<button
+					key={'resetMapBtn'}
+					onClick={() => {
+						this.refs.map.resetCurrentMap();
+						this.setMapSolutionVisibility(false);
+					}}
+				>
 					Reset Map
 				</button>
 				<button
@@ -120,6 +139,7 @@ class Game extends React.Component {
 					onClick={() => {
 						this.props.newMap();
 						this.showGameWinDisplay(false);
+						this.setMapSolutionVisibility(false);
 					}}
 				>
 					New Map
@@ -153,6 +173,7 @@ class Game extends React.Component {
 						key={this.props.mapSeed}
 						className="gameMap"
 						defaultTilesHighlighted={this.state.defaultTilesHighlighted}
+						mapSolutionVisible={this.state.mapSolutionVisible}
 						trainTrackMap={this.props.trainTrackMap}
 						mapHeight={this.props.mapHeight}
 						mapWidth={this.props.mapWidth}

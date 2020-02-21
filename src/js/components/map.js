@@ -589,13 +589,14 @@ class Map extends React.Component {
 		return <Square className="table-heading" key={i} x={x} y={y} text={headerLabel} fillState={fillState} />;
 	}
 
-	renderMapTile(i, x, y, railImage) {
+	renderMapTile(i, x, y, railImage, mapSolutionVisible) {
 		return (
 			<Square
 				className="mapTile"
 				key={i}
 				x={x}
 				y={y}
+				mapSolutionVisible={mapSolutionVisible}
 				convertRailTypeToTrackImage={this.convertRailTypeToTrackImage}
 				railImage={railImage}
 				leftClickEvent={this.leftClickEvent}
@@ -700,7 +701,7 @@ class Map extends React.Component {
 	}
 
 	placeMainMapTile(trainTrackMap, x, y) {
-		if (this.state.gameComplete) {
+		if (this.state.gameComplete || this.props.mapSolutionVisible) {
 			return this.placeCompletedMapTrack(trainTrackMap, x, y);
 		} else {
 			return this.placeGameActiveMapTrack(trainTrackMap, x, y);
