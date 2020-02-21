@@ -300,6 +300,7 @@ class App extends React.Component {
 					className="cancelDeleteBtn"
 					key={'cancelDeleteBtn'}
 					onClick={() => {
+						this.resetGameDefaults();
 						this.setMenuScreen('loadMap');
 					}}
 				>
