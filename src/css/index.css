@@ -75,6 +75,12 @@ select {
 	transform: translate(50%, -50%);
 }
 
+.confirmDeleteIcon {
+	height: auto;
+	width: auto;
+	object-fit: contain;
+}
+
 button {
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;

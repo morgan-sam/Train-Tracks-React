@@ -16,7 +16,8 @@ class App extends React.Component {
 			mapSeed: this.getRandomSeed(),
 			selectedSavedMap: null,
 			trainTrackMap: null,
-			mapIcon: null
+			mapIcon: null,
+			deleteModeOnAll: false
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -39,7 +40,6 @@ class App extends React.Component {
 	//////////////////////////////////////////
 
 	setMenuScreen(screen) {
-		this.resetGameDefaults();
 		this.setState({
 			menuScreen: screen
 		});
@@ -236,14 +236,70 @@ class App extends React.Component {
 
 				<button
 					className="loadSaveMapBtn"
-					key={'loadSeedBtn'}
+					key={'loadSaveMapBtn'}
 					onClick={() => {
 						this.loadSavedMap();
 					}}
 				>
 					Load Map
 				</button>
+				<button
+					className="deleteSaveMapBtn"
+					key={'deleteSaveMapBtn'}
+					onClick={() => {
+						if (this.state.mapIcon) {
+							this.setState({ deleteModeOnAll: false });
+							this.setMenuScreen('deleteConfirmation');
+						}
+					}}
+				>
+					Delete Map
+				</button>
+				<button
+					className="deleteAllSavedMapsBtn"
+					key={'deleteAllSavedMapsBtn'}
+					onClick={() => {
+						this.setState({ deleteModeOnAll: true });
+						this.setMenuScreen('deleteConfirmation');
+					}}
+				>
+					Delete All Maps
+				</button>
 				{this.renderReturnToMainMenuBtn()}
+			</div>
+		);
+	}
+
+	deleteMapConfirmationScreen() {
+		return (
+			<div>
+				<h3>
+					Are you sure you want to delete{' '}
+					{this.state.deleteModeOnAll ? 'ALL saved maps?' : 'the following saved map?'}
+				</h3>
+				<img
+					alt=""
+					src={this.state.deleteModeOnAll ? null : this.state.mapIcon}
+					className="confirmDeleteIcon"
+				/>
+				<button
+					className="confirmDeleteBtn"
+					key={'confirmDeleteBtn'}
+					onClick={() => {
+						console.log('confirm');
+					}}
+				>
+					Confirm
+				</button>
+				<button
+					className="cancelDeleteBtn"
+					key={'cancelDeleteBtn'}
+					onClick={() => {
+						this.setMenuScreen('loadMap');
+					}}
+				>
+					Cancel
+				</button>
 			</div>
 		);
 	}
@@ -316,6 +372,9 @@ class App extends React.Component {
 				break;
 			case 'loadMap':
 				menuScreen = this.loadMapScreen();
+				break;
+			case 'deleteConfirmation':
+				menuScreen = this.deleteMapConfirmationScreen();
 				break;
 			default:
 				menuScreen = this.mainMenuScreen();
