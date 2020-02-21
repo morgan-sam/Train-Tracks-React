@@ -107,7 +107,7 @@ class Map extends React.Component {
 	hoverStartEvent(mouseEventObject) {
 		if (this.checkIfHoverTileChanged(mouseEventObject)) {
 			this.updateHoverTileState(mouseEventObject);
-			if (mouseEventObject.mouseButton === 1) {
+			if (mouseEventObject.mouseButton === 1 && this.checkIfHoverToAdjacent()) {
 				this.hoverWhileHoldingLeftMouseButton(mouseEventObject);
 			}
 			if (mouseEventObject.mouseButton === 2) {
@@ -117,6 +117,23 @@ class Map extends React.Component {
 				this.hoverWhileHoldingBothMouseButtons(mouseEventObject);
 			}
 		}
+	}
+
+	checkIfHoverToAdjacent() {
+		let hoverAdjacent = true;
+		if (this.currentHoverTile[0] > this.previousHoverTile[0] + 1) {
+			hoverAdjacent = false;
+		}
+		if (this.currentHoverTile[0] < this.previousHoverTile[0] - 1) {
+			hoverAdjacent = false;
+		}
+		if (this.currentHoverTile[1] > this.previousHoverTile[1] + 1) {
+			hoverAdjacent = false;
+		}
+		if (this.currentHoverTile[1] < this.previousHoverTile[1] - 1) {
+			hoverAdjacent = false;
+		}
+		return hoverAdjacent;
 	}
 
 	//One clear goal
