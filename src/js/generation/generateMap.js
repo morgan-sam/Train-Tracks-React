@@ -73,7 +73,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	//One Goal
 	function newMove(currentCoordinate, generatedTiles, endCoordinate) {
 		let nextMove;
 		let legalMoves = getLegalMoves(currentCoordinate, generatedTiles);
@@ -93,9 +92,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function mutateMoveArray(legalMoves, generatedTiles) {
-		//passes possible moves through several calulations to improve the generated map
-		//only takes array input of moves that are possible to reach exit
-
 		const moveMutateFunctions = [ removeHookMoves ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
@@ -172,14 +168,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return movesFormHook;
 	}
 
-	//Almost one clear goal but variable naming is wrong/vague
 	function checkIfPossibleToReachTarget(startingTile, targetTile, generatedTiles) {
-		//spread across all squares bound by border and other tracks
-		//use getLegalMoves() to find where to move
-		//add all tiles to a new array
-		//go until exit hit or no other moves
-		//if exit then return true
-		//if no exit return false
 		let possibleExits = 0;
 		if (compareArrays(startingTile, targetTile)) {
 			possibleExits = true;
@@ -213,18 +202,10 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function getEdgeCoordinates() {
 		//calculates coordinates around edge in clockwise order
 		let coordinates = [];
-		for (let x = 0; x < mapWidth - 1; x++) {
-			coordinates.push([ x, 0 ]); //top
-		}
-		for (let y = 0; y < mapHeight - 1; y++) {
-			coordinates.push([ mapWidth - 1, y ]); //right
-		}
-		for (let x = mapWidth - 1; x > 0; x--) {
-			coordinates.push([ x, mapHeight - 1 ]); //bottom
-		}
-		for (let y = mapHeight - 1; y > 0; y--) {
-			coordinates.push([ 0, y ]); //left
-		}
+		for (let x = 0; x < mapWidth - 1; x++) coordinates.push([ x, 0 ]); //top
+		for (let y = 0; y < mapHeight - 1; y++) coordinates.push([ mapWidth - 1, y ]); //right
+		for (let x = mapWidth - 1; x > 0; x--) coordinates.push([ x, mapHeight - 1 ]); //bottom
+		for (let y = mapHeight - 1; y > 0; y--) coordinates.push([ 0, y ]); //left
 		return coordinates;
 	}
 
@@ -281,24 +262,18 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function directionsToTrackRailType(dirs) {
 		let railTypeArray = [];
 		for (let i = 0; i < dirs.length; i++) {
-			if ((dirs[i] === 0 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 2)) {
+			if ((dirs[i] === 0 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 2))
 				railTypeArray.push('vertical');
-			}
-			if ((dirs[i] === 1 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 3)) {
+			if ((dirs[i] === 1 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 3))
 				railTypeArray.push('horizontal');
-			}
-			if ((dirs[i] === 2 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 0)) {
+			if ((dirs[i] === 2 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 0))
 				railTypeArray.push('topRightCorner');
-			}
-			if ((dirs[i] === 3 && dirs[i + 1] === 2) || (dirs[i] === 0 && dirs[i + 1] === 1)) {
+			if ((dirs[i] === 3 && dirs[i + 1] === 2) || (dirs[i] === 0 && dirs[i + 1] === 1))
 				railTypeArray.push('bottomRightCorner');
-			}
-			if ((dirs[i] === 0 && dirs[i + 1] === 3) || (dirs[i] === 1 && dirs[i + 1] === 2)) {
+			if ((dirs[i] === 0 && dirs[i + 1] === 3) || (dirs[i] === 1 && dirs[i + 1] === 2))
 				railTypeArray.push('bottomLeftCorner');
-			}
-			if ((dirs[i] === 1 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 3)) {
+			if ((dirs[i] === 1 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 3))
 				railTypeArray.push('topLeftCorner');
-			}
 		}
 		return railTypeArray;
 	}
