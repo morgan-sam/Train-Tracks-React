@@ -250,10 +250,14 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return directions;
 	}
 
-	//Slightly mixed goals
 	function getStartingDirection(start) {
 		const possibleStartDirections = getPossibleStartDirections(start);
 		return possibleStartDirections[randomIntFromInterval(0, possibleStartDirections.length - 1)];
+	}
+
+	function getEndingDirection(end) {
+		const possibleEndDirections = getPossibleEndDirections(end);
+		return possibleEndDirections[randomIntFromInterval(0, possibleEndDirections.length - 1)];
 	}
 
 	function getPossibleStartDirections(start) {
@@ -265,22 +269,13 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return possibleDirections;
 	}
 
-	//Slightly mixed goals
-	function getEndingDirection(end) {
+	function getPossibleEndDirections(end) {
 		let possibleDirections = [];
-		if (end[0] === 0) {
-			possibleDirections.push(3); // leaves via left
-		}
-		if (end[1] === 0) {
-			possibleDirections.push(0); // leaves via top
-		}
-		if (end[0] === mapWidth - 1) {
-			possibleDirections.push(1); // leaves via right
-		}
-		if (end[1] === mapHeight - 1) {
-			possibleDirections.push(2); // leaves via bottom
-		}
-		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
+		if (end[0] === 0) possibleDirections.push(3); // leaves via left
+		if (end[1] === 0) possibleDirections.push(0); // leaves via top
+		if (end[0] === mapWidth - 1) possibleDirections.push(1); // leaves via right
+		if (end[1] === mapHeight - 1) possibleDirections.push(2); // leaves via bottom
+		return possibleDirections;
 	}
 
 	function directionsToTrackRailType(dirs) {
