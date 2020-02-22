@@ -220,6 +220,7 @@ class Map extends React.Component {
 	getNewCornerTiles(newCorner) {
 		let tilesToPlace = [];
 		if (this.previousHoverTileClass === 'mapTile') {
+			console.log('hiya');
 			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
 		}
 		if (this.currentHoverTileClass === 'mapTile' && !this.checkIfCurrentTileIsConnectedToLast()) {
@@ -264,20 +265,11 @@ class Map extends React.Component {
 		const dragDirection = findDirectionFromMove(newCoordinate, this.previousHoverTile);
 		let connectedDirections = this.getConnectedAdjacentTracksDirections(this.previousHoverTile);
 		if (isNonEmptyArray(connectedDirections)) {
-			const initialDirection = this.getSingleRailConnectionPosition(connectedDirections, dragDirection);
+			const initialDirection = connectedDirections[0];
 			const directions = [ initialDirection, dragDirection ];
+			console.log(directions);
 			return this.convertDirectionsToRailType(directions);
 		}
-	}
-
-	// Poor variable names, ambiguous function
-
-	getSingleRailConnectionPosition(connectedInwardDirections, dragDirection) {
-		let filteredInwardDirections = removeArrayValue(connectedInwardDirections, dragDirection);
-		filteredInwardDirections = filteredInwardDirections.filter((el) => el !== undefined);
-		if (isNonEmptyArray(filteredInwardDirections)) {
-			return filteredInwardDirections[0];
-		} else return false;
 	}
 
 	getConnectedAdjacentTracksDirections(coordinate) {
