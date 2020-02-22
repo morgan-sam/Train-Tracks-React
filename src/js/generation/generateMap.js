@@ -2,10 +2,6 @@ import seedrandom from 'seedrandom';
 
 import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 
-//416296017709795 very short map seed
-
-//901299041677033 drag feature bug bottom left corner
-
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
 
@@ -32,7 +28,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 	return trainTrackMap;
 
-	//One Clear Goal
 	function generateMapTiles() {
 		const [ startCoordinate, endCoordinate ] = generateStartEndPoints();
 		let generatedTiles = [ startCoordinate ];
@@ -50,7 +45,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return generatedTiles;
 	}
 
-	//One Clear Goal
 	function getLegalMoves(coordinate, generatedTiles) {
 		const adjacentMoves = getAdjacentTiles(coordinate);
 		let legalMoves = removeOutOfBoundsMoves(adjacentMoves);
@@ -58,17 +52,14 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	//One Clear Goal
 	function getAdjacentTiles(coordinate) {
 		return Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
 	}
 
-	//One Clear Goal
 	function removeOutOfBoundsMoves(moves) {
 		return moves.filter((el) => el[0] >= 0 && el[1] >= 0 && el[0] < mapWidth && el[1] < mapHeight);
 	}
 
-	//One Clear Goal
 	function removeMovesToVisitedTiles(moves, tiles) {
 		let legalMoves = moves.filter(function(move) {
 			let boo = false;
@@ -101,7 +92,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves.length === 1 && compareArrays(legalMoves[0], endCoordinate);
 	}
 
-	//One Clear Goal
 	function mutateMoveArray(legalMoves, generatedTiles) {
 		//passes possible moves through several calulations to improve the generated map
 		//only takes array input of moves that are possible to reach exit
@@ -120,7 +110,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
-	//One Clear Goal
 	function removeHookMoves(legalMoves, generatedTiles) {
 		if (generatedTiles.length > 2) {
 			legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedTiles));
@@ -214,7 +203,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		}
 	}
 
-	//One clear goal
 	function generateStartEndPoints() {
 		let edges = getEdgeCoordinates();
 		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1)[0];
@@ -222,7 +210,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return [ startCoordinate, endCoordinate ];
 	}
 
-	//One clear goal
 	function getEdgeCoordinates() {
 		//calculates coordinates around edge in clockwise order
 		let coordinates = [];
@@ -241,7 +228,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return coordinates;
 	}
 
-	//One clear goal
 	function generateMapHeaders(allTiles) {
 		let mapHeaders = { x: [], y: [] };
 		for (let i = 0; i < mapWidth; i++) {
@@ -253,7 +239,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return mapHeaders;
 	}
 
-	//One clear goal
 	function getDirectionOfEachMove(allTiles) {
 		let directions = [];
 		directions.push(getStartingDirection(allTiles[0]));
@@ -267,20 +252,17 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	//Slightly mixed goals
 	function getStartingDirection(start) {
+		const possibleStartDirections = getPossibleStartDirections(start);
+		return possibleStartDirections[randomIntFromInterval(0, possibleStartDirections.length - 1)];
+	}
+
+	function getPossibleStartDirections(start) {
 		let possibleDirections = [];
-		if (start[0] === 0) {
-			possibleDirections.push(1); // comes in from left
-		}
-		if (start[1] === 0) {
-			possibleDirections.push(2); // comes in from top
-		}
-		if (start[0] === mapWidth - 1) {
-			possibleDirections.push(3); // comes in from right
-		}
-		if (start[1] === mapHeight - 1) {
-			possibleDirections.push(0); // comes in from bottom
-		}
-		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
+		if (start[0] === 0) possibleDirections.push(1); // comes in from left
+		if (start[1] === 0) possibleDirections.push(2); // comes in from top
+		if (start[0] === mapWidth - 1) possibleDirections.push(3); // comes in from right
+		if (start[1] === mapHeight - 1) possibleDirections.push(0); // comes in from bottom
+		return possibleDirections;
 	}
 
 	//Slightly mixed goals
@@ -301,7 +283,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return possibleDirections[randomIntFromInterval(0, possibleDirections.length - 1)];
 	}
 
-	//One clear goal, but should be passed directions instead of calling getDirectionOfEachMove()
 	function directionsToTrackRailType(dirs) {
 		let railTypeArray = [];
 		for (let i = 0; i < dirs.length; i++) {
@@ -335,7 +316,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return [ ...new Set(indices) ];
 	}
 };
-//One Clear Goal
+
 export const findDirectionFromMove = (currentMove, lastMove) => {
 	let moveDirection;
 	const moveCalc = differenceBetweenTwoMoves(currentMove, lastMove);
