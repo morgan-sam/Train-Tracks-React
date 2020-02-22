@@ -220,7 +220,6 @@ class Map extends React.Component {
 	getNewCornerTiles(newCorner) {
 		let tilesToPlace = [];
 		if (this.previousHoverTileClass === 'mapTile') {
-			console.log('hiya');
 			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
 		}
 		if (this.currentHoverTileClass === 'mapTile' && !this.checkIfCurrentTileIsConnectedToLast()) {
@@ -265,9 +264,8 @@ class Map extends React.Component {
 		const dragDirection = findDirectionFromMove(newCoordinate, this.previousHoverTile);
 		let connectedDirections = this.getConnectedAdjacentTracksDirections(this.previousHoverTile);
 		if (isNonEmptyArray(connectedDirections)) {
-			const initialDirection = connectedDirections[0];
+			const initialDirection = connectedDirections[randomInt(0, connectedDirections.length - 1)];
 			const directions = [ initialDirection, dragDirection ];
-			console.log(directions);
 			return this.convertDirectionsToRailType(directions);
 		}
 	}
@@ -742,5 +740,8 @@ class Map extends React.Component {
 		const mapComponents = this.generateMapComponents(trainTrackMap);
 		return <div className="map"> {mapComponents}</div>;
 	}
+}
+function randomInt(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 export default Map;
