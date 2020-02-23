@@ -43,7 +43,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 
-		console.log(checkIfMapCovered(generatedTiles, 0.5));
 		return generatedTiles;
 	}
 
@@ -83,7 +82,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			nextMove = endCoordinate;
 		} else {
 			legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, endCoordinate, generatedTiles));
-			legalMoves = mutateMoveArray(legalMoves, generatedTiles);
+
+			legalMoves = mutateMoveArray(legalMoves, generatedTiles, endCoordinate);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 		}
 		return nextMove;
@@ -93,12 +93,12 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves.length === 1 && compareArrays(legalMoves[0], endCoordinate);
 	}
 
-	function mutateMoveArray(legalMoves, generatedTiles) {
-		const moveMutateFunctions = [ removeHookMoves ];
+	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
+		const moveMutateFunctions = [ removeHookMoves, removeAdjacentExitMoves ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
-			let mutatedMoveArray = currentFunc(legalMoves, generatedTiles);
+			let mutatedMoveArray = currentFunc(legalMoves, generatedTiles, endCoordinate);
 			if (!isNonEmptyArray(mutatedMoveArray)) {
 				break;
 			} else {
@@ -121,11 +121,25 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return generatedTiles.length >= mapCoverage;
 	}
 
+	function checkIfMoveIsAdjacentExitTile(move, endCoordinate) {
+		const tilesAdjacentToExit = getTilesAdjacentToExit(endCoordinate);
+		let moveIsAdjExit = false;
+		tilesAdjacentToExit.forEach(function(tile) {
+			if (compareArrays(move, tile)) moveIsAdjExit = true;
+		});
+		return moveIsAdjExit;
+	}
+
+	function removeAdjacentExitMoves(legalMoves, generatedTiles, endCoordinate) {
+		legalMoves = legalMoves.filter((move) => !checkIfMoveIsAdjacentExitTile(move, endCoordinate));
+		return legalMoves;
+	}
+
 	////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////
 
-	function removeHookMoves(legalMoves, generatedTiles) {
+	function removeHookMoves(legalMoves, generatedTiles, endCoordinate) {
 		if (generatedTiles.length > 2) {
 			legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedTiles));
 		}
