@@ -33,7 +33,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let generatedTiles = [ startCoordinate ];
 		let mapComplete = false;
 		let lastMove = startCoordinate;
-		console.log(getTilesAdjacentToExit(endCoordinate));
+
 		while (!mapComplete) {
 			let nextMove = newMove(lastMove, generatedTiles, endCoordinate);
 			generatedTiles.push(nextMove);
@@ -42,6 +42,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				mapComplete = true;
 			}
 		}
+
+		console.log(checkIfMapCovered(generatedTiles, 0.5));
 		return generatedTiles;
 	}
 
@@ -106,9 +108,22 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return legalMoves;
 	}
 
+	////////////////////////////////////////////////////////////
+	////////////////////// NEW SECTION /////////////////////////
+	////////////////////////////////////////////////////////////
+
 	function getTilesAdjacentToExit(endCoordinate) {
 		return removeOutOfBoundsMoves(getAdjacentTiles(endCoordinate));
 	}
+
+	function checkIfMapCovered(generatedTiles, modifier) {
+		const mapCoverage = modifier * mapWidth * mapHeight;
+		return generatedTiles.length >= mapCoverage;
+	}
+
+	////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////
 
 	function removeHookMoves(legalMoves, generatedTiles) {
 		if (generatedTiles.length > 2) {
