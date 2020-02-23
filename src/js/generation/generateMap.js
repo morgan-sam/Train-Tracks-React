@@ -33,7 +33,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let generatedTiles = [ startCoordinate ];
 		let mapComplete = false;
 		let lastMove = startCoordinate;
-
+		console.log(getTilesAdjacentToExit(endCoordinate));
 		while (!mapComplete) {
 			let nextMove = newMove(lastMove, generatedTiles, endCoordinate);
 			generatedTiles.push(nextMove);
@@ -104,6 +104,10 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		return legalMoves;
+	}
+
+	function getTilesAdjacentToExit(endCoordinate) {
+		return removeOutOfBoundsMoves(getAdjacentTiles(endCoordinate));
 	}
 
 	function removeHookMoves(legalMoves, generatedTiles) {
