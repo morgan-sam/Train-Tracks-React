@@ -4,7 +4,7 @@ import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utilit
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	seedrandom(mapSeed, { global: true });
+	seedrandom(306371321871979, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
@@ -34,7 +34,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let generatedTiles = [ startCoordinate ];
 		let mapComplete = false;
 		let lastMove = startCoordinate;
-		console.log(startCoordinate, endCoordinate);
 		while (!mapComplete) {
 			let nextMove = newMove(lastMove, generatedTiles, endCoordinate);
 			generatedTiles.push(nextMove);
@@ -83,7 +82,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			nextMove = endCoordinate;
 		} else {
 			legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, endCoordinate, generatedTiles));
-
 			legalMoves = mutateMoveArray(legalMoves, generatedTiles, endCoordinate);
 			nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 		}
@@ -95,7 +93,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
-		const moveMutateFunctions = [ removeHookMoves, removeAdjacentExitMoves ];
+		const moveMutateFunctions = [ removeAdjacentExitMoves, removeSealingMoves, removeHookMoves ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
@@ -118,11 +116,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return removeOutOfBoundsMoves([ ...adjacentTiles, endCoordinate ]);
 	}
 
-	function checkIfMapCovered(generatedTiles, modifier) {
-		const mapCoverage = modifier * mapWidth * mapHeight;
-		return generatedTiles.length >= mapCoverage;
-	}
-
 	function checkIfMoveIsAdjacentExitTile(move, endCoordinate) {
 		const tilesAdjacentToExit = getTilesAdjacentAndExit(endCoordinate);
 		let moveIsAdjExit = false;
@@ -135,6 +128,29 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function removeAdjacentExitMoves(legalMoves, generatedTiles, endCoordinate) {
 		legalMoves = legalMoves.filter((move) => !checkIfMoveIsAdjacentExitTile(move, endCoordinate));
 		return legalMoves;
+	}
+
+	function removeSealingMoves(legalMoves, generatedTiles, endCoordinate) {
+		if (!checkIfMapCovered(generatedTiles, 0.5)) {
+			legalMoves = legalMoves.filter((move) => !checkIfMoveSeals(move, generatedTiles, endCoordinate));
+		}
+		return legalMoves;
+	}
+
+	function checkIfMapCovered(generatedTiles, modifier) {
+		const mapCoverage = modifier * mapWidth * mapHeight;
+		return generatedTiles.length >= mapCoverage;
+	}
+
+	function checkIfMoveSeals(move, generatedTiles, endCoordinate) {
+		const nextLegalMoves = getLegalMoves(move, generatedTiles);
+		let pathSealed = false;
+		nextLegalMoves.forEach((nextMove) => {
+			if (!checkIfPossibleToReachTarget(nextMove, endCoordinate, [ ...generatedTiles, move ])) {
+				pathSealed = true;
+			}
+		});
+		return pathSealed;
 	}
 
 	////////////////////////////////////////////////////////////
@@ -204,17 +220,17 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function checkIfPossibleToReachTarget(startingTile, targetTile, generatedTiles) {
-		let possibleExits = 0;
+		let possibleToReach = false;
 		if (compareArrays(startingTile, targetTile)) {
-			possibleExits = true;
+			possibleToReach = true;
 		} else {
 			let takenTiles = [ ...generatedTiles ];
 			spreadInAllDirections(startingTile, takenTiles);
 			takenTiles.forEach(function(el) {
-				if ((el[0] === targetTile[0]) & (el[1] === targetTile[1])) possibleExits += 1;
+				if ((el[0] === targetTile[0]) & (el[1] === targetTile[1])) possibleToReach = true;
 			});
 		}
-		return possibleExits;
+		return possibleToReach;
 
 		function spreadInAllDirections(prospectiveMove, takenTiles) {
 			const newTiles = getLegalMoves(prospectiveMove, takenTiles);
