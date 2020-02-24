@@ -4,6 +4,7 @@ import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utilit
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
+	seedrandom(mapSeed, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
@@ -33,7 +34,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let generatedTiles = [ startCoordinate ];
 		let mapComplete = false;
 		let lastMove = startCoordinate;
-
+		console.log(startCoordinate, endCoordinate);
 		while (!mapComplete) {
 			let nextMove = newMove(lastMove, generatedTiles, endCoordinate);
 			generatedTiles.push(nextMove);
@@ -112,8 +113,9 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	////////////////////// NEW SECTION /////////////////////////
 	////////////////////////////////////////////////////////////
 
-	function getTilesAdjacentToExit(endCoordinate) {
-		return removeOutOfBoundsMoves(getAdjacentTiles(endCoordinate));
+	function getTilesAdjacentAndExit(endCoordinate) {
+		const adjacentTiles = getAdjacentTiles(endCoordinate);
+		return removeOutOfBoundsMoves([ ...adjacentTiles, endCoordinate ]);
 	}
 
 	function checkIfMapCovered(generatedTiles, modifier) {
@@ -122,7 +124,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function checkIfMoveIsAdjacentExitTile(move, endCoordinate) {
-		const tilesAdjacentToExit = getTilesAdjacentToExit(endCoordinate);
+		const tilesAdjacentToExit = getTilesAdjacentAndExit(endCoordinate);
 		let moveIsAdjExit = false;
 		tilesAdjacentToExit.forEach(function(tile) {
 			if (compareArrays(move, tile)) moveIsAdjExit = true;
