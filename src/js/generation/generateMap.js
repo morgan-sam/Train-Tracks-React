@@ -4,8 +4,6 @@ import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utilit
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	let CHECK_MOVE;
-	// seedrandom(981632436747570, { global: true }); CHECK_MOVE = 16;
 
 	let trainTrackMap = {
 		tracks: [],
@@ -133,14 +131,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function removeSealingMoves(legalMoves, generatedTiles, endCoordinate) {
-		if (generatedTiles.length === CHECK_MOVE) {
-			console.log(legalMoves);
-		}
 		if (!checkIfMapCovered(generatedTiles, 0.5)) {
 			legalMoves = legalMoves.filter((move) => !checkIfMoveSeals(move, generatedTiles, endCoordinate));
-		}
-		if (generatedTiles.length === CHECK_MOVE) {
-			console.log(legalMoves);
 		}
 		return legalMoves;
 	}
@@ -252,14 +244,13 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function generateStartEndPoints() {
-		let edges = getEdgeCoordinates();
+		let edges = getEdgeCoordinatesClockwiseOrder();
 		let startCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1)[0];
 		let endCoordinate = edges.splice(Math.floor(Math.random() * edges.length), 1)[0];
 		return [ startCoordinate, endCoordinate ];
 	}
 
-	function getEdgeCoordinates() {
-		//calculates coordinates around edge in clockwise order
+	function getEdgeCoordinatesClockwiseOrder() {
 		let coordinates = [];
 		for (let x = 0; x < mapWidth - 1; x++) coordinates.push([ x, 0 ]); //top
 		for (let y = 0; y < mapHeight - 1; y++) coordinates.push([ mapWidth - 1, y ]); //right
@@ -359,44 +350,3 @@ export const findDirectionFromMove = (currentMove, lastMove) => {
 function differenceBetweenTwoMoves(moveOne, moveTwo) {
 	return [ moveOne[0] - moveTwo[0], moveOne[1] - moveTwo[1] ];
 }
-
-/*
-//One Clear Goal
-function getQuadrants() {
-	const xHalfWay = Math.floor(mapWidth / 2);
-	const yHalfWay = Math.floor(mapHeight / 2);
-
-	// O: topLeft, 1: topRight, 2: bottomLeft, 3:bottomRight
-	const quadrantCoordinates = [
-		getCoordinatesOfBoundZone(0, xHalfWay, 0, yHalfWay),
-		getCoordinatesOfBoundZone(xHalfWay, mapWidth, 0, yHalfWay),
-		getCoordinatesOfBoundZone(0, xHalfWay, yHalfWay, mapHeight),
-		getCoordinatesOfBoundZone(xHalfWay, mapWidth, yHalfWay, mapHeight)
-	];
-	return quadrantCoordinates;
-}
-
-//One Clear Goal
-function getCoordinatesOfBoundZone(xLow, xHigh, yLow, yHigh) {
-	let zoneArray = [];
-	for (let y = yLow; y < yHigh; y++) {
-		for (let x = xLow; x < xHigh; x++) {
-			zoneArray.push([ x, y ]);
-		}
-	}
-	return zoneArray;
-}
-
-//One Clear Goal
-function getQuadrantOfCoordinate(coordinate) {
-	let coordinateQuadrant;
-	const quadrants = getQuadrants();
-	for (let i = 0; i < quadrants.length; i++) {
-		quadrants[i].forEach(function(el) {
-			if (compareArrays(el, coordinate)) coordinateQuadrant = i;
-		});
-	}
-	return coordinateQuadrant;
-}
-
-*/
