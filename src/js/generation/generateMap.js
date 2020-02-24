@@ -4,7 +4,8 @@ import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utilit
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	seedrandom(306371321871979, { global: true });
+	let CHECK_MOVE;
+	// seedrandom(981632436747570, { global: true }); CHECK_MOVE = 16;
 
 	let trainTrackMap = {
 		tracks: [],
@@ -42,7 +43,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				mapComplete = true;
 			}
 		}
-
+		console.log(`Start: ${startCoordinate}, End: ${endCoordinate}`);
+		console.log(`Map Covered 50%: ${checkIfMapCovered(generatedTiles, 0.5)}`);
 		return generatedTiles;
 	}
 
@@ -93,7 +95,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
-		const moveMutateFunctions = [ removeAdjacentExitMoves, removeSealingMoves, removeHookMoves ];
+		const moveMutateFunctions = [ removeSealingMoves, removeAdjacentExitMoves, removeHookMoves ];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
@@ -131,8 +133,14 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function removeSealingMoves(legalMoves, generatedTiles, endCoordinate) {
+		if (generatedTiles.length === CHECK_MOVE) {
+			console.log(legalMoves);
+		}
 		if (!checkIfMapCovered(generatedTiles, 0.5)) {
 			legalMoves = legalMoves.filter((move) => !checkIfMoveSeals(move, generatedTiles, endCoordinate));
+		}
+		if (generatedTiles.length === CHECK_MOVE) {
+			console.log(legalMoves);
 		}
 		return legalMoves;
 	}
