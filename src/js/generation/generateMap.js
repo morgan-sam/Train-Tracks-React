@@ -1,6 +1,12 @@
 import seedrandom from 'seedrandom';
 
-import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
+import {
+	randomIntFromInterval,
+	compareArrays,
+	isNonEmptyArray,
+	findIndexOfArrayInMatrix,
+	print
+} from '../utility/utilityFunctions';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
@@ -45,6 +51,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		}
 		console.log(`Start: ${startCoordinate}, End: ${endCoordinate}`);
 		console.log(`Map Covered 50%: ${checkIfMapCovered(generatedTiles, 0.5)}`);
+
 		return generatedTiles;
 	}
 
@@ -95,7 +102,12 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
-		const moveMutateFunctions = [ removeSealingMoves, removeAdjacentExitMoves, removeHookMoves ];
+		const moveMutateFunctions = [
+			removeSealingMoves,
+			removeAdjacentExitMoves,
+			removeMovesWithLessTilesFromExit,
+			removeHookMoves
+		];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
@@ -156,13 +168,46 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function getMoveWithMoreTilesAwayFromExit(legalMoves, generatedTiles, endCoordinate) {
-		//
+		let paths = [];
+		legalMoves.forEach(function(el) {
+			paths.push(getShortestPath(el, endCoordinate, generatedTiles));
+		});
+		console.log(paths);
 	}
 
 	function removeMovesWithLessTilesFromExit(legalMoves, generatedTiles, endCoordinate) {
 		const moveWithMore = getMoveWithMoreTilesAwayFromExit(legalMoves, generatedTiles, endCoordinate);
 		if (moveWithMore) return moveWithMore;
 		else return legalMoves;
+	}
+
+	function getShortestPath(prospectiveMove, target, hitTiles) {
+		let shortestPath;
+		function nextPathMove(move, visitedTiles, target, iteration) {
+			visitedTiles.push(move);
+			const newTiles = getLegalMoves(move, visitedTiles);
+			if (isNonEmptyArray(newTiles)) {
+				newTiles.forEach(function(el) {
+					iteration--;
+					if (compareArrays(el, target)) addPathToArray(prospectiveMove, target, [ ...visitedTiles ]);
+					else if (iteration > 0) nextPathMove(el, [ ...visitedTiles ], target, iteration);
+				});
+			}
+		}
+
+		function addPathToArray(prospectiveMove, target, visitedTiles) {
+			const startIndex = findIndexOfArrayInMatrix(prospectiveMove, visitedTiles);
+			const removedObstacleArray = visitedTiles.slice(startIndex);
+			shortestPath = [ ...removedObstacleArray, target ];
+		}
+
+		//breadthFirstSearch
+		let i = 0;
+		while (!isNonEmptyArray(shortestPath)) {
+			i++;
+			nextPathMove(prospectiveMove, [ hitTiles ], target, i);
+		}
+		return shortestPath;
 	}
 
 	////////////////////////////////////////////////////////////

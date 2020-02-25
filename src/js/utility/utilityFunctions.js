@@ -16,6 +16,14 @@ export const removeArrayValue = (array, value) => {
 	}
 };
 
+export const findIndexOfArrayInMatrix = (array, matrix) => {
+	let index = -1;
+	for (let i = 0; i < matrix.length; i++) {
+		if (compareArrays(array, matrix[i])) index = i;
+	}
+	return index;
+};
+
 export const compareArrays = (arr1, arr2) => {
 	let arrEqual = false;
 	if (arr1.length === arr2.length) {
