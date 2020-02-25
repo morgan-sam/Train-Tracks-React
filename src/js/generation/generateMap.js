@@ -21,7 +21,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	const allTiles = generateMapTiles();
 	const moveDirections = getDirectionOfEachMove(allTiles);
 	const railTypes = directionsToTrackRailType(moveDirections);
-	const defaultTilesIndices = generateDefaultTileIndices(allTiles.length);
+	const defaultTilesIndices = generateDefaultTileIndices(allTiles);
 
 	trainTrackMap.headerLabels = generateMapHeaders(allTiles);
 
@@ -418,7 +418,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return railTypeArray;
 	}
 
-	function generateDefaultTileIndices(tileCount) {
+	function generateDefaultTileIndices(allTiles) {
+		const tileCount = allTiles.length;
 		let indices = [ 0, tileCount - 1 ];
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			indices.push(randomIntFromInterval(1, tileCount - 1));
