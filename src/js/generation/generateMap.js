@@ -4,6 +4,8 @@ import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utilit
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
+	//Edge Cases:
+	seedrandom(mapSeed, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
@@ -151,6 +153,16 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		});
 		return pathSealed;
+	}
+
+	function getMoveWithMoreTilesAwayFromExit(legalMoves, generatedTiles, endCoordinate) {
+		//
+	}
+
+	function removeMovesWithLessTilesFromExit(legalMoves, generatedTiles, endCoordinate) {
+		const moveWithMore = getMoveWithMoreTilesAwayFromExit(legalMoves, generatedTiles, endCoordinate);
+		if (moveWithMore) return moveWithMore;
+		else return legalMoves;
 	}
 
 	////////////////////////////////////////////////////////////
