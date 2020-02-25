@@ -425,8 +425,13 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			indices.push(randomIntFromInterval(1, tileCount - 1));
 		}
-		getThreeByThreeSquares(allTiles);
 		return [ ...new Set(indices) ];
+	}
+
+	function getCentreOfSquareCoordinates() {
+		const squares = getThreeByThreeSquares(allTiles);
+		const centrePoints = squares.map((el) => el[4]);
+		print(centrePoints);
 	}
 
 	function getThreeByThreeSquares(allTiles) {
@@ -437,8 +442,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				squareArray.push(inBoundSquareTiles);
 			}
 		});
-
-		print(squareArray);
+		return squareArray;
 	}
 
 	function checkIfSquarePopulated(allTiles, squareTiles) {
