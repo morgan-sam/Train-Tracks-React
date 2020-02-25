@@ -11,7 +11,7 @@ import {
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	// seedrandom(169846512585658, { global: true });
+	// seedrandom(300805450160977, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
@@ -105,9 +105,9 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
 		const moveMutateFunctions = [
 			removeSealingMoves,
-			removeAdjacentExitMoves,
-			removeHookMoves,
-			removeMovesWithLessTilesFromExit
+			removeAroundExitMoves,
+			removeHookMoves
+			// removeMovesWithLessTilesFromExit
 		];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
@@ -136,22 +136,41 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return tileArray;
 	}
 
+	function getTilesAdjacentAndExit(endCoordinate) {
+		const adjacentTiles = getAdjacentTiles(endCoordinate);
+		return removeOutOfBoundsMoves([ ...adjacentTiles, endCoordinate ]);
+	}
+
 	function getTilesSurroundingExit(endCoordinate) {
 		const adjacentTiles = getSurroundingTiles(endCoordinate);
 		return removeOutOfBoundsMoves([ ...adjacentTiles, endCoordinate ]);
 	}
 
-	function checkIfMoveIsAdjacentExitTile(move, endCoordinate) {
-		const tilesAdjacentToExit = getTilesSurroundingExit(endCoordinate);
+	function checkIfTilesAdjacent(tileOne, tileTwo) {
+		const adjacentTiles = getTilesAdjacentAndExit(tileTwo);
+		const tileIsAdjacent = findIndexOfArrayInMatrix(tileOne, adjacentTiles) !== -1;
+		return tileIsAdjacent;
+	}
+
+	function chooseSurroundOrAdjacentExitTiles(move, endCoordinate) {
+		if (checkIfTilesAdjacent(move, endCoordinate)) {
+			return getTilesSurroundingExit(endCoordinate);
+		} else {
+			return getTilesAdjacentAndExit(endCoordinate);
+		}
+	}
+
+	function checkIfMoveIsAroundExitTile(move, endCoordinate) {
+		const tilesAroundExit = chooseSurroundOrAdjacentExitTiles(move, endCoordinate);
 		let moveIsAdjExit = false;
-		tilesAdjacentToExit.forEach(function(tile) {
+		tilesAroundExit.forEach(function(tile) {
 			if (compareArrays(move, tile)) moveIsAdjExit = true;
 		});
 		return moveIsAdjExit;
 	}
 
-	function removeAdjacentExitMoves(legalMoves, generatedTiles, endCoordinate) {
-		legalMoves = legalMoves.filter((move) => !checkIfMoveIsAdjacentExitTile(move, endCoordinate));
+	function removeAroundExitMoves(legalMoves, generatedTiles, endCoordinate) {
+		legalMoves = legalMoves.filter((move) => !checkIfMoveIsAroundExitTile(move, endCoordinate));
 		return legalMoves;
 	}
 
