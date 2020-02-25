@@ -8,6 +8,7 @@ import {
 	print,
 	getIndexOfLongestArrayInMatrix
 } from '../utility/utilityFunctions';
+import { compare } from 'semver';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
@@ -424,7 +425,30 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			indices.push(randomIntFromInterval(1, tileCount - 1));
 		}
+		getThreeByThreeSquares(allTiles);
 		return [ ...new Set(indices) ];
+	}
+
+	function getThreeByThreeSquares(allTiles) {
+		let squareArray = [];
+		allTiles.forEach(function(el) {
+			let inBoundSquareTiles = removeOutOfBoundsMoves(getSurroundingTiles(el));
+			if (inBoundSquareTiles.length === 9 && checkIfSquarePopulated(allTiles, inBoundSquareTiles)) {
+				squareArray.push(inBoundSquareTiles);
+			}
+		});
+
+		print(squareArray);
+	}
+
+	function checkIfSquarePopulated(allTiles, squareTiles) {
+		let numberOfTiles = 0;
+		squareTiles.forEach(function(squareTile) {
+			allTiles.forEach(function(tile) {
+				if (compareArrays(tile, squareTile)) numberOfTiles++;
+			});
+		});
+		return numberOfTiles === 9;
 	}
 };
 
