@@ -237,22 +237,23 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			possibleToReach = true;
 		} else {
 			let takenTiles = [ ...generatedTiles ];
-			spreadInAllDirections(startingTile, takenTiles);
+			takenTiles.push(spreadInAllDirections(startingTile, takenTiles));
 			takenTiles.forEach(function(el) {
 				if ((el[0] === targetTile[0]) & (el[1] === targetTile[1])) possibleToReach = true;
 			});
 		}
 		return possibleToReach;
+	}
 
-		function spreadInAllDirections(prospectiveMove, takenTiles) {
-			const newTiles = getLegalMoves(prospectiveMove, takenTiles);
-			if (isNonEmptyArray(newTiles)) {
-				newTiles.forEach(function(el) {
-					takenTiles.push(el);
-					spreadInAllDirections(el, takenTiles);
-				});
-			}
+	function spreadInAllDirections(prospectiveMove, hitTiles) {
+		const newTiles = getLegalMoves(prospectiveMove, hitTiles);
+		if (isNonEmptyArray(newTiles)) {
+			newTiles.forEach(function(el) {
+				hitTiles.push(el);
+				hitTiles.push(spreadInAllDirections(el, hitTiles));
+			});
 		}
+		return hitTiles;
 	}
 
 	function generateStartEndPoints() {
