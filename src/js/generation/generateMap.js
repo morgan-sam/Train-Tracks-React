@@ -52,6 +52,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		console.log(`Start: ${startCoordinate}, End: ${endCoordinate}`);
 		console.log(`Map Covered 50%: ${checkIfMapCovered(generatedTiles, 0.5)}`);
 
+		getSurroundingTiles([ 0, 0 ]);
 		return generatedTiles;
 	}
 
@@ -125,13 +126,23 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	////////////////////// NEW SECTION /////////////////////////
 	////////////////////////////////////////////////////////////
 
-	function getTilesAdjacentAndExit(endCoordinate) {
-		const adjacentTiles = getAdjacentTiles(endCoordinate);
+	function getSurroundingTiles(coordinate) {
+		let tileArray = [];
+		for (let a = -1; a <= 1; a++) {
+			for (let b = -1; b <= 1; b++) {
+				tileArray.push([ coordinate[0] + a, coordinate[1] + b ]);
+			}
+		}
+		return tileArray;
+	}
+
+	function getTilesSurroundingExit(endCoordinate) {
+		const adjacentTiles = getSurroundingTiles(endCoordinate);
 		return removeOutOfBoundsMoves([ ...adjacentTiles, endCoordinate ]);
 	}
 
 	function checkIfMoveIsAdjacentExitTile(move, endCoordinate) {
-		const tilesAdjacentToExit = getTilesAdjacentAndExit(endCoordinate);
+		const tilesAdjacentToExit = getTilesSurroundingExit(endCoordinate);
 		let moveIsAdjExit = false;
 		tilesAdjacentToExit.forEach(function(tile) {
 			if (compareArrays(move, tile)) moveIsAdjExit = true;
