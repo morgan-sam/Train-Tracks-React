@@ -425,7 +425,31 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			indices.push(randomIntFromInterval(1, tileCount - 1));
 		}
+		splitMapIntoRectangles();
 		return [ ...new Set(indices) ];
+	}
+
+	function splitMapIntoRectangles() {
+		//3x2 rectangles for 6x6 map
+		let rectangles = [];
+		if (mapWidth === 6 && mapHeight === 6) {
+			for (let y = 0; y < mapHeight - 1; y++) {
+				for (let x = 0; x < mapWidth - 2; x++) {
+					rectangles.push(getThreeByTwoRectangle(x, y));
+				}
+			}
+		}
+		print(rectangles);
+	}
+
+	function getThreeByTwoRectangle(x, y) {
+		let rectangle = [];
+		for (let b = 0; b < 2; b++) {
+			for (let a = 0; a < 3; a++) {
+				rectangle.push([ a + x, b + y ]);
+			}
+		}
+		return rectangle;
 	}
 
 	function getCentreOfSquareCoordinates() {
