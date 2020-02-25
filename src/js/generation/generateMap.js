@@ -239,7 +239,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			let takenTiles = [ ...generatedTiles ];
 			takenTiles.push(spreadInAllDirections(startingTile, takenTiles));
 			takenTiles.forEach(function(el) {
-				if ((el[0] === targetTile[0]) & (el[1] === targetTile[1])) possibleToReach = true;
+				if (compareArrays(el, targetTile)) possibleToReach = true;
 			});
 		}
 		return possibleToReach;
