@@ -32,6 +32,18 @@ export const compareArrays = (arr1, arr2) => {
 	return arrEqual;
 };
 
+export const getIndexOfLongestArrayInMatrix = (matrix) => {
+	let index = -1;
+	let curMaxLength = 0;
+	for (let i = 0; i < matrix.length; i++) {
+		if (matrix[i].length > curMaxLength) {
+			index = i;
+			curMaxLength = matrix[i].length;
+		}
+	}
+	return index;
+};
+
 export const isNonEmptyArray = (array) => {
 	//return false if equal to [] or data type other than array
 	return Array.isArray(array) && array.length > 0;

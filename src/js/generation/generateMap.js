@@ -5,13 +5,13 @@ import {
 	compareArrays,
 	isNonEmptyArray,
 	findIndexOfArrayInMatrix,
-	print
+	print,
+	getIndexOfLongestArrayInMatrix
 } from '../utility/utilityFunctions';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	//Edge Cases:
-	seedrandom(mapSeed, { global: true });
+	// seedrandom(169846512585658, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
@@ -105,8 +105,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		const moveMutateFunctions = [
 			removeSealingMoves,
 			removeAdjacentExitMoves,
-			removeMovesWithLessTilesFromExit,
-			removeHookMoves
+			removeHookMoves,
+			removeMovesWithLessTilesFromExit
 		];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
@@ -172,12 +172,14 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		legalMoves.forEach(function(el) {
 			paths.push(getShortestPath(el, endCoordinate, generatedTiles));
 		});
-		console.log(paths);
+		const longestIndex = getIndexOfLongestArrayInMatrix(paths);
+		const moveForLongest = paths[longestIndex][0];
+		return moveForLongest;
 	}
 
 	function removeMovesWithLessTilesFromExit(legalMoves, generatedTiles, endCoordinate) {
 		const moveWithMore = getMoveWithMoreTilesAwayFromExit(legalMoves, generatedTiles, endCoordinate);
-		if (moveWithMore) return moveWithMore;
+		if (isNonEmptyArray(moveWithMore)) return [ moveWithMore ];
 		else return legalMoves;
 	}
 
