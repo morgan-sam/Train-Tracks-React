@@ -11,7 +11,7 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			menuScreen: 'mainMenu',
-			mapSize: 6,
+			mapSize: 8,
 			gameActive: false,
 			mapSeed: this.getRandomSeed(),
 			selectedSavedMapSeed: null,
@@ -106,7 +106,7 @@ class App extends React.Component {
 
 	resetGameDefaults() {
 		this.setState({
-			mapSize: 6,
+			mapSize: 8,
 			mapSeed: this.getRandomSeed(),
 			mapIcon: null,
 			selectedSavedMapSeed: null,
@@ -186,7 +186,13 @@ class App extends React.Component {
 		return (
 			<div className="generateMapSection">
 				<p key={'Map Size Label'}>Map Size</p>
-				<select key={'selectMapSize'} name="list" id="mapSizeOption" onChange={this.mapSizeSelection}>
+				<select
+					key={'selectMapSize'}
+					name="list"
+					id="mapSizeOption"
+					onChange={this.mapSizeSelection}
+					defaultValue={8}
+				>
 					<option value={6}>6x6</option>
 					<option value={8}>8x8</option>
 					<option value={10}>10x10</option>
