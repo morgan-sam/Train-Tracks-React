@@ -425,10 +425,16 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			indices.push(randomIntFromInterval(1, tileCount - 1));
 		}
-		let rectangles = splitMapIntoRectangles();
+		const rectangles = splitMapIntoRectangles();
 		const fullRectangles = getFullRectangles(allTiles, rectangles);
-		print(fullRectangles);
+		const recIndices = getRandomCoordinatesFromMatrix(fullRectangles);
+
+		print(recIndices);
 		return [ ...new Set(indices) ];
+	}
+
+	function getRandomCoordinatesFromMatrix(matrix) {
+		return matrix.map((el) => el[randomIntFromInterval(0, el.length - 1)]);
 	}
 
 	function getFullRectangles(allTiles, rectangles) {

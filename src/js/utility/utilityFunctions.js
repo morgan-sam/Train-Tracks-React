@@ -44,6 +44,8 @@ export const getIndexOfLongestArrayInMatrix = (matrix) => {
 	return index;
 };
 
+export const removeDuplicateArraysFromMatrix = (matrix) => {};
+
 export const isNonEmptyArray = (array) => {
 	//return false if equal to [] or data type other than array
 	return Array.isArray(array) && array.length > 0;
