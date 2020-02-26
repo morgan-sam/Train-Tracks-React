@@ -44,8 +44,6 @@ export const getIndexOfLongestArrayInMatrix = (matrix) => {
 	return index;
 };
 
-export const removeDuplicateArraysFromMatrix = (matrix) => {};
-
 export const isNonEmptyArray = (array) => {
 	//return false if equal to [] or data type other than array
 	return Array.isArray(array) && array.length > 0;
@@ -53,4 +51,12 @@ export const isNonEmptyArray = (array) => {
 
 export const print = (value) => {
 	console.log(JSON.parse(JSON.stringify(value)));
+};
+
+export const removeDuplicateArraysFromMatrix = (matrix) => {
+	return matrix.filter((el, loopIndex) => {
+		const elIndex = findIndexOfArrayInMatrix(el, matrix);
+		if (loopIndex === elIndex) return true;
+		else return false;
+	});
 };
