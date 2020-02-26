@@ -51,10 +51,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				mapComplete = true;
 			}
 		}
-		console.log(`Start: ${startCoordinate}, End: ${endCoordinate}`);
-		console.log(`Map Covered 50%: ${checkIfMapCovered(generatedTiles, 0.5)}`);
-
-		getSurroundingTiles([ 0, 0 ]);
 		return generatedTiles;
 	}
 
