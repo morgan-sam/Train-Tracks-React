@@ -7,7 +7,8 @@ import {
 	findIndexOfArrayInMatrix,
 	print,
 	getIndexOfLongestArrayInMatrix,
-	removeDuplicateArraysFromMatrix
+	removeDuplicateArraysFromMatrix,
+	removeArraysFromMatrix
 } from '../utility/utilityFunctions';
 import { compare } from 'semver';
 
@@ -423,7 +424,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function generateDefaultTileIndices(allTiles) {
 		const indicesCount = Math.floor(allTiles.length / 8);
 		let indices = [ 0, allTiles.length - 1 ];
-		indices.push(...getSquareDefaultIndices(allTiles));
+		indices.push(...getAllTwoByTwoDefaultIndices(allTiles));
 		const remainingIndicesCount = indicesCount - indices.length;
 		indices.push(...getRemainingRandomIndices(allTiles, remainingIndicesCount));
 		return [ ...new Set(indices) ];
@@ -437,13 +438,26 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return remainIndices;
 	}
 
-	function getSquareDefaultIndices(allTiles) {
-		const squares = splitMapIntoSquares();
-		print(squares);
-		const fullSquares = filterForFullSquares(allTiles, squares);
-		const defaultCoordinates = getRandomNonDuplicateCoordinatesFromMatrix(fullSquares);
+	function getAllTwoByTwoDefaultIndices(allTiles) {
+		let nonDefaultTrackTiles = allTiles;
+		let defaultCoordinates = [];
+		for (let y = 0; y < 2; y++) {
+			for (let x = 0; x < 2; x++) {
+				const coordinates = getSquareDefaultCoordinates(nonDefaultTrackTiles, x, y);
+				defaultCoordinates.push(coordinates);
+				nonDefaultTrackTiles = removeArraysFromMatrix(coordinates, allTiles);
+			}
+		}
+		defaultCoordinates = [].concat(...defaultCoordinates);
 		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
 		return defaultIndices;
+	}
+
+	function getSquareDefaultCoordinates(nonDefaultTrackTiles, xOffset, yOffset) {
+		const squares = splitMapIntoSquares(xOffset, yOffset);
+		const fullSquares = filterForFullSquares(nonDefaultTrackTiles, squares);
+		const defaultCoordinates = getRandomNonDuplicateCoordinatesFromMatrix(fullSquares);
+		return defaultCoordinates;
 	}
 
 	function getRandomNonDuplicateCoordinatesFromMatrix(matrix) {
@@ -466,10 +480,10 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return tileCount === 4;
 	}
 
-	function splitMapIntoSquares() {
+	function splitMapIntoSquares(xOffset, yOffset) {
 		let squares = [];
-		for (let y = 0; y < mapHeight - 1; y += 2) {
-			for (let x = 0; x < mapWidth - 1; x += 2) {
+		for (let y = yOffset; y < mapHeight - 1 - yOffset; y += 2) {
+			for (let x = xOffset; x < mapWidth - 1 - xOffset; x += 2) {
 				squares.push(getTwoByTwoSquare(x, y));
 			}
 		}

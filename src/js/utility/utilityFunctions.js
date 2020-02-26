@@ -60,3 +60,10 @@ export const removeDuplicateArraysFromMatrix = (matrix) => {
 		else return false;
 	});
 };
+
+export const removeArraysFromMatrix = (arrays, matrix) => {
+	arrays.forEach(function(arr) {
+		matrix = matrix.filter((el) => !compareArrays(el, arr));
+	});
+	return matrix;
+};
