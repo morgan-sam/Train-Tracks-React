@@ -3,7 +3,7 @@ import Game from './game';
 import Dropdown from './dropdown';
 import { generateNewMap } from '../generation/generateMap';
 import { generateMapIcon } from '../generation/generateIcon';
-import { isNonEmptyArray } from '../utility/utilityFunctions';
+import { isNonEmptyArray, print } from '../utility/utilityFunctions';
 import seedrandom from 'seedrandom';
 
 class App extends React.Component {
@@ -64,6 +64,14 @@ class App extends React.Component {
 		this.setState({
 			trainTrackMap: trainTrackMap
 		});
+	}
+
+	generateNewMapSeed() {
+		const mapSeed = this.getRandomSeed();
+		this.setState({
+			mapSeed
+		});
+		this.setMapSeedInputValue(mapSeed);
 	}
 
 	generateNewMapState() {
@@ -213,7 +221,7 @@ class App extends React.Component {
 						className="rerollSeedBtn"
 						onClick={(e) => {
 							e.preventDefault();
-							this.generateNewMapState();
+							this.generateNewMapSeed();
 						}}
 					>
 						<span className="diceSymbol">⚄</span>
@@ -222,8 +230,10 @@ class App extends React.Component {
 				<button
 					key={'generateMapBtn'}
 					onClick={() => {
+						print('Map Loading');
 						this.generateCurrentMapState();
 						this.setGameState(true);
+						print('Map Loaded');
 					}}
 				>
 					Generate Map
