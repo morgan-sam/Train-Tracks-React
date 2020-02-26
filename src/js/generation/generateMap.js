@@ -108,8 +108,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		const moveMutateFunctions = [
 			removeSealingMoves,
 			removeAroundExitMoves,
-			removeHookMoves
-			// removeMovesWithLessTilesFromExit
+			removeHookMoves,
+			removeMovesWithLessTilesFromExit
 		];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
@@ -202,7 +202,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function getMoveWithMoreTilesAwayFromExit(legalMoves, generatedTiles, endCoordinate) {
 		let paths = [];
 		legalMoves.forEach(function(el) {
-			paths.push(getShortestPath(el, endCoordinate, generatedTiles));
+			paths.push(getShortestPathBreadthFirstSearch(el, endCoordinate, generatedTiles));
 		});
 		const longestIndex = getIndexOfLongestArrayInMatrix(paths);
 		const moveForLongest = paths[longestIndex][0];
@@ -215,7 +215,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		else return legalMoves;
 	}
 
-	function getShortestPath(prospectiveMove, target, hitTiles) {
+	function getShortestPathBreadthFirstSearch(prospectiveMove, target, hitTiles) {
 		let shortestPath;
 		function nextPathMove(move, visitedTiles, target, iteration) {
 			visitedTiles.push(move);
@@ -235,7 +235,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			shortestPath = [ ...removedObstacleArray, target ];
 		}
 
-		//breadthFirstSearch
 		let i = 0;
 		while (!isNonEmptyArray(shortestPath)) {
 			i++;
