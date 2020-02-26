@@ -425,8 +425,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		const indicesCount = Math.floor(allTiles.length / 8);
 		let indices = [ 0, allTiles.length - 1 ];
 		indices.push(...getAllTwoByTwoDefaultIndices(allTiles));
-		const remainingIndicesCount = indicesCount - indices.length;
-		indices.push(...getRemainingRandomIndices(allTiles, remainingIndicesCount));
 		return [ ...new Set(indices) ];
 	}
 
