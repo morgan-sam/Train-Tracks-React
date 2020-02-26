@@ -433,6 +433,13 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function getAllTwoByTwoDefaultIndices(allTiles) {
+		let defaultCoordinates = iterateThroughEachPossibleSquare(allTiles);
+		defaultCoordinates = removeDefaultTilesWithMoreThanTwoAdjacent(defaultCoordinates);
+		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
+		return defaultIndices;
+	}
+
+	function iterateThroughEachPossibleSquare() {
 		let nonDefaultTrackTiles = allTiles;
 		let defaultCoordinates = [];
 		for (let y = 0; y < 2; y++) {
@@ -442,17 +449,14 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				nonDefaultTrackTiles = removeArraysFromMatrix(coordinates, allTiles);
 			}
 		}
-		defaultCoordinates = [].concat(...defaultCoordinates);
-		defaultCoordinates = removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates);
-		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
-		return defaultIndices;
+		return [].concat(...defaultCoordinates);
 	}
 
-	function removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates) {
+	function removeDefaultTilesWithMoreThanTwoAdjacent(defaultCoordinates) {
 		let currentDefaultTiles = [ ...defaultCoordinates ];
 		return defaultCoordinates.filter(function(tile) {
 			const adjDefTileCount = getAdjacentDefaultTileCount(tile, currentDefaultTiles);
-			return adjDefTileCount < 2;
+			return adjDefTileCount < 3;
 		});
 	}
 
