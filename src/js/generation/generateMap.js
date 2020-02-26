@@ -423,7 +423,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	function generateDefaultTileIndices(allTiles) {
 		const indicesCount = Math.floor(allTiles.length / 8);
 		let indices = [ 0, allTiles.length - 1 ];
-		indices.push(...getRectangleDefaultIndices(allTiles));
+		indices.push(...getSquareDefaultIndices(allTiles));
 		const remainingIndicesCount = indicesCount - indices.length;
 		indices.push(...getRemainingRandomIndices(allTiles, remainingIndicesCount));
 		return [ ...new Set(indices) ];
@@ -437,10 +437,11 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return remainIndices;
 	}
 
-	function getRectangleDefaultIndices(allTiles) {
-		const rectangles = splitMapIntoRectangles();
-		const fullRectangles = filterForFullRectangles(allTiles, rectangles);
-		const defaultCoordinates = getRandomNonDuplicateCoordinatesFromMatrix(fullRectangles);
+	function getSquareDefaultIndices(allTiles) {
+		const squares = splitMapIntoSquares();
+		print(squares);
+		const fullSquares = filterForFullSquares(allTiles, squares);
+		const defaultCoordinates = getRandomNonDuplicateCoordinatesFromMatrix(fullSquares);
 		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
 		return defaultIndices;
 	}
@@ -450,39 +451,39 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return removeDuplicateArraysFromMatrix(coordinates);
 	}
 
-	function filterForFullRectangles(allTiles, rectangles) {
-		const fullRectangles = rectangles.filter((rec) => checkIfRectangleIsFull(rec, allTiles));
-		return fullRectangles;
+	function filterForFullSquares(allTiles, squares) {
+		const fullSquares = squares.filter((rec) => checkIfSquareIsFull(rec, allTiles));
+		return fullSquares;
 	}
 
-	function checkIfRectangleIsFull(rec, allTiles) {
+	function checkIfSquareIsFull(rec, allTiles) {
 		let tileCount = 0;
 		rec.forEach(function(recTile) {
 			allTiles.forEach(function(tile) {
 				if (compareArrays(recTile, tile)) tileCount++;
 			});
 		});
-		return tileCount === 6;
+		return tileCount === 4;
 	}
 
-	function splitMapIntoRectangles() {
-		let rectangles = [];
-		for (let y = 0; y < mapHeight - 1; y++) {
-			for (let x = 0; x < mapWidth - 2; x++) {
-				rectangles.push(getThreeByTwoRectangle(x, y));
+	function splitMapIntoSquares() {
+		let squares = [];
+		for (let y = 0; y < mapHeight - 1; y += 2) {
+			for (let x = 0; x < mapWidth - 1; x += 2) {
+				squares.push(getTwoByTwoSquare(x, y));
 			}
 		}
-		return rectangles;
+		return squares;
 	}
 
-	function getThreeByTwoRectangle(x, y) {
-		let rectangle = [];
+	function getTwoByTwoSquare(x, y) {
+		let square = [];
 		for (let b = 0; b < 2; b++) {
-			for (let a = 0; a < 3; a++) {
-				rectangle.push([ a + x, b + y ]);
+			for (let a = 0; a < 2; a++) {
+				square.push([ a + x, b + y ]);
 			}
 		}
-		return rectangle;
+		return square;
 	}
 
 	function getCentreOfSquareCoordinates() {
