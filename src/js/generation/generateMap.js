@@ -14,7 +14,6 @@ import { compare } from 'semver';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	seedrandom(659743918878826, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
@@ -513,33 +512,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		return square;
-	}
-
-	function getCentreOfSquareCoordinates() {
-		const squares = getThreeByThreeSquares(allTiles);
-		const centrePoints = squares.map((el) => el[4]);
-		print(centrePoints);
-	}
-
-	function getThreeByThreeSquares(allTiles) {
-		let squareArray = [];
-		allTiles.forEach(function(el) {
-			let inBoundSquareTiles = removeOutOfBoundsMoves(getSurroundingTiles(el));
-			if (inBoundSquareTiles.length === 9 && checkIfSquarePopulated(allTiles, inBoundSquareTiles)) {
-				squareArray.push(inBoundSquareTiles);
-			}
-		});
-		return squareArray;
-	}
-
-	function checkIfSquarePopulated(allTiles, squareTiles) {
-		let numberOfTiles = 0;
-		squareTiles.forEach(function(squareTile) {
-			allTiles.forEach(function(tile) {
-				if (compareArrays(tile, squareTile)) numberOfTiles++;
-			});
-		});
-		return numberOfTiles === 9;
 	}
 };
 
