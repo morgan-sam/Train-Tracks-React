@@ -422,10 +422,14 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function generateDefaultTileIndices(allTiles) {
-		const indicesCount = Math.floor(allTiles.length / 8);
-		let indices = [ 0, allTiles.length - 1 ];
+		let indices = [];
 		indices.push(...getAllTwoByTwoDefaultIndices(allTiles));
+		indices.push(...getStartAndEndIndices(allTiles));
 		return [ ...new Set(indices) ];
+	}
+
+	function getStartAndEndIndices(allTiles) {
+		return [ 0, allTiles.length - 1 ];
 	}
 
 	function getAllTwoByTwoDefaultIndices(allTiles) {
