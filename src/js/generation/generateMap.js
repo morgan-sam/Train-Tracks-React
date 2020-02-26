@@ -422,18 +422,25 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	function generateDefaultTileIndices(allTiles) {
 		const tileCount = allTiles.length;
+		const indicesCount = Math.floor(tileCount / 8);
 		let indices = [ 0, tileCount - 1 ];
-		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
-			indices.push(randomIntFromInterval(1, tileCount - 1));
-		}
-		let defaultIndices = getRectangleDefaultIndices(allTiles);
-		print(defaultIndices);
+		indices.push(...getRectangleDefaultIndices(allTiles));
+		const remainingIndicesCount = indicesCount - indices.length;
+		indices.push(...getRemainingRandomIndices(allTiles, remainingIndicesCount));
 		return [ ...new Set(indices) ];
+	}
+
+	function getRemainingRandomIndices(tiles, indicesCount) {
+		let remainIndices = [];
+		for (let i = 0; i < indicesCount; i++) {
+			remainIndices.push(randomIntFromInterval(1, tiles.length - 2));
+		}
+		return remainIndices;
 	}
 
 	function getRectangleDefaultIndices(allTiles) {
 		const rectangles = splitMapIntoRectangles();
-		const fullRectangles = getFullRectangles(allTiles, rectangles);
+		const fullRectangles = filterForFullRectangles(allTiles, rectangles);
 		const defaultCoordinates = getRandomNonDuplicateCoordinatesFromMatrix(fullRectangles);
 		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
 		return defaultIndices;
@@ -444,7 +451,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return removeDuplicateArraysFromMatrix(coordinates);
 	}
 
-	function getFullRectangles(allTiles, rectangles) {
+	function filterForFullRectangles(allTiles, rectangles) {
 		const fullRectangles = rectangles.filter((rec) => checkIfRectangleIsFull(rec, allTiles));
 		return fullRectangles;
 	}
