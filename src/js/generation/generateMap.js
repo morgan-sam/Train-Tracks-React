@@ -14,7 +14,7 @@ import { compare } from 'semver';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	seedrandom(mapSeed, { global: true });
-	// seedrandom(300805450160977, { global: true });
+	seedrandom(46858412356512, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
@@ -423,8 +423,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	function generateDefaultTileIndices(allTiles) {
 		let indices = [];
+		// indices.push(...getStartAndEndIndices(allTiles));
 		indices.push(...getAllTwoByTwoDefaultIndices(allTiles));
-		indices.push(...getStartAndEndIndices(allTiles));
 		return [ ...new Set(indices) ];
 	}
 
@@ -443,8 +443,24 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		defaultCoordinates = [].concat(...defaultCoordinates);
+		removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates);
 		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
 		return defaultIndices;
+	}
+
+	function removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates) {
+		let currentDefaultTiles = [ ...defaultCoordinates ];
+		return defaultCoordinates.filter(function(tile) {
+			const adjDefTileCount = getAdjacentDefaultTileCount(tile, currentDefaultTiles);
+			print(tile);
+			print(adjDefTileCount);
+		});
+	}
+
+	function getAdjacentDefaultTileCount(tile, currentDefaultTiles) {
+		const adjTiles = getAdjacentTiles(tile);
+		const nonDefTiles = removeArraysFromMatrix(currentDefaultTiles, adjTiles);
+		return 4 - nonDefTiles.length;
 	}
 
 	function getSquareDefaultCoordinates(nonDefaultTrackTiles, xOffset, yOffset) {
