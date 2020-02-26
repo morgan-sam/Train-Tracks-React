@@ -425,8 +425,25 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			indices.push(randomIntFromInterval(1, tileCount - 1));
 		}
-		splitMapIntoRectangles();
+		let rectangles = splitMapIntoRectangles();
+		const fullRectangles = getFullRectangles(allTiles, rectangles);
+		print(fullRectangles);
 		return [ ...new Set(indices) ];
+	}
+
+	function getFullRectangles(allTiles, rectangles) {
+		const fullRectangles = rectangles.filter((rec) => checkIfRectangleIsFull(rec, allTiles));
+		return fullRectangles;
+	}
+
+	function checkIfRectangleIsFull(rec, allTiles) {
+		let tileCount = 0;
+		rec.forEach(function(recTile) {
+			allTiles.forEach(function(tile) {
+				if (compareArrays(recTile, tile)) tileCount++;
+			});
+		});
+		return tileCount === 6;
 	}
 
 	function splitMapIntoRectangles() {
@@ -439,7 +456,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 				}
 			}
 		}
-		print(rectangles);
+		return rectangles;
 	}
 
 	function getThreeByTwoRectangle(x, y) {
