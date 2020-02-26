@@ -6,7 +6,8 @@ import {
 	isNonEmptyArray,
 	findIndexOfArrayInMatrix,
 	print,
-	getIndexOfLongestArrayInMatrix
+	getIndexOfLongestArrayInMatrix,
+	removeDuplicateArraysFromMatrix
 } from '../utility/utilityFunctions';
 import { compare } from 'semver';
 
@@ -425,16 +426,22 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		for (let i = 0; i < Math.floor(tileCount / 8); i++) {
 			indices.push(randomIntFromInterval(1, tileCount - 1));
 		}
-		const rectangles = splitMapIntoRectangles();
-		const fullRectangles = getFullRectangles(allTiles, rectangles);
-		const recIndices = getRandomCoordinatesFromMatrix(fullRectangles);
-
-		print(recIndices);
+		let defaultIndices = getRectangleDefaultIndices(allTiles);
+		print(defaultIndices);
 		return [ ...new Set(indices) ];
 	}
 
-	function getRandomCoordinatesFromMatrix(matrix) {
-		return matrix.map((el) => el[randomIntFromInterval(0, el.length - 1)]);
+	function getRectangleDefaultIndices(allTiles) {
+		const rectangles = splitMapIntoRectangles();
+		const fullRectangles = getFullRectangles(allTiles, rectangles);
+		const defaultCoordinates = getRandomNonDuplicateCoordinatesFromMatrix(fullRectangles);
+		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
+		return defaultIndices;
+	}
+
+	function getRandomNonDuplicateCoordinatesFromMatrix(matrix) {
+		const coordinates = matrix.map((el) => el[randomIntFromInterval(0, el.length - 1)]);
+		return removeDuplicateArraysFromMatrix(coordinates);
 	}
 
 	function getFullRectangles(allTiles, rectangles) {
