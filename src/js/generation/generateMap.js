@@ -421,9 +421,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function generateDefaultTileIndices(allTiles) {
-		const tileCount = allTiles.length;
-		const indicesCount = Math.floor(tileCount / 8);
-		let indices = [ 0, tileCount - 1 ];
+		const indicesCount = Math.floor(allTiles.length / 8);
+		let indices = [ 0, allTiles.length - 1 ];
 		indices.push(...getRectangleDefaultIndices(allTiles));
 		const remainingIndicesCount = indicesCount - indices.length;
 		indices.push(...getRemainingRandomIndices(allTiles, remainingIndicesCount));
@@ -467,13 +466,10 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function splitMapIntoRectangles() {
-		//3x2 rectangles for 6x6 map
 		let rectangles = [];
-		if (mapWidth === 6 && mapHeight === 6) {
-			for (let y = 0; y < mapHeight - 1; y++) {
-				for (let x = 0; x < mapWidth - 2; x++) {
-					rectangles.push(getThreeByTwoRectangle(x, y));
-				}
+		for (let y = 0; y < mapHeight - 1; y++) {
+			for (let x = 0; x < mapWidth - 2; x++) {
+				rectangles.push(getThreeByTwoRectangle(x, y));
 			}
 		}
 		return rectangles;
