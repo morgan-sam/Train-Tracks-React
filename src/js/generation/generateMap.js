@@ -428,14 +428,6 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		return [ ...new Set(indices) ];
 	}
 
-	function getRemainingRandomIndices(tiles, indicesCount) {
-		let remainIndices = [];
-		for (let i = 0; i < indicesCount; i++) {
-			remainIndices.push(randomIntFromInterval(1, tiles.length - 2));
-		}
-		return remainIndices;
-	}
-
 	function getAllTwoByTwoDefaultIndices(allTiles) {
 		let nonDefaultTrackTiles = allTiles;
 		let defaultCoordinates = [];
