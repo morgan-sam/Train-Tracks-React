@@ -423,8 +423,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 
 	function generateDefaultTileIndices(allTiles) {
 		let indices = [];
-		// indices.push(...getStartAndEndIndices(allTiles));
 		indices.push(...getAllTwoByTwoDefaultIndices(allTiles));
+		indices.push(...getStartAndEndIndices(allTiles));
 		return [ ...new Set(indices) ];
 	}
 
@@ -443,7 +443,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 			}
 		}
 		defaultCoordinates = [].concat(...defaultCoordinates);
-		removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates);
+		defaultCoordinates = removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates);
 		const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
 		return defaultIndices;
 	}
@@ -452,8 +452,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		let currentDefaultTiles = [ ...defaultCoordinates ];
 		return defaultCoordinates.filter(function(tile) {
 			const adjDefTileCount = getAdjacentDefaultTileCount(tile, currentDefaultTiles);
-			print(tile);
-			print(adjDefTileCount);
+			return adjDefTileCount < 2;
 		});
 	}
 
