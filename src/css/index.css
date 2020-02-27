@@ -434,10 +434,3 @@ code {
 .track {
 	opacity: 1;
 }
-
-.start {
-	background-color: darkgreen;
-}
-.end {
-	background-color: darkred;
-}
