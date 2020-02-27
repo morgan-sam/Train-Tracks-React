@@ -14,6 +14,7 @@ class App extends React.Component {
 			mapSize: 8,
 			gameActive: false,
 			mapSeed: this.getRandomSeed(),
+			pathFindingDisabled: false,
 			selectedSavedMapSeed: null,
 			selectedSavedMapObject: null,
 			trainTrackMap: null,
@@ -60,7 +61,12 @@ class App extends React.Component {
 	}
 
 	generateCurrentMapState() {
-		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, this.state.mapSeed);
+		const trainTrackMap = generateNewMap(
+			this.state.mapSize,
+			this.state.mapSize,
+			this.state.mapSeed,
+			this.state.pathFindingDisabled
+		);
 		this.setState({
 			trainTrackMap: trainTrackMap
 		});
@@ -76,7 +82,12 @@ class App extends React.Component {
 
 	generateNewMapState() {
 		const mapSeed = this.getRandomSeed();
-		const trainTrackMap = generateNewMap(this.state.mapSize, this.state.mapSize, mapSeed);
+		const trainTrackMap = generateNewMap(
+			this.state.mapSize,
+			this.state.mapSize,
+			mapSeed,
+			this.state.pathFindingDisabled
+		);
 		this.setState({
 			trainTrackMap,
 			mapSeed
@@ -102,6 +113,12 @@ class App extends React.Component {
 			mapSeed: parseInt(seed)
 		});
 	};
+
+	setPathFindingDisableState(boo) {
+		this.setState({
+			pathFindingDisabled: boo
+		});
+	}
 
 	setGameState(boo) {
 		this.setState({
@@ -228,8 +245,13 @@ class App extends React.Component {
 					</div>
 				</div>
 				<div className="pathFindingOptionRow">
-					<input type="checkbox" className="pathFindingCheckbox" />
-					<p className="pathFindingLabel">Map Generation Path Finding Disabled</p>
+					<input
+						type="checkbox"
+						className="pathFindingCheckbox"
+						checked={this.state.pathFindingDisabled}
+						onChange={(e) => this.setPathFindingDisableState(e.target.checked)}
+					/>
+					<p className="pathFindingLabel">Disable Map Generation Path Finding</p>
 					<div className="pathFindingQuestionBox">?</div>
 					<div className="pathFindingExplanation">
 						Disables use of breadth first search algorithm in map generation. Can increase performance on

@@ -12,7 +12,7 @@ import {
 } from '../utility/utilityFunctions';
 import { compare } from 'semver';
 
-export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
+export const generateNewMap = (mapWidth, mapHeight, mapSeed, pathFindingDisabled = false) => {
 	seedrandom(mapSeed, { global: true });
 
 	let trainTrackMap = {
@@ -101,12 +101,9 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 	}
 
 	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
-		const moveMutateFunctions = [
-			removeSealingMoves,
-			removeAroundExitMoves,
-			removeHookMoves
-			// removeMovesWithLessTilesFromExit
-		];
+		let moveMutateFunctions = [ removeSealingMoves, removeAroundExitMoves, removeHookMoves ];
+
+		if (!pathFindingDisabled) moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
