@@ -196,6 +196,10 @@ button {
 	line-height: 1rem;
 }
 
+.howToPlayTitle {
+	font-size: 1.5rem;
+}
+
 .pathFindingQuestionBox:hover ~ .pathFindingExplanation {
 	display: flex;
 }
