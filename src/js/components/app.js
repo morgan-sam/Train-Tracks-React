@@ -231,6 +231,10 @@ class App extends React.Component {
 					<input type="checkbox" className="pathFindingCheckbox" />
 					<p className="pathFindingLabel">Map Generation Path Finding Disabled</p>
 					<div className="pathFindingQuestionBox">?</div>
+					<div className="pathFindingExplanation">
+						Disables use of breadth first search algorithm in map generation. Can increase performance on
+						old browsers/PCs. Maps may be lessed balanced.
+					</div>
 				</div>
 				<button
 					key={'generateMapBtn'}

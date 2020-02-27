@@ -128,6 +128,10 @@ button {
 	justify-content: center;
 }
 
+.pathFindingOptionRow {
+	height: 1rem;
+}
+
 .pathFindingOptionRow > * {
 	display: inline-flex;
 }
@@ -155,6 +159,25 @@ button {
 	justify-content: center;
 	vertical-align: middle;
 	user-select: none;
+}
+
+.pathFindingExplanation {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	font-size: 0.7rem;
+	border: 1px black solid;
+	top: -3.75rem;
+	right: -11rem;
+	height: 7.5rem;
+	width: 7.5rem;
+	padding: 1rem;
+	line-height: 1rem;
+}
+
+.pathFindingQuestionBox:hover ~ .pathFindingExplanation {
+	display: flex;
 }
 
 .returnToMainMenuBtn {
