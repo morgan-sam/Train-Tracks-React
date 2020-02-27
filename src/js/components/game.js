@@ -129,6 +129,32 @@ class Game extends React.Component {
 				</div>
 				<div>
 					<button
+						className="mapSeedBtn"
+						key="mapSeedBtn"
+						onClick={() => {
+							this.seedText.select();
+							document.execCommand('copy');
+						}}
+					>
+						🌱
+					</button>
+					<textarea
+						readOnly
+						unselectable="on"
+						style={{
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							opacity: 0,
+							width: 0,
+							height: 0,
+							resize: 'none',
+							cursor: 'default'
+						}}
+						ref={(seedText) => (this.seedText = seedText)}
+						value={this.props.mapSeed}
+					/>
+					<button
 						key={'saveMapBtn'}
 						onClick={() => {
 							this.showSaveMapDisplay(true);
@@ -185,10 +211,6 @@ class Game extends React.Component {
 					/>
 				</div>
 				{optionsButtons}
-				<br />
-				<p>
-					<span>Map Seed: {this.props.mapSeed}</span>
-				</p>
 			</div>
 		);
 	}
