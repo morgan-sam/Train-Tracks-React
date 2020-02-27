@@ -353,6 +353,7 @@ class App extends React.Component {
 				<img
 					alt=""
 					src={this.state.deleteModeOnAll ? null : this.state.mapIcon}
+					style={{ display: this.state.deleteModeOnAll ? 'none' : 'block' }}
 					className="confirmDeleteIcon"
 				/>
 				<div className="deleteButtons">

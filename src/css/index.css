@@ -68,8 +68,8 @@ select {
 }
 
 .deleteConfirmationLabel {
-	margin-top: 0.5rem;
-	margin-bottom: 1.5rem;
+	margin-top: 0.75rem;
+	margin-bottom: 1.25rem;
 }
 
 .mapIcon {
@@ -104,6 +104,8 @@ button {
 
 .confirmDeleteBtn {
 	width: 5rem;
+	background-color: #bf3d3b;
+	color: white;
 }
 .cancelDeleteBtn {
 	width: 5rem;
