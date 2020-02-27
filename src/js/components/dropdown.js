@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { print } from '../utility/utilityFunctions';
 
 const Dropdown = ({ style, placeholder, options, onChange, onHover, className }) => {
 	const [ listOpen, setListOpen ] = useState(false);
@@ -37,7 +38,7 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 					}}
 					key={`dropdownOption${i}`}
 					onClick={() => {
-						optionSelected(item.value, item.mapObject);
+						optionSelected(item.value, item.mapObject, item.pathFindingDisabled);
 						setDefaultValue(item.display);
 					}}
 					onMouseOver={() => {
@@ -79,8 +80,8 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 		onHover(false);
 	};
 
-	const optionSelected = (item, mapObject) => {
-		onChange(item, mapObject);
+	const optionSelected = (item, mapObject, pathFindingDisabled) => {
+		onChange(item, mapObject, pathFindingDisabled);
 		setListOpen(false);
 	};
 
