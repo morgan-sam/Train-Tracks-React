@@ -285,13 +285,15 @@ button {
 
 .mapSeedExplanationContainer {
 	position: absolute;
-	display: none;
+	display: flex;
+	opacity: 0;
 	width: 8rem;
 	height: 4rem;
 	transform: translateY(50%);
 	clip-path: polygon(0% 25%, 44% 25%, 50% 0%, 56% 25%, 100% 25%, 100% 100%, 0% 100%);
 	background-color: black;
 	z-index: -1;
+	transition: 0.5s;
 }
 
 .mapSeedExplanationSubContainer {
@@ -318,7 +320,7 @@ button {
 }
 
 .mapSeedBtn:hover ~ .mapSeedExplanationContainer {
-	display: flex;
+	opacity: 1;
 }
 
 .map {
