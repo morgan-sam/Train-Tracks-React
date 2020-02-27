@@ -346,7 +346,7 @@ class App extends React.Component {
 	deleteMapConfirmationScreen() {
 		return (
 			<div className="deleteConfirmationScreen">
-				<h3>
+				<h3 className="deleteConfirmationLabel">
 					Are you sure you want to delete{' '}
 					{this.state.deleteModeOnAll ? 'ALL saved maps?' : 'the following saved map?'}
 				</h3>
@@ -355,28 +355,30 @@ class App extends React.Component {
 					src={this.state.deleteModeOnAll ? null : this.state.mapIcon}
 					className="confirmDeleteIcon"
 				/>
-				<button
-					className="confirmDeleteBtn"
-					key={'confirmDeleteBtn'}
-					onClick={() => {
-						if (this.state.deleteModeOnAll) this.deleteAllLocalSavedMaps();
-						else this.deleteLocalSavedMap(this.state.selectedSavedMapSeed);
-						this.resetGameDefaults();
-						this.setMenuScreen('loadMap');
-					}}
-				>
-					Confirm
-				</button>
-				<button
-					className="cancelDeleteBtn"
-					key={'cancelDeleteBtn'}
-					onClick={() => {
-						this.resetGameDefaults();
-						this.setMenuScreen('loadMap');
-					}}
-				>
-					Cancel
-				</button>
+				<div className="deleteButtons">
+					<button
+						className="confirmDeleteBtn"
+						key={'confirmDeleteBtn'}
+						onClick={() => {
+							if (this.state.deleteModeOnAll) this.deleteAllLocalSavedMaps();
+							else this.deleteLocalSavedMap(this.state.selectedSavedMapSeed);
+							this.resetGameDefaults();
+							this.setMenuScreen('loadMap');
+						}}
+					>
+						Confirm
+					</button>
+					<button
+						className="cancelDeleteBtn"
+						key={'cancelDeleteBtn'}
+						onClick={() => {
+							this.resetGameDefaults();
+							this.setMenuScreen('loadMap');
+						}}
+					>
+						Cancel
+					</button>
+				</div>
 			</div>
 		);
 	}
