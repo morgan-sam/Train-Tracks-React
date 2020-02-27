@@ -17,7 +17,6 @@
 button,
 select {
 	text-align: center;
-	margin-right: 1rem;
 	width: auto;
 	height: 2rem;
 }
@@ -264,17 +263,32 @@ button {
 	display: flex;
 }
 
+.topRowInGameButtons > * {
+	margin: 0.25rem 0.5rem;
+}
+
 .bottomRowInGameButtons {
 	position: relative;
+	display: inline-flex;
+}
+
+.bottomRowInGameButtons > * {
+	margin: 0.25rem 0.5rem;
+}
+
+.mapSeedOptionContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	vertical-align: middle;
 }
 
 .mapSeedExplanationContainer {
 	position: absolute;
-	display: flex;
-	width: 9rem;
+	display: none;
+	width: 8rem;
 	height: 4rem;
-	transform: translateX(50%);
-	line-height: 1rem;
+	transform: translateY(50%);
 	clip-path: polygon(0% 25%, 44% 25%, 50% 0%, 56% 25%, 100% 25%, 100% 100%, 0% 100%);
 	background-color: black;
 	z-index: -1;
@@ -290,16 +304,17 @@ button {
 	flex-direction: column;
 	justify-content: center;
 	vertical-align: middle;
-	transform: scale(0.775) scaleX(1.25) scaleY(1.17);
-	clip-path: polygon(0% 25%, 44.5% 25%, 50% 0%, 55.5% 25%, 100% 25%, 100% 100%, 0% 100%);
-	background-color: rgb(245, 216, 143);
+	transform: scale(0.775) scaleX(1.25) scaleY(1.18);
+	clip-path: polygon(0% 25%, 45% 25%, 50% 0%, 55% 25%, 100% 25%, 100% 100%, 0% 100%);
+	background-color: rgb(255, 233, 178);
 }
 
 .mapSeedExplanation {
 	position: relative;
 	top: 0.35rem;
 	font-size: 0.9rem;
-	padding: 1rem;
+	padding: 0.5rem;
+	line-height: 1.3rem;
 }
 
 .mapSeedBtn:hover ~ .mapSeedExplanationContainer {

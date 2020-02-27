@@ -104,7 +104,7 @@ class Game extends React.Component {
 	renderOptionsButtons() {
 		return (
 			<div className="inGameOptions">
-				<div>
+				<div className="topRowInGameButtons">
 					<button
 						key={'resetMapBtn'}
 						onClick={() => {
@@ -128,37 +128,39 @@ class Game extends React.Component {
 					</button>
 				</div>
 				<div className="bottomRowInGameButtons">
-					<button
-						className="mapSeedBtn"
-						key="mapSeedBtn"
-						onClick={() => {
-							this.seedText.select();
-							document.execCommand('copy');
-						}}
-					>
-						🌱
-					</button>
-					<div className="mapSeedExplanationContainer">
-						<div className="mapSeedExplanationSubContainer">
-							<p className="mapSeedExplanation">Copy map seed to clipboard</p>
+					<div className="mapSeedOptionContainer">
+						<button
+							className="mapSeedBtn"
+							key="mapSeedBtn"
+							onClick={() => {
+								this.seedText.select();
+								document.execCommand('copy');
+							}}
+						>
+							🌱
+						</button>
+						<div className="mapSeedExplanationContainer">
+							<div className="mapSeedExplanationSubContainer">
+								<p className="mapSeedExplanation">Copy map seed to clipboard</p>
+							</div>
 						</div>
+						<textarea
+							readOnly
+							unselectable="on"
+							style={{
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								opacity: 0,
+								width: 0,
+								height: 0,
+								resize: 'none',
+								cursor: 'default'
+							}}
+							ref={(seedText) => (this.seedText = seedText)}
+							value={this.props.mapSeed}
+						/>
 					</div>
-					<textarea
-						readOnly
-						unselectable="on"
-						style={{
-							position: 'absolute',
-							top: 0,
-							left: 0,
-							opacity: 0,
-							width: 0,
-							height: 0,
-							resize: 'none',
-							cursor: 'default'
-						}}
-						ref={(seedText) => (this.seedText = seedText)}
-						value={this.props.mapSeed}
-					/>
 					<button
 						key={'saveMapBtn'}
 						onClick={() => {
