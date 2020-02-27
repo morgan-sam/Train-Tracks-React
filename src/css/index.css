@@ -216,6 +216,7 @@ button {
 
 .howToPlayTextField > * {
 	margin: 1rem;
+	text-align: left;
 }
 
 .howToPlayMap {

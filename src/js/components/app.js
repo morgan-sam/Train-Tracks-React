@@ -411,11 +411,15 @@ class App extends React.Component {
 						</p>
 						<p>
 							Each row and column must contain the specified amount of tracks in the corresponding header.
+							Headers display green if correct and red if overfilled.
 						</p>
-						<p>Tracks cannot overlap and in order to win the path must be fully connected.</p>
 						<p>
-							The header of a row/column will turn green if there are the right amount of tracks and red
-							if there are too many.
+							Tracks cannot overlap. In order to win the path must be fully connected with no extra
+							tracks.
+						</p>
+						<p>
+							Default tiles (such as the entrance and exit) cannot be removed from the map. You can toggle
+							the colour of default tiles (blue/brown) in game.
 						</p>
 					</div>
 					<div className="howToPlayMapField">
@@ -427,11 +431,12 @@ class App extends React.Component {
 							of track will be placed on left click.
 						</p>
 						<p>
-							Right clicking places an X mark. X marks are useful for tiles you know there are no tracks.
+							Right clicking places an X mark. X marks are useful for tiles where you know there is no
+							track.
 						</p>
 						<p>
 							Pressing both mouse buttons at the same time places a T mark. T marks are useful for tiles
-							you know there is a track but are not sure which type.
+							where you know there is a track but are not sure which type.
 						</p>
 						<p>
 							Holding down a mouse button and dragging over other tiles will place multiple
