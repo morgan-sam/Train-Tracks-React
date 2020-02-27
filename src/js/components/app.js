@@ -449,6 +449,16 @@ class App extends React.Component {
 		);
 	};
 
+	aboutScreen() {
+		return (
+			<div>
+				<p>This game was created with React.</p>
+				<p>Samuel Morgan - 2020</p>
+				{this.renderReturnToMainMenuBtn()}
+			</div>
+		);
+	}
+
 	mainMenuScreen() {
 		return (
 			<div className="mainMenuScreen" key="mainMenuScreen">
@@ -479,6 +489,16 @@ class App extends React.Component {
 					}}
 				>
 					How To Play
+				</button>
+				<button
+					className="aboutBtn"
+					key={'aboutBtn'}
+					onClick={() => {
+						this.setHowToPlayMaps();
+						this.setMenuScreen('about');
+					}}
+				>
+					About
 				</button>
 			</div>
 		);
@@ -533,6 +553,9 @@ class App extends React.Component {
 				break;
 			case 'howToPlay':
 				menuScreen = this.howToPlayScreen();
+				break;
+			case 'about':
+				menuScreen = this.aboutScreen();
 				break;
 			default:
 				menuScreen = this.mainMenuScreen();
