@@ -397,7 +397,7 @@ class App extends React.Component {
 		return (
 			<div className="howToPlayScreen" key="howToPlayScreen">
 				<h2 className="howToPlayTitle">How To Play</h2>
-				<img alt="" src={this.state.howToPlayMap} />
+				<img className="howToPlayMap" alt="" src={this.state.howToPlayMap} />
 				{this.renderReturnToMainMenuBtn()}
 			</div>
 		);
