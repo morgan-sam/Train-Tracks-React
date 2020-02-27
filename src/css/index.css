@@ -208,6 +208,7 @@ button {
 	flex-direction: column;
 	justify-content: center;
 	vertical-align: middle;
+	margin: 1rem;
 }
 
 .howToPlayTextField > * {

@@ -1,8 +1,8 @@
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 
-export const generateMapIcon = async (mapObject) => {
-	const canvas = await generateCanvas(mapObject);
+export const generateMapIcon = async (mapObject, complete = false) => {
+	const canvas = await generateCanvas(mapObject, complete);
 	const image = canvas.toDataURL('image/png');
 	return image;
 };
@@ -28,7 +28,7 @@ const getRotationFromRailType = (railType) => {
 	return rotation;
 };
 
-const generateCanvas = async (mapObject) => {
+const generateCanvas = async (mapObject, complete) => {
 	let canvas = document.createElement('canvas');
 
 	const mapWidth = mapObject.headerLabels.x.length;
@@ -76,7 +76,7 @@ const generateCanvas = async (mapObject) => {
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
 	mapObject.tracks.forEach((el) => {
-		if (el.defaultTrack) {
+		if (complete || el.defaultTrack) {
 			if (
 				el.railType === 'horizontal' ||
 				el.railType === 'topLeftCorner' ||

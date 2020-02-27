@@ -21,7 +21,8 @@ class App extends React.Component {
 			trainTrackMap: null,
 			mapIcon: null,
 			deleteModeOnAll: false,
-			howToPlayMap: null
+			howToPlayMapEmpty: null,
+			howToPlayMapComplete: null
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -49,11 +50,13 @@ class App extends React.Component {
 		});
 	}
 
-	setHowToPlayMap = async () => {
+	setHowToPlayMaps = async () => {
 		const map = generateNewMap(6, 6, 986707260499975, true);
-		const mapIcon = await generateMapIcon(map);
+		const emptyMap = await generateMapIcon(map, false);
+		const completeMap = await generateMapIcon(map, true);
 		this.setState({
-			howToPlayMap: mapIcon
+			howToPlayMapEmpty: emptyMap,
+			howToPlayMapComplete: completeMap
 		});
 	};
 
@@ -399,7 +402,7 @@ class App extends React.Component {
 				<h2 className="howToPlayTitle">How To Play</h2>
 				<div className="howToPlayGrid">
 					<div>
-						<img className="howToPlayMap" alt="" src={this.state.howToPlayMap} />
+						<img className="howToPlayMap" alt="" src={this.state.howToPlayMapEmpty} />
 					</div>
 					<div className="howToPlayTextField">
 						<p>
@@ -412,7 +415,7 @@ class App extends React.Component {
 						<p>Tracks cannot overlap and in order to win the path must be fully connected.</p>
 					</div>
 					<div>
-						<img className="howToPlayMap" alt="" src={this.state.howToPlayMap} />
+						<img className="howToPlayMap" alt="" src={this.state.howToPlayMapComplete} />
 					</div>
 					<div className="howToPlayTextField">
 						<p>
@@ -455,7 +458,7 @@ class App extends React.Component {
 					className="howToPlayPageBtn"
 					key={'howToPlayPageBtn'}
 					onClick={() => {
-						this.setHowToPlayMap();
+						this.setHowToPlayMaps();
 						this.setMenuScreen('howToPlay');
 					}}
 				>
