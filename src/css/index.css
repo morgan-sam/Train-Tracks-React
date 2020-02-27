@@ -268,21 +268,41 @@ button {
 	position: relative;
 }
 
-.mapSeedBtnExplanation {
+.mapSeedExplanationContainer {
 	position: absolute;
-	display: none;
-	width: 7.5rem;
-	height: 2rem;
-	top: 5rem;
-	left: 7.5rem;
-	border: 1px rgb(109, 96, 22) solid;
-	background-color: rgb(245, 216, 143);
-	padding: 0.5rem;
-	transform: translate(-50%, -50%);
-	/* clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%); */
+	display: flex;
+	width: 9rem;
+	height: 4rem;
+	transform: translateX(50%);
+	line-height: 1rem;
+	clip-path: polygon(0% 25%, 44% 25%, 50% 0%, 56% 25%, 100% 25%, 100% 100%, 0% 100%);
+	background-color: black;
+	z-index: -1;
 }
 
-.mapSeedBtn:hover ~ .mapSeedBtnExplanation {
+.mapSeedExplanationSubContainer {
+	z-index: 1;
+	position: absolute;
+	display: flex;
+	width: inherit;
+	height: inherit;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	vertical-align: middle;
+	transform: scale(0.775) scaleX(1.25) scaleY(1.17);
+	clip-path: polygon(0% 25%, 44.5% 25%, 50% 0%, 55.5% 25%, 100% 25%, 100% 100%, 0% 100%);
+	background-color: rgb(245, 216, 143);
+}
+
+.mapSeedExplanation {
+	position: relative;
+	top: 0.35rem;
+	font-size: 0.9rem;
+	padding: 1rem;
+}
+
+.mapSeedBtn:hover ~ .mapSeedExplanationContainer {
 	display: flex;
 }
 

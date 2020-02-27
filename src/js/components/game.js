@@ -138,7 +138,11 @@ class Game extends React.Component {
 					>
 						🌱
 					</button>
-					<div className="mapSeedBtnExplanation">Copy map seed to clipboard</div>
+					<div className="mapSeedExplanationContainer">
+						<div className="mapSeedExplanationSubContainer">
+							<p className="mapSeedExplanation">Copy map seed to clipboard</p>
+						</div>
+					</div>
 					<textarea
 						readOnly
 						unselectable="on"
