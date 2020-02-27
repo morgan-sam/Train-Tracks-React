@@ -397,7 +397,34 @@ class App extends React.Component {
 		return (
 			<div className="howToPlayScreen" key="howToPlayScreen">
 				<h2 className="howToPlayTitle">How To Play</h2>
-				<img className="howToPlayMap" alt="" src={this.state.howToPlayMap} />
+				<div className="howToPlayGrid">
+					<div>
+						<img className="howToPlayMap" alt="" src={this.state.howToPlayMap} />
+					</div>
+					<div className="howToPlayTextField">
+						<p>
+							The goal of the game is to create a train track path between the entrance and the exit of
+							the board.
+						</p>
+						<p>
+							Each row and column must contain the specified amount of tracks in the corresponding header.
+						</p>
+						<p>Tracks cannot overlap and in order to win the path must be fully connected.</p>
+					</div>
+					<div>
+						<img className="howToPlayMap" alt="" src={this.state.howToPlayMap} />
+					</div>
+					<div className="howToPlayTextField">
+						<p>
+							The goal of the game is to create a train track path between the entrance and the exit of
+							the board.
+						</p>
+						<p>
+							Each row and column must contain the specified amount of tracks in the corresponding header.
+						</p>
+						<p>Tracks cannot overlap and in order to win the path must be fully connected.</p>
+					</div>
+				</div>
 				{this.renderReturnToMainMenuBtn()}
 			</div>
 		);

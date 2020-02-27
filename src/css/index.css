@@ -196,6 +196,24 @@ button {
 	line-height: 1rem;
 }
 
+.howToPlayGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+}
+
+.howToPlayGrid > * {
+	width: 30rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	vertical-align: middle;
+}
+
+.howToPlayTextField > * {
+	margin: 1rem;
+}
+
 .howToPlayMap {
 	object-fit: contain;
 }
