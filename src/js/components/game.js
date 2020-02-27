@@ -127,7 +127,7 @@ class Game extends React.Component {
 						{this.state.mapSolutionVisible ? 'Hide' : 'Show'} Map Solution
 					</button>
 				</div>
-				<div>
+				<div className="bottomRowInGameButtons">
 					<button
 						className="mapSeedBtn"
 						key="mapSeedBtn"
@@ -138,6 +138,7 @@ class Game extends React.Component {
 					>
 						🌱
 					</button>
+					<div className="mapSeedBtnExplanation">Copy map seed to clipboard</div>
 					<textarea
 						readOnly
 						unselectable="on"

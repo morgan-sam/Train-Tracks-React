@@ -264,6 +264,28 @@ button {
 	display: flex;
 }
 
+.bottomRowInGameButtons {
+	position: relative;
+}
+
+.mapSeedBtnExplanation {
+	position: absolute;
+	display: none;
+	width: 7.5rem;
+	height: 2rem;
+	top: 5rem;
+	left: 7.5rem;
+	border: 1px rgb(109, 96, 22) solid;
+	background-color: rgb(245, 216, 143);
+	padding: 0.5rem;
+	transform: translate(-50%, -50%);
+	/* clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%); */
+}
+
+.mapSeedBtn:hover ~ .mapSeedBtnExplanation {
+	display: flex;
+}
+
 .map {
 	display: inline-grid;
 }
