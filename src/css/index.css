@@ -227,6 +227,14 @@ button {
 	font-size: 1.5rem;
 }
 
+.howToPlayScreen {
+	align-items: center;
+}
+
+.howToPlayScreen > button {
+	width: 10rem;
+}
+
 .pathFindingQuestionBox:hover ~ .pathFindingExplanation {
 	display: flex;
 }
