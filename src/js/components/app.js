@@ -20,7 +20,8 @@ class App extends React.Component {
 			selectedSavedMapPathFindingDisabled: null,
 			trainTrackMap: null,
 			mapIcon: null,
-			deleteModeOnAll: false
+			deleteModeOnAll: false,
+			howToPlayMap: null
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -47,6 +48,14 @@ class App extends React.Component {
 			menuScreen: screen
 		});
 	}
+
+	setHowToPlayMap = async () => {
+		const map = generateNewMap(6, 6, 986707260499975, true);
+		const mapIcon = await generateMapIcon(map);
+		this.setState({
+			howToPlayMap: mapIcon
+		});
+	};
 
 	loadSavedMap() {
 		if (this.state.selectedSavedMapSeed) {
@@ -384,6 +393,16 @@ class App extends React.Component {
 		);
 	}
 
+	howToPlayScreen = () => {
+		return (
+			<div className="howToPlayScreen" key="howToPlayScreen">
+				<h2>How To Play</h2>
+				<img alt="" src={this.state.howToPlayMap} />
+				{this.renderReturnToMainMenuBtn()}
+			</div>
+		);
+	};
+
 	mainMenuScreen() {
 		return (
 			<div className="mainMenuScreen" key="mainMenuScreen">
@@ -404,6 +423,16 @@ class App extends React.Component {
 					}}
 				>
 					Load Saved Map
+				</button>
+				<button
+					className="howToPlayPageBtn"
+					key={'howToPlayPageBtn'}
+					onClick={() => {
+						this.setHowToPlayMap();
+						this.setMenuScreen('howToPlay');
+					}}
+				>
+					How To Play
 				</button>
 			</div>
 		);
@@ -455,6 +484,9 @@ class App extends React.Component {
 				break;
 			case 'deleteConfirmation':
 				menuScreen = this.deleteMapConfirmationScreen();
+				break;
+			case 'howToPlay':
+				menuScreen = this.howToPlayScreen();
 				break;
 			default:
 				menuScreen = this.mainMenuScreen();
