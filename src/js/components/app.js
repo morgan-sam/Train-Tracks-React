@@ -401,7 +401,7 @@ class App extends React.Component {
 			<div className="howToPlayScreen" key="howToPlayScreen">
 				<h2 className="howToPlayTitle">How To Play</h2>
 				<div className="howToPlayGrid">
-					<div>
+					<div className="howToPlayMapField">
 						<img className="howToPlayMap" alt="" src={this.state.howToPlayMapEmpty} />
 					</div>
 					<div className="howToPlayTextField">
@@ -413,19 +413,30 @@ class App extends React.Component {
 							Each row and column must contain the specified amount of tracks in the corresponding header.
 						</p>
 						<p>Tracks cannot overlap and in order to win the path must be fully connected.</p>
+						<p>
+							The header of a row/column will turn green if there are the right amount of tracks and red
+							if there are too many.
+						</p>
 					</div>
-					<div>
+					<div className="howToPlayMapField">
 						<img className="howToPlayMap" alt="" src={this.state.howToPlayMapComplete} />
 					</div>
 					<div className="howToPlayTextField">
 						<p>
-							The goal of the game is to create a train track path between the entrance and the exit of
-							the board.
+							Left clicking places a track. Hovering over different sections of a tile will show what type
+							of track will be placed on left click.
 						</p>
 						<p>
-							Each row and column must contain the specified amount of tracks in the corresponding header.
+							Right clicking places an X mark. X marks are useful for tiles you know there are no tracks.
 						</p>
-						<p>Tracks cannot overlap and in order to win the path must be fully connected.</p>
+						<p>
+							Pressing both mouse buttons at the same time places a T mark. T marks are useful for tiles
+							you know there is a track but are not sure which type.
+						</p>
+						<p>
+							Holding down a mouse button and dragging over other tiles will place multiple
+							tracks/markers.
+						</p>
 					</div>
 				</div>
 				{this.renderReturnToMainMenuBtn()}

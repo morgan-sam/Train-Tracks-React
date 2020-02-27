@@ -198,8 +198,8 @@ button {
 
 .howToPlayGrid {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr;
+	grid-template-columns: auto auto;
+	grid-template-rows: auto auto;
 }
 
 .howToPlayGrid > * {
@@ -209,6 +209,9 @@ button {
 	justify-content: center;
 	vertical-align: middle;
 	margin: 1rem;
+}
+.howToPlayMapField {
+	width: auto;
 }
 
 .howToPlayTextField > * {
