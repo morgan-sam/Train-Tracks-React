@@ -284,11 +284,14 @@ button {
 }
 
 .mapSeedExplanationContainer {
+	padding: 0;
+	margin: 0;
 	position: absolute;
 	display: flex;
 	opacity: 0;
 	width: 8rem;
 	height: 4rem;
+	transform-origin: center;
 	transform: translateY(0%);
 	clip-path: polygon(0% 25%, 44% 25%, 50% 0%, 56% 25%, 100% 25%, 100% 100%, 0% 100%);
 	background-color: black;
@@ -297,6 +300,7 @@ button {
 }
 
 .mapSeedExplanationSubContainer {
+	padding: 0;
 	z-index: 1;
 	position: absolute;
 	display: flex;
@@ -306,7 +310,8 @@ button {
 	flex-direction: column;
 	justify-content: center;
 	vertical-align: middle;
-	transform: scale(0.775) scaleX(1.25) scaleY(1.18);
+	transform-origin: center;
+	transform: scaleX(0.98) scaleY(0.95);
 	clip-path: polygon(0% 25%, 45% 25%, 50% 0%, 55% 25%, 100% 25%, 100% 100%, 0% 100%);
 	background-color: rgb(255, 233, 178);
 }
