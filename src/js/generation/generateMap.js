@@ -104,8 +104,8 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed) => {
 		const moveMutateFunctions = [
 			removeSealingMoves,
 			removeAroundExitMoves,
-			removeHookMoves,
-			removeMovesWithLessTilesFromExit
+			removeHookMoves
+			// removeMovesWithLessTilesFromExit
 		];
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {

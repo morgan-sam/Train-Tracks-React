@@ -227,6 +227,11 @@ class App extends React.Component {
 						<span className="diceSymbol">⚄</span>
 					</div>
 				</div>
+				<div className="pathFindingOptionRow">
+					<input type="checkbox" className="pathFindingCheckbox" />
+					<p className="pathFindingLabel">Map Generation Path Finding Disabled</p>
+					<div className="pathFindingQuestionBox">?</div>
+				</div>
 				<button
 					key={'generateMapBtn'}
 					onClick={() => {
