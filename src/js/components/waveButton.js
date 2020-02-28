@@ -26,12 +26,16 @@ const WaveButton = ({ className, onClick, text }) => {
 		boxShadow: 'none'
 	};
 
-	const textStyle = { zIndex: '1', color: hovered ? 'white' : 'black', transition: hovered ? '0.8s' : '3s' };
+	const textStyle = {
+		zIndex: '1',
+		color: hovered ? 'white' : 'black',
+		transition: hovered ? `${0.8}s` : '3s'
+	};
 
 	const rectangleStyle = {
 		top: '0%',
 		left: '-10%',
-		height: '200%',
+		height: '180%',
 		width: '500%',
 		position: 'absolute',
 		zIndex: '-1',
@@ -40,10 +44,10 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const rectangleCount = 10;
 
-	const startRotation = 23;
+	const startRotation = text.length === 2 ? 100 : 23;
 	const rotationOffset = 4;
-	const endRotation = -rectangleCount * rotationOffset + 5;
-	const startTransition = 2;
+	const endRotation = text.length === 2 ? -25 : -35;
+	const startTransition = text.length === 2 ? 0.2 : 2;
 	const endTransition = 3;
 	const transitionOffset = 0.1;
 
@@ -77,9 +81,9 @@ const WaveButton = ({ className, onClick, text }) => {
 			style={btnStyle}
 			className={className}
 			onMouseOver={() => setHoveredState(true)}
-			onMouseLeave={() => setHoveredState(false)}
+			onMouseLeave={() => (!buttonPressed ? setHoveredState(false) : null)}
 			onClick={() => {
-				setHoveredState(false);
+				setHoveredState(true);
 				setPressedState(true);
 				setTimeout(() => setPressedState(false), 200);
 				setTimeout(onClick, 600);

@@ -1,5 +1,6 @@
 import React from 'react';
 import Map from './map';
+import WaveButton from './waveButton';
 
 class Game extends React.Component {
 	constructor(props) {
@@ -105,40 +106,37 @@ class Game extends React.Component {
 		return (
 			<div className="inGameOptions">
 				<div className="topRowInGameButtons">
-					<button
+					<WaveButton
 						key={'resetMapBtn'}
 						onClick={() => {
 							this.refs.map.resetCurrentMap();
 							this.setMapSolutionVisibility(false);
 						}}
-					>
-						Reset Map
-					</button>
-					<button
+						text={'Reset Map'}
+					/>
+					<WaveButton
 						key={'highlightDefaultTilesBtn'}
 						onClick={() => this.setDefaultTilesHighlighted(!this.state.defaultTilesHighlighted)}
-					>
-						{this.state.defaultTilesHighlighted ? 'Hide' : 'Show'} Default Tiles
-					</button>
-					<button
+						text={this.state.defaultTilesHighlighted ? 'Hide Default Tiles' : 'Show Default Tiles'}
+					/>
+					<WaveButton
 						key={'showMapSolutionBtn'}
 						onClick={() => this.setMapSolutionVisibility(!this.state.mapSolutionVisible)}
-					>
-						{this.state.mapSolutionVisible ? 'Hide' : 'Show'} Map Solution
-					</button>
+						text={this.state.mapSolutionVisible ? 'Hide Map Solution' : 'Show Map Solution'}
+					/>
 				</div>
 				<div className="bottomRowInGameButtons">
 					<div className="mapSeedOptionContainer">
-						<button
+						<WaveButton
 							className="mapSeedBtn"
 							key="mapSeedBtn"
 							onClick={() => {
 								this.seedText.select();
 								document.execCommand('copy');
 							}}
-						>
-							🌱
-						</button>
+							text={'🌱'}
+						/>
+
 						<div className="mapSeedExplanationContainer">
 							<div className="mapSeedExplanationSubContainer">
 								<p className="mapSeedExplanation">Copy map seed to clipboard</p>
@@ -161,34 +159,33 @@ class Game extends React.Component {
 							value={this.props.mapSeed}
 						/>
 					</div>
-					<button
+					<WaveButton
 						key={'saveMapBtn'}
 						onClick={() => {
 							this.showSaveMapDisplay(true);
 							this.showGameWinDisplay(false);
 						}}
-					>
-						Save Map
-					</button>
-					<button
+						text={'Save Map'}
+					/>
+
+					<WaveButton
 						key={'newMapBtn'}
 						onClick={() => {
 							this.props.newMap();
 							this.showGameWinDisplay(false);
 							this.setMapSolutionVisibility(false);
 						}}
-					>
-						New Map
-					</button>
-					<button
+						text={'New Map'}
+					/>
+
+					<WaveButton
 						key={'quitBtn'}
 						onClick={() => {
 							this.props.setSeedrandomToDate();
 							this.props.setGameState(false);
 						}}
-					>
-						Quit Game
-					</button>
+						text={'Quit Game'}
+					/>
 				</div>
 			</div>
 		);
