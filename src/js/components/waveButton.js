@@ -26,7 +26,7 @@ const WaveButton = ({ className, onClick, text }) => {
 		boxShadow: 'none'
 	};
 
-	const textStyle = { zIndex: '1', color: hovered ? 'white' : 'black', transition: hovered ? '1s' : '3s' };
+	const textStyle = { zIndex: '1', color: hovered ? 'white' : 'black', transition: hovered ? '0.8s' : '3s' };
 
 	const rectangleStyle = {
 		top: '0%',
@@ -38,28 +38,30 @@ const WaveButton = ({ className, onClick, text }) => {
 		borderRadius: '50rem'
 	};
 
-	const rectangleCount = 20;
+	const rectangleCount = 10;
 
-	const startRotation = 20;
-	const endRotation = -75;
+	const startRotation = 23;
 	const rotationOffset = 4;
-	const defaultTransition = 2;
+	const endRotation = -rectangleCount * rotationOffset + 5;
+	const startTransition = 2;
+	const endTransition = 3;
 	const transitionOffset = 0.1;
 
-	let rectangleArray = createRectangleArray('#5bb1cd', rectangleCount);
+	let rectangleArray = createRectangleArray(rectangleCount);
 
-	function createRectangleArray(color, recCount) {
+	function createRectangleArray(recCount) {
 		let rectangleArray = [];
-		const recColors = colorToWhiteArray(color, recCount * 1.2);
+		const blueRecColors = colorToWhiteArray('#5bb1cd', recCount * 1.2);
+		const purpleRecColors = colorToWhiteArray('#800080', recCount * 1.2);
 		for (let i = 0; i < recCount; i++) {
 			const curRecStyle = {
-				background: `linear-gradient(1turn,${recColors[recColors.length - i - 1]},${recColors[
-					recColors.length - i - 2
+				background: `linear-gradient(1turn,${blueRecColors[blueRecColors.length - i - 1]},${purpleRecColors[
+					purpleRecColors.length - i - 1
 				]})`,
 				transform: hovered
 					? `rotate(${endRotation + rotationOffset * i}deg)`
 					: `rotate(${startRotation + rotationOffset * i}deg)`,
-				transition: hovered ? `${defaultTransition + transitionOffset * i}s` : `1.5s`
+				transition: hovered ? `${startTransition + transitionOffset * i}s` : `${endTransition}s`
 			};
 			rectangleArray.push(
 				<div key={i} style={{ ...rectangleStyle, ...curRecStyle }} className="rectangle" id={`rec${i}`} />
@@ -77,6 +79,7 @@ const WaveButton = ({ className, onClick, text }) => {
 			onMouseOver={() => setHoveredState(true)}
 			onMouseLeave={() => setHoveredState(false)}
 			onClick={() => {
+				setHoveredState(false);
 				setPressedState(true);
 				setTimeout(() => setPressedState(false), 200);
 				setTimeout(onClick, 600);
