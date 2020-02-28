@@ -5,50 +5,43 @@ import { print } from '../utility/utilityFunctions';
 const WaveButton = ({ className, onClick, text }) => {
 	const [ hovered, setHoveredState ] = useState(false);
 
-	const waveStyle = {
-		width: '100%',
-		height: '100%',
-		left: hovered ? '0' : '-100%',
-		position: 'absolute',
-		transition: 'all .35s ease-Out',
-		bottom: '0',
-		backgroundColor: 'salmon',
-		zIndex: '-1'
-	};
-
 	const btnStyle = {
 		position: 'relative',
 		overflow: 'hidden',
 		cursor: 'pointer',
 		background: 'none',
-		zIndex: '0'
+		zIndex: '0',
+		borderRadius: '1rem',
+		border: '1px #ccc solid'
 	};
 
-	const textStyle = { zIndex: '1' };
+	const textStyle = { zIndex: '1', color: hovered ? 'white' : 'black', transition: hovered ? '1s' : '3s' };
 
 	const rectangleStyle = {
+		top: '10rem',
+		left: '-14rem',
 		height: '1000%',
-		width: '300%',
+		width: '500%',
 		position: 'absolute',
 		zIndex: '-1',
 		borderRadius: '50rem',
-		transition: '2s'
+		transition: '1s'
 	};
 
-	const startRotation = 0;
-	const endRotation = 180;
-	const rotationOffset = 20;
-	const defaultTransition = 5;
-	const transitionOffset = 0.1;
+	const startRotation = -30;
+	const endRotation = 130;
+	const rotationOffset = 10;
+	const defaultTransition = 2;
+	const transitionOffset = 0.2;
 
 	let rectangleArray = createRectangleArray('#009999', 10);
 
 	function createRectangleArray(color, recCount) {
 		let rectangleArray = [];
-		const recColors = colorToWhiteArray(color, recCount);
+		const recColors = colorToWhiteArray(color, recCount * 1.2);
 		for (let i = 0; i < recCount; i++) {
 			const curRecStyle = {
-				backgroundColor: recColors[i],
+				backgroundColor: recColors[recCount - i],
 				transform: hovered
 					? `rotate(${startRotation + rotationOffset * i}deg)`
 					: `rotate(${startRotation + endRotation + rotationOffset * i}deg)`,

@@ -466,34 +466,31 @@ class App extends React.Component {
 	mainMenuScreen() {
 		return (
 			<div className="mainMenuScreen" key="mainMenuScreen">
-				<button
+				<WaveButton
 					className="startGameBtn"
 					key={'startGameBtn'}
 					onClick={() => {
 						this.setMenuScreen('generateMap');
 					}}
-				>
-					Start Game
-				</button>
-				<button
+					text={'Start Game'}
+				/>
+				<WaveButton
 					className="loadSavedGameBtn"
 					key={'loadSavedGameBtn'}
 					onClick={() => {
 						this.setMenuScreen('loadMap');
 					}}
-				>
-					Load Saved Map
-				</button>
-				<button
+					text={'Load Saved Map'}
+				/>
+				<WaveButton
 					className="howToPlayPageBtn"
 					key={'howToPlayPageBtn'}
 					onClick={() => {
 						this.setHowToPlayMaps();
 						this.setMenuScreen('howToPlay');
 					}}
-				>
-					How To Play
-				</button>
+					text={'How To Play'}
+				/>
 				<WaveButton
 					className="aboutBtn"
 					key={'aboutBtn'}
