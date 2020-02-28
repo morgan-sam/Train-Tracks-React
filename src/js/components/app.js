@@ -114,9 +114,9 @@ class App extends React.Component {
 		this.setMapSeedInputValue(mapSeed);
 	}
 
-	mapSizeSelection = (event) => {
+	mapSizeSelection = (value) => {
 		this.setState({
-			mapSize: parseInt(event.target.value)
+			mapSize: value
 		});
 	};
 
@@ -230,21 +230,31 @@ class App extends React.Component {
 	////////// APP RENDER FUNCTIONS //////////
 	//////////////////////////////////////////
 
+	getMapSizeOptions() {
+		let mapSizeOptions = [];
+		for (let i = 0; i < 3; i++) {
+			const mapSize = 6 + i * 2;
+			mapSizeOptions.push({
+				display: `${mapSize}x${mapSize}`,
+				value: mapSize
+			});
+		}
+		return mapSizeOptions;
+	}
+
 	generateMapScreen() {
 		return (
 			<div className="generateMapSection">
 				<p key={'Map Size Label'}>Map Size</p>
-				<select
+				<Dropdown
 					key={'selectMapSize'}
-					name="list"
+					style={{ width: '5rem', height: '2rem' }}
+					options={this.getMapSizeOptions()}
 					className="mapSizeOption"
-					onChange={this.mapSizeSelection}
-					defaultValue={8}
-				>
-					<option value={6}>6x6</option>
-					<option value={8}>8x8</option>
-					<option value={10}>10x10</option>
-				</select>
+					placeholder={'8x8'}
+					onHover={() => null}
+					onChange={(item) => this.mapSizeSelection(item.value)}
+				/>
 				<p key={'Map Seed Label'}>Map Seed</p>
 				<div className="mapSeedOptionRow">
 					<input
@@ -306,8 +316,7 @@ class App extends React.Component {
 					style={{ width: '12rem', height: '2rem' }}
 					placeholder={'Select a map'}
 					options={this.renderSavedMapsDropdownValues()}
-					onChange={(value, mapObject, pathFindingDisabled) =>
-						this.setSelectedSavedMap(value, mapObject, pathFindingDisabled)}
+					onChange={(item) => this.setSelectedSavedMap(item.value, item.mapObject, item.pathFindingDisabled)}
 					onHover={(mapObject) => {
 						if (mapObject !== null) this.displaySavedGameMapIcon(mapObject);
 					}}
