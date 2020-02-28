@@ -44,7 +44,7 @@ const WaveButton = ({ className, onClick, text }) => {
 	const defaultTransition = 2;
 	const transitionOffset = 0.1;
 
-	let rectangleArray = createRectangleArray('#009999', 20);
+	let rectangleArray = createRectangleArray('#5bb1cd', 20);
 
 	function createRectangleArray(color, recCount) {
 		let rectangleArray = [];
