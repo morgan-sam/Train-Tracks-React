@@ -736,7 +736,7 @@ class Map extends React.Component {
 
 	///////////// MAP - MAIN RENDER FUNCTION /////////////
 
-	renderBackground() {
+	renderHeaderBackground() {
 		const numberOfShapes = 10;
 		const colorArray = colorToWhiteArray('4b0082', numberOfShapes + 1);
 		let backgroundShapes = [];
@@ -754,11 +754,11 @@ class Map extends React.Component {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
 		const mapComponents = this.generateMapComponents(trainTrackMap);
-		const background = this.renderBackground();
+		const headerbackground = this.renderHeaderBackground();
 		return (
 			<div className="map">
 				{mapComponents}
-				{background}
+				{headerbackground}
 			</div>
 		);
 	}
