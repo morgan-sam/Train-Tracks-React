@@ -233,7 +233,8 @@ class Square extends React.Component {
 			backgroundImage: `url(${this.props.trackData.trackType})`,
 			transform: `rotate(${this.props.trackData.trackRotation}deg)`,
 			opacity: 1,
-			filter: this.props.highlighted ? 'hue-rotate(200deg) saturate(10)' : 'none'
+			filter: this.props.highlighted ? 'hue-rotate(200deg) saturate(10)' : 'none',
+			transition: 'filter 1s ease-in-out'
 		};
 		return [ squareStyling, null ];
 	}
