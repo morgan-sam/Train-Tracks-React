@@ -181,18 +181,26 @@ button {
 }
 
 .pathFindingExplanation {
-	display: none;
+	display: flex;
+	opacity: 0;
 	align-items: center;
 	justify-content: center;
 	position: absolute;
 	font-size: 0.7rem;
 	border: 1px black solid;
 	top: -3.75rem;
-	right: -11rem;
+	right: -10rem;
 	height: 7.5rem;
 	width: 7.5rem;
 	padding: 1rem;
 	line-height: 1rem;
+	transition: 0.55s cubic-bezier(0.1, 0.17, .50, 0.9);
+	z-index: -3;
+}
+
+.pathFindingQuestionBox:hover ~ .pathFindingExplanation {
+	opacity: 1;
+	right: -11.5rem;
 }
 
 .howToPlayGrid {
@@ -232,10 +240,6 @@ button {
 
 .howToPlayScreen > button {
 	width: 10rem;
-}
-
-.pathFindingQuestionBox:hover ~ .pathFindingExplanation {
-	display: flex;
 }
 
 .returnToMainMenuBtn {
