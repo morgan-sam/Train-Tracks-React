@@ -6,10 +6,10 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 	const [ defaultValue, setDefaultValue ] = useState(placeholder);
 	const [ hoveredOption, setHoveredOption ] = useState(null);
 
-	const boxBackground = 'linear-gradient(#fcfcfc, #ddd)';
+	// const boxBackground = 'linear-gradient(#fcfcfc, #ddd)';
 
 	const containerStyle = {
-		background: boxBackground,
+		background: '#fff',
 		border: '1px #aaa solid',
 		lineHeight: style.height,
 		...style,
@@ -17,7 +17,10 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 		WebkitUserSelect: 'none',
 		MozUserSelect: 'none',
 		msUserSelect: 'none',
-		userSelect: 'none'
+		userSelect: 'none',
+		borderRadius: listOpen ? '1rem 1rem 0 0' : '1rem',
+		boxShadow: '0px 5px 0px 2px #eee',
+		cursor: 'pointer'
 	};
 
 	const listItemStyle = {
@@ -33,8 +36,9 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 					className={'dropdown'}
 					style={{
 						...listItemStyle,
-						background: hoveredOption === i ? '#9999FF' : '#f3f3f3',
-						color: hoveredOption === i ? 'white' : 'black'
+						background: hoveredOption === i ? '#9999FF' : '#fff',
+						color: hoveredOption === i ? 'white' : 'black',
+						borderRadius: i === options.length - 1 ? '0 0 1rem 1rem' : '0'
 					}}
 					key={`dropdownOption${i}`}
 					onClick={() => {
@@ -93,7 +97,7 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 		<div className={className}>
 			<div
 				className={'dropdown'}
-				style={{ ...containerStyle, backgroundColor: listOpen ? '#ccc' : '#eee' }}
+				style={{ ...containerStyle, backgroundColor: '#fff' }}
 				onMouseDown={(e) => {
 					if (e.buttons === 1) setListOpen(!listOpen);
 				}}
