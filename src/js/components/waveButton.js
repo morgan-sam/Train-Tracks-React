@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { print } from '../utility/utilityFunctions';
 
-const WaveButton = ({ className, onClick }) => {
+const WaveButton = ({ className, onClick, text }) => {
 	const [ hovered, setHoveredState ] = useState(false);
 	return (
 		<button
@@ -13,7 +13,9 @@ const WaveButton = ({ className, onClick }) => {
 			onMouseOver={() => setHoveredState(true)}
 			onMouseLeave={() => setHoveredState(false)}
 			onClick={() => setTimeout(onClick, 500)}
-		/>
+		>
+			{text}
+		</button>
 	);
 };
 

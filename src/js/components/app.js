@@ -501,9 +501,8 @@ class App extends React.Component {
 						this.setHowToPlayMaps();
 						this.setMenuScreen('about');
 					}}
-				>
-					About
-				</WaveButton>
+					text={'About'}
+				/>
 			</div>
 		);
 	}
