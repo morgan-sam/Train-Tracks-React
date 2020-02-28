@@ -29,22 +29,24 @@ const WaveButton = ({ className, onClick, text }) => {
 	const textStyle = { zIndex: '1', color: hovered ? 'white' : 'black', transition: hovered ? '1s' : '3s' };
 
 	const rectangleStyle = {
-		top: '10rem',
-		left: '-14rem',
-		height: '1000%',
+		top: '0%',
+		left: '-10%',
+		height: '200%',
 		width: '500%',
 		position: 'absolute',
 		zIndex: '-1',
 		borderRadius: '50rem'
 	};
 
-	const startRotation = -30;
-	const endRotation = 130;
+	const rectangleCount = 20;
+
+	const startRotation = 20;
+	const endRotation = -75;
 	const rotationOffset = 4;
 	const defaultTransition = 2;
 	const transitionOffset = 0.1;
 
-	let rectangleArray = createRectangleArray('#5bb1cd', 20);
+	let rectangleArray = createRectangleArray('#5bb1cd', rectangleCount);
 
 	function createRectangleArray(color, recCount) {
 		let rectangleArray = [];
@@ -55,8 +57,8 @@ const WaveButton = ({ className, onClick, text }) => {
 					recColors.length - i - 2
 				]})`,
 				transform: hovered
-					? `rotate(${startRotation + rotationOffset * i}deg)`
-					: `rotate(${startRotation + endRotation + rotationOffset * i}deg)`,
+					? `rotate(${endRotation + rotationOffset * i}deg)`
+					: `rotate(${startRotation + rotationOffset * i}deg)`,
 				transition: hovered ? `${defaultTransition + transitionOffset * i}s` : `1.5s`
 			};
 			rectangleArray.push(

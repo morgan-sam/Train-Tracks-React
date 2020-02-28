@@ -281,7 +281,7 @@ class App extends React.Component {
 						old browsers/PCs. Maps may be lessed balanced.
 					</div>
 				</div>
-				<button
+				<WaveButton
 					key={'generateMapBtn'}
 					onClick={() => {
 						print('Map Loading');
@@ -289,9 +289,8 @@ class App extends React.Component {
 						this.setGameState(true);
 						print('Map Loaded');
 					}}
-				>
-					Generate Map
-				</button>
+					text={'Generate Map'}
+				/>
 				{this.renderReturnToMainMenuBtn()}
 			</div>
 		);
@@ -320,16 +319,15 @@ class App extends React.Component {
 					style={{ border: this.state.mapIcon ? '0.15rem #aaa solid' : 'none' }}
 				/>
 
-				<button
+				<WaveButton
 					className="loadSaveMapBtn"
 					key={'loadSaveMapBtn'}
 					onClick={() => {
 						this.loadSavedMap();
 					}}
-				>
-					Load Map
-				</button>
-				<button
+					text={'Load Map'}
+				/>
+				<WaveButton
 					className="deleteSaveMapBtn"
 					key={'deleteSaveMapBtn'}
 					onClick={() => {
@@ -338,19 +336,18 @@ class App extends React.Component {
 							this.setMenuScreen('deleteConfirmation');
 						}
 					}}
-				>
-					Delete Map
-				</button>
-				<button
+					text={'Delete Map'}
+				/>
+				<WaveButton
 					className="deleteAllSavedMapsBtn"
 					key={'deleteAllSavedMapsBtn'}
 					onClick={() => {
 						this.setState({ deleteModeOnAll: true });
 						this.setMenuScreen('deleteConfirmation');
 					}}
-				>
-					Delete All Maps
-				</button>
+					text={'Delete All Maps'}
+				/>
+
 				{this.renderReturnToMainMenuBtn()}
 			</div>
 		);
@@ -370,7 +367,7 @@ class App extends React.Component {
 					className="confirmDeleteIcon"
 				/>
 				<div className="deleteButtons">
-					<button
+					<WaveButton
 						className="confirmDeleteBtn"
 						key={'confirmDeleteBtn'}
 						onClick={() => {
@@ -379,19 +376,17 @@ class App extends React.Component {
 							this.resetGameDefaults();
 							this.setMenuScreen('loadMap');
 						}}
-					>
-						Confirm
-					</button>
-					<button
+						text={'Confirm'}
+					/>
+					<WaveButton
 						className="cancelDeleteBtn"
 						key={'cancelDeleteBtn'}
 						onClick={() => {
 							this.resetGameDefaults();
 							this.setMenuScreen('loadMap');
 						}}
-					>
-						Cancel
-					</button>
+						text={'Cancel'}
+					/>
 				</div>
 			</div>
 		);
@@ -524,15 +519,14 @@ class App extends React.Component {
 
 	renderReturnToMainMenuBtn() {
 		return (
-			<button
+			<WaveButton
 				className="returnToMainMenuBtn"
 				key={'returnToMainMenuBtn'}
 				onClick={() => {
 					this.setMenuScreen('mainMenu');
 				}}
-			>
-				Return To Main Menu
-			</button>
+				text={'Return To Main Menu'}
+			/>
 		);
 	}
 
