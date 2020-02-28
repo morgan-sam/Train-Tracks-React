@@ -4,15 +4,26 @@ import { print } from '../utility/utilityFunctions';
 
 const WaveButton = ({ className, onClick, text }) => {
 	const [ hovered, setHoveredState ] = useState(false);
+	const [ buttonPressed, setPressedState ] = useState(false);
 
-	const btnStyle = {
+	const btnDefaultStyle = {
 		position: 'relative',
 		overflow: 'hidden',
 		cursor: 'pointer',
 		background: 'none',
 		zIndex: '0',
 		borderRadius: '1rem',
-		border: '1px #ccc solid'
+		border: '1px #ccc solid',
+		outline: 'none',
+		transition: '0.3s',
+		top: '0px',
+		boxShadow: '0px 5px 0px 2px #eee'
+	};
+
+	const btnPressedStyle = {
+		transition: '0.1s',
+		top: '10px',
+		boxShadow: 'none'
 	};
 
 	const textStyle = { zIndex: '1', color: hovered ? 'white' : 'black', transition: hovered ? '1s' : '3s' };
@@ -55,13 +66,19 @@ const WaveButton = ({ className, onClick, text }) => {
 		return rectangleArray;
 	}
 
+	const btnStyle = buttonPressed ? { ...btnDefaultStyle, ...btnPressedStyle } : btnDefaultStyle;
+
 	return (
 		<button
-			className={className}
 			style={btnStyle}
+			className={className}
 			onMouseOver={() => setHoveredState(true)}
 			onMouseLeave={() => setHoveredState(false)}
-			onClick={() => setTimeout(onClick, 500)}
+			onClick={() => {
+				setPressedState(true);
+				setTimeout(() => setPressedState(false), 200);
+				setTimeout(onClick, 600);
+			}}
 		>
 			{rectangleArray}
 			<div style={textStyle}>{text}</div>

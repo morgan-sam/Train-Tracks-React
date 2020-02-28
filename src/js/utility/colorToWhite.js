@@ -10,7 +10,6 @@ function convertHexToRgbArray(hexColor) {
 }
 
 function convertRgbArrayToHex(rgbArray) {
-	console.log(rgbArray);
 	const hexCode = rgbArray
 		.map(function(el) {
 			const value = el.toString(16);
