@@ -237,7 +237,7 @@ class App extends React.Component {
 				<select
 					key={'selectMapSize'}
 					name="list"
-					id="mapSizeOption"
+					className="mapSizeOption"
 					onChange={this.mapSizeSelection}
 					defaultValue={8}
 				>
