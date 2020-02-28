@@ -7,7 +7,7 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const btnStyle = {
 		position: 'relative',
-		// overflow: 'hidden',
+		overflow: 'hidden',
 		cursor: 'pointer',
 		background: 'none',
 		zIndex: '0',
@@ -24,22 +24,20 @@ const WaveButton = ({ className, onClick, text }) => {
 		width: '500%',
 		position: 'absolute',
 		zIndex: '-1',
-		borderRadius: '50rem',
-		transition: '1s'
+		borderRadius: '50rem'
 	};
 
 	const startRotation = -30;
 	const endRotation = 130;
-	const rotationOffset = 10;
+	const rotationOffset = 4;
 	const defaultTransition = 2;
-	const transitionOffset = 0.2;
+	const transitionOffset = 0.1;
 
 	let rectangleArray = createRectangleArray('#009999', 20);
 
 	function createRectangleArray(color, recCount) {
 		let rectangleArray = [];
 		const recColors = colorToWhiteArray(color, recCount * 1.2);
-		console.log(recColors);
 		for (let i = 0; i < recCount; i++) {
 			const curRecStyle = {
 				background: `linear-gradient(1turn,${recColors[recColors.length - i - 1]},${recColors[
@@ -48,7 +46,7 @@ const WaveButton = ({ className, onClick, text }) => {
 				transform: hovered
 					? `rotate(${startRotation + rotationOffset * i}deg)`
 					: `rotate(${startRotation + endRotation + rotationOffset * i}deg)`,
-				transition: `${defaultTransition + transitionOffset * i}s`
+				transition: hovered ? `${defaultTransition + transitionOffset * i}s` : `1.5s`
 			};
 			rectangleArray.push(
 				<div key={i} style={{ ...rectangleStyle, ...curRecStyle }} className="rectangle" id={`rec${i}`} />
