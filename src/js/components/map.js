@@ -8,6 +8,8 @@ import { removeArrayValue, compareArrays, isNonEmptyArray } from '../utility/uti
 
 import { findDirectionFromMove } from '../generation/generateMap';
 
+import { colorToWhiteArray } from '../utility/colorToWhite';
+
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
@@ -734,11 +736,31 @@ class Map extends React.Component {
 
 	///////////// MAP - MAIN RENDER FUNCTION /////////////
 
+	renderBackground() {
+		const numberOfShapes = 10;
+		const colorArray = colorToWhiteArray('4b0082', numberOfShapes + 1);
+		let backgroundShapes = [];
+		for (let i = 0; i < numberOfShapes; i++) {
+			const backgroundShapeStyle = {
+				backgroundColor: colorArray[i],
+				animation: `spin ${10 + 1 * (i + 1)}s infinite linear`
+			};
+			backgroundShapes.push(<div className="mapBackgroundShape" style={backgroundShapeStyle} />);
+		}
+		return <div className="mapBackgroundContainer">{backgroundShapes}</div>;
+	}
+
 	render() {
 		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
 		const mapComponents = this.generateMapComponents(trainTrackMap);
-		return <div className="map"> {mapComponents}</div>;
+		const background = this.renderBackground();
+		return (
+			<div className="map">
+				{mapComponents}
+				{background}
+			</div>
+		);
 	}
 }
 function randomInt(min, max) {

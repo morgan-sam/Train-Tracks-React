@@ -221,7 +221,8 @@ class Square extends React.Component {
 		} else {
 			trackText = this.props.railImage.trackType;
 			squareStyling = {
-				opacity: 1
+				opacity: 1,
+				backgroundColor: 'white'
 			};
 		}
 		return [ squareStyling, trackText ];
@@ -290,8 +291,12 @@ class Square extends React.Component {
 			[ squareStyling, trackText ] = this.setHoverTrackImage();
 		}
 
-		if (this.props.railImage && this.props.className === 'mapTile') {
-			[ squareStyling, trackText ] = this.setPlacedTrackImage();
+		if (this.props.className === 'mapTile') {
+			if (this.props.railImage) {
+				[ squareStyling, trackText ] = this.setPlacedTrackImage();
+			} else {
+				squareStyling = { backgroundColor: 'white' };
+			}
 		}
 
 		if (this.props.trackData && this.props.className === 'defaultTrack') {

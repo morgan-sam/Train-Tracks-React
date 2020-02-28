@@ -329,8 +329,42 @@ button {
 	transform: translateY(50%);
 }
 
+@keyframes spin {
+	0% {
+		transform: rotate(0deg) scale(.8);
+	}
+	50% {
+		transform: rotate(180deg) scale(0.2);
+	}
+	100% {
+		transform: rotate(360deg) scale(.8);
+	}
+}
+
+.mapBackgroundContainer {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	height: 300%;
+	width: 150%;
+	z-index: -2;
+	background: none;
+}
+
+.mapBackgroundShape {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+}
+
 .map {
 	display: inline-grid;
+	position: relative;
+	overflow: hidden;
 }
 .inGameOptions {
 	margin: 0.5rem;
@@ -443,7 +477,7 @@ code {
 }
 
 .table-heading {
-	background-color: var(--color-1);
+	background: none;
 }
 
 .cornerButton {
