@@ -737,13 +737,15 @@ class Map extends React.Component {
 	///////////// MAP - MAIN RENDER FUNCTION /////////////
 
 	renderHeaderBackground() {
-		const numberOfShapes = 10;
-		const colorArray = colorToWhiteArray('4b0082', numberOfShapes + 1);
+		const numberOfShapes = 20;
+		const colorArray = colorToWhiteArray('#b19cd9', numberOfShapes + 1);
 		let backgroundShapes = [];
 		for (let i = 0; i < numberOfShapes; i++) {
 			const backgroundShapeStyle = {
 				backgroundColor: colorArray[i],
-				animation: `spin ${10 + 1 * (i + 1)}s infinite linear`
+				animation: `spin ${15 + 0.25 * (i + 1)}s infinite linear`,
+				height: `${100 - 4 * i}%`,
+				width: `${100 - 4 * i}%`
 			};
 			backgroundShapes.push(<div className="mapBackgroundShape" style={backgroundShapeStyle} />);
 		}
