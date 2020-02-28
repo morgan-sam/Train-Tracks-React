@@ -7,7 +7,7 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const btnStyle = {
 		position: 'relative',
-		overflow: 'hidden',
+		// overflow: 'hidden',
 		cursor: 'pointer',
 		background: 'none',
 		zIndex: '0',
@@ -34,14 +34,17 @@ const WaveButton = ({ className, onClick, text }) => {
 	const defaultTransition = 2;
 	const transitionOffset = 0.2;
 
-	let rectangleArray = createRectangleArray('#009999', 10);
+	let rectangleArray = createRectangleArray('#009999', 20);
 
 	function createRectangleArray(color, recCount) {
 		let rectangleArray = [];
 		const recColors = colorToWhiteArray(color, recCount * 1.2);
+		console.log(recColors);
 		for (let i = 0; i < recCount; i++) {
 			const curRecStyle = {
-				backgroundColor: recColors[recCount - i],
+				background: `linear-gradient(1turn,${recColors[recColors.length - i - 1]},${recColors[
+					recColors.length - i - 2
+				]})`,
 				transform: hovered
 					? `rotate(${startRotation + rotationOffset * i}deg)`
 					: `rotate(${startRotation + endRotation + rotationOffset * i}deg)`,

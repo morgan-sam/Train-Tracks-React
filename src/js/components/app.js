@@ -466,7 +466,7 @@ class App extends React.Component {
 	mainMenuScreen() {
 		return (
 			<div className="mainMenuScreen" key="mainMenuScreen">
-				<WaveButton
+				{/* <WaveButton
 					className="startGameBtn"
 					key={'startGameBtn'}
 					onClick={() => {
@@ -490,7 +490,7 @@ class App extends React.Component {
 						this.setMenuScreen('howToPlay');
 					}}
 					text={'How To Play'}
-				/>
+				/> */}
 				<WaveButton
 					className="aboutBtn"
 					key={'aboutBtn'}
