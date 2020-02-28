@@ -85,8 +85,10 @@ const WaveButton = ({ className, onClick, text }) => {
 			onClick={() => {
 				setHoveredState(true);
 				setPressedState(true);
+				const menuBtn = onClick.toString().match(/(?:Screen|setGameState)/g);
+				const waitTime = menuBtn ? 600 : 100;
 				setTimeout(() => setPressedState(false), 200);
-				setTimeout(onClick, 600);
+				setTimeout(onClick, waitTime);
 			}}
 		>
 			{rectangleArray}
