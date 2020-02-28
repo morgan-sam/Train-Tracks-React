@@ -41,27 +41,25 @@ const WaveButton = ({ className, onClick, text }) => {
 	const defaultTransition = 5;
 	const transitionOffset = 0.1;
 
-	const recOneStyle = {
-		backgroundColor: '#D1EEEE',
-		transform: hovered ? `rotate(${startRotation}deg)` : `rotate(${startRotation + endRotation}deg)`,
-		transition: `${defaultTransition}s`
-	};
+	let rectangleArray = createRectangleArray('#009999', 10);
 
-	const recTwoStyle = {
-		backgroundColor: '#ADEAEA',
-		transform: hovered
-			? `rotate(${startRotation + rotationOffset}deg)`
-			: `rotate(${startRotation + endRotation + rotationOffset}deg)`,
-		transition: `${defaultTransition + transitionOffset}s`
-	};
-
-	const recThreeStyle = {
-		backgroundColor: '#96CDCD',
-		transform: hovered
-			? `rotate(${startRotation + rotationOffset * 2}deg)`
-			: `rotate(${startRotation + endRotation + rotationOffset * 2}deg)`,
-		transition: `${defaultTransition + transitionOffset * 2}s`
-	};
+	function createRectangleArray(color, recCount) {
+		let rectangleArray = [];
+		const recColors = colorToWhiteArray(color, recCount);
+		for (let i = 0; i < recCount; i++) {
+			const curRecStyle = {
+				backgroundColor: recColors[i],
+				transform: hovered
+					? `rotate(${startRotation + rotationOffset * i}deg)`
+					: `rotate(${startRotation + endRotation + rotationOffset * i}deg)`,
+				transition: `${defaultTransition + transitionOffset * i}s`
+			};
+			rectangleArray.push(
+				<div key={i} style={{ ...rectangleStyle, ...curRecStyle }} className="rectangle" id={`rec${i}`} />
+			);
+		}
+		return rectangleArray;
+	}
 
 	return (
 		<button
@@ -71,9 +69,7 @@ const WaveButton = ({ className, onClick, text }) => {
 			onMouseLeave={() => setHoveredState(false)}
 			onClick={() => setTimeout(onClick, 500)}
 		>
-			<div style={{ ...rectangleStyle, ...recOneStyle }} className="rectangle" id="recOne" />
-			<div style={{ ...rectangleStyle, ...recTwoStyle }} className="rectangle" id="recTwo" />
-			<div style={{ ...rectangleStyle, ...recThreeStyle }} className="rectangle" id="recThree" />
+			{rectangleArray}
 			<div style={textStyle}>{text}</div>
 		</button>
 	);
