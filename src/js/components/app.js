@@ -1,5 +1,6 @@
 import React from 'react';
 import Game from './game';
+import WaveButton from './waveButton';
 import Dropdown from './dropdown';
 import { generateNewMap } from '../generation/generateMap';
 import { generateMapIcon } from '../generation/generateIcon';
@@ -493,7 +494,7 @@ class App extends React.Component {
 				>
 					How To Play
 				</button>
-				<button
+				<WaveButton
 					className="aboutBtn"
 					key={'aboutBtn'}
 					onClick={() => {
@@ -502,7 +503,7 @@ class App extends React.Component {
 					}}
 				>
 					About
-				</button>
+				</WaveButton>
 			</div>
 		);
 	}
