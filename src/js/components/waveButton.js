@@ -34,7 +34,7 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const rectangleStyle = {
 		top: '0%',
-		left: '-10%',
+		left: '-75%',
 		height: '180%',
 		width: '500%',
 		position: 'absolute',
@@ -44,10 +44,10 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const rectangleCount = 10;
 
-	const startRotation = text.length === 2 ? 100 : 23;
+	const startRotation = 25;
 	const rotationOffset = 4;
-	const endRotation = text.length === 2 ? -25 : -35;
-	const startTransition = text.length === 2 ? 0.2 : 2;
+	const endRotation = -35;
+	const startTransition = 1;
 	const endTransition = 3;
 	const transitionOffset = 0.1;
 
@@ -63,8 +63,8 @@ const WaveButton = ({ className, onClick, text }) => {
 					purpleRecColors.length - i - 1
 				]})`,
 				transform: hovered
-					? `rotate(${endRotation + rotationOffset * i}deg)`
-					: `rotate(${startRotation + rotationOffset * i}deg)`,
+					? `rotate(${endRotation + rotationOffset * i}deg) skewY(0deg)`
+					: `rotate(${startRotation + rotationOffset * i}deg) skewY(45deg)`,
 				transition: hovered ? `${startTransition + transitionOffset * i}s` : `${endTransition}s`
 			};
 			rectangleArray.push(
