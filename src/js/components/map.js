@@ -747,7 +747,7 @@ class Map extends React.Component {
 				height: `${100 - 4 * i}%`,
 				width: `${100 - 4 * i}%`
 			};
-			backgroundShapes.push(<div className="mapBackgroundShape" style={backgroundShapeStyle} />);
+			backgroundShapes.push(<div key={i} className="mapBackgroundShape" style={backgroundShapeStyle} />);
 		}
 		return <div className="mapBackgroundContainer">{backgroundShapes}</div>;
 	}
