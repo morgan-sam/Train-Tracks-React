@@ -35,9 +35,9 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const rectangleStyle = {
 		top: '0%',
-		left: '-10%',
+		left: '-30%',
 		height: '350%',
-		width: '500%',
+		width: '70rem',
 		position: 'absolute',
 		zIndex: '-1',
 		borderRadius: '50rem'
@@ -48,7 +48,7 @@ const WaveButton = ({ className, onClick, text }) => {
 	const startRotation = 30;
 	const rotationOffset = 2;
 	const endRotation = -15 + rectangleCount * rotationOffset;
-	const startTransition = 1;
+	const startTransition = 1.5;
 	const endTransition = 3;
 	const transitionOffset = 0.1;
 	const cubicBezierFunction = 'cubic-bezier(0,1.84,0,.32)';
