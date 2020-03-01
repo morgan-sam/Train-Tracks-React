@@ -26,10 +26,11 @@ const WaveButton = ({ className, onClick, text }) => {
 		boxShadow: 'none'
 	};
 
+	const cubicBezierText = 'cubic-bezier(0,2.53,.53,-1.51)';
 	const textStyle = {
 		zIndex: '1',
 		color: hovered ? 'white' : 'black',
-		transition: hovered ? `${0.8}s` : '3s'
+		transition: hovered ? `color ${1}s ${cubicBezierText}` : `color 0s`
 	};
 
 	const rectangleStyle = {
@@ -47,9 +48,10 @@ const WaveButton = ({ className, onClick, text }) => {
 	const startRotation = 30;
 	const rotationOffset = 2;
 	const endRotation = -15 + rectangleCount * rotationOffset;
-	const startTransition = 0.1;
+	const startTransition = 1;
 	const endTransition = 3;
 	const transitionOffset = 0.1;
+	const cubicBezierFunction = 'cubic-bezier(0,1.84,0,.32)';
 
 	let rectangleArray = createRectangleArray(rectangleCount);
 
@@ -65,7 +67,9 @@ const WaveButton = ({ className, onClick, text }) => {
 				transform: hovered
 					? `rotate(${endRotation + rotationOffset * i}deg) skewY(0deg)`
 					: `rotate(${startRotation + rotationOffset * i}deg) skewY(45deg)`,
-				transition: hovered ? `${startTransition + transitionOffset * i}s` : `${endTransition}s`
+				transition: hovered
+					? `all ${startTransition + transitionOffset * i}s ${cubicBezierFunction}`
+					: `all ${endTransition}s ${cubicBezierFunction}`
 			};
 			rectangleArray.push(
 				<div key={i} style={{ ...rectangleStyle, ...curRecStyle }} className="rectangle" id={`rec${i}`} />
