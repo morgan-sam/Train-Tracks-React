@@ -223,6 +223,7 @@ class Game extends React.Component {
 					/>
 					<img
 						alt=""
+						draggable="false"
 						src={this.state.saveBoxMapBackground}
 						className="saveBoxMapBackground"
 						style={{
