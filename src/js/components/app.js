@@ -248,7 +248,7 @@ class App extends React.Component {
 				<p key={'Map Size Label'}>Map Size</p>
 				<Dropdown
 					key={'selectMapSize'}
-					style={{ width: '5rem', height: '2rem' }}
+					style={{ width: '3rem', height: '2rem', textAlign: 'center', padding: '0 1.25rem 0 0.5rem' }}
 					options={this.getMapSizeOptions()}
 					className="mapSizeOption"
 					placeholder={'8x8'}

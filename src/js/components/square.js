@@ -295,6 +295,7 @@ class Square extends React.Component {
 					width: '100%',
 					background: 'white',
 					zIndex: '-2',
+					transition: 'opacity 1s',
 					opacity:
 						this.props.className !== 'table-heading' && this.props.className !== 'blankTile' ? '1' : '0'
 				}}
@@ -317,7 +318,10 @@ class Square extends React.Component {
 			}
 		}
 
-		if (this.props.trackData && this.props.className === 'defaultTrack') {
+		if (
+			(this.props.trackData && this.props.className === 'defaultTrack') ||
+			(this.props.trackData && this.props.className === 'completeTrack')
+		) {
 			[ squareStyling, trackText ] = this.setDefaultTrackImage();
 		}
 

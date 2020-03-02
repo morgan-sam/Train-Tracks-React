@@ -638,7 +638,7 @@ class Map extends React.Component {
 	renderCompleteTrack(i, x, y, defaultRailType, highlighted) {
 		return (
 			<Square
-				className="defaultTrack"
+				className="completeTrack"
 				key={i}
 				x={x}
 				y={y}
