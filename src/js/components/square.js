@@ -283,6 +283,11 @@ class Square extends React.Component {
 	}
 
 	renderWhiteBackground() {
+		let transitionSpeed;
+		if (this.props.className === 'table-heading') transitionSpeed = 0;
+		if (this.props.className === 'emptyTile') transitionSpeed = 1;
+		if (this.props.className === 'transparentTile') transitionSpeed = 0;
+
 		return (
 			<div
 				className={'white-background'}
@@ -294,7 +299,7 @@ class Square extends React.Component {
 					width: '100%',
 					background: 'white',
 					zIndex: '-2',
-					transition: 'opacity 1s',
+					transition: `opacity ${transitionSpeed}s`,
 					opacity:
 						this.props.className === 'table-heading' ||
 						this.props.className === 'emptyTile' ||
