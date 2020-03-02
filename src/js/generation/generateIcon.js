@@ -145,6 +145,23 @@ const generateCanvas = async (mapObject, options) => {
 		return headerText;
 	}
 
+	(function cutOutBackgroundBox() {
+		const boxWidth = 250;
+		const boxHeight = 150;
+		context.clearRect(
+			(mapWidth + 1) * iconTileWidth / 2 - boxWidth / 2,
+			(mapHeight - 1) * iconTileHeight / 2 - boxHeight / 2,
+			boxWidth,
+			boxHeight
+		);
+		context.strokeRect(
+			(mapWidth + 1) * iconTileWidth / 2 - boxWidth / 2,
+			(mapHeight - 1) * iconTileHeight / 2 - boxHeight / 2,
+			boxWidth,
+			boxHeight
+		);
+	})();
+
 	return canvas;
 };
 

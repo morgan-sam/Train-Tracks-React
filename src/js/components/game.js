@@ -80,11 +80,7 @@ class Game extends React.Component {
 
 	renderSaveMapDisplay() {
 		return (
-			<div
-				key={'saveMapDisplay'}
-				className="popUpWindow saveMapDisplay"
-				onContextMenu={(e) => e.preventDefault()}
-			>
+			<div key={'saveMapDisplay'} className="saveMapDisplay" onContextMenu={(e) => e.preventDefault()}>
 				<p>Enter a name to save map as:</p>
 				<button
 					key={'closeSaveMapDisplay'}

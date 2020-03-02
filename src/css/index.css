@@ -405,9 +405,15 @@ button {
 	justify-content: center;
 	align-items: center;
 	font-size: 0.87rem;
-	padding: 1rem 3rem 1rem 3rem;
-	height: 7rem;
-	width: 12rem;
+	padding: 25px;
+	height: 100px;
+	width: 200px;
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 4;
 }
 
 .saveMapDisplay > * {

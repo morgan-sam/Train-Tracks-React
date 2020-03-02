@@ -750,6 +750,8 @@ class Map extends React.Component {
 							return this.placeColumnHeader(trainTrackMap, x, y);
 						} else if (x === this.props.mapWidth) {
 							return this.placeRowHeader(trainTrackMap, x, y);
+						} else if (!this.props.controlsActive) {
+							return this.renderBlankTile(x, x, y - 1);
 						} else {
 							return this.placeMainMapTile(trainTrackMap, x, y);
 						}

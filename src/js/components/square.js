@@ -305,7 +305,7 @@ class Square extends React.Component {
 	render() {
 		const [ labelText, labelStyling ] = this.setTableHeadingState();
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
-		let squareStyling, trackText;
+		let squareStyling, trackText, boxStyling;
 
 		if (!this.props.trackData && this.squareIsHoverTile()) {
 			[ squareStyling, trackText ] = this.setHoverTrackImage();
@@ -324,6 +324,11 @@ class Square extends React.Component {
 			[ squareStyling, trackText ] = this.setDefaultTrackImage();
 		}
 
+		if (this.props.className === 'blankTile') {
+			boxStyling = { border: 'none' };
+			squareStyling = { border: 'none' };
+		}
+
 		return (
 			<div
 				className={`square ${this.props.className}`}
@@ -333,7 +338,7 @@ class Square extends React.Component {
 				onMouseDown={this.props.className !== 'table-heading' ? this.squareMouseDown : null}
 				onMouseUp={this.props.className !== 'table-heading' ? this.squareMouseUp : null}
 			>
-				<div className={`box`}>
+				<div className={`box`} style={boxStyling}>
 					{cornerButtons}
 					{middleButtons}
 					{centreButton}
