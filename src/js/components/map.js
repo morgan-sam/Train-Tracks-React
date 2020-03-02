@@ -657,6 +657,28 @@ class Map extends React.Component {
 		);
 	}
 
+	renderBlankTile(i, x, y) {
+		return (
+			<Square
+				className="blankTile"
+				key={i}
+				x={x}
+				y={y}
+				highlighted={false}
+				trackData={this.convertRailTypeToTrackImage(null)}
+				leftClickEvent={() => null}
+				rightClickEvent={() => null}
+				bothClickEvent={() => null}
+				leftReleaseEvent={() => null}
+				rightReleaseEvent={() => null}
+				hoverStartEvent={() => null}
+				hoverEndEvent={() => null}
+				leftClickDragArray={null}
+				rightClickDragValue={null}
+			/>
+		);
+	}
+
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
 
 	placeColumnHeader(trainTrackMap, x, y) {
@@ -680,7 +702,11 @@ class Map extends React.Component {
 				if (this.props.defaultTilesHighlighted && el.defaultTrack) highlighted = true;
 			}
 		}, this);
-		return this.renderCompleteTrack(x, x, y - 1, defaultTile, highlighted);
+		if (defaultTile) {
+			return this.renderCompleteTrack(x, x, y - 1, defaultTile, highlighted);
+		} else {
+			return this.renderBlankTile(x, x, y - 1);
+		}
 	}
 
 	placeUserPlacedTrack(x, y) {

@@ -295,7 +295,8 @@ class Square extends React.Component {
 					width: '100%',
 					background: 'white',
 					zIndex: '-2',
-					opacity: this.props.className !== 'table-heading' ? '1' : '0'
+					opacity:
+						this.props.className !== 'table-heading' && this.props.className !== 'blankTile' ? '1' : '0'
 				}}
 			/>
 		);
