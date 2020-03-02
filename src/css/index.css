@@ -8,6 +8,15 @@
 	--box-dim: 4rem;
 }
 
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
 .gameTitle {
 	margin: 2rem;
 	font-size: 200%;
@@ -416,6 +425,7 @@ button {
 	top: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 4;
+	animation: fadeIn ease 1s;
 }
 
 .saveMapDisplay > * {
