@@ -296,7 +296,11 @@ class Square extends React.Component {
 					zIndex: '-2',
 					transition: 'opacity 1s',
 					opacity:
-						this.props.className !== 'table-heading' && this.props.className !== 'blankTile' ? '1' : '0'
+						this.props.className === 'table-heading' ||
+						this.props.className === 'emptyTile' ||
+						this.props.className === 'transparentTile'
+							? '0'
+							: '1'
 				}}
 			/>
 		);
@@ -324,7 +328,7 @@ class Square extends React.Component {
 			[ squareStyling, trackText ] = this.setDefaultTrackImage();
 		}
 
-		if (this.props.className === 'blankTile') {
+		if (this.props.className === 'transparentTile') {
 			boxStyling = { border: 'none' };
 			squareStyling = { border: 'none' };
 		}

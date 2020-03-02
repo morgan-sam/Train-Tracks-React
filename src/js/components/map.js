@@ -657,10 +657,32 @@ class Map extends React.Component {
 		);
 	}
 
-	renderBlankTile(i, x, y) {
+	renderEmptyTile(i, x, y) {
 		return (
 			<Square
-				className="blankTile"
+				className="emptyTile"
+				key={i}
+				x={x}
+				y={y}
+				highlighted={false}
+				trackData={this.convertRailTypeToTrackImage(null)}
+				leftClickEvent={() => null}
+				rightClickEvent={() => null}
+				bothClickEvent={() => null}
+				leftReleaseEvent={() => null}
+				rightReleaseEvent={() => null}
+				hoverStartEvent={() => null}
+				hoverEndEvent={() => null}
+				leftClickDragArray={null}
+				rightClickDragValue={null}
+			/>
+		);
+	}
+
+	renderTransparentTile(i, x, y) {
+		return (
+			<Square
+				className="transparentTile"
 				key={i}
 				x={x}
 				y={y}
@@ -705,7 +727,7 @@ class Map extends React.Component {
 		if (defaultTile) {
 			return this.renderCompleteTrack(x, x, y - 1, defaultTile, highlighted);
 		} else {
-			return this.renderBlankTile(x, x, y - 1);
+			return this.renderEmptyTile(x, x, y - 1);
 		}
 	}
 
@@ -751,7 +773,7 @@ class Map extends React.Component {
 						} else if (x === this.props.mapWidth) {
 							return this.placeRowHeader(trainTrackMap, x, y);
 						} else if (!this.props.mapVisible) {
-							return this.renderBlankTile(x, x, y - 1);
+							return this.renderTransparentTile(x, x, y - 1);
 						} else {
 							return this.placeMainMapTile(trainTrackMap, x, y);
 						}
