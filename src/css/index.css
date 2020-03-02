@@ -432,6 +432,20 @@ button {
 	line-height: 0rem;
 	top: 5px;
 	right: 5px;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 'none';
+	transition: 0.2s;
+	color: black;
+}
+
+.closePopUpWindow:hover {
+	background-color: #d34a4a;
+	color: #eee;
+	cursor: pointer;
 }
 
 body {
