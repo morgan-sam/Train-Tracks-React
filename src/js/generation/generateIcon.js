@@ -5,8 +5,9 @@ import { print } from '../utility/utilityFunctions';
 export const generateMapIcon = async (mapObject, complete = false) => {
 	const options = {
 		headers: true,
-		complete: true,
-		dimensions: 250
+		complete: false,
+		dimensions: 250,
+		cutOut: false
 	};
 	const canvas = await generateCanvas(mapObject, options);
 	const image = canvas.toDataURL('image/png');
@@ -17,7 +18,8 @@ export const generateMapBackground = async (mapObject) => {
 	const options = {
 		headers: false,
 		complete: false,
-		dimensions: 64 * mapObject.headerLabels.x.length
+		dimensions: 64 * mapObject.headerLabels.x.length,
+		cutOut: true
 	};
 	const canvas = await generateCanvas(mapObject, options);
 	const image = canvas.toDataURL('image/png');
@@ -145,7 +147,7 @@ const generateCanvas = async (mapObject, options) => {
 		return headerText;
 	}
 
-	(function cutOutBackgroundBox() {
+	function cutOutBackgroundBox() {
 		const boxWidth = 250;
 		const boxHeight = 150;
 		context.clearRect(
@@ -160,7 +162,9 @@ const generateCanvas = async (mapObject, options) => {
 			boxWidth,
 			boxHeight
 		);
-	})();
+	}
+
+	if (options.cutOut) cutOutBackgroundBox();
 
 	return canvas;
 };
