@@ -87,7 +87,7 @@ class Game extends React.Component {
 					className={'saveNameInputBox'}
 					onChange={(e) => this.setMapSaveName(e.target.value)}
 				/>
-				<button
+				<WaveButton
 					key={'confirmSaveMapBtn'}
 					className={'confirmSaveMapBtn'}
 					onClick={() => {
@@ -95,9 +95,8 @@ class Game extends React.Component {
 						this.setMapSaveName(null);
 						this.showSaveMapDisplay(false);
 					}}
-				>
-					Save Map
-				</button>
+					text={'Save Map'}
+				/>
 			</div>
 		);
 	}

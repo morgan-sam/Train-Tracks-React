@@ -1,4 +1,5 @@
 import React from 'react';
+import { print } from '../utility/utilityFunctions';
 
 function CornerButton(props) {
 	return (
@@ -195,6 +196,7 @@ class Square extends React.Component {
 	setHoverTrackImage() {
 		let squareStyling, trackText;
 		const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
+		print(trackImage);
 		if (trackImage.trackType !== 'T') {
 			squareStyling = {
 				backgroundImage: `url(${trackImage.trackType})`,
@@ -221,8 +223,7 @@ class Square extends React.Component {
 		} else {
 			trackText = this.props.railImage.trackType;
 			squareStyling = {
-				opacity: 1,
-				backgroundColor: 'white'
+				opacity: 1
 			};
 		}
 		return [ squareStyling, trackText ];
@@ -278,24 +279,40 @@ class Square extends React.Component {
 		return [ cornerButtons, middleButtons, centreButton ];
 	}
 
+	squareIsHoverTile() {
+		return this.props.x === this.state.hoverTrack.tile[0] && this.props.y === this.state.hoverTrack.tile[1];
+	}
+
+	renderWhiteBackground() {
+		return (
+			<div
+				className={'white-background'}
+				style={{
+					position: 'absolute',
+					top: '0',
+					left: '0',
+					height: '100%',
+					width: '100%',
+					background: 'white',
+					zIndex: '-2',
+					opacity: this.props.className !== 'table-heading' ? '1' : '0'
+				}}
+			/>
+		);
+	}
+
 	render() {
 		const [ labelText, labelStyling ] = this.setTableHeadingState();
 		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
 		let squareStyling, trackText;
 
-		if (
-			this.props.x === this.state.hoverTrack.tile[0] &&
-			this.props.y === this.state.hoverTrack.tile[1] &&
-			!this.props.trackData
-		) {
+		if (!this.props.trackData && this.squareIsHoverTile()) {
 			[ squareStyling, trackText ] = this.setHoverTrackImage();
 		}
 
 		if (this.props.className === 'mapTile') {
 			if (this.props.railImage) {
 				[ squareStyling, trackText ] = this.setPlacedTrackImage();
-			} else {
-				squareStyling = { backgroundColor: 'white' };
 			}
 		}
 
@@ -323,6 +340,7 @@ class Square extends React.Component {
 				<div className={'track-background'} style={squareStyling}>
 					{trackText}
 				</div>
+				{this.renderWhiteBackground()}
 			</div>
 		);
 	}
