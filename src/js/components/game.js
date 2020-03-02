@@ -1,6 +1,8 @@
 import React from 'react';
 import Map from './map';
 import WaveButton from './waveButton';
+import { generateMapBackground } from '../generation/generateIcon';
+import { print } from '../utility/utilityFunctions';
 
 class Game extends React.Component {
 	constructor(props) {
@@ -11,10 +13,18 @@ class Game extends React.Component {
 			saveMapDisplay: false,
 			mapSaveName: null,
 			defaultTilesHighlighted: false,
-			mapSolutionVisible: false
+			mapSolutionVisible: false,
+			saveBoxMapBackground: null
 		};
 		this.setGameWinState = this.setGameWinState.bind(this);
 	}
+
+	setSaveBoxBackground = async (boo) => {
+		const img = boo ? await generateMapBackground(this.props.trainTrackMap) : null;
+		this.setState({
+			saveBoxMapBackground: img
+		});
+	};
 
 	setGameWinState(boo) {
 		this.setState({
@@ -50,6 +60,7 @@ class Game extends React.Component {
 		this.setState({
 			saveMapDisplay: boo
 		});
+		this.setSaveBoxBackground(boo);
 	}
 
 	renderGameWinDisplay() {
@@ -211,6 +222,18 @@ class Game extends React.Component {
 						mapHeight={this.props.mapHeight}
 						mapWidth={this.props.mapWidth}
 						setGameWinState={this.setGameWinState}
+						controlsActive={!this.state.saveMapDisplay}
+					/>
+					<img
+						alt=""
+						src={this.state.saveBoxMapBackground}
+						className="saveBoxMapBackground"
+						style={{
+							position: 'absolute',
+							top: '65px',
+							left: '1px',
+							border: this.state.mapIcon ? '0.15rem #aaa solid' : 'none'
+						}}
 					/>
 				</div>
 				{optionsButtons}

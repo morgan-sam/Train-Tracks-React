@@ -196,7 +196,6 @@ class Square extends React.Component {
 	setHoverTrackImage() {
 		let squareStyling, trackText;
 		const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
-		print(trackImage);
 		if (trackImage.trackType !== 'T') {
 			squareStyling = {
 				backgroundImage: `url(${trackImage.trackType})`,

@@ -1,8 +1,25 @@
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
+import { print } from '../utility/utilityFunctions';
 
 export const generateMapIcon = async (mapObject, complete = false) => {
-	const canvas = await generateCanvas(mapObject, complete);
+	const options = {
+		headers: true,
+		complete: true,
+		dimensions: 250
+	};
+	const canvas = await generateCanvas(mapObject, options);
+	const image = canvas.toDataURL('image/png');
+	return image;
+};
+
+export const generateMapBackground = async (mapObject) => {
+	const options = {
+		headers: false,
+		complete: false,
+		dimensions: 64 * mapObject.headerLabels.x.length
+	};
+	const canvas = await generateCanvas(mapObject, options);
 	const image = canvas.toDataURL('image/png');
 	return image;
 };
@@ -28,16 +45,19 @@ const getRotationFromRailType = (railType) => {
 	return rotation;
 };
 
-const generateCanvas = async (mapObject, complete) => {
+const generateCanvas = async (mapObject, options) => {
 	let canvas = document.createElement('canvas');
 
 	const mapWidth = mapObject.headerLabels.x.length;
 	const mapHeight = mapObject.headerLabels.y.length;
 
-	canvas.width = 250;
-	canvas.height = 250;
-	const iconTileWidth = canvas.width / (mapWidth + 1);
-	const iconTileHeight = canvas.height / (mapHeight + 1);
+	canvas.width = options.dimensions;
+	canvas.height = options.dimensions;
+	const gridMapWidth = mapWidth + options.headers;
+	const gridMapHeight = mapHeight + options.headers;
+	print(gridMapWidth, gridMapHeight);
+	const iconTileWidth = canvas.width / gridMapWidth;
+	const iconTileHeight = canvas.height / gridMapHeight;
 
 	let context = canvas.getContext('2d');
 
@@ -49,7 +69,7 @@ const generateCanvas = async (mapObject, complete) => {
 		context.save();
 		context.translate(
 			el.tile[0] * iconTileWidth + iconTileWidth / 2,
-			(el.tile[1] + 1) * iconTileHeight + iconTileHeight / 2
+			(el.tile[1] + options.headers) * iconTileHeight + iconTileHeight / 2
 		);
 		context.rotate(rotation * (Math.PI / 180));
 		context.drawImage(
@@ -66,7 +86,7 @@ const generateCanvas = async (mapObject, complete) => {
 		context.drawImage(
 			el.railType === 'vertical' || el.railType === 'horizontal' ? straightTrackImage : curvedTrackImage,
 			el.tile[0] * iconTileWidth,
-			(el.tile[1] + 1) * iconTileHeight,
+			(el.tile[1] + options.headers) * iconTileHeight,
 			iconTileWidth,
 			iconTileHeight
 		);
@@ -76,7 +96,7 @@ const generateCanvas = async (mapObject, complete) => {
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
 	mapObject.tracks.forEach((el) => {
-		if (complete || el.defaultTrack) {
+		if (options.complete || el.defaultTrack) {
 			if (
 				el.railType === 'horizontal' ||
 				el.railType === 'topLeftCorner' ||
@@ -91,10 +111,10 @@ const generateCanvas = async (mapObject, complete) => {
 	});
 
 	(function drawGrid() {
-		for (let i = 0; i < (mapWidth + 1) * (mapHeight + 1); i++) {
-			let x = i % (mapWidth + 1);
-			let y = Math.floor(i / (mapHeight + 1));
-			if (x === mapWidth || y === 0) drawHeaderBox(x, y);
+		for (let i = 0; i < gridMapWidth * gridMapHeight; i++) {
+			let x = i % gridMapWidth;
+			let y = Math.floor(i / gridMapHeight);
+			if (options.headers && (x === mapWidth || y === 0)) drawHeaderBox(x, y);
 			context.fillStyle = 'black';
 			context.strokeRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
 		}

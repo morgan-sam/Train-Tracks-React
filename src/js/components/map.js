@@ -602,13 +602,13 @@ class Map extends React.Component {
 				mapSolutionVisible={mapSolutionVisible}
 				convertRailTypeToTrackImage={this.convertRailTypeToTrackImage}
 				railImage={railImage}
-				leftClickEvent={this.leftClickEvent}
-				rightClickEvent={this.rightClickEvent}
-				bothClickEvent={this.bothClickEvent}
-				leftReleaseEvent={this.leftReleaseEvent}
-				rightReleaseEvent={this.rightReleaseEvent}
-				hoverStartEvent={this.hoverStartEvent}
-				hoverEndEvent={this.hoverEndEvent}
+				leftClickEvent={this.props.controlsActive ? this.leftClickEvent : () => null}
+				rightClickEvent={this.props.controlsActive ? this.rightClickEvent : () => null}
+				bothClickEvent={this.props.controlsActive ? this.bothClickEvent : () => null}
+				leftReleaseEvent={this.props.controlsActive ? this.leftReleaseEvent : () => null}
+				rightReleaseEvent={this.props.controlsActive ? this.rightReleaseEvent : () => null}
+				hoverStartEvent={this.props.controlsActive ? this.hoverStartEvent : () => null}
+				hoverEndEvent={this.props.controlsActive ? this.hoverEndEvent : () => null}
 			/>
 		);
 	}
@@ -622,13 +622,13 @@ class Map extends React.Component {
 				y={y}
 				highlighted={highlighted}
 				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
-				leftClickEvent={this.leftClickEvent}
-				rightClickEvent={this.rightClickEvent}
-				bothClickEvent={this.bothClickEvent}
-				leftReleaseEvent={this.leftReleaseEvent}
-				rightReleaseEvent={this.rightReleaseEvent}
-				hoverStartEvent={this.hoverStartEvent}
-				hoverEndEvent={this.hoverEndEvent}
+				leftClickEvent={this.props.controlsActive ? this.leftClickEvent : () => null}
+				rightClickEvent={this.props.controlsActive ? this.rightClickEvent : () => null}
+				bothClickEvent={this.props.controlsActive ? this.bothClickEvent : () => null}
+				leftReleaseEvent={this.props.controlsActive ? this.leftReleaseEvent : () => null}
+				rightReleaseEvent={this.props.controlsActive ? this.rightReleaseEvent : () => null}
+				hoverStartEvent={this.props.controlsActive ? this.hoverStartEvent : () => null}
+				hoverEndEvent={this.props.controlsActive ? this.hoverEndEvent : () => null}
 				leftClickDragArray={this.leftClickDragArray}
 				rightClickDragValue={this.rightClickDragValue}
 			/>
