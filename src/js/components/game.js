@@ -219,6 +219,7 @@ class Game extends React.Component {
 						mapWidth={this.props.mapWidth}
 						setGameWinState={this.setGameWinState}
 						controlsActive={!this.state.saveMapDisplay}
+						mapVisible={!this.state.saveBoxMapBackground}
 					/>
 					<img
 						alt=""
@@ -229,6 +230,8 @@ class Game extends React.Component {
 							top: '65px',
 							left: '1px',
 							border: this.state.mapIcon ? '0.15rem #aaa solid' : 'none'
+							// opacity: this.state.saveBoxMapBackground ? '1' : '0',
+							// transition: '1s'
 						}}
 					/>
 				</div>
