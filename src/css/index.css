@@ -262,6 +262,8 @@ button {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	border: 2px solid black;
+	box-sizing: 'border-box';
 }
 .loadMapDropdown {
 	z-index: 2;
@@ -467,7 +469,7 @@ code {
 	height: 100%;
 	width: 100%;
 	background-size: 100% 100%;
-	/* border: 1px solid black; */
+	border: 1px solid black;
 	z-index: -1;
 	font-size: 3rem;
 	display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6, BB7 */

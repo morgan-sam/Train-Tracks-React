@@ -227,11 +227,9 @@ class Game extends React.Component {
 						className="saveBoxMapBackground"
 						style={{
 							position: 'absolute',
-							top: '65px',
-							left: '1px',
-							border: this.state.mapIcon ? '0.15rem #aaa solid' : 'none'
-							// opacity: this.state.saveBoxMapBackground ? '1' : '0',
-							// transition: '1s'
+							top: '64px',
+							left: '0px',
+							border: this.state.saveBoxMapBackground ? '1px solid black' : 'none'
 						}}
 					/>
 				</div>
