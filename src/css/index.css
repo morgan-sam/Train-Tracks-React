@@ -395,11 +395,12 @@ button {
 .winDisplay {
 	position: absolute;
 	text-align: center;
-	left: 50%;
-	top: 50%;
+	left: calc(50% + 1px);
+	top: calc(50% + 1px);
 	transform: translate(-50%, -50%);
 	z-index: 3;
-	border: 2px black solid;
+	border: 1px black solid;
+	box-sizing: border-box;
 	z-index: 1;
 	height: 20rem;
 	width: 20rem;
@@ -449,7 +450,7 @@ button {
 	left: 0;
 	height: 20rem;
 	width: 20rem;
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	overflow: hidden;
 	position: relative;
 	z-index: -4;
