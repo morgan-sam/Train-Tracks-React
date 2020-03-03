@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { colorToWhiteArray } from '../utility/colorToWhite';
+import { colorToWhiteArray } from '../utility/colorFunctions';
 import { print } from '../utility/utilityFunctions';
 
 const WaveButton = ({ className, onClick, text }) => {

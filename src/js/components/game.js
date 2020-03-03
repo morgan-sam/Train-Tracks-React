@@ -2,7 +2,8 @@ import React from 'react';
 import Map from './map';
 import WaveButton from './waveButton';
 import { generateMapBackground } from '../generation/generateIcon';
-import { print } from '../utility/utilityFunctions';
+import { print, randomIntFromInterval } from '../utility/utilityFunctions';
+import { generateRandomRGBColor } from '../utility/colorFunctions';
 
 class Game extends React.Component {
 	constructor(props) {
@@ -82,7 +83,20 @@ class Game extends React.Component {
 	}
 
 	renderWinDisplayBackground() {
-		//
+		let balloonContainer = [];
+		for (let i = 0; i < 200; i++) {
+			const color = generateRandomRGBColor();
+			const left = randomIntFromInterval(-20, 100);
+			const delay = randomIntFromInterval(0, 5000);
+			const balloonStyle = {
+				color: color,
+				left: `${left}%`,
+				backgroundColor: color,
+				opacity: 0,
+				animationDelay: `${delay}ms`
+			};
+			balloonContainer.push(<div key={i} className="balloon" style={balloonStyle} />);
+		}
 	}
 
 	renderSaveMapDisplay() {

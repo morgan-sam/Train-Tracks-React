@@ -410,6 +410,55 @@ button {
 	font-size: 2rem;
 }
 
+@keyframes float {
+	0% {
+		opacity: 0.9;
+		transform: translate(0, 20rem) scaleY(1.2);
+	}
+	100% {
+		opacity: 0.9;
+		transform: translate(0, -8rem) scaleY(1.2);
+	}
+}
+
+@keyframes sway {
+	0% {
+		margin-left: 0%;
+	}
+	100% {
+		margin-left: 10%;
+	}
+}
+
+.balloonContainer {
+	height: 20rem;
+	width: 20rem;
+	border: 1px solid black;
+	margin: 5rem;
+	overflow: hidden;
+	position: relative;
+}
+
+.balloon:before {
+	content: "؁";
+	font-size: 2rem;
+	display: block;
+	text-align: center;
+	width: 100%;
+	transform: rotate(-90deg);
+	left: -15%;
+	position: absolute;
+	bottom: -2rem;
+}
+
+.balloon {
+	position: absolute;
+	height: 4rem;
+	width: 4rem;
+	border-radius: 100%;
+	animation: float 5s infinite linear, sway 1s ease-in-out infinite alternate;
+}
+
 .saveMapDisplay {
 	display: flex;
 	flex-direction: column;

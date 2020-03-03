@@ -8,7 +8,7 @@ import { removeArrayValue, compareArrays, isNonEmptyArray } from '../utility/uti
 
 import { findDirectionFromMove } from '../generation/generateMap';
 
-import { colorToWhiteArray } from '../utility/colorToWhite';
+import { colorToWhiteArray } from '../utility/colorFunctions';
 
 class Map extends React.Component {
 	constructor(props) {

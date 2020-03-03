@@ -1,3 +1,16 @@
+import { randomIntFromInterval } from './utilityFunctions';
+
+export const generateRandomRGBColor = () => {
+	let minValue = 100;
+	const modAmount = 0.8;
+	const r = randomIntFromInterval(minValue, 255);
+	r > 255 - minValue / 2 ? (minValue *= modAmount) : (minValue /= modAmount);
+	const g = randomIntFromInterval(minValue, 255);
+	g > 255 - minValue / 2 ? (minValue *= modAmount) : (minValue /= modAmount);
+	const b = randomIntFromInterval(minValue, 255);
+	return `rgb(${[ r, g, b ]})`;
+};
+
 export const colorToWhiteArray = (hexColor, numberOfShades) => {
 	const colorArray = convertHexToRgbArray(hexColor);
 	const colorMatrix = createColorMatrixByStep(colorArray, Math.ceil(numberOfShades));
