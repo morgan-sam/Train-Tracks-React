@@ -23,7 +23,8 @@ class App extends React.Component {
 			mapIcon: null,
 			deleteModeOnAll: false,
 			howToPlayMapEmpty: null,
-			howToPlayMapComplete: null
+			howToPlayMapComplete: null,
+			balloonCloudDisabled: false
 		};
 		this.mapSizeSelection = this.mapSizeSelection.bind(this);
 		this.setGameState = this.setGameState.bind(this);
@@ -48,6 +49,12 @@ class App extends React.Component {
 	setMenuScreen(screen) {
 		this.setState({
 			menuScreen: screen
+		});
+	}
+
+	setBalloonCloudDisabledState(boo) {
+		this.setState({
+			balloonCloudDisabled: boo
 		});
 	}
 
@@ -291,6 +298,20 @@ class App extends React.Component {
 						old browsers/PCs. Maps may be lessed balanced.
 					</div>
 				</div>
+				<div className="pathFindingOptionRow">
+					<input
+						type="checkbox"
+						className="pathFindingCheckbox"
+						checked={this.state.balloonCloudDisabled}
+						onChange={(e) => this.setBalloonCloudDisabledState(e.target.checked)}
+					/>
+					<p className="pathFindingLabel">Disable Win Screen Balloon Cloud</p>
+					<div className="pathFindingQuestionBox">?</div>
+					<div className="pathFindingExplanation">
+						Disables the balloon cloud effect at the end of a game win. Can increase performance on old
+						browsers/PCs.
+					</div>
+				</div>
 				<WaveButton
 					key={'generateMapBtn'}
 					onClick={() => {
@@ -517,6 +538,7 @@ class App extends React.Component {
 				mapWidth={this.state.mapSize}
 				mapSeed={this.state.mapSeed}
 				setGameState={this.setGameState}
+				balloonCloudDisabled={this.state.balloonCloudDisabled}
 				newMap={() => {
 					this.generateNewMapState();
 				}}

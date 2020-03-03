@@ -85,11 +85,12 @@ class Game extends React.Component {
 	}
 
 	renderWinDisplayBackground() {
+		const balloonCount = this.props.balloonCloudDisabled ? 1 : 300;
 		let balloonContainer = [];
-		for (let i = 0; i < 300; i++) {
+		for (let i = 0; i < balloonCount; i++) {
 			const color = generateRandomRGBColor();
-			const left = randomIntFromInterval(-20, 100);
-			const delay = randomIntFromInterval(0, 10000);
+			const left = this.props.balloonCloudDisabled ? 50 : randomIntFromInterval(-20, 100);
+			const delay = this.props.balloonCloudDisabled ? 0 : randomIntFromInterval(0, 10000);
 			const balloonStyle = {
 				left: `${left}%`,
 				backgroundColor: color,
@@ -265,7 +266,7 @@ class Game extends React.Component {
 					/>
 				</div>
 				{optionsButtons}
-				<button onClick={() => this.setGameWinState(true)}>Set Game To Won</button>
+				{/* <button onClick={() => this.setGameWinState(true)}>Set Game To Won</button> */}
 			</div>
 		);
 	}
