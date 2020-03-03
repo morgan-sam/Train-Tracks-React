@@ -2,10 +2,22 @@ import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 import { print } from '../utility/utilityFunctions';
 
-export const generateMapIcon = async (mapObject, complete = false) => {
+export const generateMapIcon = async (mapObject, complete) => {
 	const options = {
 		headers: true,
 		complete: false,
+		dimensions: 250,
+		cutOut: false
+	};
+	const canvas = await generateCanvas(mapObject, options);
+	const image = canvas.toDataURL('image/png');
+	return image;
+};
+
+export const generateCompletedMapIcon = async (mapObject) => {
+	const options = {
+		headers: true,
+		complete: true,
 		dimensions: 250,
 		cutOut: false
 	};

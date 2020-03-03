@@ -74,8 +74,15 @@ class Game extends React.Component {
 				>
 					X
 				</button>
+				<div key={'winDisplayBackground'} className={'winDisplayBackground'}>
+					{this.renderWinDisplayBackground()}
+				</div>
 			</div>
 		);
+	}
+
+	renderWinDisplayBackground() {
+		//
 	}
 
 	renderSaveMapDisplay() {

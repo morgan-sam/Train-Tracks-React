@@ -3,7 +3,7 @@ import Game from './game';
 import WaveButton from './waveButton';
 import Dropdown from './dropdown';
 import { generateNewMap } from '../generation/generateMap';
-import { generateMapIcon } from '../generation/generateIcon';
+import { generateMapIcon, generateCompletedMapIcon } from '../generation/generateIcon';
 import { isNonEmptyArray, print } from '../utility/utilityFunctions';
 import seedrandom from 'seedrandom';
 
@@ -54,7 +54,7 @@ class App extends React.Component {
 	setHowToPlayMaps = async () => {
 		const map = generateNewMap(6, 6, 986707260499975, true);
 		const emptyMap = await generateMapIcon(map, false);
-		const completeMap = await generateMapIcon(map, true);
+		const completeMap = await generateCompletedMapIcon(map, true);
 		this.setState({
 			howToPlayMapEmpty: emptyMap,
 			howToPlayMapComplete: completeMap
