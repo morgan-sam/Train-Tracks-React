@@ -66,8 +66,10 @@ class Game extends React.Component {
 
 	renderGameWinDisplay() {
 		return (
-			<div key={'gameWinDisplay'} className="popUpWindow winDisplay" onContextMenu={(e) => e.preventDefault()}>
-				You Win!
+			<div key={'gameWinDisplay'} className="winDisplay" onContextMenu={(e) => e.preventDefault()}>
+				<h2 key={'winText'} className="winText">
+					You Win!
+				</h2>
 				<button
 					key={'closeWinDisplay'}
 					className={'closePopUpWindow'}
@@ -75,7 +77,7 @@ class Game extends React.Component {
 				>
 					X
 				</button>
-				<div key={'winDisplayBackground'} className={'winDisplayBackground'}>
+				<div key={'balloonContainer'} className={'balloonContainer'}>
 					{this.renderWinDisplayBackground()}
 				</div>
 			</div>
@@ -89,14 +91,21 @@ class Game extends React.Component {
 			const left = randomIntFromInterval(-20, 100);
 			const delay = randomIntFromInterval(0, 5000);
 			const balloonStyle = {
-				color: color,
 				left: `${left}%`,
 				backgroundColor: color,
+				color: color,
 				opacity: 0,
 				animationDelay: `${delay}ms`
 			};
-			balloonContainer.push(<div key={i} className="balloon" style={balloonStyle} />);
+			balloonContainer.push(
+				<div key={i} className="balloon" style={balloonStyle}>
+					<div key={`balloonString${i}`} className={'balloonString'}>
+						؁
+					</div>
+				</div>
+			);
 		}
+		return balloonContainer;
 	}
 
 	renderSaveMapDisplay() {
@@ -256,6 +265,7 @@ class Game extends React.Component {
 					/>
 				</div>
 				{optionsButtons}
+				{/* <button onClick={() => this.setGameWinState(true)}>Set Game To Won</button> */}
 			</div>
 		);
 	}

@@ -392,22 +392,36 @@ button {
 	padding: 0.5rem;
 }
 
-.popUpWindow {
+.winDisplay {
 	position: absolute;
 	text-align: center;
-	background-color: #ccc;
-	z-index: 3;
-	border: 2px black solid;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-}
-
-.winDisplay {
-	height: 10rem;
-	width: 10rem;
+	z-index: 3;
+	border: 2px black solid;
+	z-index: 1;
+	height: 20rem;
+	width: 20rem;
 	line-height: 10rem;
 	font-size: 2rem;
+	background-color: white;
+	overflow: hidden;
+}
+
+.winText {
+	z-index: 3;
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	height: 2rem;
+	line-height: 2rem;
+	width: 10rem;
+	padding: 1rem;
+	border: 2px black solid;
 }
 
 @keyframes float {
@@ -431,24 +445,14 @@ button {
 }
 
 .balloonContainer {
+	top: 0;
+	left: 0;
 	height: 20rem;
 	width: 20rem;
 	border: 1px solid black;
-	margin: 5rem;
 	overflow: hidden;
 	position: relative;
-}
-
-.balloon:before {
-	content: "؁";
-	font-size: 2rem;
-	display: block;
-	text-align: center;
-	width: 100%;
-	transform: rotate(-90deg);
-	left: -15%;
-	position: absolute;
-	bottom: -2rem;
+	z-index: -4;
 }
 
 .balloon {
@@ -457,6 +461,18 @@ button {
 	width: 4rem;
 	border-radius: 100%;
 	animation: float 5s infinite linear, sway 1s ease-in-out infinite alternate;
+}
+
+.balloonString {
+	font-size: 2rem;
+	display: block;
+	text-align: center;
+	width: 100%;
+	transform: rotate(-90deg);
+	left: -110%;
+	top: 75%;
+	position: absolute;
+	bottom: -2rem;
 }
 
 .saveMapDisplay {
