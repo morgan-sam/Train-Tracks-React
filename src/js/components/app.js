@@ -36,7 +36,7 @@ class App extends React.Component {
 		this.setGameState = this.setGameState.bind(this);
 		this.resetGameDefaults = this.resetGameDefaults.bind(this);
 		this.mainMenuScreen = this.mainMenuScreen.bind(this);
-		this.generateMapScreen = this.generateMapScreen.bind(this);
+		this.startMapScreen = this.startMapScreen.bind(this);
 		this.loadMapScreen = this.loadMapScreen.bind(this);
 	}
 
@@ -172,10 +172,6 @@ class App extends React.Component {
 		});
 	}
 
-	//////////////////////////////////////////
-	//////// LOCAL STORAGE MANAGEMENT ////////
-	//////////////////////////////////////////
-
 	renderSavedMapsDropdownValues = () => {
 		const localMaps = getLocalStorageMaps();
 		let dropDownValues = [];
@@ -217,7 +213,7 @@ class App extends React.Component {
 		return mapSizeOptions;
 	}
 
-	generateMapScreen() {
+	startMapScreen() {
 		return (
 			<div className="generateMapSection">
 				<p key={'Map Size Label'}>Map Size</p>
@@ -536,7 +532,7 @@ class App extends React.Component {
 				menuScreen = this.mainMenuScreen();
 				break;
 			case 'generateMap':
-				menuScreen = this.generateMapScreen();
+				menuScreen = this.startMapScreen();
 				break;
 			case 'loadMap':
 				menuScreen = this.loadMapScreen();
