@@ -6,8 +6,6 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 	const [ defaultValue, setDefaultValue ] = useState(placeholder);
 	const [ hoveredOption, setHoveredOption ] = useState(null);
 
-	// const boxBackground = 'linear-gradient(#fcfcfc, #ddd)';
-
 	const containerStyle = {
 		background: '#fff',
 		border: '1px #aaa solid',

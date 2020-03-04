@@ -17,6 +17,7 @@ class App extends React.Component {
 			mapSeed: this.getRandomSeed(),
 			pathFindingDisabled: false,
 			selectedSavedMapSeed: null,
+			selectedSavedMapSize: null,
 			selectedSavedMapObject: null,
 			selectedSavedMapPathFindingDisabled: null,
 			trainTrackMap: null,
@@ -71,15 +72,17 @@ class App extends React.Component {
 	loadSavedMap() {
 		if (this.state.selectedSavedMapSeed) {
 			const mapSeed = this.state.selectedSavedMapSeed;
+			const mapSize = this.state.selectedSavedMapSize;
 			const trainTrackMap = generateNewMap(
-				this.state.mapSize,
-				this.state.mapSize,
+				mapSize,
+				mapSize,
 				mapSeed,
 				this.state.selectedSavedMapPathFindingDisabled
 			);
 			this.setState({
 				trainTrackMap: trainTrackMap,
 				mapSeed,
+				mapSize,
 				gameActive: true,
 				mapIcon: null
 			});
@@ -127,9 +130,10 @@ class App extends React.Component {
 		});
 	};
 
-	setSelectedSavedMap(seed, mapObject, pathFindingDisabled) {
+	setSelectedSavedMap(seed, size, mapObject, pathFindingDisabled) {
 		this.setState({
 			selectedSavedMapSeed: parseInt(seed),
+			selectedSavedMapSize: parseInt(size),
 			selectedSavedMapObject: mapObject,
 			selectedSavedMapPathFindingDisabled: pathFindingDisabled
 		});
@@ -181,6 +185,7 @@ class App extends React.Component {
 		let mapToSave = {
 			name: inputName,
 			seed: this.state.mapSeed,
+			size: this.state.mapSize,
 			mapObject,
 			pathFindingDisabled
 		};
@@ -215,7 +220,8 @@ class App extends React.Component {
 		localMaps.forEach(async (el) => {
 			dropDownValues.push({
 				display: el.name,
-				value: el.seed,
+				seed: el.seed,
+				size: el.size,
 				mapObject: el.mapObject,
 				pathFindingDisabled: el.pathFindingDisabled
 			});
@@ -337,7 +343,10 @@ class App extends React.Component {
 					style={{ width: '12rem', height: '2rem' }}
 					placeholder={'Select a map'}
 					options={this.renderSavedMapsDropdownValues()}
-					onChange={(item) => this.setSelectedSavedMap(item.value, item.mapObject, item.pathFindingDisabled)}
+					onChange={(item) => {
+						console.log(item);
+						this.setSelectedSavedMap(item.seed, item.size, item.mapObject, item.pathFindingDisabled);
+					}}
 					onHover={(mapObject) => {
 						if (mapObject !== null) this.displaySavedGameMapIcon(mapObject);
 					}}

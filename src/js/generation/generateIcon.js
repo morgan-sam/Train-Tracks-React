@@ -69,7 +69,6 @@ const generateCanvas = async (mapObject, options) => {
 	canvas.height = options.dimensions;
 	const gridMapWidth = mapWidth + options.headers;
 	const gridMapHeight = mapHeight + options.headers;
-	print(gridMapWidth, gridMapHeight);
 	const iconTileWidth = canvas.width / gridMapWidth;
 	const iconTileHeight = canvas.height / gridMapHeight;
 
