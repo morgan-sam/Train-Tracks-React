@@ -70,19 +70,11 @@ class App extends React.Component {
 	};
 
 	loadSavedMap() {
-		if (this.state.selectedSavedMapSeed) {
-			const mapSeed = this.state.selectedSavedMapSeed;
-			const mapSize = this.state.selectedSavedMapSize;
-			const trainTrackMap = generateNewMap(
-				mapSize,
-				mapSize,
-				mapSeed,
-				this.state.selectedSavedMapPathFindingDisabled
-			);
+		if (this.state.selectedSavedMapObject) {
 			this.setState({
-				trainTrackMap: trainTrackMap,
-				mapSeed,
-				mapSize,
+				trainTrackMap: this.state.selectedSavedMapObject,
+				mapSeed: this.state.selectedSavedMapSeed,
+				mapSize: this.state.selectedSavedMapSize,
 				gameActive: true,
 				mapIcon: null
 			});
