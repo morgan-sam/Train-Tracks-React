@@ -803,7 +803,6 @@ class Map extends React.Component {
 	}
 
 	render() {
-		window.state = this.state;
 		const trainTrackMap = this.props.trainTrackMap;
 		const mapComponents = this.generateMapComponents(trainTrackMap);
 		const mapAmbientBackground = this.renderMapAmbientBackground();

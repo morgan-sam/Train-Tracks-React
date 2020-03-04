@@ -7,20 +7,25 @@ import { generateMapIcon, generateCompletedMapIcon } from '../generation/generat
 import { isNonEmptyArray, print } from '../utility/utilityFunctions';
 import seedrandom from 'seedrandom';
 
+import {
+	saveMapToLocal,
+	getLocalStorageMaps,
+	deleteLocalSavedMap,
+	deleteAllLocalSavedMaps
+} from '../utility/localStorage';
+
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			menuScreen: 'mainMenu',
-			mapSize: 8,
 			gameActive: false,
-			mapSeed: this.getRandomSeed(),
-			pathFindingDisabled: false,
-			selectedSavedMapSeed: null,
-			selectedSavedMapSize: null,
-			selectedSavedMapObject: null,
-			selectedSavedMapPathFindingDisabled: null,
-			trainTrackMap: null,
+			selectedMap: {
+				size: 8,
+				seed: this.getRandomSeed(),
+				mapObject: null,
+				pathFindingDisabled: false
+			},
 			mapIcon: null,
 			deleteModeOnAll: false,
 			howToPlayMapEmpty: null,
@@ -70,11 +75,8 @@ class App extends React.Component {
 	};
 
 	loadSavedMap() {
-		if (this.state.selectedSavedMapObject) {
+		if (this.state.selectedMap.mapObject) {
 			this.setState({
-				trainTrackMap: this.state.selectedSavedMapObject,
-				mapSeed: this.state.selectedSavedMapSeed,
-				mapSize: this.state.selectedSavedMapSize,
 				gameActive: true,
 				mapIcon: null
 			});
@@ -82,64 +84,61 @@ class App extends React.Component {
 	}
 
 	generateCurrentMapState() {
-		const trainTrackMap = generateNewMap(
-			this.state.mapSize,
-			this.state.mapSize,
-			this.state.mapSeed,
-			this.state.pathFindingDisabled
+		const mapObject = generateNewMap(
+			this.state.selectedMap.size,
+			this.state.selectedMap.size,
+			this.state.selectedMap.seed,
+			this.state.selectedMap.pathFindingDisabled
 		);
 		this.setState({
-			trainTrackMap: trainTrackMap
+			selectedMap: { ...this.state.selectedMap, mapObject }
 		});
 	}
 
 	generateNewMapSeed() {
-		const mapSeed = this.getRandomSeed();
+		const seed = this.getRandomSeed();
 		this.setState({
-			mapSeed
+			selectedMap: { ...this.state.selectedMap, seed }
 		});
-		this.setMapSeedInputValue(mapSeed);
+		this.setMapSeedInputValue(seed);
 	}
 
 	generateNewMapState() {
-		const mapSeed = this.getRandomSeed();
-		const trainTrackMap = generateNewMap(
-			this.state.mapSize,
-			this.state.mapSize,
-			mapSeed,
-			this.state.pathFindingDisabled
-		);
+		const seed = this.getRandomSeed();
+		const size = this.state.selectedMap.size;
+		const pathFindingDisabled = this.state.selectedMap.pathFindingDisabled;
+		const trainTrackMap = generateNewMap(size, size, seed, pathFindingDisabled);
 		this.setState({
-			trainTrackMap,
-			mapSeed
+			selectedMap: {
+				...this.state.selectedMap,
+				seed: this.getRandomSeed(),
+				mapObject: trainTrackMap
+			}
 		});
-		this.setMapSeedInputValue(mapSeed);
-	}
-
-	mapSizeSelection = (value) => {
-		this.setState({
-			mapSize: value
-		});
-	};
-
-	setSelectedSavedMap(seed, size, mapObject, pathFindingDisabled) {
-		this.setState({
-			selectedSavedMapSeed: parseInt(seed),
-			selectedSavedMapSize: parseInt(size),
-			selectedSavedMapObject: mapObject,
-			selectedSavedMapPathFindingDisabled: pathFindingDisabled
-		});
+		this.setMapSeedInputValue(seed);
 	}
 
 	setMapSeed = (seed) => {
 		this.setState({
-			mapSeed: parseInt(seed)
+			selectedMap: { ...this.state.selectedMap, seed: parseInt(seed) }
+		});
+	};
+
+	mapSizeSelection = (value) => {
+		this.setState({
+			selectedMap: { ...this.state.selectedMap, size: value }
 		});
 	};
 
 	setPathFindingDisableState(boo) {
 		this.setState({
-			pathFindingDisabled: boo
+			selectedMap: { ...this.state.selectedMap, pathFindingDisabled: boo }
+		});
+	}
+
+	setSelectedSavedMap(mapObject) {
+		this.setState({
+			selectedMap: mapObject
 		});
 	}
 
@@ -154,18 +153,22 @@ class App extends React.Component {
 
 	resetGameDefaults() {
 		this.setState({
-			mapSize: 8,
-			mapSeed: this.getRandomSeed(),
-			mapIcon: null,
-			selectedSavedMapSeed: null,
-			selectedSavedMapObject: null,
-			selectedSavedMapPathFindingDisabled: null
+			selectedMap: {
+				size: 8,
+				seed: this.getRandomSeed(),
+				mapObject: null,
+				pathFindingDisabled: false
+			},
+			mapIcon: null
 		});
 	}
 
 	resetMapSeed() {
 		this.setState({
-			mapSeed: this.getRandomSeed()
+			selectedMap: {
+				...this.state.selectedMap,
+				seed: this.getRandomSeed()
+			}
 		});
 	}
 
@@ -173,41 +176,8 @@ class App extends React.Component {
 	//////// LOCAL STORAGE MANAGEMENT ////////
 	//////////////////////////////////////////
 
-	saveMapToLocal = async (inputName, mapObject, pathFindingDisabled) => {
-		let mapToSave = {
-			name: inputName,
-			seed: this.state.mapSeed,
-			size: this.state.mapSize,
-			mapObject,
-			pathFindingDisabled
-		};
-		let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));
-		if (isNonEmptyArray(localMaps)) {
-			const newMapArray = [ ...localMaps, mapToSave ];
-			await window.localStorage.setItem('savedMaps', JSON.stringify(newMapArray));
-		} else {
-			await window.localStorage.setItem('savedMaps', JSON.stringify([ mapToSave ]));
-		}
-	};
-
-	getLocalStorageMaps() {
-		let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));
-		if (!isNonEmptyArray(localMaps)) localMaps = [];
-		return localMaps;
-	}
-
-	deleteLocalSavedMap = async (deleteMapSeed) => {
-		const localMaps = this.getLocalStorageMaps();
-		const newMapArray = localMaps.filter((el) => el.seed !== deleteMapSeed);
-		await window.localStorage.setItem('savedMaps', JSON.stringify(newMapArray));
-	};
-
-	deleteAllLocalSavedMaps = async () => {
-		await window.localStorage.setItem('savedMaps', JSON.stringify([]));
-	};
-
 	renderSavedMapsDropdownValues = () => {
-		const localMaps = this.getLocalStorageMaps();
+		const localMaps = getLocalStorageMaps();
 		let dropDownValues = [];
 		localMaps.forEach(async (el) => {
 			dropDownValues.push({
@@ -267,7 +237,7 @@ class App extends React.Component {
 						type="text"
 						className="mapSeedInput"
 						id="mapSeedInput"
-						defaultValue={this.state.mapSeed}
+						defaultValue={this.state.selectedMap.seed}
 						onChange={(e) => this.setMapSeed(e.target.value)}
 						style={{ width: '8rem', textAlign: 'center' }}
 					/>
@@ -286,7 +256,7 @@ class App extends React.Component {
 					<input
 						type="checkbox"
 						className="pathFindingCheckbox"
-						checked={this.state.pathFindingDisabled}
+						checked={this.state.selectedMap.pathFindingDisabled}
 						onChange={(e) => this.setPathFindingDisableState(e.target.checked)}
 					/>
 					<p className="pathFindingLabel">Disable Map Generation Path Finding</p>
@@ -326,8 +296,8 @@ class App extends React.Component {
 	}
 
 	loadMapScreen() {
-		if (this.state.selectedSavedMapObject && !this.state.mapIcon)
-			this.displaySavedGameMapIcon(this.state.selectedSavedMapObject);
+		if (this.state.selectedMap.mapObject && !this.state.mapIcon)
+			this.displaySavedGameMapIcon(this.state.selectedMap.mapObject);
 		return (
 			<div className="loadMapSection">
 				<Dropdown
@@ -336,8 +306,8 @@ class App extends React.Component {
 					placeholder={'Select a map'}
 					options={this.renderSavedMapsDropdownValues()}
 					onChange={(item) => {
-						console.log(item);
-						this.setSelectedSavedMap(item.seed, item.size, item.mapObject, item.pathFindingDisabled);
+						const { display, ...mapObj } = item;
+						this.setSelectedSavedMap(mapObj);
 					}}
 					onHover={(mapObject) => {
 						if (mapObject !== null) this.displaySavedGameMapIcon(mapObject);
@@ -402,8 +372,8 @@ class App extends React.Component {
 						className="confirmDeleteBtn"
 						key={'confirmDeleteBtn'}
 						onClick={() => {
-							if (this.state.deleteModeOnAll) this.deleteAllLocalSavedMaps();
-							else this.deleteLocalSavedMap(this.state.selectedSavedMapSeed);
+							if (this.state.deleteModeOnAll) deleteAllLocalSavedMaps();
+							else deleteLocalSavedMap(this.state.selectedMap.seed);
 							this.resetGameDefaults();
 							this.setMenuScreen('loadMap');
 						}}
@@ -534,16 +504,13 @@ class App extends React.Component {
 		return (
 			<Game
 				key={'game'}
-				trainTrackMap={this.state.trainTrackMap}
-				mapHeight={this.state.mapSize}
-				mapWidth={this.state.mapSize}
-				mapSeed={this.state.mapSeed}
+				selectedMap={this.state.selectedMap}
 				setGameState={this.setGameState}
 				balloonCloudDisabled={this.state.balloonCloudDisabled}
 				newMap={() => {
 					this.generateNewMapState();
 				}}
-				saveMapToLocal={(name, map) => this.saveMapToLocal(name, map, this.state.pathFindingDisabled)}
+				saveMapToLocal={(name, map) => saveMapToLocal(name, map, this.state.pathFindingDisabled)}
 				setSeedrandomToDate={this.setSeedrandomToDate}
 			/>
 		);

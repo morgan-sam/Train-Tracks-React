@@ -4,6 +4,7 @@ import WaveButton from './waveButton';
 import { generateMapBackground } from '../generation/generateIcon';
 import { print, randomIntFromInterval } from '../utility/utilityFunctions';
 import { generateRandomRGBColor } from '../utility/colorFunctions';
+import { saveMapToLocal } from '../utility/localStorage';
 
 class Game extends React.Component {
 	constructor(props) {
@@ -129,7 +130,7 @@ class Game extends React.Component {
 					key={'confirmSaveMapBtn'}
 					className={'confirmSaveMapBtn'}
 					onClick={() => {
-						this.props.saveMapToLocal(this.state.mapSaveName, this.props.trainTrackMap);
+						saveMapToLocal(this.state.mapSaveName, this.props.selectedMap);
 						this.setMapSaveName(null);
 						this.showSaveMapDisplay(false);
 					}}
@@ -245,9 +246,9 @@ class Game extends React.Component {
 						className="gameMap"
 						defaultTilesHighlighted={this.state.defaultTilesHighlighted}
 						mapSolutionVisible={this.state.mapSolutionVisible}
-						trainTrackMap={this.props.trainTrackMap}
-						mapHeight={this.props.mapHeight}
-						mapWidth={this.props.mapWidth}
+						trainTrackMap={this.props.selectedMap.mapObject}
+						mapHeight={this.props.selectedMap.size}
+						mapWidth={this.props.selectedMap.size}
 						setGameWinState={this.setGameWinState}
 						controlsActive={!this.state.saveMapDisplay}
 						mapVisible={!this.state.saveBoxMapBackground}
