@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function CornerButton(props) {
 	return (
@@ -33,94 +33,80 @@ function CentreButton(props) {
 	);
 }
 
-class Square extends React.Component {
-	constructor(props) {
-		super(props);
-		this.squareHoverStart = this.squareHoverStart.bind(this);
-		this.squareHoverEnd = this.squareHoverEnd.bind(this);
-		this.squareMouseDown = this.squareMouseDown.bind(this);
-		this.squareMouseUp = this.squareMouseUp.bind(this);
-
-		this.state = {
-			hoverTrack: {
-				tile: '-',
-				railType: '-'
-			}
-		};
-	}
+export const Square = (props) => {
+	const [ hoverTrack, setHoverTrack ] = useState({
+		tile: '-',
+		railType: '-'
+	});
 
 	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
-	getMouseEventObject(e) {
+	function getMouseEventObject(e) {
 		const mouseEventObject = {
-			tile: [ this.props.x, this.props.y ],
-			railType: this.convertButtonClassToRailType(e),
-			tileClass: this.getTileClassFromEvent(e),
+			tile: [ props.x, props.y ],
+			railType: convertButtonClassToRailType(e),
+			tileClass: getTileClassFromEvent(e),
 			mouseButton: e.buttons
 		};
 		return mouseEventObject;
 	}
 
-	squareHoverStart(e) {
-		const mouseEventObject = this.getMouseEventObject(e);
-		this.props.hoverStartEvent(mouseEventObject);
+	function squareHoverStart(e) {
+		const mouseEventObject = getMouseEventObject(e);
+		props.hoverStartEvent(mouseEventObject);
 		if (e.buttons === 0) {
-			this.setHoverGhostTrack(mouseEventObject);
+			setHoverGhostTrack(mouseEventObject);
 		}
 	}
 
-	squareHoverEnd(e) {
-		const tileClass = this.getTileClassFromEvent(e);
-		this.removeHoverGhostTrack();
-		this.props.hoverEndEvent(tileClass);
+	function squareHoverEnd(e) {
+		const tileClass = getTileClassFromEvent(e);
+		removeHoverGhostTrack();
+		props.hoverEndEvent(tileClass);
 	}
 
-	squareMouseDown(e) {
-		const mouseEventObject = this.getMouseEventObject(e);
+	function squareMouseDown(e) {
+		const mouseEventObject = getMouseEventObject(e);
 		if (mouseEventObject.mouseButton === 1) {
-			this.props.leftClickEvent(mouseEventObject);
+			props.leftClickEvent(mouseEventObject);
 		}
 		if (mouseEventObject.mouseButton === 2) {
-			this.props.rightClickEvent(mouseEventObject);
+			props.rightClickEvent(mouseEventObject);
 		}
 		if (mouseEventObject.mouseButton === 3) {
-			this.props.bothClickEvent(mouseEventObject);
+			props.bothClickEvent(mouseEventObject);
 		}
 	}
 
-	squareMouseUp(e) {
-		const mouseEventObject = this.getMouseEventObject(e);
+	function squareMouseUp(e) {
+		const mouseEventObject = getMouseEventObject(e);
 		if (e.button === 0) {
-			this.props.leftReleaseEvent(mouseEventObject);
+			props.leftReleaseEvent(mouseEventObject);
 		}
 		if (e.button === 2) {
-			this.props.rightReleaseEvent();
+			props.rightReleaseEvent();
 		}
 	}
 
 	///////////// SQUARE - HOVER GHOST TRACK FUNCTIONS /////////////
 
-	setHoverGhostTrack(mouseEventObject) {
-		this.setState({
-			hoverTrack: {
-				tile: mouseEventObject.tile,
-				railType: mouseEventObject.railType
-			}
+	function setHoverGhostTrack(mouseEventObject) {
+		setHoverTrack({
+			tile: mouseEventObject.tile,
+			railType: mouseEventObject.railType
 		});
 	}
 
-	removeHoverGhostTrack() {
-		this.setState({
-			hoverTrack: {
-				tile: '-',
-				railType: '-'
-			}
+	function removeHoverGhostTrack() {
+		setHoverTrack({
+			tile: '-',
+			railType: '-'
 		});
 	}
 
 	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
 
-	getTileClassFromEvent(e) {
+	function getTileClassFromEvent(e) {
 		const classList = e.currentTarget.className;
 		let tileClass;
 		if (classList.includes('mapTile')) tileClass = 'mapTile';
@@ -129,7 +115,7 @@ class Square extends React.Component {
 		return tileClass;
 	}
 
-	convertButtonClassToRailType(e) {
+	function convertButtonClassToRailType(e) {
 		let railType;
 		if (e.target.classList.contains('middleButton')) {
 			if (e.target.classList.contains('top') || e.target.classList.contains('bottom')) {
@@ -161,10 +147,10 @@ class Square extends React.Component {
 
 	///////////// SQUARE - HEADING FUNCTIONS /////////////
 
-	setTableHeadingState() {
+	function setTableHeadingState() {
 		let labelText, labelStyling;
-		if (this.props.className === 'table-heading') {
-			switch (this.props.fillState) {
+		if (props.className === 'table-heading') {
+			switch (props.fillState) {
 				case 'underfilled':
 					labelStyling = {
 						color: 'black'
@@ -185,16 +171,16 @@ class Square extends React.Component {
 						color: 'black'
 					};
 			}
-			labelText = this.props.text;
+			labelText = props.text;
 		}
 		return [ labelText, labelStyling ];
 	}
 
 	///////////// SQUARE - RAIL IMAGE FUNCTIONS /////////////
 
-	setHoverTrackImage() {
+	function setHoverTrackImage() {
 		let squareStyling, trackText;
-		const trackImage = this.props.convertRailTypeToTrackImage(this.state.hoverTrack.railType);
+		const trackImage = props.convertRailTypeToTrackImage(hoverTrack.railType);
 		if (trackImage.trackType !== 'T') {
 			squareStyling = {
 				backgroundImage: `url(${trackImage.trackType})`,
@@ -210,16 +196,16 @@ class Square extends React.Component {
 		return [ squareStyling, trackText ];
 	}
 
-	setPlacedTrackImage() {
+	function setPlacedTrackImage() {
 		let squareStyling, trackText;
-		if (this.props.railImage.trackType !== 'T' && this.props.railImage.trackType !== 'X') {
+		if (props.railImage.trackType !== 'T' && props.railImage.trackType !== 'X') {
 			squareStyling = {
-				backgroundImage: `url(${this.props.railImage.trackType})`,
-				transform: `rotate(${this.props.railImage.trackRotation}deg)`,
+				backgroundImage: `url(${props.railImage.trackType})`,
+				transform: `rotate(${props.railImage.trackRotation}deg)`,
 				opacity: 1
 			};
 		} else {
-			trackText = this.props.railImage.trackType;
+			trackText = props.railImage.trackType;
 			squareStyling = {
 				opacity: 1
 			};
@@ -227,13 +213,13 @@ class Square extends React.Component {
 		return [ squareStyling, trackText ];
 	}
 
-	setDefaultTrackImage() {
+	function setDefaultTrackImage() {
 		let squareStyling;
 		squareStyling = {
-			backgroundImage: `url(${this.props.trackData.trackType})`,
-			transform: `rotate(${this.props.trackData.trackRotation}deg)`,
+			backgroundImage: `url(${props.trackData.trackType})`,
+			transform: `rotate(${props.trackData.trackRotation}deg)`,
 			opacity: 1,
-			filter: this.props.highlighted ? 'hue-rotate(200deg) saturate(10)' : 'none',
+			filter: props.highlighted ? 'hue-rotate(200deg) saturate(10)' : 'none',
 			transition: 'filter 1s ease-in-out'
 		};
 		return [ squareStyling, null ];
@@ -241,51 +227,29 @@ class Square extends React.Component {
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
-	generateTileButtons() {
+	function generateTileButtons() {
 		let cornerButtons = null;
 		let middleButtons = null;
 		let centreButton = null;
 		const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
 		const edges = [ 'top', 'right', 'bottom', 'left' ];
-		if (this.props.className === 'mapTile') {
-			cornerButtons = corners.map((el) => (
-				<CornerButton
-					corner={el}
-					key={el}
-					clickEvent={this.mouseButtonDown}
-					hoverEvent={this.hoverEventActive}
-					hoverEnd={this.hoverEventDisabled}
-				/>
-			));
-			middleButtons = edges.map((el) => (
-				<MiddleButton
-					edge={el}
-					key={el}
-					clickEvent={this.mouseButtonDown}
-					hoverEvent={this.hoverEventActive}
-					hoverEnd={this.hoverEventDisabled}
-				/>
-			));
-			centreButton = (
-				<CentreButton
-					clickEvent={this.mouseButtonDown}
-					hoverEvent={this.hoverEventActive}
-					hoverEnd={this.hoverEventDisabled}
-				/>
-			);
+		if (props.className === 'mapTile') {
+			cornerButtons = corners.map((el) => <CornerButton corner={el} key={el} />);
+			middleButtons = edges.map((el) => <MiddleButton edge={el} key={el} />);
+			centreButton = <CentreButton />;
 		}
 		return [ cornerButtons, middleButtons, centreButton ];
 	}
 
-	squareIsHoverTile() {
-		return this.props.x === this.state.hoverTrack.tile[0] && this.props.y === this.state.hoverTrack.tile[1];
+	function squareIsHoverTile() {
+		return props.x === hoverTrack.tile[0] && props.y === hoverTrack.tile[1];
 	}
 
-	renderWhiteBackground() {
+	function renderWhiteBackground() {
 		let transitionSpeed;
-		if (this.props.className === 'table-heading') transitionSpeed = 0;
-		if (this.props.className === 'emptyTile') transitionSpeed = 1;
-		if (this.props.className === 'transparentTile') transitionSpeed = 0;
+		if (props.className === 'table-heading') transitionSpeed = 0;
+		if (props.className === 'emptyTile') transitionSpeed = 1;
+		if (props.className === 'transparentTile') transitionSpeed = 0;
 
 		return (
 			<div
@@ -300,9 +264,9 @@ class Square extends React.Component {
 					zIndex: '-2',
 					transition: `opacity ${transitionSpeed}s`,
 					opacity:
-						this.props.className === 'table-heading' ||
-						this.props.className === 'emptyTile' ||
-						this.props.className === 'transparentTile'
+						props.className === 'table-heading' ||
+						props.className === 'emptyTile' ||
+						props.className === 'transparentTile'
 							? '0'
 							: '1'
 				}}
@@ -310,57 +274,55 @@ class Square extends React.Component {
 		);
 	}
 
-	render() {
-		const [ labelText, labelStyling ] = this.setTableHeadingState();
-		const [ cornerButtons, middleButtons, centreButton ] = this.generateTileButtons();
-		let squareStyling, trackText, boxStyling;
+	const [ labelText, labelStyling ] = setTableHeadingState();
+	const [ cornerButtons, middleButtons, centreButton ] = generateTileButtons();
+	let squareStyling, trackText, boxStyling;
 
-		if (!this.props.trackData && this.squareIsHoverTile()) {
-			[ squareStyling, trackText ] = this.setHoverTrackImage();
-		}
-
-		if (this.props.className === 'mapTile') {
-			if (this.props.railImage) {
-				[ squareStyling, trackText ] = this.setPlacedTrackImage();
-			}
-		}
-
-		if (
-			(this.props.trackData && this.props.className === 'defaultTrack') ||
-			(this.props.trackData && this.props.className === 'completeTrack')
-		) {
-			[ squareStyling, trackText ] = this.setDefaultTrackImage();
-		}
-
-		if (this.props.className === 'transparentTile') {
-			boxStyling = { border: 'none' };
-			squareStyling = { border: 'none' };
-		}
-
-		return (
-			<div
-				className={`square ${this.props.className}`}
-				onContextMenu={(e) => e.preventDefault()}
-				onMouseOver={this.props.className !== 'table-heading' ? this.squareHoverStart : null}
-				onMouseLeave={this.props.className !== 'table-heading' ? this.squareHoverEnd : null}
-				onMouseDown={this.props.className !== 'table-heading' ? this.squareMouseDown : null}
-				onMouseUp={this.props.className !== 'table-heading' ? this.squareMouseUp : null}
-			>
-				<div className={`box`} style={boxStyling}>
-					{cornerButtons}
-					{middleButtons}
-					{centreButton}
-					<p className="boxLabel" style={labelStyling}>
-						{labelText}
-					</p>
-				</div>
-				<div className={'track-background'} style={squareStyling}>
-					{trackText}
-				</div>
-				{this.renderWhiteBackground()}
-			</div>
-		);
+	if (!props.trackData && squareIsHoverTile()) {
+		[ squareStyling, trackText ] = setHoverTrackImage();
 	}
-}
+
+	if (props.className === 'mapTile') {
+		if (props.railImage) {
+			[ squareStyling, trackText ] = setPlacedTrackImage();
+		}
+	}
+
+	if (
+		(props.trackData && props.className === 'defaultTrack') ||
+		(props.trackData && props.className === 'completeTrack')
+	) {
+		[ squareStyling, trackText ] = setDefaultTrackImage();
+	}
+
+	if (props.className === 'transparentTile') {
+		boxStyling = { border: 'none' };
+		squareStyling = { border: 'none' };
+	}
+
+	return (
+		<div
+			className={`square ${props.className}`}
+			onContextMenu={(e) => e.preventDefault()}
+			onMouseOver={props.className !== 'table-heading' ? (e) => squareHoverStart(e) : null}
+			onMouseLeave={props.className !== 'table-heading' ? (e) => squareHoverEnd(e) : null}
+			onMouseDown={props.className !== 'table-heading' ? (e) => squareMouseDown(e) : null}
+			onMouseUp={props.className !== 'table-heading' ? (e) => squareMouseUp(e) : null}
+		>
+			<div className={`box`} style={boxStyling}>
+				{cornerButtons}
+				{middleButtons}
+				{centreButton}
+				<p className="boxLabel" style={labelStyling}>
+					{labelText}
+				</p>
+			</div>
+			<div className={'track-background'} style={squareStyling}>
+				{trackText}
+			</div>
+			{renderWhiteBackground()}
+		</div>
+	);
+};
 
 export default Square;
