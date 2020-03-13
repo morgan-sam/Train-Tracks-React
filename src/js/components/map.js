@@ -4,7 +4,7 @@ import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 import Square from './square';
 
-import { removeArrayValue, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
+import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 
 import { findDirectionFromMove } from '../generation/generateMap';
 
@@ -24,9 +24,7 @@ class Map extends React.Component {
 		this.placeMultipleTiles = this.placeMultipleTiles.bind(this);
 
 		this.state = {
-			placedTracks: [],
-			hoveredTile: [],
-			gameComplete: false
+			hoveredTile: []
 		};
 
 		this.currentHoverTile = [ null, null ];
@@ -403,22 +401,18 @@ class Map extends React.Component {
 		this.placeMultipleTiles([ trackSquareInfo ]);
 	}
 
-	placeMultipleTiles(newTileObjArray) {
+	placeMultipleTiles = async (newTileObjArray) => {
 		let newPlacedTrackArray = this.filterPlacedTracksOfNewTiles(newTileObjArray);
 		newTileObjArray.forEach(function(el) {
 			if (el.railType) newPlacedTrackArray.push(el);
 		});
-		this.setState(
-			{
-				placedTracks: newPlacedTrackArray
-			},
-			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap)
-		);
-	}
+		await this.props.setPlacedTracks(newPlacedTrackArray);
+		await this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap);
+	};
 
 	filterPlacedTracksOfNewTiles(newTiles) {
 		let nonConflictingPlacedTracks = [];
-		this.state.placedTracks.forEach(function(track) {
+		this.props.placedTracks.forEach(function(track) {
 			let placedTrackConflict = false;
 			newTiles.forEach(function(el) {
 				if (compareArrays(track.tile, el.tile)) placedTrackConflict = true;
@@ -428,31 +422,24 @@ class Map extends React.Component {
 		return nonConflictingPlacedTracks;
 	}
 
-	removePlacedTrack(trackCoordinates) {
-		const filteredTracks = this.state.placedTracks.filter(function(track) {
+	removePlacedTrack = async (trackCoordinates) => {
+		const filteredTracks = this.props.placedTracks.filter(function(track) {
 			return !(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1]);
 		});
-		this.setState(
-			{
-				placedTracks: filteredTracks
-			},
-			() => this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap)
-		);
-	}
+		await this.props.setPlacedTracks(filteredTracks);
+		await this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap);
+	};
 
 	resetCurrentMap() {
-		this.setState({
-			placedTracks: [],
-			gameComplete: false
-		});
-		this.props.setGameWinState(false);
+		this.props.setPlacedTracks([]);
+		this.props.setGameCompleteState(false);
 	}
 
 	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
 
 	getRailTypeOfCoordinate(trackCoordinates) {
 		let railType = null;
-		this.state.placedTracks.forEach(function(el) {
+		this.props.placedTracks.forEach(function(el) {
 			if (el.tile[0] === trackCoordinates[0] && el.tile[1] === trackCoordinates[1]) railType = el.railType;
 		});
 		return railType;
@@ -483,7 +470,7 @@ class Map extends React.Component {
 
 		let placedTrackCount = defaultTiles.filter((el) => el.tile[axisNum] === index).length;
 		const tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[axisNum] === index).length;
-		this.state.placedTracks.forEach(function(el) {
+		this.props.placedTracks.forEach(function(el) {
 			if (el.tile[axisNum] === index && el.railType !== 'X') placedTrackCount++;
 		});
 
@@ -557,20 +544,19 @@ class Map extends React.Component {
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfPlacedTilesAllCorrect(trainTrackMap) {
-		const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.state.placedTracks);
+		const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.props.placedTracks);
 		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
 		const placedRailTrackCount = this.getPlacedRailTrackCount();
 		if (
 			correctTileCount === trainTrackMap.tracks.length &&
 			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
 		) {
-			this.props.setGameWinState(true);
-			this.setState({ gameComplete: true });
+			this.props.setGameCompleteState(true);
 		}
 	}
 
 	getPlacedRailTrackCount() {
-		const placedTiles = this.state.placedTracks;
+		const placedTiles = this.props.placedTracks;
 		const placedRailTrackCount = placedTiles.filter((el) => el.railType !== 'X').length;
 		return placedRailTrackCount;
 	}
@@ -705,13 +691,13 @@ class Map extends React.Component {
 
 	placeColumnHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.x[x];
-		const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('x', x);
+		const fillState = this.props.gameComplete ? 'full' : this.getRowColumnFillstate('x', x);
 		return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
 	}
 
 	placeRowHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
-		const fillState = this.state.gameComplete ? 'full' : this.getRowColumnFillstate('y', y - 1);
+		const fillState = this.props.gameComplete ? 'full' : this.getRowColumnFillstate('y', y - 1);
 		return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
 	}
 
@@ -733,7 +719,7 @@ class Map extends React.Component {
 
 	placeUserPlacedTrack(x, y) {
 		let railImage;
-		this.state.placedTracks.forEach(function(el) {
+		this.props.placedTracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y - 1) {
 				railImage = this.convertRailTypeToTrackImage(el.railType);
 			}
@@ -755,7 +741,7 @@ class Map extends React.Component {
 	}
 
 	placeMainMapTile(trainTrackMap, x, y) {
-		if (this.state.gameComplete || this.props.mapSolutionVisible) {
+		if (this.props.gameComplete || this.props.mapSolutionVisible) {
 			return this.placeCompletedMapTrack(trainTrackMap, x, y);
 		} else {
 			return this.placeGameActiveMapTrack(trainTrackMap, x, y);

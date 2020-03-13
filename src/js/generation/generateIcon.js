@@ -1,6 +1,5 @@
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
-import { print } from '../utility/utilityFunctions';
 
 export const generateMapIcon = async (mapObject, complete) => {
 	const options = {

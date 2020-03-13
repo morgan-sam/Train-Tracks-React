@@ -5,12 +5,10 @@ import {
 	compareArrays,
 	isNonEmptyArray,
 	findIndexOfArrayInMatrix,
-	print,
 	getIndexOfLongestArrayInMatrix,
 	removeDuplicateArraysFromMatrix,
 	removeArraysFromMatrix
 } from '../utility/utilityFunctions';
-import { compare } from 'semver';
 
 export const generateNewMap = (mapWidth, mapHeight, mapSeed, pathFindingDisabled = false) => {
 	seedrandom(mapSeed, { global: true });

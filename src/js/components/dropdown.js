@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { print } from '../utility/utilityFunctions';
 
 const Dropdown = ({ style, placeholder, options, onChange, onHover, className }) => {
 	const [ listOpen, setListOpen ] = useState(false);

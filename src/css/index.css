@@ -104,12 +104,6 @@ button {
 	padding-right: 0.5rem;
 }
 
-.deleteButtons {
-	display: flex;
-	flex-direction: row;
-	text-align: center;
-	align-items: center;
-}
 .deleteButtons > * {
 	margin: 1rem;
 }

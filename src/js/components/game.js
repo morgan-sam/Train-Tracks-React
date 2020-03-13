@@ -1,71 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Map from './map';
 import WaveButton from './waveButton';
 import { generateMapBackground } from '../generation/generateIcon';
-import { print, randomIntFromInterval } from '../utility/utilityFunctions';
+import { randomIntFromInterval } from '../utility/utilityFunctions';
 import { generateRandomRGBColor } from '../utility/colorFunctions';
 import { saveMapToLocal } from '../utility/localStorage';
 
-class Game extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			gameWon: false,
-			gameWinDisplay: false,
-			saveMapDisplay: false,
-			mapSaveName: null,
-			defaultTilesHighlighted: false,
-			mapSolutionVisible: false,
-			saveBoxMapBackground: null
-		};
-		this.setGameWinState = this.setGameWinState.bind(this);
-	}
+export const Game = (props) => {
+	const [ gameWon, setGameWinState ] = useState(false);
+	const [ mapSaveName, setMapSaveName ] = useState(null);
+	const [ placedTracks, setPlacedTracks ] = useState([]);
 
-	setSaveBoxBackground = async (boo) => {
-		const img = boo ? await generateMapBackground(this.props.trainTrackMap) : null;
-		this.setState({
-			saveBoxMapBackground: img
-		});
-	};
+	const [ display, setDisplay ] = useState({
+		winPopUp: false,
+		savePopUp: false,
+		saveBoxCutOut: null,
+		defaultHighlights: false,
+		solutionVisible: false
+	});
 
-	setGameWinState(boo) {
-		this.setState({
-			gameWon: boo
-		});
-		this.showGameWinDisplay(boo);
-	}
-
-	setMapSaveName(name) {
-		this.setState({
-			mapSaveName: name
-		});
-	}
-
-	setDefaultTilesHighlighted(boo) {
-		this.setState({
-			defaultTilesHighlighted: boo
-		});
-	}
-
-	setMapSolutionVisibility(boo) {
-		this.setState({
-			mapSolutionVisible: boo
-		});
-	}
-
-	showGameWinDisplay(boo) {
-		this.setState({
-			gameWinDisplay: boo
-		});
-	}
-	showSaveMapDisplay(boo) {
-		this.setState({
-			saveMapDisplay: boo
-		});
-		this.setSaveBoxBackground(boo);
-	}
-
-	renderGameWinDisplay() {
+	function renderGameWinDisplay() {
 		return (
 			<div key={'gameWinDisplay'} className="winDisplay" onContextMenu={(e) => e.preventDefault()}>
 				<h2 key={'winText'} className="winText">
@@ -74,24 +28,24 @@ class Game extends React.Component {
 				<button
 					key={'closeWinDisplay'}
 					className={'closePopUpWindow'}
-					onClick={() => this.showGameWinDisplay(false)}
+					onClick={() => setDisplay({ ...display, winPopUp: false })}
 				>
 					X
 				</button>
 				<div key={'balloonContainer'} className={'balloonContainer'}>
-					{this.renderWinDisplayBackground()}
+					{renderWinDisplayBackground()}
 				</div>
 			</div>
 		);
 	}
 
-	renderWinDisplayBackground() {
-		const balloonCount = this.props.balloonCloudDisabled ? 1 : 300;
+	function renderWinDisplayBackground() {
+		const balloonCount = props.gameState.balloonCloud ? 300 : 1;
 		let balloonContainer = [];
 		for (let i = 0; i < balloonCount; i++) {
 			const color = generateRandomRGBColor();
-			const left = this.props.balloonCloudDisabled ? 50 : randomIntFromInterval(-20, 100);
-			const delay = this.props.balloonCloudDisabled ? 0 : randomIntFromInterval(0, 10000);
+			const left = props.gameState.balloonCloud ? randomIntFromInterval(-20, 100) : 50;
+			const delay = props.gameState.balloonCloud ? randomIntFromInterval(0, 10000) : 0;
 			const balloonStyle = {
 				left: `${left}%`,
 				backgroundColor: color,
@@ -110,29 +64,29 @@ class Game extends React.Component {
 		return balloonContainer;
 	}
 
-	renderSaveMapDisplay() {
+	function renderSaveMapDisplay() {
 		return (
 			<div key={'saveMapDisplay'} className="saveMapDisplay" onContextMenu={(e) => e.preventDefault()}>
 				<p>Enter a name to save map as:</p>
 				<button
 					key={'closeSaveMapDisplay'}
 					className={'closePopUpWindow'}
-					onClick={() => this.showSaveMapDisplay(false)}
+					onClick={() => setDisplay({ ...display, savePopUp: false })}
 				>
 					X
 				</button>
 				<input
 					key={'saveNameInputBox'}
 					className={'saveNameInputBox'}
-					onChange={(e) => this.setMapSaveName(e.target.value)}
+					onChange={(e) => setMapSaveName(e.target.value)}
 				/>
 				<WaveButton
 					key={'confirmSaveMapBtn'}
 					className={'confirmSaveMapBtn'}
 					onClick={() => {
-						saveMapToLocal(this.state.mapSaveName, this.props.selectedMap);
-						this.setMapSaveName(null);
-						this.showSaveMapDisplay(false);
+						saveMapToLocal({ name: mapSaveName, ...props.gameState });
+						setMapSaveName(null);
+						setDisplay({ ...display, savePopUp: false });
 					}}
 					text={'Save Map'}
 				/>
@@ -140,27 +94,28 @@ class Game extends React.Component {
 		);
 	}
 
-	renderOptionsButtons() {
+	function renderOptionsButtons() {
 		return (
 			<div className="inGameOptions">
 				<div className="topRowInGameButtons">
 					<WaveButton
 						key={'resetMapBtn'}
-						onClick={() => {
-							this.refs.map.resetCurrentMap();
-							this.setMapSolutionVisibility(false);
+						onClick={async () => {
+							setGameWinState(false);
+							setPlacedTracks([]);
+							setDisplay({ ...display, winPopUp: false, solutionVisible: false });
 						}}
 						text={'Reset Map'}
 					/>
 					<WaveButton
 						key={'highlightDefaultTilesBtn'}
-						onClick={() => this.setDefaultTilesHighlighted(!this.state.defaultTilesHighlighted)}
-						text={this.state.defaultTilesHighlighted ? 'Hide Default Tiles' : 'Show Default Tiles'}
+						onClick={() => setDisplay({ ...display, defaultHighlights: !display.defaultHighlights })}
+						text={display.defaultHighlights ? 'Hide Default Tiles' : 'Show Default Tiles'}
 					/>
 					<WaveButton
 						key={'showMapSolutionBtn'}
-						onClick={() => this.setMapSolutionVisibility(!this.state.mapSolutionVisible)}
-						text={this.state.mapSolutionVisible ? 'Hide Map Solution' : 'Show Map Solution'}
+						onClick={() => setDisplay({ ...display, solutionVisible: !display.solutionVisible })}
+						text={display.solutionVisible ? 'Hide Map Solution' : 'Show Map Solution'}
 					/>
 				</div>
 				<div className="bottomRowInGameButtons">
@@ -169,8 +124,7 @@ class Game extends React.Component {
 							className="mapSeedBtn"
 							key="mapSeedBtn"
 							onClick={() => {
-								this.seedText.select();
-								document.execCommand('copy');
+								//copy map seed to clipboard
 							}}
 							text={'🌱'}
 						/>
@@ -193,15 +147,13 @@ class Game extends React.Component {
 								resize: 'none',
 								cursor: 'default'
 							}}
-							ref={(seedText) => (this.seedText = seedText)}
-							value={this.props.mapSeed}
+							value={props.mapSeed}
 						/>
 					</div>
 					<WaveButton
 						key={'saveMapBtn'}
 						onClick={() => {
-							this.showSaveMapDisplay(true);
-							this.showGameWinDisplay(false);
+							setDisplay({ ...display, savePopUp: true, winPopUp: false });
 						}}
 						text={'Save Map'}
 					/>
@@ -209,68 +161,73 @@ class Game extends React.Component {
 					<WaveButton
 						key={'newMapBtn'}
 						onClick={() => {
-							this.props.newMap();
-							this.showGameWinDisplay(false);
-							this.setMapSolutionVisibility(false);
+							setGameWinState(false);
+							setPlacedTracks([]);
+							setDisplay({ ...display, winPopUp: false, solutionVisible: false });
+							props.inGameNewMap();
 						}}
 						text={'New Map'}
 					/>
 
-					<WaveButton
-						key={'quitBtn'}
-						onClick={() => {
-							this.props.setSeedrandomToDate();
-							this.props.setGameState(false);
-						}}
-						text={'Quit Game'}
-					/>
+					<WaveButton key={'quitBtn'} onClick={() => props.quitGame()} text={'Quit Game'} />
 				</div>
 			</div>
 		);
 	}
 
-	render() {
-		let gameWinDisplay, saveMapDisplay;
-		if (this.state.gameWinDisplay) gameWinDisplay = this.renderGameWinDisplay();
-		if (this.state.saveMapDisplay) saveMapDisplay = this.renderSaveMapDisplay();
+	useEffect(
+		() => {
+			async function addCutOutToScreen() {
+				if (display.savePopUp) {
+					setDisplay({ ...display, saveBoxCutOut: await generateMapBackground(props.gameState.mapObject) });
+				} else {
+					setDisplay({ ...display, saveBoxCutOut: null });
+				}
+			}
+			addCutOutToScreen();
+		},
+		[ display.savePopUp ]
+	);
 
-		const optionsButtons = this.renderOptionsButtons();
-		return (
-			<div>
-				<div className="gameMapContainer">
-					{gameWinDisplay}
-					{saveMapDisplay}
-					<Map
-						ref="map"
-						key={this.props.mapSeed}
-						className="gameMap"
-						defaultTilesHighlighted={this.state.defaultTilesHighlighted}
-						mapSolutionVisible={this.state.mapSolutionVisible}
-						trainTrackMap={this.props.selectedMap.mapObject}
-						mapHeight={this.props.selectedMap.size}
-						mapWidth={this.props.selectedMap.size}
-						setGameWinState={this.setGameWinState}
-						controlsActive={!this.state.saveMapDisplay}
-						mapVisible={!this.state.saveBoxMapBackground}
-					/>
-					<img
-						alt=""
-						draggable="false"
-						src={this.state.saveBoxMapBackground}
-						className="saveBoxMapBackground"
-						style={{
-							position: 'absolute',
-							top: '64px',
-							left: '0px',
-							border: this.state.saveBoxMapBackground ? '1px solid black' : 'none'
-						}}
-					/>
-				</div>
-				{optionsButtons}
-				{/* <button onClick={() => this.setGameWinState(true)}>Set Game To Won</button> */}
+	return (
+		<div>
+			<div className="gameMapContainer">
+				{display.winPopUp ? renderGameWinDisplay() : null}
+				{display.savePopUp ? renderSaveMapDisplay() : null}
+				<Map
+					key={props.mapSeed}
+					className="gameMap"
+					defaultTilesHighlighted={display.defaultHighlights}
+					mapSolutionVisible={display.solutionVisible}
+					trainTrackMap={props.gameState.mapObject}
+					mapHeight={props.gameState.size}
+					mapWidth={props.gameState.size}
+					setGameCompleteState={(val) => {
+						setGameWinState(val);
+						setDisplay({ ...display, winPopUp: val });
+					}}
+					gameComplete={gameWon}
+					controlsActive={!display.savePopUp}
+					mapVisible={!display.saveBoxCutOut}
+					setPlacedTracks={(val) => setPlacedTracks(val)}
+					placedTracks={placedTracks}
+				/>
+				<img
+					alt=""
+					draggable="false"
+					src={display.saveBoxCutOut}
+					className="saveBoxMapCutout"
+					style={{
+						position: 'absolute',
+						top: '64px',
+						left: '0px',
+						border: display.saveBoxCutOut ? '1px solid black' : 'none'
+					}}
+				/>
 			</div>
-		);
-	}
-}
+			{renderOptionsButtons()}
+		</div>
+	);
+};
 
 export default Game;

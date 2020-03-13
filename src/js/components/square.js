@@ -1,5 +1,4 @@
 import React from 'react';
-import { print } from '../utility/utilityFunctions';
 
 function CornerButton(props) {
 	return (

@@ -17,7 +17,7 @@ export const getLocalStorageMaps = () => {
 };
 
 export const deleteLocalSavedMap = async (deleteMapSeed) => {
-	const localMaps = this.getLocalStorageMaps();
+	const localMaps = getLocalStorageMaps();
 	const newMapArray = localMaps.filter((el) => el.seed !== deleteMapSeed);
 	await window.localStorage.setItem('savedMaps', JSON.stringify(newMapArray));
 };

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { colorToWhiteArray } from '../utility/colorFunctions';
-import { print } from '../utility/utilityFunctions';
 
 const WaveButton = ({ className, onClick, text }) => {
 	const [ hovered, setHoveredState ] = useState(false);
@@ -104,11 +103,12 @@ const WaveButton = ({ className, onClick, text }) => {
 			onMouseLeave={() => (!buttonPressed ? setHoveredState(false) : null)}
 			onClick={() => {
 				setHoveredState(true);
-				setPressedState(true);
-				const menuBtn = onClick.toString().match(/(?:Screen|setGameState)/g);
-				const waitTime = menuBtn ? 600 : 100;
-				setTimeout(() => setPressedState(false), 200);
-				setTimeout(onClick, waitTime);
+				// setPressedState(true);
+				// const menuBtn = onClick.toString().match(/(?:Screen|setGameState)/g);
+				// const waitTime = menuBtn ? 600 : 100;
+				// setTimeout(() => setPressedState(false), 200);
+				// setTimeout(onClick, waitTime);
+				onClick();
 			}}
 		>
 			{rectangleArray}
