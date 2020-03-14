@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { convertRailTypeToTrackImage } from '../utility/trackConversions';
 
 function CornerButton(props) {
 	return (
@@ -180,7 +181,7 @@ export const Square = (props) => {
 
 	function setHoverTrackImage() {
 		let squareStyling, trackText;
-		const trackImage = props.convertRailTypeToTrackImage(hoverTrack.railType);
+		const trackImage = convertRailTypeToTrackImage(hoverTrack.railType);
 		if (trackImage.trackType !== 'T') {
 			squareStyling = {
 				backgroundImage: `url(${trackImage.trackType})`,

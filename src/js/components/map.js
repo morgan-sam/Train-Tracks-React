@@ -1,11 +1,9 @@
 import React from 'react';
 
-import curvedtrack from '../../img/curvedtrack.png';
-import straighttrack from '../../img/straighttrack.png';
 import Square from './square';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
-import { convertDirectionArrayToRailTypes } from '../utility/trackConversions';
+import { convertDirectionArrayToRailTypes, convertRailTypeToTrackImage } from '../utility/trackConversions';
 
 import { findDirectionFromMove } from '../generation/generateMap';
 
@@ -458,63 +456,6 @@ class Map extends React.Component {
 
 	///////////// MAP - RAIL IMAGE FUNCTIONS /////////////
 
-	convertRailTypeToTrackImage(railType) {
-		let trackData;
-		switch (railType) {
-			case 'vertical':
-				trackData = {
-					trackType: straighttrack,
-					trackRotation: 0
-				};
-				break;
-			case 'horizontal':
-				trackData = {
-					trackType: straighttrack,
-					trackRotation: 90
-				};
-				break;
-			case 'bottomLeftCorner':
-				trackData = {
-					trackType: curvedtrack,
-					trackRotation: 0
-				};
-				break;
-			case 'topLeftCorner':
-				trackData = {
-					trackType: curvedtrack,
-					trackRotation: 90
-				};
-				break;
-			case 'topRightCorner':
-				trackData = {
-					trackType: curvedtrack,
-					trackRotation: 180
-				};
-				break;
-			case 'bottomRightCorner':
-				trackData = {
-					trackType: curvedtrack,
-					trackRotation: 270
-				};
-				break;
-			case 'T':
-				trackData = {
-					trackType: railType,
-					trackRotation: 'none'
-				};
-				break;
-			case 'X':
-				trackData = {
-					trackType: railType,
-					trackRotation: 'none'
-				};
-				break;
-			default:
-				trackData = { trackType: 'none', trackRotation: 'none' };
-		}
-		return trackData;
-	}
-
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	checkIfPlacedTilesAllCorrect(trainTrackMap) {
@@ -560,7 +501,6 @@ class Map extends React.Component {
 				x={x}
 				y={y}
 				mapSolutionVisible={mapSolutionVisible}
-				convertRailTypeToTrackImage={this.convertRailTypeToTrackImage}
 				railImage={railImage}
 				leftClickEvent={this.props.controlsActive ? this.leftClickEvent : () => null}
 				rightClickEvent={this.props.controlsActive ? this.rightClickEvent : () => null}
@@ -581,7 +521,7 @@ class Map extends React.Component {
 				x={x}
 				y={y}
 				highlighted={highlighted}
-				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
+				trackData={convertRailTypeToTrackImage(defaultRailType)}
 				leftClickEvent={this.props.controlsActive ? this.leftClickEvent : () => null}
 				rightClickEvent={this.props.controlsActive ? this.rightClickEvent : () => null}
 				bothClickEvent={this.props.controlsActive ? this.bothClickEvent : () => null}
@@ -603,7 +543,7 @@ class Map extends React.Component {
 				x={x}
 				y={y}
 				highlighted={highlighted}
-				trackData={this.convertRailTypeToTrackImage(defaultRailType)}
+				trackData={convertRailTypeToTrackImage(defaultRailType)}
 				leftClickEvent={() => null}
 				rightClickEvent={() => null}
 				bothClickEvent={() => null}
@@ -625,7 +565,7 @@ class Map extends React.Component {
 				x={x}
 				y={y}
 				highlighted={false}
-				trackData={this.convertRailTypeToTrackImage(null)}
+				trackData={convertRailTypeToTrackImage(null)}
 				leftClickEvent={() => null}
 				rightClickEvent={() => null}
 				bothClickEvent={() => null}
@@ -647,7 +587,7 @@ class Map extends React.Component {
 				x={x}
 				y={y}
 				highlighted={false}
-				trackData={this.convertRailTypeToTrackImage(null)}
+				trackData={convertRailTypeToTrackImage(null)}
 				leftClickEvent={() => null}
 				rightClickEvent={() => null}
 				bothClickEvent={() => null}
@@ -695,7 +635,7 @@ class Map extends React.Component {
 		let railImage;
 		this.props.placedTracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y - 1) {
-				railImage = this.convertRailTypeToTrackImage(el.railType);
+				railImage = convertRailTypeToTrackImage(el.railType);
 			}
 		}, this);
 		if (railImage) {

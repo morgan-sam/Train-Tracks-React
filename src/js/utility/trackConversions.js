@@ -1,3 +1,6 @@
+import curvedtrack from '../../img/curvedtrack.png';
+import straighttrack from '../../img/straighttrack.png';
+
 export const convertDirectionArrayToRailTypes = (dirArr) => {
 	let previousTileRailType, currentHoverTileRailType;
 
@@ -23,4 +26,61 @@ export const convertDirectionArrayToRailTypes = (dirArr) => {
 		currentHoverTileRailType = dirArr[1] % 2 === 0 ? 'vertical' : 'horizontal';
 	}
 	return [ previousTileRailType, currentHoverTileRailType ];
+};
+
+export const convertRailTypeToTrackImage = (railType) => {
+	let trackData;
+	switch (railType) {
+		case 'vertical':
+			trackData = {
+				trackType: straighttrack,
+				trackRotation: 0
+			};
+			break;
+		case 'horizontal':
+			trackData = {
+				trackType: straighttrack,
+				trackRotation: 90
+			};
+			break;
+		case 'bottomLeftCorner':
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 0
+			};
+			break;
+		case 'topLeftCorner':
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 90
+			};
+			break;
+		case 'topRightCorner':
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 180
+			};
+			break;
+		case 'bottomRightCorner':
+			trackData = {
+				trackType: curvedtrack,
+				trackRotation: 270
+			};
+			break;
+		case 'T':
+			trackData = {
+				trackType: railType,
+				trackRotation: 'none'
+			};
+			break;
+		case 'X':
+			trackData = {
+				trackType: railType,
+				trackRotation: 'none'
+			};
+			break;
+		default:
+			trackData = { trackType: 'none', trackRotation: 'none' };
+	}
+	return trackData;
 };
