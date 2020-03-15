@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import Square from './square';
 
@@ -653,6 +653,13 @@ export const Map = (props) => {
 		}
 		return generatedMapComponents;
 	}
+
+	useEffect(
+		() => {
+			checkIfPlacedTilesAllCorrect(props.trainTrackMap);
+		},
+		[ props.placedTracks ]
+	);
 
 	///////////// MAP - MAIN RENDER FUNCTION /////////////
 
