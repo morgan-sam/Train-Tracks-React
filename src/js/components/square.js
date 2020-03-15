@@ -116,33 +116,17 @@ export const Square = (props) => {
 
 	///////////// SQUARE - HEADING FUNCTIONS /////////////
 
-	function setTableHeadingState() {
-		let labelText, labelStyling;
-		if (props.className === 'table-heading') {
-			switch (props.fillState) {
-				case 'underfilled':
-					labelStyling = {
-						color: 'black'
-					};
-					break;
-				case 'full':
-					labelStyling = {
-						color: 'green'
-					};
-					break;
-				case 'overfilled':
-					labelStyling = {
-						color: 'red'
-					};
-					break;
-				default:
-					labelStyling = {
-						color: 'black'
-					};
-			}
-			labelText = props.text;
+	function convertFillStateToColor(fillState) {
+		switch (fillState) {
+			case 'underfilled':
+				return 'black';
+			case 'full':
+				return 'green';
+			case 'overfilled':
+				return 'red';
+			default:
+				return 'black';
 		}
-		return [ labelText, labelStyling ];
 	}
 
 	///////////// SQUARE - RAIL IMAGE FUNCTIONS /////////////
@@ -243,7 +227,6 @@ export const Square = (props) => {
 		);
 	}
 
-	const [ labelText, labelStyling ] = setTableHeadingState();
 	const [ cornerButtons, middleButtons, centreButton ] = generateTileButtons();
 	let squareStyling, trackText, boxStyling;
 
@@ -282,8 +265,8 @@ export const Square = (props) => {
 				{cornerButtons}
 				{middleButtons}
 				{centreButton}
-				<p className="boxLabel" style={labelStyling}>
-					{labelText}
+				<p className="boxLabel" style={{ color: convertFillStateToColor(props.fillState) }}>
+					{props.text}
 				</p>
 			</div>
 			<div className={'track-background'} style={squareStyling}>
