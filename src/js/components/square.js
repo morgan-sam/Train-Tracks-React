@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import WhiteSquareBackground from './WhiteSquareBackground';
 import { convertRailTypeToTrackImage, convertButtonClassToRailType } from '../utility/trackConversions';
 import { CornerButton, AxisButton, CentreButton } from './SquareButtons';
 
@@ -168,35 +169,6 @@ export const Square = (props) => {
 		return props.x === hoverTrack.tile[0] && props.y === hoverTrack.tile[1];
 	}
 
-	function renderWhiteBackground() {
-		let transitionSpeed;
-		if (props.className === 'table-heading') transitionSpeed = 0;
-		if (props.className === 'emptyTile') transitionSpeed = 1;
-		if (props.className === 'transparentTile') transitionSpeed = 0;
-
-		return (
-			<div
-				className={'white-background'}
-				style={{
-					position: 'absolute',
-					top: '0',
-					left: '0',
-					height: '100%',
-					width: '100%',
-					background: 'white',
-					zIndex: '-2',
-					transition: `opacity ${transitionSpeed}s`,
-					opacity:
-						props.className === 'table-heading' ||
-						props.className === 'emptyTile' ||
-						props.className === 'transparentTile'
-							? '0'
-							: '1'
-				}}
-			/>
-		);
-	}
-
 	let squareStyling, trackText, boxStyling;
 
 	if (!props.trackData && squareIsHoverTile()) {
@@ -239,7 +211,7 @@ export const Square = (props) => {
 			<div className={'track-background'} style={squareStyling}>
 				{trackText}
 			</div>
-			{renderWhiteBackground()}
+			<WhiteSquareBackground {...props} />
 		</div>
 	);
 };
