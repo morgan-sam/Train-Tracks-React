@@ -1,36 +1,15 @@
 import React from 'react';
 
 const CornerButton = (props) => {
-	return (
-		<div
-			className={`cornerButton ${props.corner}`}
-			onClick={props.clickEvent}
-			onMouseOver={props.hoverEvent}
-			onMouseLeave={props.hoverEnd}
-		/>
-	);
+	return <div className={`cornerButton ${props.corner}`} />;
 };
 
 const AxisButton = (props) => {
-	return (
-		<div
-			className={`axisButton ${props.edge}`}
-			onClick={props.clickEvent}
-			onMouseOver={props.hoverEvent}
-			onMouseLeave={props.hoverEnd}
-		/>
-	);
+	return <div className={`axisButton ${props.edge}`} />;
 };
 
-const CentreButton = (props) => {
-	return (
-		<div
-			className={`centreButton`}
-			onClick={props.clickEvent}
-			onMouseOver={props.hoverEvent}
-			onMouseLeave={props.hoverEnd}
-		/>
-	);
+const CentreButton = () => {
+	return <div className={`centreButton`} />;
 };
 
 export const TileButtons = (props) => {
