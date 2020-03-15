@@ -208,7 +208,7 @@ export const Square = (props) => {
 					{props.text}
 				</p>
 			</div>
-			<div className={'track-background'} style={squareStyling}>
+			<div className={'tile-display'} style={squareStyling}>
 				{trackText}
 			</div>
 			<WhiteSquareBackground {...props} />

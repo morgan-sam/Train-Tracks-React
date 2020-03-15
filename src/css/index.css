@@ -547,7 +547,7 @@ code {
 	width: var(--box-dim);
 }
 
-.track-background {
+.tile-display {
 	position: absolute;
 	left: 0;
 	top: 0;
