@@ -519,6 +519,18 @@ export const Map = (props) => {
 		);
 	}
 
+	const emptyMouseEventsObject = {
+		leftClickEvent: () => null,
+		rightClickEvent: () => null,
+		bothClickEvent: () => null,
+		leftReleaseEvent: () => null,
+		rightReleaseEvent: () => null,
+		hoverStartEvent: () => null,
+		hoverEndEvent: () => null,
+		leftClickDragArray: null,
+		rightClickDragValue: null
+	};
+
 	function renderCompleteTrack(i, x, y, defaultRailType, highlighted) {
 		return (
 			<Square
@@ -528,15 +540,7 @@ export const Map = (props) => {
 				y={y}
 				highlighted={highlighted}
 				trackData={convertRailTypeToTrackImage(defaultRailType)}
-				leftClickEvent={() => null}
-				rightClickEvent={() => null}
-				bothClickEvent={() => null}
-				leftReleaseEvent={() => null}
-				rightReleaseEvent={() => null}
-				hoverStartEvent={() => null}
-				hoverEndEvent={() => null}
-				leftClickDragArray={null}
-				rightClickDragValue={null}
+				{...emptyMouseEventsObject}
 			/>
 		);
 	}
@@ -550,15 +554,7 @@ export const Map = (props) => {
 				y={y}
 				highlighted={false}
 				trackData={convertRailTypeToTrackImage(null)}
-				leftClickEvent={() => null}
-				rightClickEvent={() => null}
-				bothClickEvent={() => null}
-				leftReleaseEvent={() => null}
-				rightReleaseEvent={() => null}
-				hoverStartEvent={() => null}
-				hoverEndEvent={() => null}
-				leftClickDragArray={null}
-				rightClickDragValue={null}
+				{...emptyMouseEventsObject}
 			/>
 		);
 	}
@@ -572,15 +568,7 @@ export const Map = (props) => {
 				y={y}
 				highlighted={false}
 				trackData={convertRailTypeToTrackImage(null)}
-				leftClickEvent={() => null}
-				rightClickEvent={() => null}
-				bothClickEvent={() => null}
-				leftReleaseEvent={() => null}
-				rightReleaseEvent={() => null}
-				hoverStartEvent={() => null}
-				hoverEndEvent={() => null}
-				leftClickDragArray={null}
-				rightClickDragValue={null}
+				{...emptyMouseEventsObject}
 			/>
 		);
 	}
