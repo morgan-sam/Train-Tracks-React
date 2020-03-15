@@ -202,7 +202,7 @@ export const Square = (props) => {
 			onMouseDown={props.className !== 'table-heading' ? (e) => squareMouseDown(e) : null}
 			onMouseUp={props.className !== 'table-heading' ? (e) => squareMouseUp(e) : null}
 		>
-			<div className={`box`} style={boxStyling}>
+			<div className={`tile-button-container`} style={boxStyling}>
 				{generateTileButtons()}
 				<p className="boxLabel" style={{ color: convertFillStateToColor(props.fillState) }}>
 					{props.text}
