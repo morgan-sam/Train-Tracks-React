@@ -388,11 +388,6 @@ export const Map = (props) => {
 		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
 	}
 
-	function resetCurrentMap() {
-		props.setPlacedTracks([]);
-		props.setGameCompleteState(false);
-	}
-
 	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
 
 	function getRailTypeOfCoordinate(trackCoordinates) {
