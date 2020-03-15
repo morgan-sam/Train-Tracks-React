@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import Square from './square';
 
@@ -9,154 +9,144 @@ import { findDirectionFromMove } from '../generation/generateMap';
 
 import MapBackground from '../render/mapBackground';
 
-class Map extends React.Component {
-	constructor(props) {
-		super(props);
-		this.leftClickEvent = this.leftClickEvent.bind(this);
-		this.rightClickEvent = this.rightClickEvent.bind(this);
-		this.bothClickEvent = this.bothClickEvent.bind(this);
-		this.leftReleaseEvent = this.leftReleaseEvent.bind(this);
-		this.rightReleaseEvent = this.rightReleaseEvent.bind(this);
-		this.hoverStartEvent = this.hoverStartEvent.bind(this);
-		this.hoverEndEvent = this.hoverEndEvent.bind(this);
-		this.placeTile = this.placeTile.bind(this);
-		this.placeMultipleTiles = this.placeMultipleTiles.bind(this);
-
-		this.currentHoverTile = [ null, null ];
-	}
+export const Map = (props) => {
+	const currentHoverTile = useRef([ null, null ]);
+	const currentHoverTileClass = useRef();
+	const previousHoverTile = useRef();
+	const previousHoverTileClass = useRef();
+	const previousValueOfLeftClickTile = useRef();
+	const initialLeftClickValue = useRef();
+	const leftClickDragArray = useRef();
+	const rightClickDragValue = useRef();
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
-	leftClickEvent(mouseEventObject) {
-		this.previousValueOfLeftClickTile = this.getRailTypeOfCoordinate(mouseEventObject.tile);
-		this.initialLeftClickValue = mouseEventObject;
-		this.leftClickDragArray = [ null, null, mouseEventObject.tile ];
-		this.forceUpdate();
+	function leftClickEvent(mouseEventObject) {
+		previousValueOfLeftClickTile.current = getRailTypeOfCoordinate(mouseEventObject.tile);
+		initialLeftClickValue.current = mouseEventObject;
+		leftClickDragArray.current = [ null, null, mouseEventObject.tile ];
 	}
 
-	rightClickEvent(mouseEventObject) {
-		this.setRightClickDragValue(mouseEventObject);
-		this.determineRemoveOrPlaceX(mouseEventObject);
-		this.forceUpdate();
+	function rightClickEvent(mouseEventObject) {
+		setRightClickDragValue(mouseEventObject);
+		determineRemoveOrPlaceX(mouseEventObject);
 	}
 
-	bothClickEvent(mouseEventObject) {
-		this.determineIfToPlaceT(mouseEventObject);
+	function bothClickEvent(mouseEventObject) {
+		determineIfToPlaceT(mouseEventObject);
 	}
 
-	setRightClickDragValue(mouseEventObject) {
-		const tileValue = this.getRailTypeOfCoordinate(mouseEventObject.tile);
-		this.rightClickDragValue = tileValue === null ? 'X' : 'DELETE';
+	function setRightClickDragValue(mouseEventObject) {
+		const tileValue = getRailTypeOfCoordinate(mouseEventObject.tile);
+		rightClickDragValue.current = tileValue === null ? 'X' : 'DELETE';
 	}
 
-	determineRemoveOrPlaceX(mouseEventObject) {
+	function determineRemoveOrPlaceX(mouseEventObject) {
 		if (mouseEventObject.tileClass === 'mapTile') {
-			if (this.getRailTypeOfCoordinate(mouseEventObject.tile)) {
-				this.removePlacedTrack(mouseEventObject.tile);
+			if (getRailTypeOfCoordinate(mouseEventObject.tile)) {
+				removePlacedTrack(mouseEventObject.tile);
 			} else {
-				this.placeTile(mouseEventObject.tile, this.rightClickDragValue);
+				placeTile(mouseEventObject.tile, rightClickDragValue.current);
 			}
 		}
 	}
 
-	leftReleaseEvent(mouseEventObject) {
-		if (isNonEmptyArray(this.leftClickDragArray)) {
-			this.placeTrackIfLeftClickNoDrag(mouseEventObject);
-			this.leftClickDragArray = [];
-			this.forceUpdate();
+	function leftReleaseEvent(mouseEventObject) {
+		if (isNonEmptyArray(leftClickDragArray.current)) {
+			placeTrackIfLeftClickNoDrag(mouseEventObject);
+			leftClickDragArray.current = [];
 		}
 	}
 
-	rightReleaseEvent() {
-		this.rightClickDragValue = undefined;
-		this.forceUpdate();
+	function rightReleaseEvent() {
+		rightClickDragValue.current = undefined;
 	}
 
-	checkIfHoverTileChanged(mouseEventObject) {
+	function checkIfHoverTileChanged(mouseEventObject) {
 		let hasChanged = false;
-		if (!compareArrays(mouseEventObject.tile, this.currentHoverTile)) {
+		if (!compareArrays(mouseEventObject.tile, currentHoverTile.current)) {
 			hasChanged = true;
 		}
 		return hasChanged;
 	}
 
-	updateHoverTileState(mouseEventObject) {
-		this.previousHoverTile = this.currentHoverTile;
-		this.currentHoverTile = mouseEventObject.tile;
-		this.currentHoverTileClass = mouseEventObject.tileClass;
+	function updateHoverTileState(mouseEventObject) {
+		previousHoverTile.current = currentHoverTile.current;
+		currentHoverTile.current = mouseEventObject.tile;
+		currentHoverTileClass.current = mouseEventObject.tileClass;
 	}
 
-	placeTrackIfLeftClickNoDrag(mouseEventObject) {
+	function placeTrackIfLeftClickNoDrag(mouseEventObject) {
 		if (
-			compareArrays(this.initialLeftClickValue.tile, this.currentHoverTile) &&
+			compareArrays(initialLeftClickValue.current.tile, currentHoverTile.current) &&
 			mouseEventObject.tileClass === 'mapTile'
 		) {
-			this.placeTile(mouseEventObject.tile, mouseEventObject.railType);
+			placeTile(mouseEventObject.tile, mouseEventObject.railType);
 		}
 	}
 
-	hoverStartEvent(mouseEventObject) {
-		if (this.checkIfHoverTileChanged(mouseEventObject)) {
-			this.updateHoverTileState(mouseEventObject);
-			if (mouseEventObject.mouseButton === 1 && this.checkIfHoverToAdjacent()) {
-				this.hoverWhileHoldingLeftMouseButton(mouseEventObject);
+	function hoverStartEvent(mouseEventObject) {
+		if (checkIfHoverTileChanged(mouseEventObject)) {
+			updateHoverTileState(mouseEventObject);
+			if (mouseEventObject.mouseButton === 1 && checkIfHoverToAdjacent()) {
+				hoverWhileHoldingLeftMouseButton(mouseEventObject);
 			}
 			if (mouseEventObject.mouseButton === 2) {
-				this.hoverWhileHoldingRightMouseButton(mouseEventObject);
+				hoverWhileHoldingRightMouseButton(mouseEventObject);
 			}
 			if (mouseEventObject.mouseButton === 3) {
-				this.hoverWhileHoldingBothMouseButtons(mouseEventObject);
+				hoverWhileHoldingBothMouseButtons(mouseEventObject);
 			}
 		}
 	}
 
-	checkIfHoverToAdjacent() {
+	function checkIfHoverToAdjacent() {
 		let hoverAdjacent = true;
-		if (this.currentHoverTile[0] > this.previousHoverTile[0] + 1) {
+		if (currentHoverTile.current[0] > previousHoverTile.current[0] + 1) {
 			hoverAdjacent = false;
 		}
-		if (this.currentHoverTile[0] < this.previousHoverTile[0] - 1) {
+		if (currentHoverTile.current[0] < previousHoverTile.current[0] - 1) {
 			hoverAdjacent = false;
 		}
-		if (this.currentHoverTile[1] > this.previousHoverTile[1] + 1) {
+		if (currentHoverTile.current[1] > previousHoverTile.current[1] + 1) {
 			hoverAdjacent = false;
 		}
-		if (this.currentHoverTile[1] < this.previousHoverTile[1] - 1) {
+		if (currentHoverTile.current[1] < previousHoverTile.current[1] - 1) {
 			hoverAdjacent = false;
 		}
 		return hoverAdjacent;
 	}
 
-	hoverEndEvent(senderClassname) {
-		this.previousHoverTileClass = senderClassname;
+	function hoverEndEvent(senderClassname) {
+		previousHoverTileClass.current = senderClassname;
 	}
 
-	hoverWhileHoldingLeftMouseButton(mouseEventObject) {
-		if (isNonEmptyArray(this.leftClickDragArray)) {
-			this.leftClickDragArray.shift();
-			this.leftClickDragArray.push(mouseEventObject.tile);
-			this.placedDraggedTrack(mouseEventObject.tile);
+	function hoverWhileHoldingLeftMouseButton(mouseEventObject) {
+		if (isNonEmptyArray(leftClickDragArray.current)) {
+			leftClickDragArray.current.shift();
+			leftClickDragArray.current.push(mouseEventObject.tile);
+			placedDraggedTrack(mouseEventObject.tile);
 		}
 	}
 
-	hoverWhileHoldingRightMouseButton(mouseEventObject) {
-		if (this.rightClickDragValue === 'X') {
+	function hoverWhileHoldingRightMouseButton(mouseEventObject) {
+		if (rightClickDragValue.current === 'X') {
 			if (mouseEventObject.tileClass === 'mapTile') {
-				this.placeTile(mouseEventObject.tile, this.rightClickDragValue);
+				placeTile(mouseEventObject.tile, rightClickDragValue.current);
 			}
-		} else if (this.rightClickDragValue === 'DELETE') {
-			this.removePlacedTrack(mouseEventObject.tile);
+		} else if (rightClickDragValue.current === 'DELETE') {
+			removePlacedTrack(mouseEventObject.tile);
 		}
 	}
 
-	hoverWhileHoldingBothMouseButtons(mouseEventObject) {
-		this.determineIfToPlaceT(mouseEventObject);
+	function hoverWhileHoldingBothMouseButtons(mouseEventObject) {
+		determineIfToPlaceT(mouseEventObject);
 	}
 
-	determineIfToPlaceT(mouseEventObject) {
+	function determineIfToPlaceT(mouseEventObject) {
 		if (mouseEventObject.mouseButton === 3) {
 			if (mouseEventObject.tileClass === 'mapTile') {
-				this.placeTile(mouseEventObject.tile, 'T');
+				placeTile(mouseEventObject.tile, 'T');
 			}
 		}
 	}
@@ -164,66 +154,66 @@ class Map extends React.Component {
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
 
 	// Needs to be refactored, far too long
-	placedDraggedTrack(coordinate) {
-		const directions = this.calculateDragDirection();
+	function placedDraggedTrack(coordinate) {
+		const directions = calculateDragDirection();
 		const railType = convertDirectionArrayToRailTypes(directions);
 
 		let tilesToPlace = [];
 
 		let newCorner;
 		//Only change tile to new corner if on first drag
-		if (compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile)) {
-			newCorner = this.convertConnectedRailToCorner(coordinate);
+		if (compareArrays(previousHoverTile.current, initialLeftClickValue.current.tile)) {
+			newCorner = convertConnectedRailToCorner(coordinate);
 		}
 		if (isNonEmptyArray(newCorner)) {
-			tilesToPlace.unshift(...this.getNewCornerTiles(newCorner));
+			tilesToPlace.unshift(...getNewCornerTiles(newCorner));
 		} else {
-			if (this.previousHoverTileClass === 'mapTile') {
-				let railShouldChange = this.shouldStartRailChange(
-					this.previousValueOfLeftClickTile,
-					this.initialLeftClickValue.tile,
+			if (previousHoverTileClass.current === 'mapTile') {
+				let railShouldChange = shouldStartRailChange(
+					previousValueOfLeftClickTile.current,
+					initialLeftClickValue.current.tile,
 					coordinate
 				);
 				//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
 
-				if (this.checkIfNotFirstDragTile() || this.checkIfFirstDragTileIsEmptyOrT() || railShouldChange) {
-					tilesToPlace.unshift({ tile: this.previousHoverTile, railType: railType[0] });
+				if (checkIfNotFirstDragTile() || checkIfFirstDragTileIsEmptyOrT() || railShouldChange) {
+					tilesToPlace.unshift({ tile: previousHoverTile.current, railType: railType[0] });
 				}
 			}
-			if (this.currentHoverTileClass === 'mapTile' && !this.checkIfCurrentTileIsConnectedToLast()) {
-				tilesToPlace.unshift({ tile: this.currentHoverTile, railType: railType[1] });
+			if (currentHoverTileClass.current === 'mapTile' && !checkIfCurrentTileIsConnectedToLast()) {
+				tilesToPlace.unshift({ tile: currentHoverTile.current, railType: railType[1] });
 			}
 		}
-		this.placeMultipleTiles(tilesToPlace);
+		placeMultipleTiles(tilesToPlace);
 	}
 
-	checkIfCurrentTileIsConnectedToLast() {
-		let moveDirection = findDirectionFromMove(this.previousHoverTile, this.currentHoverTile);
-		let connectedDirections = this.getConnectedAdjacentTracksDirections(this.previousHoverTile);
+	function checkIfCurrentTileIsConnectedToLast() {
+		let moveDirection = findDirectionFromMove(previousHoverTile.current, currentHoverTile.current);
+		let connectedDirections = getConnectedAdjacentTracksDirections(previousHoverTile.current);
 		let connection = connectedDirections.includes(moveDirection);
 		return connection;
 	}
 
-	checkIfFirstDragTileIsEmptyOrT() {
-		return !this.previousValueOfLeftClickTile || this.previousValueOfLeftClickTile === 'T';
+	function checkIfFirstDragTileIsEmptyOrT() {
+		return !previousValueOfLeftClickTile.current || previousValueOfLeftClickTile.current === 'T';
 	}
 
-	checkIfNotFirstDragTile() {
-		return !compareArrays(this.previousHoverTile, this.initialLeftClickValue.tile);
+	function checkIfNotFirstDragTile() {
+		return !compareArrays(previousHoverTile.current, initialLeftClickValue.current.tile);
 	}
 
-	getNewCornerTiles(newCorner) {
+	function getNewCornerTiles(newCorner) {
 		let tilesToPlace = [];
-		if (this.previousHoverTileClass === 'mapTile') {
-			tilesToPlace.unshift({ tile: this.previousHoverTile, railType: newCorner[0] });
+		if (previousHoverTileClass.current === 'mapTile') {
+			tilesToPlace.unshift({ tile: previousHoverTile.current, railType: newCorner[0] });
 		}
-		if (this.currentHoverTileClass === 'mapTile' && !this.checkIfCurrentTileIsConnectedToLast()) {
-			tilesToPlace.unshift({ tile: this.currentHoverTile, railType: newCorner[1] });
+		if (currentHoverTileClass.current === 'mapTile' && !checkIfCurrentTileIsConnectedToLast()) {
+			tilesToPlace.unshift({ tile: currentHoverTile.current, railType: newCorner[1] });
 		}
 		return tilesToPlace;
 	}
 
-	shouldStartRailChange(startType, startCoordinate, nextCoordinate) {
+	function shouldStartRailChange(startType, startCoordinate, nextCoordinate) {
 		let railShouldChange = false;
 		switch (findDirectionFromMove(nextCoordinate, startCoordinate)) {
 			case 0:
@@ -255,9 +245,9 @@ class Map extends React.Component {
 		return railShouldChange;
 	}
 
-	convertConnectedRailToCorner(newCoordinate) {
-		const dragDirection = findDirectionFromMove(newCoordinate, this.previousHoverTile);
-		let connectedDirections = this.getConnectedAdjacentTracksDirections(this.previousHoverTile);
+	function convertConnectedRailToCorner(newCoordinate) {
+		const dragDirection = findDirectionFromMove(newCoordinate, previousHoverTile.current);
+		let connectedDirections = getConnectedAdjacentTracksDirections(previousHoverTile.current);
 		if (isNonEmptyArray(connectedDirections)) {
 			const initialDirection = connectedDirections[randomInt(0, connectedDirections.length - 1)];
 			const directions = [ initialDirection, dragDirection ];
@@ -265,9 +255,9 @@ class Map extends React.Component {
 		}
 	}
 
-	getConnectedAdjacentTracksDirections(coordinate) {
+	function getConnectedAdjacentTracksDirections(coordinate) {
 		//checks which tiles are pointing towards the dragged tile
-		const adjacentTracks = this.getAdjacentTracks(coordinate);
+		const adjacentTracks = getAdjacentTracks(coordinate);
 		const connectedDirectionArray = adjacentTracks
 			.map(function(adj) {
 				let connectedDirection;
@@ -313,13 +303,13 @@ class Map extends React.Component {
 		return connectedDirectionArray;
 	}
 
-	getAdjacentTracks(coordinate) {
+	function getAdjacentTracks(coordinate) {
 		let adjacentTracks = [];
 		let adjTile;
 
 		const pushAdjTileIfExist = (adjTile, position) => {
-			let adjRail = this.getRailTypeOfCoordinate(adjTile);
-			if (!adjRail) adjRail = this.checkIfTileIsDefault(this.props.trainTrackMap, adjTile[0], adjTile[1]);
+			let adjRail = getRailTypeOfCoordinate(adjTile);
+			if (!adjRail) adjRail = checkIfTileIsDefault(props.trainTrackMap, adjTile[0], adjTile[1]);
 			if (adjRail) {
 				adjacentTracks.push({
 					tile: adjTile,
@@ -333,7 +323,7 @@ class Map extends React.Component {
 			adjTile = [ coordinate[0] - 1, coordinate[1] ];
 			pushAdjTileIfExist(adjTile, 3);
 		}
-		if (coordinate[0] < this.props.mapWidth) {
+		if (coordinate[0] < props.mapWidth) {
 			adjTile = [ coordinate[0] + 1, coordinate[1] ];
 			pushAdjTileIfExist(adjTile, 1);
 		}
@@ -341,7 +331,7 @@ class Map extends React.Component {
 			adjTile = [ coordinate[0], coordinate[1] - 1 ];
 			pushAdjTileIfExist(adjTile, 0);
 		}
-		if (coordinate[1] < this.props.mapHeight) {
+		if (coordinate[1] < props.mapHeight) {
 			adjTile = [ coordinate[0], coordinate[1] + 1 ];
 			pushAdjTileIfExist(adjTile, 2);
 		}
@@ -349,9 +339,9 @@ class Map extends React.Component {
 		return adjacentTracks;
 	}
 
-	calculateDragDirection() {
+	function calculateDragDirection() {
 		let directions = [];
-		const tiles = this.leftClickDragArray;
+		const tiles = leftClickDragArray.current;
 		const numberOfNulls = tiles.findIndex((el) => el !== null);
 		for (let i = numberOfNulls; i < tiles.length - 1; i++) {
 			directions.push(findDirectionFromMove(tiles[i + 1], tiles[i]));
@@ -361,26 +351,26 @@ class Map extends React.Component {
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
 
-	placeTile(coordinate, value) {
+	function placeTile(coordinate, value) {
 		const trackSquareInfo = {
 			tile: coordinate,
 			railType: value
 		};
-		this.placeMultipleTiles([ trackSquareInfo ]);
+		placeMultipleTiles([ trackSquareInfo ]);
 	}
 
-	placeMultipleTiles = async (newTileObjArray) => {
-		let newPlacedTrackArray = this.filterPlacedTracksOfNewTiles(newTileObjArray);
+	async function placeMultipleTiles(newTileObjArray) {
+		let newPlacedTrackArray = filterPlacedTracksOfNewTiles(newTileObjArray);
 		newTileObjArray.forEach(function(el) {
 			if (el.railType) newPlacedTrackArray.push(el);
 		});
-		await this.props.setPlacedTracks(newPlacedTrackArray);
-		await this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap);
-	};
+		await props.setPlacedTracks(newPlacedTrackArray);
+		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
+	}
 
-	filterPlacedTracksOfNewTiles(newTiles) {
+	function filterPlacedTracksOfNewTiles(newTiles) {
 		let nonConflictingPlacedTracks = [];
-		this.props.placedTracks.forEach(function(track) {
+		props.placedTracks.forEach(function(track) {
 			let placedTrackConflict = false;
 			newTiles.forEach(function(el) {
 				if (compareArrays(track.tile, el.tile)) placedTrackConflict = true;
@@ -390,30 +380,30 @@ class Map extends React.Component {
 		return nonConflictingPlacedTracks;
 	}
 
-	removePlacedTrack = async (trackCoordinates) => {
-		const filteredTracks = this.props.placedTracks.filter(function(track) {
+	async function removePlacedTrack(trackCoordinates) {
+		const filteredTracks = props.placedTracks.filter(function(track) {
 			return !(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1]);
 		});
-		await this.props.setPlacedTracks(filteredTracks);
-		await this.checkIfPlacedTilesAllCorrect(this.props.trainTrackMap);
-	};
+		await props.setPlacedTracks(filteredTracks);
+		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
+	}
 
-	resetCurrentMap() {
-		this.props.setPlacedTracks([]);
-		this.props.setGameCompleteState(false);
+	function resetCurrentMap() {
+		props.setPlacedTracks([]);
+		props.setGameCompleteState(false);
 	}
 
 	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
 
-	getRailTypeOfCoordinate(trackCoordinates) {
+	function getRailTypeOfCoordinate(trackCoordinates) {
 		let railType = null;
-		this.props.placedTracks.forEach(function(el) {
+		props.placedTracks.forEach(function(el) {
 			if (el.tile[0] === trackCoordinates[0] && el.tile[1] === trackCoordinates[1]) railType = el.railType;
 		});
 		return railType;
 	}
 
-	checkIfTileIsDefault(trainTrackMap, x, y) {
+	function checkIfTileIsDefault(trainTrackMap, x, y) {
 		let trackDefaultTile = null;
 		trainTrackMap.tracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y && el.defaultTrack) trackDefaultTile = el.railType;
@@ -421,7 +411,7 @@ class Map extends React.Component {
 		return trackDefaultTile;
 	}
 
-	getAllDefaultTiles(trainTrackMap) {
+	function getAllDefaultTiles(trainTrackMap) {
 		let defaultTileArr = [];
 		trainTrackMap.tracks.forEach(function(el) {
 			if (el.defaultTrack) defaultTileArr.push(el);
@@ -431,14 +421,14 @@ class Map extends React.Component {
 
 	///////////// MAP - HEADING FUNCTIONS /////////////
 
-	getRowColumnFillstate(axis, index) {
+	function getRowColumnFillstate(axis, index) {
 		let fillState = 'underfilled';
-		const defaultTiles = this.getAllDefaultTiles(this.props.trainTrackMap);
+		const defaultTiles = getAllDefaultTiles(props.trainTrackMap);
 		let axisNum = axis === 'x' ? 0 : 1;
 
 		let placedTrackCount = defaultTiles.filter((el) => el.tile[axisNum] === index).length;
-		const tilesOnAxis = this.props.trainTrackMap.tracks.filter((el) => el.tile[axisNum] === index).length;
-		this.props.placedTracks.forEach(function(el) {
+		const tilesOnAxis = props.trainTrackMap.tracks.filter((el) => el.tile[axisNum] === index).length;
+		props.placedTracks.forEach(function(el) {
 			if (el.tile[axisNum] === index && el.railType !== 'X') placedTrackCount++;
 		});
 
@@ -452,25 +442,25 @@ class Map extends React.Component {
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
-	checkIfPlacedTilesAllCorrect(trainTrackMap) {
-		const correctTileCount = this.getCorrectTileCount(trainTrackMap, this.props.placedTracks);
-		const defaultTileCount = this.getAllDefaultTiles(trainTrackMap).length;
-		const placedRailTrackCount = this.getPlacedRailTrackCount();
+	function checkIfPlacedTilesAllCorrect(trainTrackMap) {
+		const correctTileCount = getCorrectTileCount(trainTrackMap, props.placedTracks);
+		const defaultTileCount = getAllDefaultTiles(trainTrackMap).length;
+		const placedRailTrackCount = getPlacedRailTrackCount();
 		if (
 			correctTileCount === trainTrackMap.tracks.length &&
 			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
 		) {
-			this.props.setGameCompleteState(true);
+			props.setGameCompleteState(true);
 		}
 	}
 
-	getPlacedRailTrackCount() {
-		const placedTiles = this.props.placedTracks;
+	function getPlacedRailTrackCount() {
+		const placedTiles = props.placedTracks;
 		const placedRailTrackCount = placedTiles.filter((el) => el.railType !== 'X').length;
 		return placedRailTrackCount;
 	}
 
-	getCorrectTileCount(trainTrackMap, placedTracks) {
+	function getCorrectTileCount(trainTrackMap, placedTracks) {
 		return trainTrackMap.tracks.filter(function(winning) {
 			let correctTile = winning.defaultTrack;
 			placedTracks.forEach(function(placed) {
@@ -483,11 +473,11 @@ class Map extends React.Component {
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
 
-	renderHeadingTile(i, x, y, headerLabel, fillState) {
+	function renderHeadingTile(i, x, y, headerLabel, fillState) {
 		return <Square className="table-heading" key={i} x={x} y={y} text={headerLabel} fillState={fillState} />;
 	}
 
-	renderMapTile(i, x, y, railImage, mapSolutionVisible) {
+	function renderMapTile(i, x, y, railImage, mapSolutionVisible) {
 		return (
 			<Square
 				className="mapTile"
@@ -496,18 +486,18 @@ class Map extends React.Component {
 				y={y}
 				mapSolutionVisible={mapSolutionVisible}
 				railImage={railImage}
-				leftClickEvent={this.props.controlsActive ? this.leftClickEvent : () => null}
-				rightClickEvent={this.props.controlsActive ? this.rightClickEvent : () => null}
-				bothClickEvent={this.props.controlsActive ? this.bothClickEvent : () => null}
-				leftReleaseEvent={this.props.controlsActive ? this.leftReleaseEvent : () => null}
-				rightReleaseEvent={this.props.controlsActive ? this.rightReleaseEvent : () => null}
-				hoverStartEvent={this.props.controlsActive ? this.hoverStartEvent : () => null}
-				hoverEndEvent={this.props.controlsActive ? this.hoverEndEvent : () => null}
+				leftClickEvent={props.controlsActive ? leftClickEvent : () => null}
+				rightClickEvent={props.controlsActive ? rightClickEvent : () => null}
+				bothClickEvent={props.controlsActive ? bothClickEvent : () => null}
+				leftReleaseEvent={props.controlsActive ? leftReleaseEvent : () => null}
+				rightReleaseEvent={props.controlsActive ? rightReleaseEvent : () => null}
+				hoverStartEvent={props.controlsActive ? hoverStartEvent : () => null}
+				hoverEndEvent={props.controlsActive ? hoverEndEvent : () => null}
 			/>
 		);
 	}
 
-	renderDefaultTrack(i, x, y, defaultRailType, highlighted) {
+	function renderDefaultTrack(i, x, y, defaultRailType, highlighted) {
 		return (
 			<Square
 				className="defaultTrack"
@@ -516,20 +506,20 @@ class Map extends React.Component {
 				y={y}
 				highlighted={highlighted}
 				trackData={convertRailTypeToTrackImage(defaultRailType)}
-				leftClickEvent={this.props.controlsActive ? this.leftClickEvent : () => null}
-				rightClickEvent={this.props.controlsActive ? this.rightClickEvent : () => null}
-				bothClickEvent={this.props.controlsActive ? this.bothClickEvent : () => null}
-				leftReleaseEvent={this.props.controlsActive ? this.leftReleaseEvent : () => null}
-				rightReleaseEvent={this.props.controlsActive ? this.rightReleaseEvent : () => null}
-				hoverStartEvent={this.props.controlsActive ? this.hoverStartEvent : () => null}
-				hoverEndEvent={this.props.controlsActive ? this.hoverEndEvent : () => null}
-				leftClickDragArray={this.leftClickDragArray}
-				rightClickDragValue={this.rightClickDragValue}
+				leftClickEvent={props.controlsActive ? leftClickEvent : () => null}
+				rightClickEvent={props.controlsActive ? rightClickEvent : () => null}
+				bothClickEvent={props.controlsActive ? bothClickEvent : () => null}
+				leftReleaseEvent={props.controlsActive ? leftReleaseEvent : () => null}
+				rightReleaseEvent={props.controlsActive ? rightReleaseEvent : () => null}
+				hoverStartEvent={props.controlsActive ? hoverStartEvent : () => null}
+				hoverEndEvent={props.controlsActive ? hoverEndEvent : () => null}
+				leftClickDragArray={leftClickDragArray.current}
+				rightClickDragValue={rightClickDragValue.current}
 			/>
 		);
 	}
 
-	renderCompleteTrack(i, x, y, defaultRailType, highlighted) {
+	function renderCompleteTrack(i, x, y, defaultRailType, highlighted) {
 		return (
 			<Square
 				className="completeTrack"
@@ -551,7 +541,7 @@ class Map extends React.Component {
 		);
 	}
 
-	renderEmptyTile(i, x, y) {
+	function renderEmptyTile(i, x, y) {
 		return (
 			<Square
 				className="emptyTile"
@@ -573,7 +563,7 @@ class Map extends React.Component {
 		);
 	}
 
-	renderTransparentTile(i, x, y) {
+	function renderTransparentTile(i, x, y) {
 		return (
 			<Square
 				className="transparentTile"
@@ -597,79 +587,79 @@ class Map extends React.Component {
 
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
 
-	placeColumnHeader(trainTrackMap, x, y) {
+	function placeColumnHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.x[x];
-		const fillState = this.props.gameComplete ? 'full' : this.getRowColumnFillstate('x', x);
-		return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
+		return renderHeadingTile(x, x, y - 1, headerLabel, fillState);
 	}
 
-	placeRowHeader(trainTrackMap, x, y) {
+	function placeRowHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
-		const fillState = this.props.gameComplete ? 'full' : this.getRowColumnFillstate('y', y - 1);
-		return this.renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
+		return renderHeadingTile(x, x, y - 1, headerLabel, fillState);
 	}
 
-	placeCompletedMapTrack(trainTrackMap, x, y) {
+	function placeCompletedMapTrack(trainTrackMap, x, y) {
 		let defaultTile;
 		let highlighted = false;
 		trainTrackMap.tracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y - 1) {
 				defaultTile = el.railType;
-				if (this.props.defaultTilesHighlighted && el.defaultTrack) highlighted = true;
+				if (props.defaultTilesHighlighted && el.defaultTrack) highlighted = true;
 			}
-		}, this);
+		});
 		if (defaultTile) {
-			return this.renderCompleteTrack(x, x, y - 1, defaultTile, highlighted);
+			return renderCompleteTrack(x, x, y - 1, defaultTile, highlighted);
 		} else {
-			return this.renderEmptyTile(x, x, y - 1);
+			return renderEmptyTile(x, x, y - 1);
 		}
 	}
 
-	placeUserPlacedTrack(x, y) {
+	function placeUserPlacedTrack(x, y) {
 		let railImage;
-		this.props.placedTracks.forEach(function(el) {
+		props.placedTracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y - 1) {
 				railImage = convertRailTypeToTrackImage(el.railType);
 			}
-		}, this);
+		});
 		if (railImage) {
-			return this.renderMapTile(x, x, y - 1, railImage);
+			return renderMapTile(x, x, y - 1, railImage);
 		} else {
-			return this.renderMapTile(x, x, y - 1, null);
+			return renderMapTile(x, x, y - 1, null);
 		}
 	}
 
-	placeGameActiveMapTrack(trainTrackMap, x, y) {
-		const defaultTile = this.checkIfTileIsDefault(trainTrackMap, x, y - 1);
+	function placeGameActiveMapTrack(trainTrackMap, x, y) {
+		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y - 1);
 		if (defaultTile) {
-			return this.renderDefaultTrack(x, x, y - 1, defaultTile, this.props.defaultTilesHighlighted);
+			return renderDefaultTrack(x, x, y - 1, defaultTile, props.defaultTilesHighlighted);
 		} else {
-			return this.placeUserPlacedTrack(x, y);
+			return placeUserPlacedTrack(x, y);
 		}
 	}
 
-	placeMainMapTile(trainTrackMap, x, y) {
-		if (this.props.gameComplete || this.props.mapSolutionVisible) {
-			return this.placeCompletedMapTrack(trainTrackMap, x, y);
+	function placeMainMapTile(trainTrackMap, x, y) {
+		if (props.gameComplete || props.mapSolutionVisible) {
+			return placeCompletedMapTrack(trainTrackMap, x, y);
 		} else {
-			return this.placeGameActiveMapTrack(trainTrackMap, x, y);
+			return placeGameActiveMapTrack(trainTrackMap, x, y);
 		}
 	}
 
-	generateMapComponents(trainTrackMap) {
+	function generateMapComponents(trainTrackMap) {
 		let generatedMapComponents = [];
-		for (let y = 0; y < this.props.mapHeight + 1; y++) {
+		for (let y = 0; y < props.mapHeight + 1; y++) {
 			generatedMapComponents.push(
 				<div className="mapRow" key={y}>
-					{[ ...Array(this.props.mapWidth + 1) ].map((el, x) => {
+					{[ ...Array(props.mapWidth + 1) ].map((el, x) => {
 						if (y === 0) {
-							return this.placeColumnHeader(trainTrackMap, x, y);
-						} else if (x === this.props.mapWidth) {
-							return this.placeRowHeader(trainTrackMap, x, y);
-						} else if (!this.props.mapVisible) {
-							return this.renderTransparentTile(x, x, y - 1);
+							return placeColumnHeader(trainTrackMap, x, y);
+						} else if (x === props.mapWidth) {
+							return placeRowHeader(trainTrackMap, x, y);
+						} else if (!props.mapVisible) {
+							return renderTransparentTile(x, x, y - 1);
 						} else {
-							return this.placeMainMapTile(trainTrackMap, x, y);
+							return placeMainMapTile(trainTrackMap, x, y);
 						}
 					})}
 				</div>
@@ -680,17 +670,15 @@ class Map extends React.Component {
 
 	///////////// MAP - MAIN RENDER FUNCTION /////////////
 
-	render() {
-		const trainTrackMap = this.props.trainTrackMap;
-		const mapComponents = this.generateMapComponents(trainTrackMap);
-		return (
-			<div className="map">
-				{mapComponents}
-				<MapBackground />
-			</div>
-		);
-	}
-}
+	const trainTrackMap = props.trainTrackMap;
+	const mapComponents = generateMapComponents(trainTrackMap);
+	return (
+		<div className="map">
+			{mapComponents}
+			<MapBackground />
+		</div>
+	);
+};
 function randomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
