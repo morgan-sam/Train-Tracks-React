@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { convertRailTypeToTrackImage } from '../utility/trackConversions';
-import { CornerButton, MiddleButton, CentreButton } from './SquareButtons';
+import { CornerButton, AxisButton, CentreButton } from './SquareButtons';
 
 export const Square = (props) => {
 	const [ hoverTrack, setHoverTrack ] = useState({
@@ -86,7 +86,7 @@ export const Square = (props) => {
 
 	function convertButtonClassToRailType(e) {
 		let railType;
-		if (e.target.classList.contains('middleButton')) {
+		if (e.target.classList.contains('axisButton')) {
 			if (e.target.classList.contains('top') || e.target.classList.contains('bottom')) {
 				railType = 'vertical';
 			}
@@ -182,16 +182,16 @@ export const Square = (props) => {
 
 	function generateTileButtons() {
 		let cornerButtons = null;
-		let middleButtons = null;
+		let axisButtons = null;
 		let centreButton = null;
 		const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
 		const edges = [ 'top', 'right', 'bottom', 'left' ];
 		if (props.className === 'mapTile') {
 			cornerButtons = corners.map((el) => <CornerButton corner={el} key={el} />);
-			middleButtons = edges.map((el) => <MiddleButton edge={el} key={el} />);
+			axisButtons = edges.map((el) => <AxisButton edge={el} key={el} />);
 			centreButton = <CentreButton />;
 		}
-		return [ cornerButtons, middleButtons, centreButton ];
+		return [ cornerButtons, axisButtons, centreButton ];
 	}
 
 	function squareIsHoverTile() {

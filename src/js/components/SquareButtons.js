@@ -11,10 +11,10 @@ export const CornerButton = (props) => {
 	);
 };
 
-export const MiddleButton = (props) => {
+export const AxisButton = (props) => {
 	return (
 		<div
-			className={`middleButton ${props.edge}`}
+			className={`axisButton ${props.edge}`}
 			onClick={props.clickEvent}
 			onMouseOver={props.hoverEvent}
 			onMouseLeave={props.hoverEnd}

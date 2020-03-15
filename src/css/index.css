@@ -615,7 +615,7 @@ code {
 	border-color: transparent var(--color-2) transparent transparent;
 }
 
-.middleButton {
+.axisButton {
 	opacity: 0;
 	position: absolute;
 	height: calc((var(--box-dim)/2*0.707106781));
