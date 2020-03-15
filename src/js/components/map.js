@@ -506,8 +506,6 @@ export const Map = (props) => {
 				highlighted={highlighted}
 				trackData={convertRailTypeToTrackImage(defaultRailType)}
 				{...activeMouseEventsObject}
-				leftClickDragArray={leftClickDragArray.current}
-				rightClickDragValue={rightClickDragValue.current}
 			/>
 		);
 	}
