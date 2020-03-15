@@ -227,7 +227,6 @@ export const Square = (props) => {
 		);
 	}
 
-	const [ cornerButtons, middleButtons, centreButton ] = generateTileButtons();
 	let squareStyling, trackText, boxStyling;
 
 	if (!props.trackData && squareIsHoverTile()) {
@@ -262,9 +261,7 @@ export const Square = (props) => {
 			onMouseUp={props.className !== 'table-heading' ? (e) => squareMouseUp(e) : null}
 		>
 			<div className={`box`} style={boxStyling}>
-				{cornerButtons}
-				{middleButtons}
-				{centreButton}
+				{generateTileButtons()}
 				<p className="boxLabel" style={{ color: convertFillStateToColor(props.fillState) }}>
 					{props.text}
 				</p>
