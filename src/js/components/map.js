@@ -468,8 +468,8 @@ export const Map = (props) => {
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
 
-	function renderHeadingTile(i, x, y, headerLabel, fillState) {
-		return <Square className="table-heading" key={i} x={x} y={y} text={headerLabel} fillState={fillState} />;
+	function renderHeadingTile(x, y, headerLabel, fillState) {
+		return <Square className="table-heading" key={x} x={x} y={y} text={headerLabel} fillState={fillState} />;
 	}
 
 	const activeMouseEventsObject = {
@@ -482,11 +482,11 @@ export const Map = (props) => {
 		hoverEndEvent: props.controlsActive ? hoverEndEvent : () => null
 	};
 
-	function renderMapTile(i, x, y, railImage, mapSolutionVisible) {
+	function renderMapTile(x, y, railImage, mapSolutionVisible) {
 		return (
 			<Square
 				className="mapTile"
-				key={i}
+				key={x}
 				x={x}
 				y={y}
 				mapSolutionVisible={mapSolutionVisible}
@@ -496,11 +496,11 @@ export const Map = (props) => {
 		);
 	}
 
-	function renderDefaultTrack(i, x, y, defaultRailType, highlighted) {
+	function renderDefaultTrack(x, y, defaultRailType, highlighted) {
 		return (
 			<Square
 				className="defaultTrack"
-				key={i}
+				key={x}
 				x={x}
 				y={y}
 				highlighted={highlighted}
@@ -522,11 +522,11 @@ export const Map = (props) => {
 		rightClickDragValue: null
 	};
 
-	function renderCompleteTrack(i, x, y, defaultRailType, highlighted) {
+	function renderCompleteTrack(x, y, defaultRailType, highlighted) {
 		return (
 			<Square
 				className="completeTrack"
-				key={i}
+				key={x}
 				x={x}
 				y={y}
 				highlighted={highlighted}
@@ -536,11 +536,11 @@ export const Map = (props) => {
 		);
 	}
 
-	function renderEmptyTile(i, x, y) {
+	function renderEmptyTile(x, y) {
 		return (
 			<Square
 				className="emptyTile"
-				key={i}
+				key={x}
 				x={x}
 				y={y}
 				highlighted={false}
@@ -550,11 +550,11 @@ export const Map = (props) => {
 		);
 	}
 
-	function renderTransparentTile(i, x, y) {
+	function renderTransparentTile(x, y) {
 		return (
 			<Square
 				className="transparentTile"
-				key={i}
+				key={x}
 				x={x}
 				y={y}
 				highlighted={false}
@@ -569,13 +569,13 @@ export const Map = (props) => {
 	function placeColumnHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.x[x];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
-		return renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+		return renderHeadingTile(x, y - 1, headerLabel, fillState);
 	}
 
 	function placeRowHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
-		return renderHeadingTile(x, x, y - 1, headerLabel, fillState);
+		return renderHeadingTile(x, y - 1, headerLabel, fillState);
 	}
 
 	function placeCompletedMapTrack(trainTrackMap, x, y) {
@@ -588,9 +588,9 @@ export const Map = (props) => {
 			}
 		});
 		if (defaultTile) {
-			return renderCompleteTrack(x, x, y - 1, defaultTile, highlighted);
+			return renderCompleteTrack(x, y - 1, defaultTile, highlighted);
 		} else {
-			return renderEmptyTile(x, x, y - 1);
+			return renderEmptyTile(x, y - 1);
 		}
 	}
 
@@ -602,16 +602,16 @@ export const Map = (props) => {
 			}
 		});
 		if (railImage) {
-			return renderMapTile(x, x, y - 1, railImage);
+			return renderMapTile(x, y - 1, railImage);
 		} else {
-			return renderMapTile(x, x, y - 1, null);
+			return renderMapTile(x, y - 1, null);
 		}
 	}
 
 	function placeGameActiveMapTrack(trainTrackMap, x, y) {
 		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y - 1);
 		if (defaultTile) {
-			return renderDefaultTrack(x, x, y - 1, defaultTile, props.defaultTilesHighlighted);
+			return renderDefaultTrack(x, y - 1, defaultTile, props.defaultTilesHighlighted);
 		} else {
 			return placeUserPlacedTrack(x, y);
 		}
@@ -636,7 +636,7 @@ export const Map = (props) => {
 						} else if (x === props.mapWidth) {
 							return placeRowHeader(trainTrackMap, x, y);
 						} else if (!props.mapVisible) {
-							return renderTransparentTile(x, x, y - 1);
+							return renderTransparentTile(x, y - 1);
 						} else {
 							return placeMainMapTile(trainTrackMap, x, y);
 						}
