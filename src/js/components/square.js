@@ -1,38 +1,6 @@
 import React, { useState } from 'react';
 import { convertRailTypeToTrackImage } from '../utility/trackConversions';
-
-function CornerButton(props) {
-	return (
-		<div
-			className={`cornerButton ${props.corner}`}
-			onClick={props.clickEvent}
-			onMouseOver={props.hoverEvent}
-			onMouseLeave={props.hoverEnd}
-		/>
-	);
-}
-
-function MiddleButton(props) {
-	return (
-		<div
-			className={`middleButton ${props.edge}`}
-			onClick={props.clickEvent}
-			onMouseOver={props.hoverEvent}
-			onMouseLeave={props.hoverEnd}
-		/>
-	);
-}
-
-function CentreButton(props) {
-	return (
-		<div
-			className={`centreButton`}
-			onClick={props.clickEvent}
-			onMouseOver={props.hoverEvent}
-			onMouseLeave={props.hoverEnd}
-		/>
-	);
-}
+import { CornerButton, MiddleButton, CentreButton } from './SquareButtons';
 
 export const Square = (props) => {
 	const [ hoverTrack, setHoverTrack ] = useState({
