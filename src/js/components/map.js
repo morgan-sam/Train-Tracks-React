@@ -658,6 +658,7 @@ export const Map = (props) => {
 
 	const trainTrackMap = props.trainTrackMap;
 	const mapComponents = generateMapComponents(trainTrackMap);
+
 	return (
 		<div className="map">
 			{mapComponents}

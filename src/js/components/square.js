@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import WhiteSquareBackground from './WhiteSquareBackground';
 import { convertRailTypeToTrackImage, convertButtonClassToRailType } from '../utility/trackConversions';
-import { CornerButton, AxisButton, CentreButton } from './SquareButtons';
+import { TileButtons } from './TileButtons';
 
 export const Square = (props) => {
 	const [ hoverTrack, setHoverTrack ] = useState({
@@ -151,20 +151,6 @@ export const Square = (props) => {
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
-	function generateTileButtons() {
-		let cornerButtons = null;
-		let axisButtons = null;
-		let centreButton = null;
-		const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
-		const edges = [ 'top', 'right', 'bottom', 'left' ];
-		if (props.className === 'mapTile') {
-			cornerButtons = corners.map((el) => <CornerButton corner={el} key={el} />);
-			axisButtons = edges.map((el) => <AxisButton edge={el} key={el} />);
-			centreButton = <CentreButton />;
-		}
-		return [ cornerButtons, axisButtons, centreButton ];
-	}
-
 	function squareIsHoverTile() {
 		return props.x === hoverTrack.tile[0] && props.y === hoverTrack.tile[1];
 	}
@@ -203,7 +189,7 @@ export const Square = (props) => {
 			onMouseUp={props.className !== 'table-heading' ? (e) => squareMouseUp(e) : null}
 		>
 			<div className={`tile-button-container`} style={boxStyling}>
-				{generateTileButtons()}
+				<TileButtons {...props} />
 				<p className="boxLabel" style={{ color: convertFillStateToColor(props.fillState) }}>
 					{props.text}
 				</p>
