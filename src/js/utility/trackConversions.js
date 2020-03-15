@@ -84,3 +84,33 @@ export const convertRailTypeToTrackImage = (railType) => {
 	}
 	return trackData;
 };
+
+export const convertButtonClassToRailType = (e) => {
+	let railType;
+	if (e.target.classList.contains('axisButton')) {
+		if (e.target.classList.contains('top') || e.target.classList.contains('bottom')) {
+			railType = 'vertical';
+		}
+		if (e.target.classList.contains('right') || e.target.classList.contains('left')) {
+			railType = 'horizontal';
+		}
+	}
+	if (e.target.classList.contains('cornerButton')) {
+		if (e.target.classList.contains('top-left')) {
+			railType = 'topLeftCorner';
+		}
+		if (e.target.classList.contains('top-right')) {
+			railType = 'topRightCorner';
+		}
+		if (e.target.classList.contains('bottom-left')) {
+			railType = 'bottomLeftCorner';
+		}
+		if (e.target.classList.contains('bottom-right')) {
+			railType = 'bottomRightCorner';
+		}
+	}
+	if (e.target.classList.contains('centreButton')) {
+		railType = 'T';
+	}
+	return railType;
+};
