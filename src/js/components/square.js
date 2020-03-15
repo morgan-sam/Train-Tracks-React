@@ -199,14 +199,14 @@ export const Square = (props) => {
 
 	function setPlacedTrackImage() {
 		let squareStyling, trackText;
-		if (props.railImage.trackType !== 'T' && props.railImage.trackType !== 'X') {
+		if (props.trackData.trackType !== 'T' && props.trackData.trackType !== 'X') {
 			squareStyling = {
-				backgroundImage: `url(${props.railImage.trackType})`,
-				transform: `rotate(${props.railImage.trackRotation}deg)`,
+				backgroundImage: `url(${props.trackData.trackType})`,
+				transform: `rotate(${props.trackData.trackRotation}deg)`,
 				opacity: 1
 			};
 		} else {
-			trackText = props.railImage.trackType;
+			trackText = props.trackData.trackType;
 			squareStyling = {
 				opacity: 1
 			};
@@ -284,7 +284,7 @@ export const Square = (props) => {
 	}
 
 	if (props.className === 'mapTile') {
-		if (props.railImage) {
+		if (props.trackData) {
 			[ squareStyling, trackText ] = setPlacedTrackImage();
 		}
 	}

@@ -490,7 +490,7 @@ export const Map = (props) => {
 				x={x}
 				y={y}
 				mapSolutionVisible={mapSolutionVisible}
-				railImage={railImage}
+				trackData={railImage}
 				{...activeMouseEventsObject}
 			/>
 		);
