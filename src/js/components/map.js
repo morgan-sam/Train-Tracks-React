@@ -22,10 +22,6 @@ class Map extends React.Component {
 		this.placeTile = this.placeTile.bind(this);
 		this.placeMultipleTiles = this.placeMultipleTiles.bind(this);
 
-		this.state = {
-			hoveredTile: []
-		};
-
 		this.currentHoverTile = [ null, null ];
 	}
 
@@ -453,8 +449,6 @@ class Map extends React.Component {
 		}
 		return fillState;
 	}
-
-	///////////// MAP - RAIL IMAGE FUNCTIONS /////////////
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
