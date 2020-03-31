@@ -121,6 +121,7 @@ export const Game = (props) => {
 				<div className="bottomRowInGameButtons">
 					<div className="mapSeedOptionContainer">
 						<WaveButton
+							style={{ zIndex: '4' }}
 							className="mapSeedBtn"
 							key="mapSeedBtn"
 							onClick={() => {
@@ -128,11 +129,8 @@ export const Game = (props) => {
 							}}
 							text={'🌱'}
 						/>
-
-						<div className="mapSeedExplanationContainer">
-							<div className="mapSeedExplanationSubContainer">
-								<p className="mapSeedExplanation">Copy map seed to clipboard</p>
-							</div>
+						<div className="mapSeedExplanation">
+							<span>Copy map seed to clipboard</span>
 						</div>
 						<textarea
 							readOnly

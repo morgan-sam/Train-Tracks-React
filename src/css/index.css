@@ -275,6 +275,9 @@ button {
 .mapSeedInput {
 	display: flex;
 }
+.topRowInGameButtons {
+	z-index: 0;
+}
 
 .topRowInGameButtons > * {
 	margin: 0.25rem 0.5rem;
@@ -283,6 +286,7 @@ button {
 .bottomRowInGameButtons {
 	position: relative;
 	display: inline-flex;
+	z-index: 1;
 }
 
 .bottomRowInGameButtons > * {
@@ -294,57 +298,31 @@ button {
 	flex-direction: row;
 	justify-content: center;
 	vertical-align: middle;
-}
-
-.mapSeedExplanationContainer {
-	position: relative;
-	top: 0;
-	left: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	opacity: 0;
-	width: 10rem;
-	height: 4rem;
-	transform-origin: center;
-	transform: translate(-75%, -10%);
-	clip-path: polygon(0% 0%, 85% 0%, 85% 40%, 100% 50%, 85% 60%, 85% 100%, 0% 100%);
-	background-color: black;
-	z-index: -1;
-	transition: 0.8s cubic-bezier(0, 0, 0.03, 1);
-}
-
-.mapSeedExplanationSubContainer {
-	padding: 0;
-	z-index: 1;
-	position: absolute;
-	display: flex;
-	width: inherit;
-	height: inherit;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	vertical-align: middle;
-	transform-origin: center;
-	transform: scaleX(0.98) scaleY(0.93);
-	clip-path: polygon(0% 0%, 85% 0%, 85% 40%, 100% 50%, 85% 60%, 85% 100%, 0% 100%);
-	background-color: rgb(255, 233, 178);
+	height: 3rem;
+	width: auto;
 }
 
 .mapSeedExplanation {
-	position: relative;
-	top: 0;
-	width: 70%;
-	font-size: 0.9rem;
-	padding: 0.5rem;
-	line-height: 1.3rem;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	vertical-align: middle;
+	opacity: 0;
+	width: 10rem;
+	height: 3rem;
+	transform: translate(0, 0);
+	background-color: #eee;
+	border-radius: 1rem;
+	border: 1px solid black;
+	z-index: -3;
+	line-height: 1.4rem;
+	transition: 0.8s cubic-bezier(0, 0, 0.03, 1);
+	text-align: center;
 }
 
-.mapSeedBtn:hover ~ .mapSeedExplanationContainer {
+.mapSeedBtn:hover ~ .mapSeedExplanation {
 	opacity: 0.8;
-	transform: translate(-95%, -10%);
+	transform: translate(0, -120%);
 }
 
 @keyframes spin {
