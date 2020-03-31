@@ -468,10 +468,6 @@ export const Map = (props) => {
 
 	///////////// MAP - RENDER FUNCTIONS /////////////
 
-	function renderHeadingTile(x, y, headerLabel, fillState) {
-		return <Square className="table-heading" key={x} x={x} y={y} text={headerLabel} fillState={fillState} />;
-	}
-
 	const activeMouseEventsObject = {
 		leftClickEvent: props.controlsActive ? leftClickEvent : () => null,
 		rightClickEvent: props.controlsActive ? rightClickEvent : () => null,
@@ -481,6 +477,22 @@ export const Map = (props) => {
 		hoverStartEvent: props.controlsActive ? hoverStartEvent : () => null,
 		hoverEndEvent: props.controlsActive ? hoverEndEvent : () => null
 	};
+
+	const emptyMouseEventsObject = {
+		leftClickEvent: () => null,
+		rightClickEvent: () => null,
+		bothClickEvent: () => null,
+		leftReleaseEvent: () => null,
+		rightReleaseEvent: () => null,
+		hoverStartEvent: () => null,
+		hoverEndEvent: () => null,
+		leftClickDragArray: null,
+		rightClickDragValue: null
+	};
+
+	function renderHeadingTile(x, y, headerLabel, fillState) {
+		return <Square className="table-heading" key={x} x={x} y={y} text={headerLabel} fillState={fillState} />;
+	}
 
 	function renderMapTile(x, y, railImage, mapSolutionVisible) {
 		return (
@@ -509,18 +521,6 @@ export const Map = (props) => {
 			/>
 		);
 	}
-
-	const emptyMouseEventsObject = {
-		leftClickEvent: () => null,
-		rightClickEvent: () => null,
-		bothClickEvent: () => null,
-		leftReleaseEvent: () => null,
-		rightReleaseEvent: () => null,
-		hoverStartEvent: () => null,
-		hoverEndEvent: () => null,
-		leftClickDragArray: null,
-		rightClickDragValue: null
-	};
 
 	function renderCompleteTrack(x, y, defaultRailType, highlighted) {
 		return (

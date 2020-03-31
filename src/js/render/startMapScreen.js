@@ -30,7 +30,7 @@ export const StartMapScreen = (props) => {
 				style={{ width: '3rem', height: '2rem', textAlign: 'center', padding: '0 1.25rem 0 0.5rem' }}
 				options={getMapSizeOptions()}
 				className="mapSizeOption"
-				placeholder={'8x8'}
+				placeholder={`${props.gameState.size}x${props.gameState.size}`}
 				onHover={() => null}
 				onChange={(item) => {
 					props.setGameState({ ...props.gameState, size: item.value });
