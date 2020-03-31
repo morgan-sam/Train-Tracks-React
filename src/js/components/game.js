@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Map from './map';
 import WaveButton from './waveButton';
 import { generateMapBackground } from '../generation/generateIcon';
@@ -7,6 +7,8 @@ import { generateRandomRGBColor } from '../utility/colorFunctions';
 import { saveMapToLocal } from '../utility/localStorage';
 
 export const Game = (props) => {
+	const clipboard = useRef(null);
+
 	const [ gameWon, setGameWinState ] = useState(false);
 	const [ mapSaveName, setMapSaveName ] = useState(null);
 	const [ placedTracks, setPlacedTracks ] = useState([]);
@@ -125,7 +127,8 @@ export const Game = (props) => {
 							className="mapSeedBtn"
 							key="mapSeedBtn"
 							onClick={() => {
-								//copy map seed to clipboard
+								clipboard.current.select();
+								document.execCommand('copy');
 							}}
 							text={'🌱'}
 						/>
@@ -133,6 +136,7 @@ export const Game = (props) => {
 							<span>Copy map seed to clipboard</span>
 						</div>
 						<textarea
+							ref={clipboard}
 							readOnly
 							unselectable="on"
 							style={{
@@ -145,7 +149,7 @@ export const Game = (props) => {
 								resize: 'none',
 								cursor: 'default'
 							}}
-							value={props.mapSeed}
+							value={props.gameState.seed}
 						/>
 					</div>
 					<WaveButton
