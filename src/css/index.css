@@ -297,16 +297,20 @@ button {
 }
 
 .mapSeedExplanationContainer {
+	position: relative;
+	top: 0;
+	left: 0;
 	padding: 0;
 	margin: 0;
 	position: absolute;
 	display: flex;
+	justify-content: center;
 	opacity: 0;
-	width: 8rem;
+	width: 10rem;
 	height: 4rem;
 	transform-origin: center;
-	transform: translateY(0%);
-	clip-path: polygon(0% 25%, 44% 25%, 50% 0%, 56% 25%, 100% 25%, 100% 100%, 0% 100%);
+	transform: translate(0%, -10%);
+	clip-path: polygon(0% 0%, 85% 0%, 85% 40%, 100% 50%, 85% 60%, 85% 100%, 0% 100%);
 	background-color: black;
 	z-index: -1;
 	transition: 0.8s cubic-bezier(0, 0, 0.03, 1);
@@ -324,14 +328,15 @@ button {
 	justify-content: center;
 	vertical-align: middle;
 	transform-origin: center;
-	transform: scaleX(0.98) scaleY(0.95);
-	clip-path: polygon(0% 25%, 45% 25%, 50% 0%, 55% 25%, 100% 25%, 100% 100%, 0% 100%);
+	transform: scaleX(0.98) scaleY(0.93);
+	clip-path: polygon(0% 0%, 85% 0%, 85% 40%, 100% 50%, 85% 60%, 85% 100%, 0% 100%);
 	background-color: rgb(255, 233, 178);
 }
 
 .mapSeedExplanation {
 	position: relative;
-	top: 0.35rem;
+	top: 0;
+	width: 70%;
 	font-size: 0.9rem;
 	padding: 0.5rem;
 	line-height: 1.3rem;
@@ -339,7 +344,7 @@ button {
 
 .mapSeedBtn:hover ~ .mapSeedExplanationContainer {
 	opacity: 0.8;
-	transform: translateY(50%);
+	transform: translate(-100%, -10%);
 }
 
 @keyframes spin {
