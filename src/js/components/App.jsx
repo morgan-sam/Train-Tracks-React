@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Game from './game';
+import Game from './Game';
 import LoadMapScreen from '../render/loadMapScreen';
 import HowToPlayScreen from '../render/howToPlayScreen';
 import StartMapScreen from '../render/startMapScreen';

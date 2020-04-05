@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Map from './map';
-import WaveButton from './waveButton';
+import Map from './Map';
+import WaveButton from './WaveButton';
 import { generateMapBackground } from '../generation/generateIcon';
 import { randomIntFromInterval } from '../utility/utilityFunctions';
 import { generateRandomRGBColor } from '../utility/colorFunctions';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import WaveButton from '../components/waveButton';
-import Dropdown from '../components/dropdown';
+import WaveButton from '../components/WaveButton';
+import Dropdown from '../components/Dropdown';
 import DeleteMapConfirmScreen from '../render/deleteMapConfirmScreen';
 import { generateMapIcon } from '../generation/generateIcon';
 import ReturnToMainMenuBtn from './returnToMainMenuBtn';

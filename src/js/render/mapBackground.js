@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { colorToWhiteArray } from '../utility/colorFunctions';
 
 export const MapBackground = (props) => {

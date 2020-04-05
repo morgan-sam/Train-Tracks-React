@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import WaveButton from '../components/waveButton';
-import Dropdown from '../components/dropdown';
+import WaveButton from '../components/WaveButton';
+import Dropdown from '../components/Dropdown';
 import ReturnToMainMenuBtn from './returnToMainMenuBtn';
 import { getRandomSeed } from '../utility/utilityFunctions';
 

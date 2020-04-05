@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-import Square from './square';
+import Square from './Square';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertDirectionArrayToRailTypes, convertRailTypeToTrackImage } from '../utility/trackConversions';
