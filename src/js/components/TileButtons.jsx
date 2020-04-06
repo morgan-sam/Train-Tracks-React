@@ -1,6 +1,8 @@
 import React from 'react';
 import { getCornerStyle } from '../styles/tileCornerBtn';
 import { getAxisStyle } from '../styles/tileAxisBtn';
+import { getCenterStyle } from '../styles/tileCenterBtn';
+
 const BOX_DIM_REM = 3.8;
 
 const CornerButton = (props) => {
@@ -14,7 +16,8 @@ const AxisButton = (props) => {
 };
 
 const CentreButton = () => {
-	return <div className={`centreButton`} />;
+	const centerStyle = getCenterStyle(BOX_DIM_REM);
+	return <div className={`centreButton`} style={centerStyle} />;
 };
 
 export const TileButtons = (props) => {
