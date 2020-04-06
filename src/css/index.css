@@ -519,17 +519,6 @@ code {
 	flex-wrap: nowrap;
 }
 
-.square {
-	min-height: var(--box-dim);
-	min-width: var(--box-dim);
-	display: block;
-	position: relative;
-	top: 0;
-	left: 0;
-	height: var(--box-dim);
-	width: var(--box-dim);
-}
-
 .tile-display {
 	position: absolute;
 	left: 0;

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import WhiteSquareBackground from './WhiteSquareBackground';
 import { convertRailTypeToTrackImage, convertButtonClassToRailType } from '../utility/trackConversions';
 import { TileButtons } from './TileButtons';
+import { getSquareStyle } from '../styles/square';
+
+const BOX_DIM_REM = 3.8;
 
 export const Square = (props) => {
 	const [ hoverTrack, setHoverTrack ] = useState({
@@ -181,6 +184,7 @@ export const Square = (props) => {
 
 	return (
 		<div
+			style={getSquareStyle(BOX_DIM_REM)}
 			className={`square ${props.className}`}
 			onContextMenu={(e) => e.preventDefault()}
 			onMouseOver={props.className !== 'table-heading' ? (e) => squareHoverStart(e) : null}
