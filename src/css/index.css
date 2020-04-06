@@ -564,43 +564,6 @@ code {
 	background: none;
 }
 
-.axisButton {
-	opacity: 0;
-	position: absolute;
-	height: calc((var(--box-dim)/2*0.707106781));
-	width: calc((var(--box-dim)/2*0.707106781));
-	z-index: 1;
-	-webkit-transform: rotate(45deg) translate(-50%, -50%);
-	-moz-transform: rotate(45deg) translate(-50%, -50%);
-	-o-transform: rotate(45deg) translate(-50%, -50%);
-	-ms-transform: rotate(45deg) translate(-50%, -50%);
-	transform: rotate(45deg) translate(-50%, -50%);
-	transform-origin: top left;
-}
-.top {
-	top: 25%;
-	left: 50%;
-	background-color: var(--color-3);
-}
-
-.left {
-	top: 50%;
-	left: 25%;
-	background-color: var(--color-4);
-}
-
-.bottom {
-	top: 75%;
-	left: 50%;
-	background-color: var(--color-3);
-}
-
-.right {
-	top: 50%;
-	left: 75%;
-	background-color: var(--color-4);
-}
-
 .centreButton {
 	opacity: 0;
 	position: absolute;
