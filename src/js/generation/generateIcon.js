@@ -1,5 +1,6 @@
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
+import { convertPxToRem } from '../utility/utilityFunctions';
 
 export const generateMapIcon = async (mapObject, complete) => {
 	const options = {
@@ -25,11 +26,11 @@ export const generateCompletedMapIcon = async (mapObject) => {
 	return image;
 };
 
-export const generateMapBackground = async (mapObject) => {
+export const generateMapBackground = async (mapObject, remSize) => {
 	const options = {
 		headers: false,
 		complete: false,
-		dimensions: 64 * mapObject.headerLabels.x.length,
+		dimensions: convertPxToRem(remSize) * mapObject.headerLabels.x.length,
 		cutOut: true
 	};
 	const canvas = await generateCanvas(mapObject, options);

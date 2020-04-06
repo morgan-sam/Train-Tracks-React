@@ -19,7 +19,7 @@ export const App = () => {
 		balloonCloud: true
 	});
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
-	const [ tileRemSize, setTileRemSize ] = useState(3.8);
+	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 
 	function generateMap() {
 		const pathFindingDisabled = !gameState.pathFinding;

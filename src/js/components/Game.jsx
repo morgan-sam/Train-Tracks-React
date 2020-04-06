@@ -181,7 +181,10 @@ export const Game = (props) => {
 		() => {
 			async function addCutOutToScreen() {
 				if (display.savePopUp) {
-					setDisplay({ ...display, saveBoxCutOut: await generateMapBackground(props.gameState.mapObject) });
+					setDisplay({
+						...display,
+						saveBoxCutOut: await generateMapBackground(props.gameState.mapObject, props.tileRemSize)
+					});
 				} else {
 					setDisplay({ ...display, saveBoxCutOut: null });
 				}
@@ -222,7 +225,7 @@ export const Game = (props) => {
 					className="saveBoxMapCutout"
 					style={{
 						position: 'absolute',
-						top: '64px',
+						top: `${props.tileRemSize}rem`,
 						left: '0px',
 						border: display.saveBoxCutOut ? '1px solid black' : 'none'
 					}}

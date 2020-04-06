@@ -71,3 +71,7 @@ export const removeArraysFromMatrix = (arrays, matrix) => {
 export const getRandomSeed = () => {
 	return Math.floor(Math.random() * Math.pow(10, 15));
 };
+
+export const convertPxToRem = (rem) => {
+	return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+};
