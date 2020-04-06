@@ -199,6 +199,7 @@ export const Game = (props) => {
 				<Map
 					key={props.mapSeed}
 					className="gameMap"
+					tileRemSize={props.tileRemSize}
 					defaultTilesHighlighted={display.defaultHighlights}
 					mapSolutionVisible={display.solutionVisible}
 					trainTrackMap={props.gameState.mapObject}

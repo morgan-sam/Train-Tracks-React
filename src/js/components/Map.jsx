@@ -491,13 +491,24 @@ export const Map = (props) => {
 	};
 
 	function renderHeadingTile(x, y, headerLabel, fillState) {
-		return <Square className="table-heading" key={x} x={x} y={y} text={headerLabel} fillState={fillState} />;
+		return (
+			<Square
+				className="table-heading"
+				tileRemSize={props.tileRemSize}
+				key={x}
+				x={x}
+				y={y}
+				text={headerLabel}
+				fillState={fillState}
+			/>
+		);
 	}
 
 	function renderMapTile(x, y, railImage, mapSolutionVisible) {
 		return (
 			<Square
 				className="mapTile"
+				tileRemSize={props.tileRemSize}
 				key={x}
 				x={x}
 				y={y}
@@ -512,6 +523,7 @@ export const Map = (props) => {
 		return (
 			<Square
 				className="defaultTrack"
+				tileRemSize={props.tileRemSize}
 				key={x}
 				x={x}
 				y={y}
@@ -526,6 +538,7 @@ export const Map = (props) => {
 		return (
 			<Square
 				className="completeTrack"
+				tileRemSize={props.tileRemSize}
 				key={x}
 				x={x}
 				y={y}
@@ -540,6 +553,7 @@ export const Map = (props) => {
 		return (
 			<Square
 				className="emptyTile"
+				tileRemSize={props.tileRemSize}
 				key={x}
 				x={x}
 				y={y}
@@ -554,6 +568,7 @@ export const Map = (props) => {
 		return (
 			<Square
 				className="transparentTile"
+				tileRemSize={props.tileRemSize}
 				key={x}
 				x={x}
 				y={y}

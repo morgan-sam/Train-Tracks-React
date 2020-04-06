@@ -184,7 +184,7 @@ export const Square = (props) => {
 
 	return (
 		<div
-			style={getSquareStyle(BOX_DIM_REM)}
+			style={getSquareStyle(props.tileRemSize)}
 			className={`square ${props.className}`}
 			onContextMenu={(e) => e.preventDefault()}
 			onMouseOver={props.className !== 'table-heading' ? (e) => squareHoverStart(e) : null}
