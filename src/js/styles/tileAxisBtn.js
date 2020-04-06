@@ -20,26 +20,22 @@ const axisStyles = () => {
 	return {
 		top: {
 			top: '25%',
-			left: '50%',
-			backgroundColor: 'white'
+			left: '50%'
 		},
 
 		left: {
 			top: '50%',
-			left: '25%',
-			backgroundColor: 'white'
+			left: '25%'
 		},
 
 		bottom: {
 			top: '75%',
-			left: '50%',
-			backgroundColor: 'white'
+			left: '50%'
 		},
 
 		right: {
 			top: '50%',
-			left: '75%',
-			backgroundColor: 'white'
+			left: '75%'
 		}
 	};
 };

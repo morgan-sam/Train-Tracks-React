@@ -7,7 +7,6 @@ export const getCenterStyle = (BOX_DIM_REM) => {
 		transform: 'translate(-50%, -50%)',
 		height: `${BOX_DIM_REM / 5 * 2}rem`,
 		width: `${BOX_DIM_REM / 5 * 2}rem`,
-		backgroundColor: 'white',
 		zIndex: '1',
 		borderRadius: '5rem'
 	};

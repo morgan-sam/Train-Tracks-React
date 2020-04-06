@@ -16,28 +16,24 @@ const cornerStyles = (BOX_DIM_REM) => {
 		'top-left': {
 			top: '0',
 			left: '0',
-			borderWidth: `0 0 ${BOX_DIM_REM / 2}rem ${BOX_DIM_REM / 2}rem`,
-			borderColor: `transparent transparent transparent white`
+			borderWidth: `0 0 ${BOX_DIM_REM / 2}rem ${BOX_DIM_REM / 2}rem`
 		},
 		'top-right': {
 			top: '0',
 			left: `${BOX_DIM_REM / 2}rem`,
-			borderWidth: `0 ${BOX_DIM_REM / 2}rem ${BOX_DIM_REM / 2}rem 0`,
-			borderColor: `transparent white transparent transparent`
+			borderWidth: `0 ${BOX_DIM_REM / 2}rem ${BOX_DIM_REM / 2}rem 0`
 		},
 
 		'bottom-left': {
 			top: `${BOX_DIM_REM / 2}rem`,
 			left: '0',
-			borderWidth: `${BOX_DIM_REM / 2}rem 0 0 ${BOX_DIM_REM / 2}rem`,
-			borderColor: `transparent transparent transparent white`
+			borderWidth: `${BOX_DIM_REM / 2}rem 0 0 ${BOX_DIM_REM / 2}rem`
 		},
 
 		'bottom-right': {
 			top: `${BOX_DIM_REM / 2}rem`,
 			left: `${BOX_DIM_REM / 2}rem`,
-			borderWidth: `${BOX_DIM_REM / 2}rem ${BOX_DIM_REM / 2}rem 0 0`,
-			borderColor: `transparent white transparent transparent`
+			borderWidth: `${BOX_DIM_REM / 2}rem ${BOX_DIM_REM / 2}rem 0 0`
 		}
 	};
 };
