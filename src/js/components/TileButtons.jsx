@@ -1,7 +1,11 @@
 import React from 'react';
+import { getCornerStyle } from '../styles/tile';
+
+const BOX_DIM_REM = 3.8;
 
 const CornerButton = (props) => {
-	return <div className={`cornerButton ${props.corner}`} />;
+	const cornerStyle = getCornerStyle(BOX_DIM_REM, props.corner);
+	return <div className={`cornerButton ${props.corner}`} style={cornerStyle} />;
 };
 
 const AxisButton = (props) => {
