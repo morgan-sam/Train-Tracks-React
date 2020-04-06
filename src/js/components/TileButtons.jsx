@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCornerStyle } from '../styles/cornerTile';
+import { getCornerStyle } from '../styles/tileCornerBtn';
 
 const BOX_DIM_REM = 3.8;
 
