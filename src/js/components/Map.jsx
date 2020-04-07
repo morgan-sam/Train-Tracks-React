@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
 import Square from './Square';
+import HeadingTile from './HeadingTile';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertDirectionArrayToRailTypes, convertRailTypeToTrackImage } from '../utility/trackConversions';
@@ -584,13 +585,29 @@ export const Map = (props) => {
 	function placeColumnHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.x[x];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
-		return renderHeadingTile(x, y - 1, headerLabel, fillState);
+		return (
+			<HeadingTile
+				x={x}
+				y={y - 1}
+				headerLabel={headerLabel}
+				fillState={fillState}
+				tileRemSize={props.tileRemSize}
+			/>
+		);
 	}
 
 	function placeRowHeader(trainTrackMap, x, y) {
 		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
-		return renderHeadingTile(x, y - 1, headerLabel, fillState);
+		return (
+			<HeadingTile
+				x={x}
+				y={y - 1}
+				headerLabel={headerLabel}
+				fillState={fillState}
+				tileRemSize={props.tileRemSize}
+			/>
+		);
 	}
 
 	function placeCompletedMapTrack(trainTrackMap, x, y) {

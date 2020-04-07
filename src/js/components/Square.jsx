@@ -51,23 +51,7 @@ export const Square = (props) => {
 		let tileClass;
 		if (classList.includes('mapTile')) tileClass = 'mapTile';
 		if (classList.includes('defaultTrack')) tileClass = 'defaultTrack';
-		if (classList.includes('table-heading')) tileClass = 'table-heading';
 		return tileClass;
-	}
-
-	///////////// SQUARE - HEADING FUNCTIONS /////////////
-
-	function convertFillStateToColor(fillState) {
-		switch (fillState) {
-			case 'underfilled':
-				return 'black';
-			case 'full':
-				return 'green';
-			case 'overfilled':
-				return 'red';
-			default:
-				return 'black';
-		}
 	}
 
 	///////////// SQUARE - RAIL IMAGE FUNCTIONS /////////////
@@ -150,16 +134,13 @@ export const Square = (props) => {
 			style={getSquareStyle(props.tileRemSize)}
 			className={`square ${props.className}`}
 			onContextMenu={(e) => e.preventDefault()}
-			onMouseOver={props.className !== 'table-heading' ? (e) => squareHoverStart(e) : null}
-			onMouseLeave={props.className !== 'table-heading' ? (e) => squareHoverEnd(e) : null}
-			onMouseDown={props.className !== 'table-heading' ? (e) => squareMouseDown(e) : null}
-			onMouseUp={props.className !== 'table-heading' ? (e) => squareMouseUp(e) : null}
+			onMouseOver={(e) => squareHoverStart(e)}
+			onMouseLeave={(e) => squareHoverEnd(e)}
+			onMouseDown={(e) => squareMouseDown(e)}
+			onMouseUp={(e) => squareMouseUp(e)}
 		>
 			<div className={`tile-button-container`} style={boxStyling}>
 				<TileButtons {...props} />
-				<p className="boxLabel" style={{ color: convertFillStateToColor(props.fillState) }}>
-					{props.text}
-				</p>
 			</div>
 			<div className={'tile-display'} style={squareStyling}>
 				{trackText}
