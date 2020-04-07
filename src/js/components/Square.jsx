@@ -5,10 +5,7 @@ import { TileButtons } from './TileButtons';
 import { getSquareStyle } from '../styles/square';
 
 export const Square = (props) => {
-	const [ hoverTrack, setHoverTrack ] = useState({
-		railType: '-'
-	});
-	console.log(hoverTrack);
+	const [ hoverTrack, setHoverTrack ] = useState(null);
 
 	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
@@ -62,17 +59,11 @@ export const Square = (props) => {
 	///////////// SQUARE - HOVER GHOST TRACK FUNCTIONS /////////////
 
 	function setHoverGhostTrack(mouseEventObject) {
-		setHoverTrack({
-			tile: mouseEventObject.tile,
-			railType: mouseEventObject.railType
-		});
+		setHoverTrack(mouseEventObject.railType);
 	}
 
 	function removeHoverGhostTrack() {
-		setHoverTrack({
-			tile: '-',
-			railType: '-'
-		});
+		setHoverTrack(null);
 	}
 
 	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
@@ -105,7 +96,7 @@ export const Square = (props) => {
 
 	function setHoverTrackImage() {
 		let squareStyling, trackText;
-		const trackImage = convertRailTypeToTrackImage(hoverTrack.railType);
+		const trackImage = convertRailTypeToTrackImage(hoverTrack);
 		if (trackImage.trackType !== 'T') {
 			squareStyling = {
 				backgroundImage: `url(${trackImage.trackType})`,
