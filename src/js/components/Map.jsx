@@ -65,11 +65,7 @@ export const Map = (props) => {
 	}
 
 	function checkIfHoverTileChanged(mouseEventObject) {
-		let hasChanged = false;
-		if (!compareArrays(mouseEventObject.tile, currentHoverTile.current)) {
-			hasChanged = true;
-		}
-		return hasChanged;
+		return !compareArrays(mouseEventObject.tile, currentHoverTile.current);
 	}
 
 	function updateHoverTileState(mouseEventObject) {
