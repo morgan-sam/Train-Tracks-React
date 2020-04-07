@@ -4,13 +4,12 @@ import { convertRailTypeToTrackImage, convertButtonClassToRailType } from '../ut
 import { TileButtons } from './TileButtons';
 import { getSquareStyle } from '../styles/square';
 
-const BOX_DIM_REM = 3.8;
-
 export const Square = (props) => {
 	const [ hoverTrack, setHoverTrack ] = useState({
 		tile: '-',
 		railType: '-'
 	});
+	console.log(hoverTrack);
 
 	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
