@@ -6,7 +6,6 @@ import { getSquareStyle } from '../styles/square';
 
 export const Square = (props) => {
 	const [ hoverTrack, setHoverTrack ] = useState({
-		tile: '-',
 		railType: '-'
 	});
 	console.log(hoverTrack);
@@ -153,13 +152,9 @@ export const Square = (props) => {
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
-	function squareIsHoverTile() {
-		return props.x === hoverTrack.tile[0] && props.y === hoverTrack.tile[1];
-	}
-
 	let squareStyling, trackText, boxStyling;
 
-	if (!props.trackData && squareIsHoverTile()) {
+	if (!props.trackData && hoverTrack) {
 		[ squareStyling, trackText ] = setHoverTrackImage();
 	}
 
