@@ -7,6 +7,7 @@ import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertDirectionArrayToRailTypes, convertRailTypeToTrackImage } from '../utility/trackConversions';
 
 import { findDirectionFromMove } from '../generation/generateMap';
+import { mapDragEvent } from '../Events/mapDragEvent';
 
 import MapBackground from '../render/mapBackground';
 
@@ -90,6 +91,7 @@ export const Map = (props) => {
 		if (checkIfHoverTileChanged(mouseEventObject)) {
 			updateHoverTileState(mouseEventObject);
 			if (mouseEventObject.mouseButton === 1 && checkIfHoverToAdjacent()) {
+				mapDragEvent();
 				hoverWhileHoldingLeftMouseButton(mouseEventObject);
 			}
 			if (mouseEventObject.mouseButton === 2) {
