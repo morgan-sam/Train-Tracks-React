@@ -120,8 +120,7 @@ export const Map = (props) => {
 	function hoverWhileHoldingRightMouseButton(mouseEventObject) {
 		if (rightClickDragValue.current === 'X') {
 			if (mouseEventObject.tileClass === 'mapTile') placeTile(mouseEventObject.tile, rightClickDragValue.current);
-			else if (rightClickDragValue.current === 'DELETE') removePlacedTrack(mouseEventObject.tile);
-		}
+		} else if (rightClickDragValue.current === 'DELETE') removePlacedTrack(mouseEventObject.tile);
 	}
 
 	function hoverWhileHoldingBothMouseButtons(mouseEventObject) {
