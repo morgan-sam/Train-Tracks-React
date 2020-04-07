@@ -491,20 +491,6 @@ export const Map = (props) => {
 		rightClickDragValue: null
 	};
 
-	function renderHeadingTile(x, y, headerLabel, fillState) {
-		return (
-			<Square
-				className="table-heading"
-				tileRemSize={props.tileRemSize}
-				key={x}
-				x={x}
-				y={y}
-				text={headerLabel}
-				fillState={fillState}
-			/>
-		);
-	}
-
 	function renderMapTile(x, y, railImage, mapSolutionVisible) {
 		return (
 			<Square
