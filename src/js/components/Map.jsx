@@ -573,6 +573,7 @@ export const Map = (props) => {
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
 		return (
 			<HeadingTile
+				key={x}
 				x={x}
 				y={y - 1}
 				headerLabel={headerLabel}
@@ -587,6 +588,7 @@ export const Map = (props) => {
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
 		return (
 			<HeadingTile
+				key={x}
 				x={x}
 				y={y - 1}
 				headerLabel={headerLabel}
