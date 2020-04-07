@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-import Square from './Square';
+import MapTile from './MapTile';
 import HeadingTile from './HeadingTile';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
@@ -493,7 +493,7 @@ export const Map = (props) => {
 
 	function renderMapTile(x, y, railImage, mapSolutionVisible) {
 		return (
-			<Square
+			<MapTile
 				className="mapTile"
 				tileRemSize={props.tileRemSize}
 				key={x}
@@ -508,7 +508,7 @@ export const Map = (props) => {
 
 	function renderDefaultTrack(x, y, defaultRailType, highlighted) {
 		return (
-			<Square
+			<MapTile
 				className="defaultTrack"
 				tileRemSize={props.tileRemSize}
 				key={x}
@@ -523,7 +523,7 @@ export const Map = (props) => {
 
 	function renderCompleteTrack(x, y, defaultRailType, highlighted) {
 		return (
-			<Square
+			<MapTile
 				className="completeTrack"
 				tileRemSize={props.tileRemSize}
 				key={x}
@@ -538,7 +538,7 @@ export const Map = (props) => {
 
 	function renderEmptyTile(x, y) {
 		return (
-			<Square
+			<MapTile
 				className="emptyTile"
 				tileRemSize={props.tileRemSize}
 				key={x}
@@ -553,7 +553,7 @@ export const Map = (props) => {
 
 	function renderTransparentTile(x, y) {
 		return (
-			<Square
+			<MapTile
 				className="transparentTile"
 				tileRemSize={props.tileRemSize}
 				key={x}
