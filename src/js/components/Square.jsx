@@ -33,25 +33,15 @@ export const Square = (props) => {
 
 	function squareMouseDown(e) {
 		const mouseEventObject = getMouseEventObject(e);
-		if (mouseEventObject.mouseButton === 1) {
-			props.leftClickEvent(mouseEventObject);
-		}
-		if (mouseEventObject.mouseButton === 2) {
-			props.rightClickEvent(mouseEventObject);
-		}
-		if (mouseEventObject.mouseButton === 3) {
-			props.bothClickEvent(mouseEventObject);
-		}
+		if (mouseEventObject.mouseButton === 1) props.leftClickEvent(mouseEventObject);
+		if (mouseEventObject.mouseButton === 2) props.rightClickEvent(mouseEventObject);
+		if (mouseEventObject.mouseButton === 3) props.bothClickEvent(mouseEventObject);
 	}
 
 	function squareMouseUp(e) {
 		const mouseEventObject = getMouseEventObject(e);
-		if (e.button === 0) {
-			props.leftReleaseEvent(mouseEventObject);
-		}
-		if (e.button === 2) {
-			props.rightReleaseEvent();
-		}
+		if (e.button === 0) props.leftReleaseEvent(mouseEventObject);
+		if (e.button === 2) props.rightReleaseEvent();
 	}
 
 	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
