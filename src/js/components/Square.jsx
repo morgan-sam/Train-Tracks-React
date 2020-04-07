@@ -22,14 +22,12 @@ export const Square = (props) => {
 	function squareHoverStart(e) {
 		const mouseEventObject = getMouseEventObject(e);
 		props.hoverStartEvent(mouseEventObject);
-		if (e.buttons === 0) {
-			setHoverGhostTrack(mouseEventObject);
-		}
+		if (e.buttons === 0) setHoverTrack(mouseEventObject.railType);
 	}
 
 	function squareHoverEnd(e) {
 		const tileClass = getTileClassFromEvent(e);
-		removeHoverGhostTrack();
+		setHoverTrack(null);
 		props.hoverEndEvent(tileClass);
 	}
 
@@ -54,16 +52,6 @@ export const Square = (props) => {
 		if (e.button === 2) {
 			props.rightReleaseEvent();
 		}
-	}
-
-	///////////// SQUARE - HOVER GHOST TRACK FUNCTIONS /////////////
-
-	function setHoverGhostTrack(mouseEventObject) {
-		setHoverTrack(mouseEventObject.railType);
-	}
-
-	function removeHoverGhostTrack() {
-		setHoverTrack(null);
 	}
 
 	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
