@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Map from './Map';
 import WaveButton from './WaveButton';
+import OptionsButtons from './OptionsButtons';
+
 import { generateMapBackground } from '../generation/generateIcon';
 import { randomIntFromInterval } from '../utility/utilityFunctions';
 import { generateRandomRGBColor } from '../utility/colorFunctions';
 import { saveMapToLocal } from '../utility/localStorage';
 
 export const Game = (props) => {
-	const clipboard = useRef(null);
-
 	const [ gameWon, setGameWinState ] = useState(false);
 	const [ mapSaveName, setMapSaveName ] = useState(null);
 	const [ placedTracks, setPlacedTracks ] = useState([]);
@@ -96,87 +96,6 @@ export const Game = (props) => {
 		);
 	}
 
-	function renderOptionsButtons() {
-		return (
-			<div className="inGameOptions">
-				<div className="topRowInGameButtons">
-					<WaveButton
-						key={'resetMapBtn'}
-						onClick={async () => {
-							setGameWinState(false);
-							setPlacedTracks([]);
-							setDisplay({ ...display, winPopUp: false, solutionVisible: false });
-						}}
-						text={'Reset Map'}
-					/>
-					<WaveButton
-						key={'highlightDefaultTilesBtn'}
-						onClick={() => setDisplay({ ...display, defaultHighlights: !display.defaultHighlights })}
-						text={display.defaultHighlights ? 'Hide Default Tiles' : 'Show Default Tiles'}
-					/>
-					<WaveButton
-						key={'showMapSolutionBtn'}
-						onClick={() => setDisplay({ ...display, solutionVisible: !display.solutionVisible })}
-						text={display.solutionVisible ? 'Hide Map Solution' : 'Show Map Solution'}
-					/>
-				</div>
-				<div className="bottomRowInGameButtons">
-					<div className="mapSeedOptionContainer">
-						<WaveButton
-							style={{ zIndex: '4' }}
-							className="mapSeedBtn"
-							key="mapSeedBtn"
-							onClick={() => {
-								clipboard.current.select();
-								document.execCommand('copy');
-							}}
-							text={'🌱'}
-						/>
-						<div className="mapSeedExplanation">
-							<span>Copy map seed to clipboard</span>
-						</div>
-						<textarea
-							ref={clipboard}
-							readOnly
-							unselectable="on"
-							style={{
-								position: 'absolute',
-								top: 0,
-								left: 0,
-								opacity: 0,
-								width: 0,
-								height: 0,
-								resize: 'none',
-								cursor: 'default'
-							}}
-							value={props.gameState.seed}
-						/>
-					</div>
-					<WaveButton
-						key={'saveMapBtn'}
-						onClick={() => {
-							setDisplay({ ...display, savePopUp: true, winPopUp: false });
-						}}
-						text={'Save Map'}
-					/>
-
-					<WaveButton
-						key={'newMapBtn'}
-						onClick={() => {
-							setGameWinState(false);
-							setPlacedTracks([]);
-							setDisplay({ ...display, winPopUp: false, solutionVisible: false });
-							props.inGameNewMap();
-						}}
-						text={'New Map'}
-					/>
-
-					<WaveButton key={'quitBtn'} onClick={() => props.quitGame()} text={'Quit Game'} />
-				</div>
-			</div>
-		);
-	}
-
 	useEffect(
 		() => {
 			async function addCutOutToScreen() {
@@ -231,7 +150,14 @@ export const Game = (props) => {
 					}}
 				/>
 			</div>
-			{renderOptionsButtons()}
+			<OptionsButtons
+				setGameWinState={setGameWinState}
+				setPlacedTracks={setPlacedTracks}
+				setDisplay={setDisplay}
+				display={display}
+				seed={props.gameState.seed}
+				inGameNewMap={props.inGameNewMap}
+			/>
 		</div>
 	);
 };
