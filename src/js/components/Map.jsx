@@ -11,7 +11,6 @@ import MapBackground from '../render/mapBackground';
 
 export const Map = (props) => {
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
-
 	const dragArray = useRef([ null, null, null ]);
 
 	const currentHoverTile = useRef([ null, null ]);
@@ -19,14 +18,12 @@ export const Map = (props) => {
 	const previousHoverTile = useRef();
 	const previousHoverTileClass = useRef();
 	const previousValueOfLeftClickTile = useRef();
-	const initialLeftClickValue = useRef();
 	const rightClickDragValue = useRef();
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
 	function leftClickEvent(mouseEventObject) {
 		previousValueOfLeftClickTile.current = getRailTypeOfCoordinate(mouseEventObject.tile);
-		initialLeftClickValue.current = mouseEventObject;
 		dragArray.current = [ null, null, mouseEventObject.tile ];
 	}
 
@@ -52,8 +49,8 @@ export const Map = (props) => {
 	}
 
 	function leftReleaseEvent(mouseEventObject) {
-		if (isNonEmptyArray(dragArray.current)) {
-			placeTrackIfLeftClickNoDrag(mouseEventObject);
+		if (dragArray.current.filter((o) => o).length === 1 && mouseEventObject.tileClass === 'mapTile') {
+			placeTile(mouseEventObject.tile, mouseEventObject.railType);
 			dragArray.current = [];
 		}
 	}
@@ -70,15 +67,6 @@ export const Map = (props) => {
 		previousHoverTile.current = currentHoverTile.current;
 		currentHoverTile.current = mouseEventObject.tile;
 		currentHoverTileClass.current = mouseEventObject.tileClass;
-	}
-
-	function placeTrackIfLeftClickNoDrag(mouseEventObject) {
-		if (
-			compareArrays(initialLeftClickValue.current.tile, currentHoverTile.current) &&
-			mouseEventObject.tileClass === 'mapTile'
-		) {
-			placeTile(mouseEventObject.tile, mouseEventObject.railType);
-		}
 	}
 
 	function hoverStartEvent(mouseEventObject) {
