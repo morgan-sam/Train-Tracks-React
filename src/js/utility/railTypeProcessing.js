@@ -155,3 +155,27 @@ export const checkIfTwoRailTypesConnected = (direction, railTypes) => {
 	}
 	return false;
 };
+
+export const checkIfAdjacentTileConnected = (position, railType) => {
+	if (position === 0) {
+		if (railType === 'vertical' || railType === 'bottomLeftCorner' || railType === 'bottomRightCorner') {
+			return true;
+		}
+	}
+	if (position === 3) {
+		if (railType === 'horizontal' || railType === 'bottomRightCorner' || railType === 'topRightCorner') {
+			return true;
+		}
+	}
+	if (position === 2) {
+		if (railType === 'vertical' || railType === 'topLeftCorner' || railType === 'topRightCorner') {
+			return true;
+		}
+	}
+	if (position === 1) {
+		if (railType === 'horizontal' || railType === 'topLeftCorner' || railType === 'bottomLeftCorner') {
+			return true;
+		}
+	}
+	return false;
+};

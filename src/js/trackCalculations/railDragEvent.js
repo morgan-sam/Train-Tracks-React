@@ -1,4 +1,8 @@
-import { convertDirectionTupleToRailTypes, checkIfTwoRailTypesConnected } from '../utility/railTypeProcessing';
+import {
+	convertDirectionTupleToRailTypes,
+	checkIfTwoRailTypesConnected,
+	checkIfAdjacentTileConnected
+} from '../utility/railTypeProcessing';
 import { findDirectionFromMove } from '../generation/generateMap';
 import { getAdjacentTracks, convertMoveArrayToDirections } from '../trackCalculations/trackUtilities';
 import { randomArrayEntry, isNonEmptyArray, compareArrays } from '../utility/utilityFunctions';
@@ -124,27 +128,3 @@ const convertPathToDirectionArray = (array) => {
 	}
 	return directions;
 };
-
-function checkIfAdjacentTileConnected(position, railType) {
-	if (position === 0) {
-		if (railType === 'vertical' || railType === 'bottomLeftCorner' || railType === 'bottomRightCorner') {
-			return true;
-		}
-	}
-	if (position === 3) {
-		if (railType === 'horizontal' || railType === 'bottomRightCorner' || railType === 'topRightCorner') {
-			return true;
-		}
-	}
-	if (position === 2) {
-		if (railType === 'vertical' || railType === 'topLeftCorner' || railType === 'topRightCorner') {
-			return true;
-		}
-	}
-	if (position === 1) {
-		if (railType === 'horizontal' || railType === 'topLeftCorner' || railType === 'bottomLeftCorner') {
-			return true;
-		}
-	}
-	return false;
-}
