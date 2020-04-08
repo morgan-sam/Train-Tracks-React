@@ -17,13 +17,11 @@ export const Map = (props) => {
 	const currentHoverTileClass = useRef();
 	const previousHoverTile = useRef();
 	const previousHoverTileClass = useRef();
-	const previousValueOfLeftClickTile = useRef();
 	const rightClickDragValue = useRef();
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
 	function leftClickEvent(mouseEventObject) {
-		previousValueOfLeftClickTile.current = getRailTypeOfCoordinate(mouseEventObject.tile);
 		dragArray.current = [ null, null, mouseEventObject.tile ];
 	}
 
