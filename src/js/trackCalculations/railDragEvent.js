@@ -2,7 +2,7 @@ import {
 	convertDirectionTupleToRailTypes,
 	checkIfTwoRailTypesConnected,
 	checkIfAdjacentTileConnected
-} from '../utility/railTypeProcessing';
+} from './railTypeProcessing';
 import { findDirectionFromMove } from '../generation/generateMap';
 import { getAdjacentTracks, convertMoveArrayToDirections } from '../trackCalculations/trackUtilities';
 import { randomArrayEntry, isNonEmptyArray, compareArrays } from '../utility/utilityFunctions';

@@ -4,7 +4,7 @@ import MapTile from './MapTile';
 import HeadingTile from './HeadingTile';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
-import { convertRailTypeToTrackImage } from '../utility/railTypeProcessing';
+import { convertRailTypeToTrackImage } from '../trackCalculations/railTypeProcessing';
 import { railDragEvent } from '../trackCalculations/railDragEvent';
 
 import MapBackground from '../render/mapBackground';
