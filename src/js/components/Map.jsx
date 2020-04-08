@@ -7,7 +7,7 @@ import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertRailTypeToTrackImage } from '../trackCalculations/railTypeProcessing';
 import { railDragEvent } from '../trackCalculations/railDragEvent';
 
-import MapBackground from '../screen/mapBackground';
+import MapAmbientBackground from './MapAmbientBackground.jsx';
 
 export const Map = (props) => {
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
@@ -433,7 +433,7 @@ export const Map = (props) => {
 	return (
 		<div className="map">
 			{mapComponents}
-			<MapBackground />
+			<MapAmbientBackground />
 		</div>
 	);
 };
