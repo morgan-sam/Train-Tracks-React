@@ -106,3 +106,52 @@ export const convertButtonClassToRailType = (e) => {
 	}
 	return railType;
 };
+
+export const checkIfTwoRailTypesConnected = (direction, railTypes) => {
+	switch (direction) {
+		case 0:
+			if (
+				((railTypes[0] === 'vertical' ||
+					railTypes[0] === 'topLeftCorner' ||
+					railTypes[0] === 'topRightCorner') &&
+					railTypes[1] === 'vertical') ||
+				(railTypes[1] === 'bottomLeftCorner' || railTypes[1] === 'bottomRightCorner')
+			)
+				return true;
+			break;
+		case 1:
+			if (
+				(railTypes[0] === 'horizontal' ||
+					railTypes[0] === 'topRightCorner' ||
+					railTypes[0] === 'bottomRightCorner') &&
+				(railTypes[1] === 'horizontal' ||
+					railTypes[1] === 'topLeftCorner' ||
+					railTypes[1] === 'bottomLeftCorner')
+			)
+				return true;
+			break;
+		case 2:
+			if (
+				((railTypes[0] === 'vertical' ||
+					railTypes[0] === 'bottomLeftCorner' ||
+					railTypes[0] === 'bottomRightCorner') &&
+					railTypes[1] === 'vertical') ||
+				(railTypes[1] === 'topLeftCorner' || railTypes[1] === 'topRightCorner')
+			)
+				return true;
+			break;
+		case 3:
+			if (
+				(railTypes[0] === 'horizontal' ||
+					railTypes[0] === 'topLeftCorner' ||
+					railTypes[0] === 'bottomLeftCorner') &&
+				(railTypes[1] === 'horizontal' ||
+					railTypes[1] === 'topRightCorner' ||
+					railTypes[1] === 'bottomRightCorner')
+			)
+				return true;
+			break;
+		default:
+	}
+	return false;
+};

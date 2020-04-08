@@ -1,4 +1,4 @@
-import { convertDirectionTupleToRailTypes } from '../utility/trackConversions';
+import { convertDirectionTupleToRailTypes, checkIfTwoRailTypesConnected } from '../utility/railTypeProcessing';
 import { findDirectionFromMove } from '../generation/generateMap';
 import { getAdjacentTracks, convertMoveArrayToDirections } from '../trackCalculations/trackUtilities';
 import { randomArrayEntry, isNonEmptyArray, compareArrays } from '../utility/utilityFunctions';
@@ -81,55 +81,6 @@ const getRailTypeOfTile = (coordinate, currentMapInfo) => {
 	const tiles = currentMapInfo.tracksOnMap.filter((el) => compareArrays(coordinate, el.tile));
 	if (isNonEmptyArray(tiles)) return tiles[0].railType;
 	else return null;
-};
-
-const checkIfTwoRailTypesConnected = (direction, railTypes) => {
-	switch (direction) {
-		case 0:
-			if (
-				((railTypes[0] === 'vertical' ||
-					railTypes[0] === 'topLeftCorner' ||
-					railTypes[0] === 'topRightCorner') &&
-					railTypes[1] === 'vertical') ||
-				(railTypes[1] === 'bottomLeftCorner' || railTypes[1] === 'bottomRightCorner')
-			)
-				return true;
-			break;
-		case 1:
-			if (
-				(railTypes[0] === 'horizontal' ||
-					railTypes[0] === 'topRightCorner' ||
-					railTypes[0] === 'bottomRightCorner') &&
-				(railTypes[1] === 'horizontal' ||
-					railTypes[1] === 'topLeftCorner' ||
-					railTypes[1] === 'bottomLeftCorner')
-			)
-				return true;
-			break;
-		case 2:
-			if (
-				((railTypes[0] === 'vertical' ||
-					railTypes[0] === 'bottomLeftCorner' ||
-					railTypes[0] === 'bottomRightCorner') &&
-					railTypes[1] === 'vertical') ||
-				(railTypes[1] === 'topLeftCorner' || railTypes[1] === 'topRightCorner')
-			)
-				return true;
-			break;
-		case 3:
-			if (
-				(railTypes[0] === 'horizontal' ||
-					railTypes[0] === 'topLeftCorner' ||
-					railTypes[0] === 'bottomLeftCorner') &&
-				(railTypes[1] === 'horizontal' ||
-					railTypes[1] === 'topRightCorner' ||
-					railTypes[1] === 'bottomRightCorner')
-			)
-				return true;
-			break;
-		default:
-	}
-	return false;
 };
 
 const doDragTilesContainTracks = (dragArray, currentMapInfo) => {
