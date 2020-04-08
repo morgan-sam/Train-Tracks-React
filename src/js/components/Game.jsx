@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Map from './Map';
 import OptionsButtons from './OptionsButtons';
 import SaveMapDisplay from './SaveMapDisplay';
+import WinDisplayBackground from './WinDisplayBackground';
 
 import { generateMapBackground } from '../generation/generateIcon';
-import { randomIntFromInterval } from '../utility/utilityFunctions';
-import { generateRandomRGBColor } from '../utility/colorFunctions';
 
 export const Game = (props) => {
 	const [ gameWon, setGameWinState ] = useState(false);
@@ -33,35 +32,10 @@ export const Game = (props) => {
 					X
 				</button>
 				<div key={'balloonContainer'} className={'balloonContainer'}>
-					{renderWinDisplayBackground()}
+					<WinDisplayBackground balloonCloud={props.gameState.balloonCloud} />
 				</div>
 			</div>
 		);
-	}
-
-	function renderWinDisplayBackground() {
-		const balloonCount = props.gameState.balloonCloud ? 300 : 1;
-		let balloonContainer = [];
-		for (let i = 0; i < balloonCount; i++) {
-			const color = generateRandomRGBColor();
-			const left = props.gameState.balloonCloud ? randomIntFromInterval(-20, 100) : 50;
-			const delay = props.gameState.balloonCloud ? randomIntFromInterval(0, 10000) : 0;
-			const balloonStyle = {
-				left: `${left}%`,
-				backgroundColor: color,
-				color: color,
-				opacity: 0,
-				animationDelay: `${delay}ms`
-			};
-			balloonContainer.push(
-				<div key={i} className="balloon" style={balloonStyle}>
-					<div key={`balloonString${i}`} className={'balloonString'}>
-						؁
-					</div>
-				</div>
-			);
-		}
-		return balloonContainer;
 	}
 
 	useEffect(
