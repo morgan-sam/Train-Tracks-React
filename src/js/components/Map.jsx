@@ -12,12 +12,12 @@ import MapBackground from '../render/mapBackground';
 export const Map = (props) => {
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
 	const dragArray = useRef([ null, null, null ]);
+	const rightClickDragValue = useRef();
 
 	const currentHoverTile = useRef([ null, null ]);
 	const currentHoverTileClass = useRef();
 	const previousHoverTile = useRef();
 	const previousHoverTileClass = useRef();
-	const rightClickDragValue = useRef();
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
