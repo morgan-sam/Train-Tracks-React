@@ -113,8 +113,6 @@ export const Map = (props) => {
 		}
 	}
 
-	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
-
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
 
 	function placeTile(coordinate, value) {
