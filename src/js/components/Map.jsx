@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import MapTile from './MapTile';
 import HeadingTile from './HeadingTile';
 import EmptyTile from './EmptyTile';
+import TransparentTile from './TransparentTile';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertRailTypeToTrackImage } from '../trackCalculations/railTypeProcessing';
@@ -398,7 +399,7 @@ export const Map = (props) => {
 					{[ ...Array(props.mapWidth + 1) ].map((el, x) => {
 						if (y === 0) return placeColumnHeader(trainTrackMap, x, y);
 						else if (x === props.mapWidth) return placeRowHeader(trainTrackMap, x, y);
-						else if (!props.mapVisible) return renderTransparentTile(x, y - 1);
+						else if (!props.mapVisible) return <TransparentTile key={x} tileRemSize={props.tileRemSize} />;
 						else return placeMainMapTile(trainTrackMap, x, y);
 					})}
 				</div>
