@@ -69,7 +69,7 @@ const getSingleDragTilesConnection = (dragArray, currentMapInfo) => {
 	const dragRailType = getRailTypeOfTile(dragArray[0], currentMapInfo);
 	if (dragRailType) {
 		let dragFacingTracks = getConnectedAdjacentTracks(dragArray[0], currentMapInfo);
-		dragFacingTracks = dragFacingTracks.filter((el) => !compareArrays(el.coordinate, dragArray[1]));
+		dragFacingTracks = dragFacingTracks.filter((el) => !compareArrays(el.tile, dragArray[1]));
 		const connections = dragFacingTracks.filter((el) =>
 			checkIfTwoRailTypesConnected(el.position, [ dragRailType, el.railType ])
 		);
@@ -139,7 +139,7 @@ const doDragTilesContainTracks = (dragArray, currentMapInfo) => {
 };
 
 const draggingFromAdjacentConnectedTile = (dragArray, connectedTracks) => {
-	const connectedTiles = connectedTracks.map((el) => el.coordinate);
+	const connectedTiles = connectedTracks.map((el) => el.tile);
 	const randAdj = randomArrayEntry(connectedTiles);
 	const coordinates = [ randAdj, dragArray[0], dragArray[1] ];
 	return standardDrag(coordinates);
@@ -155,9 +155,9 @@ const getTileArrayData = (tileArray, tracksOnMap) => {
 	let tileArrayData = [];
 	tileArray.forEach((adj) => {
 		tracksOnMap.forEach((mapTile) => {
-			if (compareArrays(adj.coordinate, mapTile.tile))
+			if (compareArrays(adj.tile, mapTile.tile))
 				tileArrayData.push({
-					coordinate: mapTile.tile,
+					tile: mapTile.tile,
 					railType: mapTile.railType,
 					position: adj.position
 				});
