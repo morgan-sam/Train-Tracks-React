@@ -16,7 +16,6 @@ export const Map = (props) => {
 
 	const currentHoverTile = useRef([ null, null ]);
 	const previousHoverTile = useRef();
-	const previousHoverTileClass = useRef();
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
@@ -87,10 +86,6 @@ export const Map = (props) => {
 		if (currentHoverTile.current[1] > previousHoverTile.current[1] + 1) hoverAdjacent = false;
 		if (currentHoverTile.current[1] < previousHoverTile.current[1] - 1) hoverAdjacent = false;
 		return hoverAdjacent;
-	}
-
-	function hoverEndEvent(senderClassname) {
-		previousHoverTileClass.current = senderClassname;
 	}
 
 	function hoverWhileHoldingLeftMouseButton(mouseEventObject) {
