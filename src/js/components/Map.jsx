@@ -7,6 +7,7 @@ import TransparentTile from './TransparentTile';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertRailTypeToTrackImage } from '../trackCalculations/railTypeProcessing';
+import { getCombinedArrayOfNewAndOldTiles } from '../trackCalculations/placedTrackProcessing';
 import { railDragEvent } from '../trackCalculations/railDragEvent';
 
 import MapAmbientBackground from './MapAmbientBackground.jsx';
@@ -132,34 +133,6 @@ export const Map = (props) => {
 		});
 		await props.setPlacedTracks(allTilesOnMap);
 		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
-	}
-
-	const getCombinedArrayOfNewAndOldTiles = (newTiles, map) => {
-		const tilesToPlace = filterNewTilesOfDefaultTiles(newTiles, map.mapTracks);
-		const alreadyPlacedTiles = filterAlreadyPlacedTracksOfNewTiles(tilesToPlace, map.placedTracks);
-		return [ ...tilesToPlace, ...alreadyPlacedTiles ];
-	};
-
-	const filterNewTilesOfDefaultTiles = (newTiles, mapTracks) => {
-		const filteredTiles = newTiles.filter((newTile) => {
-			const defaultOverlapTiles = mapTracks.filter(
-				(mapTile) => compareArrays(newTile.tile, mapTile.tile) && mapTile.defaultTrack
-			);
-			return defaultOverlapTiles.length === 0;
-		});
-		return filteredTiles;
-	};
-
-	function filterAlreadyPlacedTracksOfNewTiles(newTiles, placedTracks) {
-		let nonConflictingPlacedTracks = [];
-		placedTracks.forEach(function(track) {
-			let placedTrackConflict = false;
-			newTiles.forEach(function(el) {
-				if (compareArrays(track.tile, el.tile)) placedTrackConflict = true;
-			});
-			if (!placedTrackConflict) nonConflictingPlacedTracks.push(track);
-		});
-		return nonConflictingPlacedTracks;
 	}
 
 	async function removePlacedTrack(trackCoordinates) {
