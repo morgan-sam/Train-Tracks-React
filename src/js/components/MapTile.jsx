@@ -122,11 +122,6 @@ export const Square = (props) => {
 		[ squareStyling, trackText ] = setDefaultTrackImage();
 	}
 
-	if (props.className === 'transparentTile') {
-		boxStyling = { border: 'none' };
-		squareStyling = { border: 'none' };
-	}
-
 	return (
 		<div
 			style={getSquareStyle(props.tileRemSize)}
