@@ -1,5 +1,5 @@
 import React from 'react';
-import WaveButton from '../components/WaveButton';
+import WaveButton from './WaveButton';
 
 export const ReturnToMainMenuBtn = (props) => {
 	return (

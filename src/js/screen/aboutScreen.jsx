@@ -1,5 +1,5 @@
 import React from 'react';
-import ReturnToMainMenuBtn from './returnToMainMenuBtn';
+import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 
 export const AboutScreen = (props) => {
 	return (

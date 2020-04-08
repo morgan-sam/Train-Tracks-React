@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReturnToMainMenuBtn from './returnToMainMenuBtn';
+import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 import { generateNewMap } from '../generation/generateMap';
 import { generateMapIcon, generateCompletedMapIcon } from '../generation/generateIcon';
 

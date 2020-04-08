@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import WaveButton from '../components/WaveButton';
 import Dropdown from '../components/Dropdown';
-import ReturnToMainMenuBtn from './returnToMainMenuBtn';
+import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
 function getMapSizeOptions() {

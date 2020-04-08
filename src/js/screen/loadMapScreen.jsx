@@ -3,7 +3,7 @@ import WaveButton from '../components/WaveButton';
 import Dropdown from '../components/Dropdown';
 import DeleteMapConfirmScreen from './deleteMapConfirmScreen.jsx';
 import { generateMapIcon } from '../generation/generateIcon';
-import ReturnToMainMenuBtn from './returnToMainMenuBtn';
+import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 
 import { getLocalStorageMaps } from '../utility/localStorage';
 
