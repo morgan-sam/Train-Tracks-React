@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Game from './Game';
-import LoadMapScreen from '../render/loadMapScreen';
-import HowToPlayScreen from '../render/howToPlayScreen';
-import StartMapScreen from '../render/startMapScreen';
-import AboutScreen from '../render/aboutScreen';
-import { generateNewMap } from '../generation/generateMap';
-import MainMenuScreen from '../render/mainMenuScreen';
+import LoadMapScreen from '../screen/loadMapScreen.jsx';
+import HowToPlayScreen from '../screen/howToPlayScreen.jsx';
+import StartMapScreen from '../screen/startMapScreen.jsx';
+import AboutScreen from '../screen/aboutScreen.jsx';
+import MainMenuScreen from '../screen/mainMenuScreen.jsx';
 
+import { generateNewMap } from '../generation/generateMap';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
 export const App = () => {

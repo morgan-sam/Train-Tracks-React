@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import WaveButton from '../components/WaveButton';
 import Dropdown from '../components/Dropdown';
-import DeleteMapConfirmScreen from '../render/deleteMapConfirmScreen';
+import DeleteMapConfirmScreen from './deleteMapConfirmScreen.jsx';
 import { generateMapIcon } from '../generation/generateIcon';
 import ReturnToMainMenuBtn from './returnToMainMenuBtn';
 

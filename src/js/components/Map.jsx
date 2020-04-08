@@ -7,7 +7,7 @@ import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertRailTypeToTrackImage } from '../trackCalculations/railTypeProcessing';
 import { railDragEvent } from '../trackCalculations/railDragEvent';
 
-import MapBackground from '../render/mapBackground';
+import MapBackground from '../screen/mapBackground';
 
 export const Map = (props) => {
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
