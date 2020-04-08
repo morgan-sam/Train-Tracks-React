@@ -1,7 +1,7 @@
 import curvedtrack from '../../img/curvedtrack.png';
 import straighttrack from '../../img/straighttrack.png';
 
-export const convertDirectionArrayToRailTypes = (dirArr) => {
+export const convertDirectionTupleToRailTypes = (dirArr) => {
 	let previousTileRailType, currentHoverTileRailType;
 
 	if (dirArr.length === 1) {

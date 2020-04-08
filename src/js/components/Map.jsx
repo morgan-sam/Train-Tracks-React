@@ -1,24 +1,25 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import MapTile from './MapTile';
 import HeadingTile from './HeadingTile';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
-import { convertDirectionArrayToRailTypes, convertRailTypeToTrackImage } from '../utility/trackConversions';
-
-import { findDirectionFromMove } from '../generation/generateMap';
-import { mapDragEvent } from '../Events/mapDragEvent';
+import { convertRailTypeToTrackImage } from '../utility/trackConversions';
+import { railDragEvent } from '../trackCalculations/railDragEvent';
 
 import MapBackground from '../render/mapBackground';
 
 export const Map = (props) => {
+	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
+
+	const dragArray = useRef([ null, null, null ]);
+
 	const currentHoverTile = useRef([ null, null ]);
 	const currentHoverTileClass = useRef();
 	const previousHoverTile = useRef();
 	const previousHoverTileClass = useRef();
 	const previousValueOfLeftClickTile = useRef();
 	const initialLeftClickValue = useRef();
-	const leftClickDragArray = useRef();
 	const rightClickDragValue = useRef();
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
@@ -26,7 +27,7 @@ export const Map = (props) => {
 	function leftClickEvent(mouseEventObject) {
 		previousValueOfLeftClickTile.current = getRailTypeOfCoordinate(mouseEventObject.tile);
 		initialLeftClickValue.current = mouseEventObject;
-		leftClickDragArray.current = [ null, null, mouseEventObject.tile ];
+		dragArray.current = [ null, null, mouseEventObject.tile ];
 	}
 
 	function rightClickEvent(mouseEventObject) {
@@ -51,9 +52,9 @@ export const Map = (props) => {
 	}
 
 	function leftReleaseEvent(mouseEventObject) {
-		if (isNonEmptyArray(leftClickDragArray.current)) {
+		if (isNonEmptyArray(dragArray.current)) {
 			placeTrackIfLeftClickNoDrag(mouseEventObject);
-			leftClickDragArray.current = [];
+			dragArray.current = [];
 		}
 	}
 
@@ -84,7 +85,6 @@ export const Map = (props) => {
 		if (checkIfHoverTileChanged(mouseEventObject)) {
 			updateHoverTileState(mouseEventObject);
 			if (mouseEventObject.mouseButton === 1 && checkIfHoverToAdjacent()) {
-				mapDragEvent();
 				hoverWhileHoldingLeftMouseButton(mouseEventObject);
 			}
 			if (mouseEventObject.mouseButton === 2) {
@@ -110,10 +110,11 @@ export const Map = (props) => {
 	}
 
 	function hoverWhileHoldingLeftMouseButton(mouseEventObject) {
-		if (isNonEmptyArray(leftClickDragArray.current)) {
-			leftClickDragArray.current.shift();
-			leftClickDragArray.current.push(mouseEventObject.tile);
-			placedDraggedTrack(mouseEventObject.tile);
+		if (isNonEmptyArray(dragArray.current)) {
+			dragArray.current.shift();
+			dragArray.current.push(mouseEventObject.tile);
+			const draggedTilesToPlace = railDragEvent(dragArray.current, currentMapInfo);
+			placeMultipleTiles(draggedTilesToPlace);
 		}
 	}
 
@@ -134,200 +135,6 @@ export const Map = (props) => {
 	}
 
 	///////////// MAP - MOUSE DRAG CONTROL FUNCTIONS /////////////
-
-	// Needs to be refactored, far too long
-	function placedDraggedTrack(coordinate) {
-		const directions = calculateDragDirection();
-		const railType = convertDirectionArrayToRailTypes(directions);
-
-		let tilesToPlace = [];
-
-		let newCorner;
-		//Only change tile to new corner if on first drag
-		if (compareArrays(previousHoverTile.current, initialLeftClickValue.current.tile))
-			newCorner = convertConnectedRailToCorner(coordinate);
-		if (isNonEmptyArray(newCorner)) tilesToPlace.unshift(...getNewCornerTiles(newCorner));
-		else {
-			if (previousHoverTileClass.current === 'mapTile') {
-				let railShouldChange = shouldStartRailChange(
-					previousValueOfLeftClickTile.current,
-					initialLeftClickValue.current.tile,
-					coordinate
-				);
-				//Only replaces first coordinate if no tile present, but maintains snaking movement on later drags
-
-				if (checkIfNotFirstDragTile() || checkIfFirstDragTileIsEmptyOrT() || railShouldChange) {
-					tilesToPlace.unshift({ tile: previousHoverTile.current, railType: railType[0] });
-				}
-			}
-			if (currentHoverTileClass.current === 'mapTile' && !checkIfCurrentTileIsConnectedToLast()) {
-				tilesToPlace.unshift({ tile: currentHoverTile.current, railType: railType[1] });
-			}
-		}
-		placeMultipleTiles(tilesToPlace);
-	}
-
-	function checkIfCurrentTileIsConnectedToLast() {
-		let moveDirection = findDirectionFromMove(previousHoverTile.current, currentHoverTile.current);
-		let connectedDirections = getConnectedAdjacentTracksDirections(previousHoverTile.current);
-		let connection = connectedDirections.includes(moveDirection);
-		return connection;
-	}
-
-	function checkIfFirstDragTileIsEmptyOrT() {
-		return !previousValueOfLeftClickTile.current || previousValueOfLeftClickTile.current === 'T';
-	}
-
-	function checkIfNotFirstDragTile() {
-		return !compareArrays(previousHoverTile.current, initialLeftClickValue.current.tile);
-	}
-
-	function getNewCornerTiles(newCorner) {
-		let tilesToPlace = [];
-		if (previousHoverTileClass.current === 'mapTile') {
-			tilesToPlace.unshift({ tile: previousHoverTile.current, railType: newCorner[0] });
-		}
-		if (currentHoverTileClass.current === 'mapTile' && !checkIfCurrentTileIsConnectedToLast()) {
-			tilesToPlace.unshift({ tile: currentHoverTile.current, railType: newCorner[1] });
-		}
-		return tilesToPlace;
-	}
-
-	function shouldStartRailChange(startType, startCoordinate, nextCoordinate) {
-		let railShouldChange = false;
-		switch (findDirectionFromMove(nextCoordinate, startCoordinate)) {
-			case 0:
-				if (
-					startType === 'bottomLeftCorner' ||
-					startType === 'bottomRightCorner' ||
-					startType === 'horizontal'
-				) {
-					railShouldChange = true;
-				}
-				break;
-			case 1:
-				if (startType === 'bottomLeftCorner' || startType === 'topLeftCorner' || startType === 'vertical') {
-					railShouldChange = true;
-				}
-				break;
-			case 2:
-				if (startType === 'topLeftCorner' || startType === 'topRightCorner' || startType === 'horizontal') {
-					railShouldChange = true;
-				}
-				break;
-			case 3:
-				if (startType === 'bottomRightCorner' || startType === 'topRightCorner' || startType === 'vertical') {
-					railShouldChange = true;
-				}
-				break;
-			default:
-		}
-		return railShouldChange;
-	}
-
-	function convertConnectedRailToCorner(newCoordinate) {
-		const dragDirection = findDirectionFromMove(newCoordinate, previousHoverTile.current);
-		let connectedDirections = getConnectedAdjacentTracksDirections(previousHoverTile.current);
-		if (isNonEmptyArray(connectedDirections)) {
-			const initialDirection = connectedDirections[randomInt(0, connectedDirections.length - 1)];
-			const directions = [ initialDirection, dragDirection ];
-			return convertDirectionArrayToRailTypes(directions);
-		}
-	}
-
-	function getConnectedAdjacentTracksDirections(coordinate) {
-		//checks which tiles are pointing towards the dragged tile
-		const adjacentTracks = getAdjacentTracks(coordinate);
-		const connectedDirectionArray = adjacentTracks
-			.map(function(adj) {
-				let connectedDirection;
-				if (adj.position === 0) {
-					if (
-						adj.railType === 'vertical' ||
-						adj.railType === 'bottomLeftCorner' ||
-						adj.railType === 'bottomRightCorner'
-					) {
-						connectedDirection = 2;
-					}
-				}
-				if (adj.position === 3) {
-					if (
-						adj.railType === 'horizontal' ||
-						adj.railType === 'bottomRightCorner' ||
-						adj.railType === 'topRightCorner'
-					) {
-						connectedDirection = 1;
-					}
-				}
-				if (adj.position === 2) {
-					if (
-						adj.railType === 'vertical' ||
-						adj.railType === 'topLeftCorner' ||
-						adj.railType === 'topRightCorner'
-					) {
-						connectedDirection = 0;
-					}
-				}
-				if (adj.position === 1) {
-					if (
-						adj.railType === 'horizontal' ||
-						adj.railType === 'topLeftCorner' ||
-						adj.railType === 'bottomLeftCorner'
-					) {
-						connectedDirection = 3;
-					}
-				}
-				return connectedDirection;
-			})
-			.filter((el) => el !== undefined);
-		return connectedDirectionArray;
-	}
-
-	function getAdjacentTracks(coordinate) {
-		let adjacentTracks = [];
-		let adjTile;
-
-		const pushAdjTileIfExist = (adjTile, position) => {
-			let adjRail = getRailTypeOfCoordinate(adjTile);
-			if (!adjRail) adjRail = checkIfTileIsDefault(props.trainTrackMap, adjTile[0], adjTile[1]);
-			if (adjRail) {
-				adjacentTracks.push({
-					tile: adjTile,
-					railType: adjRail,
-					position
-				});
-			}
-		};
-
-		if (coordinate[0] > 0) {
-			adjTile = [ coordinate[0] - 1, coordinate[1] ];
-			pushAdjTileIfExist(adjTile, 3);
-		}
-		if (coordinate[0] < props.mapWidth) {
-			adjTile = [ coordinate[0] + 1, coordinate[1] ];
-			pushAdjTileIfExist(adjTile, 1);
-		}
-		if (coordinate[1] > 0) {
-			adjTile = [ coordinate[0], coordinate[1] - 1 ];
-			pushAdjTileIfExist(adjTile, 0);
-		}
-		if (coordinate[1] < props.mapHeight) {
-			adjTile = [ coordinate[0], coordinate[1] + 1 ];
-			pushAdjTileIfExist(adjTile, 2);
-		}
-
-		return adjacentTracks;
-	}
-
-	function calculateDragDirection() {
-		let directions = [];
-		const tiles = leftClickDragArray.current;
-		const numberOfNulls = tiles.findIndex((el) => el !== null);
-		for (let i = numberOfNulls; i < tiles.length - 1; i++) {
-			directions.push(findDirectionFromMove(tiles[i + 1], tiles[i]));
-		}
-		return directions;
-	}
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
 
@@ -463,7 +270,7 @@ export const Map = (props) => {
 		rightReleaseEvent: () => null,
 		hoverStartEvent: () => null,
 		hoverEndEvent: () => null,
-		leftClickDragArray: null,
+		dragArray: null,
 		rightClickDragValue: null
 	};
 
@@ -627,6 +434,18 @@ export const Map = (props) => {
 	useEffect(
 		() => {
 			checkIfPlacedTilesAllCorrect(props.trainTrackMap);
+		},
+		[ props.placedTracks ]
+	);
+
+	useEffect(
+		() => {
+			const defaultTracks = props.trainTrackMap.tracks.filter((el) => el.defaultTrack);
+			const placedTracks = props.placedTracks.filter((el) => el.railType !== 'X');
+			setCurrentMapInfo({
+				tracksOnMap: [ ...defaultTracks, ...placedTracks ],
+				axisMax: { x: props.mapWidth, y: props.mapHeight }
+			});
 		},
 		[ props.placedTracks ]
 	);

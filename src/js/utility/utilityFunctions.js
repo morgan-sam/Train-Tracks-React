@@ -61,6 +61,14 @@ export const removeDuplicateArraysFromMatrix = (matrix) => {
 	});
 };
 
+export const removeNonDuplicateArraysFromMatrix = (matrix) => {
+	return matrix.filter((el, loopIndex) => {
+		const elIndex = findIndexOfArrayInMatrix(el, matrix);
+		if (loopIndex === elIndex) return false;
+		else return true;
+	});
+};
+
 export const removeArraysFromMatrix = (arrays, matrix) => {
 	arrays.forEach(function(arr) {
 		matrix = matrix.filter((el) => !compareArrays(el, arr));
@@ -74,4 +82,23 @@ export const getRandomSeed = () => {
 
 export const convertPxToRem = (rem) => {
 	return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+};
+
+export const checkIfArrayIsInMatrix = (array, matrix) => {
+	const count = matrix.filter((el) => compareArrays(array, el));
+	return Boolean(count.length);
+};
+
+export const findCommonArraysOfAllMatrices = (arrayOfMatrices) => {
+	const matricesUnique = arrayOfMatrices.map((mat) => removeDuplicateArraysFromMatrix(mat));
+	let commonArrays = matricesUnique[0];
+	for (let i = 0; i < matricesUnique.length - 1; i++) {
+		let combinedArrays = [ ...commonArrays, ...matricesUnique[i + 1] ];
+		commonArrays = removeNonDuplicateArraysFromMatrix(combinedArrays);
+	}
+	return commonArrays;
+};
+
+export const randomArrayEntry = (array) => {
+	return array[randomIntFromInterval(0, array.length - 1)];
 };
