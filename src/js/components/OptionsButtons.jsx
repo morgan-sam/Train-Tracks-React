@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import WaveButton from './WaveButton';
 
 export const OptionsButtons = (props) => {
-	const { setGameWinState, setPlacedTracks, setDisplay, display, seed, inGameNewMap } = props;
+	const { setGameWinState, setPlacedTracks, setDisplay, display, seed, inGameNewMap, quitGame } = props;
 
 	const clipboard = useRef(null);
 	return (
@@ -79,7 +79,7 @@ export const OptionsButtons = (props) => {
 					text={'New Map'}
 				/>
 
-				<WaveButton key={'quitBtn'} onClick={() => props.quitGame()} text={'Quit Game'} />
+				<WaveButton key={'quitBtn'} onClick={() => quitGame()} text={'Quit Game'} />
 			</div>
 		</div>
 	);

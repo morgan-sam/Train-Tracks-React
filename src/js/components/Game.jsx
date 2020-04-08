@@ -1,16 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Map from './Map';
-import WaveButton from './WaveButton';
 import OptionsButtons from './OptionsButtons';
+import SaveMapDisplay from './SaveMapDisplay';
 
 import { generateMapBackground } from '../generation/generateIcon';
 import { randomIntFromInterval } from '../utility/utilityFunctions';
 import { generateRandomRGBColor } from '../utility/colorFunctions';
-import { saveMapToLocal } from '../utility/localStorage';
 
 export const Game = (props) => {
 	const [ gameWon, setGameWinState ] = useState(false);
-	const [ mapSaveName, setMapSaveName ] = useState(null);
 	const [ placedTracks, setPlacedTracks ] = useState([]);
 
 	const [ display, setDisplay ] = useState({
@@ -66,36 +64,6 @@ export const Game = (props) => {
 		return balloonContainer;
 	}
 
-	function renderSaveMapDisplay() {
-		return (
-			<div key={'saveMapDisplay'} className="saveMapDisplay" onContextMenu={(e) => e.preventDefault()}>
-				<p>Enter a name to save map as:</p>
-				<button
-					key={'closeSaveMapDisplay'}
-					className={'closePopUpWindow'}
-					onClick={() => setDisplay({ ...display, savePopUp: false })}
-				>
-					X
-				</button>
-				<input
-					key={'saveNameInputBox'}
-					className={'saveNameInputBox'}
-					onChange={(e) => setMapSaveName(e.target.value)}
-				/>
-				<WaveButton
-					key={'confirmSaveMapBtn'}
-					className={'confirmSaveMapBtn'}
-					onClick={() => {
-						saveMapToLocal({ name: mapSaveName, ...props.gameState });
-						setMapSaveName(null);
-						setDisplay({ ...display, savePopUp: false });
-					}}
-					text={'Save Map'}
-				/>
-			</div>
-		);
-	}
-
 	useEffect(
 		() => {
 			async function addCutOutToScreen() {
@@ -117,7 +85,9 @@ export const Game = (props) => {
 		<div>
 			<div className="gameMapContainer">
 				{display.winPopUp ? renderGameWinDisplay() : null}
-				{display.savePopUp ? renderSaveMapDisplay() : null}
+				{display.savePopUp && (
+					<SaveMapDisplay display={display} setDisplay={setDisplay} gameState={props.gameState} />
+				)}
 				<Map
 					key={props.mapSeed}
 					className="gameMap"
@@ -157,6 +127,7 @@ export const Game = (props) => {
 				display={display}
 				seed={props.gameState.seed}
 				inGameNewMap={props.inGameNewMap}
+				quitGame={props.quitGame}
 			/>
 		</div>
 	);
