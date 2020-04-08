@@ -15,7 +15,6 @@ export const Map = (props) => {
 	const rightClickDragValue = useRef();
 
 	const currentHoverTile = useRef([ null, null ]);
-	const currentHoverTileClass = useRef();
 	const previousHoverTile = useRef();
 	const previousHoverTileClass = useRef();
 
@@ -64,7 +63,6 @@ export const Map = (props) => {
 	function updateHoverTileState(mouseEventObject) {
 		previousHoverTile.current = currentHoverTile.current;
 		currentHoverTile.current = mouseEventObject.tile;
-		currentHoverTileClass.current = mouseEventObject.tileClass;
 	}
 
 	function hoverStartEvent(mouseEventObject) {
