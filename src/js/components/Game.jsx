@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Map from './Map';
 import OptionsButtons from './OptionsButtons';
 import SaveMapDisplay from './SaveMapDisplay';
-import WinDisplayBackground from './WinDisplayBackground';
+import GameWinDisplay from './GameWinDisplay';
 
 import { generateMapBackground } from '../generation/generateIcon';
 
@@ -17,26 +17,6 @@ export const Game = (props) => {
 		defaultHighlights: false,
 		solutionVisible: false
 	});
-
-	function renderGameWinDisplay() {
-		return (
-			<div key={'gameWinDisplay'} className="winDisplay" onContextMenu={(e) => e.preventDefault()}>
-				<h2 key={'winText'} className="winText">
-					You Win!
-				</h2>
-				<button
-					key={'closeWinDisplay'}
-					className={'closePopUpWindow'}
-					onClick={() => setDisplay({ ...display, winPopUp: false })}
-				>
-					X
-				</button>
-				<div key={'balloonContainer'} className={'balloonContainer'}>
-					<WinDisplayBackground balloonCloud={props.gameState.balloonCloud} />
-				</div>
-			</div>
-		);
-	}
 
 	useEffect(
 		() => {
@@ -58,7 +38,13 @@ export const Game = (props) => {
 	return (
 		<div>
 			<div className="gameMapContainer">
-				{display.winPopUp ? renderGameWinDisplay() : null}
+				{display.winPopUp && (
+					<GameWinDisplay
+						display={display}
+						setDisplay={setDisplay}
+						balloonCloud={props.gameState.balloonCloud}
+					/>
+				)}
 				{display.savePopUp && (
 					<SaveMapDisplay display={display} setDisplay={setDisplay} gameState={props.gameState} />
 				)}
