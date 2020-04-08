@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import MapTile from './MapTile';
 import HeadingTile from './HeadingTile';
+import EmptyTile from './EmptyTile';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { convertRailTypeToTrackImage } from '../trackCalculations/railTypeProcessing';
@@ -366,7 +367,7 @@ export const Map = (props) => {
 			}
 		});
 		if (defaultTile) return renderCompleteTrack(x, y - 1, defaultTile, highlighted);
-		else return renderEmptyTile(x, y - 1);
+		else return <EmptyTile key={x} tileRemSize={props.tileRemSize} />;
 	}
 
 	function placeUserPlacedTrack(x, y) {
