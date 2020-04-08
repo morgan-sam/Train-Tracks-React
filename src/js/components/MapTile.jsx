@@ -26,9 +26,7 @@ export const Square = (props) => {
 	}
 
 	function squareHoverEnd(e) {
-		const tileClass = getTileClassFromEvent(e);
 		setHoverTrack(null);
-		props.hoverEndEvent(tileClass);
 	}
 
 	function squareMouseDown(e) {

@@ -237,8 +237,7 @@ export const Map = (props) => {
 		bothClickEvent: props.controlsActive ? bothClickEvent : () => null,
 		leftReleaseEvent: props.controlsActive ? leftReleaseEvent : () => null,
 		rightReleaseEvent: props.controlsActive ? rightReleaseEvent : () => null,
-		hoverStartEvent: props.controlsActive ? hoverStartEvent : () => null,
-		hoverEndEvent: props.controlsActive ? hoverEndEvent : () => null
+		hoverStartEvent: props.controlsActive ? hoverStartEvent : () => null
 	};
 
 	const emptyMouseEventsObject = {
@@ -248,7 +247,6 @@ export const Map = (props) => {
 		leftReleaseEvent: () => null,
 		rightReleaseEvent: () => null,
 		hoverStartEvent: () => null,
-		hoverEndEvent: () => null,
 		dragArray: null,
 		rightClickDragValue: null
 	};
