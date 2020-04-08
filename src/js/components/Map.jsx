@@ -126,6 +126,7 @@ export const Map = (props) => {
 	}
 
 	async function placeMultipleTiles(newTileObjArray) {
+		newTileObjArray = filterNewTilesOfDefaultTiles(newTileObjArray, props.trainTrackMap);
 		let newPlacedTrackArray = filterPlacedTracksOfNewTiles(newTileObjArray);
 		newTileObjArray.forEach(function(el) {
 			if (el.railType) newPlacedTrackArray.push(el);
@@ -133,6 +134,16 @@ export const Map = (props) => {
 		await props.setPlacedTracks(newPlacedTrackArray);
 		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
 	}
+
+	const filterNewTilesOfDefaultTiles = (newTiles, map) => {
+		const filteredTiles = newTiles.filter((newTile) => {
+			const defaultOverlapTiles = map.tracks.filter(
+				(mapTile) => compareArrays(newTile.tile, mapTile.tile) && mapTile.defaultTrack
+			);
+			return defaultOverlapTiles.length === 0;
+		});
+		return filteredTiles;
+	};
 
 	function filterPlacedTracksOfNewTiles(newTiles) {
 		let nonConflictingPlacedTracks = [];
