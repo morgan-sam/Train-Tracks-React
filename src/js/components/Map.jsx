@@ -125,13 +125,11 @@ export const Map = (props) => {
 		placeMultipleTiles([ trackSquareInfo ]);
 	}
 
-	async function placeMultipleTiles(newTileObjArray) {
-		newTileObjArray = filterNewTilesOfDefaultTiles(newTileObjArray, props.trainTrackMap);
-		let newPlacedTrackArray = filterAlreadyPlacedTracksOfNewTiles(newTileObjArray);
-		newTileObjArray.forEach(function(el) {
-			if (el.railType) newPlacedTrackArray.push(el);
-		});
-		await props.setPlacedTracks(newPlacedTrackArray);
+	async function placeMultipleTiles(newTiles) {
+		const tilesToPlace = filterNewTilesOfDefaultTiles(newTiles, props.trainTrackMap);
+		const alreadyPlacedTiles = filterAlreadyPlacedTracksOfNewTiles(tilesToPlace);
+		const allTilesOnMap = [ ...tilesToPlace, ...alreadyPlacedTiles ];
+		await props.setPlacedTracks(allTilesOnMap);
 		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
 	}
 
