@@ -296,36 +296,6 @@ export const Map = (props) => {
 		);
 	}
 
-	function renderEmptyTile(x, y) {
-		return (
-			<MapTile
-				className="emptyTile"
-				tileRemSize={props.tileRemSize}
-				key={x}
-				x={x}
-				y={y}
-				highlighted={false}
-				trackData={convertRailTypeToTrackImage(null)}
-				{...emptyMouseEventsObject}
-			/>
-		);
-	}
-
-	function renderTransparentTile(x, y) {
-		return (
-			<MapTile
-				className="transparentTile"
-				tileRemSize={props.tileRemSize}
-				key={x}
-				x={x}
-				y={y}
-				highlighted={false}
-				trackData={convertRailTypeToTrackImage(null)}
-				{...emptyMouseEventsObject}
-			/>
-		);
-	}
-
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
 
 	function placeColumnHeader(trainTrackMap, x, y) {
