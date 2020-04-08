@@ -127,7 +127,7 @@ export const Map = (props) => {
 
 	async function placeMultipleTiles(newTileObjArray) {
 		newTileObjArray = filterNewTilesOfDefaultTiles(newTileObjArray, props.trainTrackMap);
-		let newPlacedTrackArray = filterPlacedTracksOfNewTiles(newTileObjArray);
+		let newPlacedTrackArray = filterAlreadyPlacedTracksOfNewTiles(newTileObjArray);
 		newTileObjArray.forEach(function(el) {
 			if (el.railType) newPlacedTrackArray.push(el);
 		});
@@ -145,7 +145,7 @@ export const Map = (props) => {
 		return filteredTiles;
 	};
 
-	function filterPlacedTracksOfNewTiles(newTiles) {
+	function filterAlreadyPlacedTracksOfNewTiles(newTiles) {
 		let nonConflictingPlacedTracks = [];
 		props.placedTracks.forEach(function(track) {
 			let placedTrackConflict = false;
