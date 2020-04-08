@@ -126,20 +126,23 @@ export const Map = (props) => {
 	}
 
 	async function placeMultipleTiles(newTiles) {
-		const allTilesOnMap = getCombinedArrayOfNewAndOldTiles(newTiles, props.trainTrackMap);
+		const allTilesOnMap = getCombinedArrayOfNewAndOldTiles(newTiles, {
+			mapTracks: props.trainTrackMap.tracks,
+			placedTracks: props.placedTracks
+		});
 		await props.setPlacedTracks(allTilesOnMap);
 		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
 	}
 
 	const getCombinedArrayOfNewAndOldTiles = (newTiles, map) => {
-		const tilesToPlace = filterNewTilesOfDefaultTiles(newTiles, map);
-		const alreadyPlacedTiles = filterAlreadyPlacedTracksOfNewTiles(tilesToPlace);
+		const tilesToPlace = filterNewTilesOfDefaultTiles(newTiles, map.mapTracks);
+		const alreadyPlacedTiles = filterAlreadyPlacedTracksOfNewTiles(tilesToPlace, map.placedTracks);
 		return [ ...tilesToPlace, ...alreadyPlacedTiles ];
 	};
 
-	const filterNewTilesOfDefaultTiles = (newTiles, map) => {
+	const filterNewTilesOfDefaultTiles = (newTiles, mapTracks) => {
 		const filteredTiles = newTiles.filter((newTile) => {
-			const defaultOverlapTiles = map.tracks.filter(
+			const defaultOverlapTiles = mapTracks.filter(
 				(mapTile) => compareArrays(newTile.tile, mapTile.tile) && mapTile.defaultTrack
 			);
 			return defaultOverlapTiles.length === 0;
@@ -147,9 +150,9 @@ export const Map = (props) => {
 		return filteredTiles;
 	};
 
-	function filterAlreadyPlacedTracksOfNewTiles(newTiles) {
+	function filterAlreadyPlacedTracksOfNewTiles(newTiles, placedTracks) {
 		let nonConflictingPlacedTracks = [];
-		props.placedTracks.forEach(function(track) {
+		placedTracks.forEach(function(track) {
 			let placedTrackConflict = false;
 			newTiles.forEach(function(el) {
 				if (compareArrays(track.tile, el.tile)) placedTrackConflict = true;
