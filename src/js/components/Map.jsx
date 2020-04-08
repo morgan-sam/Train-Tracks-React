@@ -126,13 +126,13 @@ export const Map = (props) => {
 	}
 
 	async function placeMultipleTiles(newTiles) {
-		const allTilesOnMap = getCombinedArrayOfNewAndOldTiles(newTiles);
+		const allTilesOnMap = getCombinedArrayOfNewAndOldTiles(newTiles, props.trainTrackMap);
 		await props.setPlacedTracks(allTilesOnMap);
 		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
 	}
 
-	const getCombinedArrayOfNewAndOldTiles = (newTiles) => {
-		const tilesToPlace = filterNewTilesOfDefaultTiles(newTiles, props.trainTrackMap);
+	const getCombinedArrayOfNewAndOldTiles = (newTiles, map) => {
+		const tilesToPlace = filterNewTilesOfDefaultTiles(newTiles, map);
 		const alreadyPlacedTiles = filterAlreadyPlacedTracksOfNewTiles(tilesToPlace);
 		return [ ...tilesToPlace, ...alreadyPlacedTiles ];
 	};
