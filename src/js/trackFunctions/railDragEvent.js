@@ -4,7 +4,7 @@ import {
 	checkIfAdjacentTileConnected
 } from './railTypeProcessing';
 import { findDirectionFromMove } from '../generation/generateMap';
-import { getAdjacentTracks, convertMoveArrayToDirections } from '../trackCalculations/trackUtilities';
+import { getAdjacentTracks, convertMoveArrayToDirections } from '../trackFunctions/trackUtilities';
 import { randomArrayEntry, isNonEmptyArray, compareArrays } from '../utility/utilityFunctions';
 
 export const railDragEvent = (dragArray, currentMapInfo) => {

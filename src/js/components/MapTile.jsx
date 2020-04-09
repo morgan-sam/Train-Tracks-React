@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import WhiteSquareBackground from './WhiteSquareBackground';
-import { convertRailTypeToTrackImage, convertButtonClassToRailType } from '../trackCalculations/railTypeProcessing';
+import { convertRailTypeToTrackImage, convertButtonClassToRailType } from '../trackFunctions/railTypeProcessing';
 import { TileButtons } from './TileButtons';
 import { getSquareStyle } from '../styles/square';
 

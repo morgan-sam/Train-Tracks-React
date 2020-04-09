@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import Board from './Board';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
-import { getCombinedArrayOfNewAndOldTiles } from '../trackCalculations/placedTrackProcessing';
-import { railDragEvent } from '../trackCalculations/railDragEvent';
-import { getAllDefaultTiles } from '../trackCalculations/mapTrackProcessing';
+import { getCombinedArrayOfNewAndOldTiles } from '../trackFunctions/trackPlacement';
+import { railDragEvent } from '../trackFunctions/railDragEvent';
+import { getAllDefaultTiles } from '../trackFunctions/mapTrackProcessing';
 
 import MapAmbientBackground from './MapAmbientBackground.jsx';
 
