@@ -6,7 +6,7 @@ import EmptyTile from './EmptyTile';
 import TransparentTile from './TransparentTile';
 
 import { convertRailTypeToTrackImage } from '../trackFunctions/railTypeProcessing';
-import { getAllDefaultTiles } from '../trackFunctions/mapTrackProcessing';
+import { getAllDefaultTiles } from '../trackFunctions/trackParsing';
 
 export const Board = (props) => {
 	function renderMapTile(x, y, railImage, mapSolutionVisible) {

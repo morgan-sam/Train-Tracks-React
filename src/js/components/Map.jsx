@@ -4,7 +4,7 @@ import Board from './Board';
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { getCombinedArrayOfNewAndOldTiles } from '../trackFunctions/trackPlacement';
 import { railDragEvent } from '../trackFunctions/railDragEvent';
-import { getAllDefaultTiles } from '../trackFunctions/mapTrackProcessing';
+import { getAllDefaultTiles } from '../trackFunctions/trackParsing';
 
 import MapAmbientBackground from './MapAmbientBackground.jsx';
 
