@@ -1,14 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-
-import MapTile from './MapTile';
-import HeadingTile from './HeadingTile';
-import EmptyTile from './EmptyTile';
-import TransparentTile from './TransparentTile';
+import Board from './Board';
 
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
-import { convertRailTypeToTrackImage } from '../trackCalculations/railTypeProcessing';
 import { getCombinedArrayOfNewAndOldTiles } from '../trackCalculations/placedTrackProcessing';
 import { railDragEvent } from '../trackCalculations/railDragEvent';
+import { getAllDefaultTiles } from '../trackCalculations/mapTrackProcessing';
 
 import MapAmbientBackground from './MapAmbientBackground.jsx';
 
@@ -153,40 +149,6 @@ export const Map = (props) => {
 		return railType;
 	}
 
-	function checkIfTileIsDefault(trainTrackMap, x, y) {
-		let trackDefaultTile = null;
-		trainTrackMap.tracks.forEach(function(el) {
-			if (el.tile[0] === x && el.tile[1] === y && el.defaultTrack) trackDefaultTile = el.railType;
-		});
-		return trackDefaultTile;
-	}
-
-	function getAllDefaultTiles(trainTrackMap) {
-		let defaultTileArr = [];
-		trainTrackMap.tracks.forEach(function(el) {
-			if (el.defaultTrack) defaultTileArr.push(el);
-		});
-		return defaultTileArr;
-	}
-
-	///////////// MAP - HEADING FUNCTIONS /////////////
-
-	function getRowColumnFillstate(axis, index) {
-		let fillState = 'underfilled';
-		const defaultTiles = getAllDefaultTiles(props.trainTrackMap);
-		let axisNum = axis === 'x' ? 0 : 1;
-
-		let placedTrackCount = defaultTiles.filter((el) => el.tile[axisNum] === index).length;
-		const tilesOnAxis = props.trainTrackMap.tracks.filter((el) => el.tile[axisNum] === index).length;
-		props.placedTracks.forEach(function(el) {
-			if (el.tile[axisNum] === index && el.railType !== 'X') placedTrackCount++;
-		});
-
-		if (tilesOnAxis < placedTrackCount) fillState = 'overfilled';
-		else if (tilesOnAxis === placedTrackCount) fillState = 'full';
-		return fillState;
-	}
-
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
 	function checkIfPlacedTilesAllCorrect(trainTrackMap) {
@@ -218,155 +180,6 @@ export const Map = (props) => {
 		}).length;
 	}
 
-	///////////// MAP - RENDER FUNCTIONS /////////////
-
-	const activeMouseEventsObject = {
-		leftClickEvent: props.controlsActive ? leftClickEvent : () => null,
-		rightClickEvent: props.controlsActive ? rightClickEvent : () => null,
-		bothClickEvent: props.controlsActive ? bothClickEvent : () => null,
-		leftReleaseEvent: props.controlsActive ? leftReleaseEvent : () => null,
-		rightReleaseEvent: props.controlsActive ? rightReleaseEvent : () => null,
-		hoverStartEvent: props.controlsActive ? hoverStartEvent : () => null
-	};
-
-	const emptyMouseEventsObject = {
-		leftClickEvent: () => null,
-		rightClickEvent: () => null,
-		bothClickEvent: () => null,
-		leftReleaseEvent: () => null,
-		rightReleaseEvent: () => null,
-		hoverStartEvent: () => null,
-		dragArray: null,
-		rightClickDragValue: null
-	};
-
-	function renderMapTile(x, y, railImage, mapSolutionVisible) {
-		return (
-			<MapTile
-				className="mapTile"
-				tileRemSize={props.tileRemSize}
-				key={x}
-				x={x}
-				y={y}
-				mapSolutionVisible={mapSolutionVisible}
-				trackData={railImage}
-				{...activeMouseEventsObject}
-			/>
-		);
-	}
-
-	function renderDefaultTrack(x, y, defaultRailType, highlighted) {
-		return (
-			<MapTile
-				className="defaultTrack"
-				tileRemSize={props.tileRemSize}
-				key={x}
-				x={x}
-				y={y}
-				highlighted={highlighted}
-				trackData={convertRailTypeToTrackImage(defaultRailType)}
-				{...activeMouseEventsObject}
-			/>
-		);
-	}
-
-	function renderCompleteTrack(x, y, defaultRailType, highlighted) {
-		return (
-			<MapTile
-				className="completeTrack"
-				tileRemSize={props.tileRemSize}
-				key={x}
-				x={x}
-				y={y}
-				highlighted={highlighted}
-				trackData={convertRailTypeToTrackImage(defaultRailType)}
-				{...emptyMouseEventsObject}
-			/>
-		);
-	}
-
-	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
-
-	function placeColumnHeader(trainTrackMap, x, y) {
-		const headerLabel = trainTrackMap.headerLabels.x[x];
-		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
-		return (
-			<HeadingTile
-				key={x}
-				x={x}
-				y={y - 1}
-				headerLabel={headerLabel}
-				fillState={fillState}
-				tileRemSize={props.tileRemSize}
-			/>
-		);
-	}
-
-	function placeRowHeader(trainTrackMap, x, y) {
-		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
-		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
-		return (
-			<HeadingTile
-				key={x}
-				x={x}
-				y={y - 1}
-				headerLabel={headerLabel}
-				fillState={fillState}
-				tileRemSize={props.tileRemSize}
-			/>
-		);
-	}
-
-	function placeCompletedMapTrack(trainTrackMap, x, y) {
-		let defaultTile;
-		let highlighted = false;
-		trainTrackMap.tracks.forEach(function(el) {
-			if (el.tile[0] === x && el.tile[1] === y - 1) {
-				defaultTile = el.railType;
-				if (props.defaultTilesHighlighted && el.defaultTrack) highlighted = true;
-			}
-		});
-		if (defaultTile) return renderCompleteTrack(x, y - 1, defaultTile, highlighted);
-		else return <EmptyTile key={x} tileRemSize={props.tileRemSize} />;
-	}
-
-	function placeUserPlacedTrack(x, y) {
-		let railImage;
-		props.placedTracks.forEach(function(el) {
-			if (el.tile[0] === x && el.tile[1] === y - 1) railImage = convertRailTypeToTrackImage(el.railType);
-		});
-		if (railImage) return renderMapTile(x, y - 1, railImage);
-		else return renderMapTile(x, y - 1, null);
-	}
-
-	function placeGameActiveMapTrack(trainTrackMap, x, y) {
-		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y - 1);
-		if (defaultTile) return renderDefaultTrack(x, y - 1, defaultTile, props.defaultTilesHighlighted);
-		else return placeUserPlacedTrack(x, y);
-	}
-
-	function placeMainMapTile(trainTrackMap, x, y) {
-		if (props.gameComplete || props.mapSolutionVisible) return placeCompletedMapTrack(trainTrackMap, x, y);
-		else return placeGameActiveMapTrack(trainTrackMap, x, y);
-	}
-
-	function generateMapComponents(trainTrackMap) {
-		let generatedMapComponents = [];
-		for (let y = 0; y < props.mapHeight + 1; y++) {
-			generatedMapComponents.push(
-				<div className="mapRow" key={y}>
-					{[ ...Array(props.mapWidth + 1) ].map((el, x) => {
-						if (y === 0) return placeColumnHeader(trainTrackMap, x, y);
-						else if (x === props.mapWidth) return placeRowHeader(trainTrackMap, x, y);
-						else if (!props.mapVisible) return <TransparentTile key={x} tileRemSize={props.tileRemSize} />;
-						else return placeMainMapTile(trainTrackMap, x, y);
-					})}
-				</div>
-			);
-		}
-		return generatedMapComponents;
-	}
-
 	useEffect(
 		() => {
 			checkIfPlacedTilesAllCorrect(props.trainTrackMap);
@@ -388,12 +201,33 @@ export const Map = (props) => {
 
 	///////////// MAP - MAIN RENDER FUNCTION /////////////
 
-	const trainTrackMap = props.trainTrackMap;
-	const mapComponents = generateMapComponents(trainTrackMap);
+	const activeMouseEventsObject = {
+		leftClickEvent: props.controlsActive ? leftClickEvent : () => null,
+		rightClickEvent: props.controlsActive ? rightClickEvent : () => null,
+		bothClickEvent: props.controlsActive ? bothClickEvent : () => null,
+		leftReleaseEvent: props.controlsActive ? leftReleaseEvent : () => null,
+		rightReleaseEvent: props.controlsActive ? rightReleaseEvent : () => null,
+		hoverStartEvent: props.controlsActive ? hoverStartEvent : () => null
+	};
+
+	const emptyMouseEventsObject = {
+		leftClickEvent: () => null,
+		rightClickEvent: () => null,
+		bothClickEvent: () => null,
+		leftReleaseEvent: () => null,
+		rightReleaseEvent: () => null,
+		hoverStartEvent: () => null,
+		dragArray: null,
+		rightClickDragValue: null
+	};
 
 	return (
 		<div className="map">
-			{mapComponents}
+			<Board
+				{...props}
+				activeMouseEventsObject={activeMouseEventsObject}
+				emptyMouseEventsObject={emptyMouseEventsObject}
+			/>
 			<MapAmbientBackground />
 		</div>
 	);
