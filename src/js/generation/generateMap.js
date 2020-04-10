@@ -10,9 +10,10 @@ import {
 	removeArraysFromMatrix
 } from '../utility/utilityFunctions';
 
-export const generateNewMap = (mapSize, mapSeed, pathFinding) => {
-	const [ mapWidth, mapHeight ] = [ mapSize, mapSize ];
-	seedrandom(mapSeed, { global: true });
+export const generateNewMap = (gameParameters) => {
+	const { seed, size, pathFinding } = gameParameters;
+	const [ mapWidth, mapHeight ] = [ size, size ];
+	seedrandom(seed, { global: true });
 
 	let trainTrackMap = {
 		tracks: [],
