@@ -107,9 +107,8 @@ export const Map = (props) => {
 	}
 
 	function determineIfToPlaceT(mouseEventObject) {
-		if (mouseEventObject.mouseButton === 3) {
-			if (mouseEventObject.tileClass === 'mapTile') placeTile(mouseEventObject.tile, 'T');
-		}
+		const { tile, mouseButton, tileClass } = mouseEventObject;
+		if (mouseButton === 3 && tileClass === 'mapTile') placeTile(tile, 'T');
 	}
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
