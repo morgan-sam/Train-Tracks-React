@@ -8,7 +8,7 @@ export const HowToPlayScreen = (props) => {
 
 	useEffect(() => {
 		async function getMaps() {
-			const map = generateNewMap(6, 6, 986707260499975, false);
+			const map = generateNewMap(6, 986707260499975, false);
 			const emptyMap = await generateMapIcon(map, false);
 			const completeMap = await generateCompletedMapIcon(map, true);
 			setMaps({ empty: emptyMap, complete: completeMap });

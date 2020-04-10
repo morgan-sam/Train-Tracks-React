@@ -22,7 +22,7 @@ export const App = () => {
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 
 	function generateMap() {
-		const mapObject = generateNewMap(gameState.size, gameState.size, gameState.seed, gameState.pathFinding);
+		const mapObject = generateNewMap(gameState.size, gameState.seed, gameState.pathFinding);
 		setGameState({
 			...gameState,
 			mapObject,
@@ -32,7 +32,7 @@ export const App = () => {
 
 	function inGameNewMap() {
 		const seed = getRandomSeed();
-		const mapObject = generateNewMap(gameState.size, gameState.size, seed, gameState.pathFinding);
+		const mapObject = generateNewMap(gameState.size, seed, gameState.pathFinding);
 		setGameState({
 			...gameState,
 			seed,
