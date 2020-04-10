@@ -4,7 +4,7 @@ import Board from './Board';
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { getCombinedArrayOfNewAndOldTiles } from '../trackFunctions/trackPlacement';
 import { railDragEvent } from '../trackFunctions/railDragEvent';
-import { getAllDefaultTiles, getRailTypeOfPlacedTile } from '../trackFunctions/trackParsing';
+import { getRailTypeOfPlacedTile, checkIfPlacedTilesAllCorrect } from '../trackFunctions/trackParsing';
 
 import MapAmbientBackground from './MapAmbientBackground.jsx';
 
@@ -145,37 +145,6 @@ export const Map = (props) => {
 		const placedTilesAllCorrect = await checkIfPlacedTilesAllCorrect(props.trainTrackMap, props.placedTracks);
 		props.setGameCompleteState(placedTilesAllCorrect);
 	};
-
-	function checkIfPlacedTilesAllCorrect(trainTrackMap, placedTracks) {
-		const correctTileCount = getCorrectTileCount(trainTrackMap, placedTracks);
-		const defaultTileCount = getAllDefaultTiles(trainTrackMap).length;
-		const placedRailTrackCount = getPlacedRailTrackCount(placedTracks);
-		if (
-			correctTileCount === trainTrackMap.tracks.length &&
-			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
-		) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function getPlacedRailTrackCount(placedTracks) {
-		const placedTiles = placedTracks;
-		const placedRailTrackCount = placedTiles.filter((el) => el.railType !== 'X').length;
-		return placedRailTrackCount;
-	}
-
-	function getCorrectTileCount(trainTrackMap, placedTracks) {
-		return trainTrackMap.tracks.filter(function(winning) {
-			let correctTile = winning.defaultTrack;
-			placedTracks.forEach(function(placed) {
-				if (compareArrays(winning.tile, placed.tile) && winning.railType === placed.railType)
-					correctTile = true;
-			});
-			return correctTile;
-		}).length;
-	}
 
 	useEffect(
 		() => {
