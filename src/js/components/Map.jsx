@@ -140,9 +140,9 @@ export const Map = (props) => {
 
 	///////////// ///////////// /////////////
 
-	const checkIfGameComplete = async () => {
-		const placedTilesAllCorrect = await checkIfPlacedTilesAllCorrect(props.trainTrackMap, props.placedTracks);
-		props.setGameCompleteState(placedTilesAllCorrect);
+	const checkIfGameComplete = () => {
+		const placedTilesAllCorrect = checkIfPlacedTilesAllCorrect(props.trainTrackMap, props.placedTracks);
+		if (placedTilesAllCorrect) props.setGameCompleteState(true);
 	};
 
 	useEffect(
