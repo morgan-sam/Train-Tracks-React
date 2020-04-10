@@ -139,7 +139,7 @@ export const Map = (props) => {
 		await checkIfGameComplete();
 	}
 
-	///////////// MAP - WIN STATE FUNCTIONS /////////////
+	///////////// ///////////// /////////////
 
 	const checkIfGameComplete = async () => {
 		const placedTilesAllCorrect = await checkIfPlacedTilesAllCorrect(props.trainTrackMap, props.placedTracks);
@@ -165,7 +165,7 @@ export const Map = (props) => {
 		[ props.placedTracks ]
 	);
 
-	///////////// MAP - MAIN RENDER FUNCTION /////////////
+	///////////// MAP - MOUSE EVENTS OBJECTS /////////////
 
 	const activeMouseEventsObject = {
 		leftClickEvent: props.controlsActive ? leftClickEvent : () => null,
