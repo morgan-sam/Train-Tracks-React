@@ -20,7 +20,6 @@ export const DeleteMapConfirmScreen = (props) => {
 					className="confirmDeleteBtn"
 					key={'confirmDeleteBtn'}
 					onClick={() => {
-						console.log(props);
 						if (props.deleteModeOnAll) deleteAllLocalSavedMaps();
 						else deleteLocalSavedMap(props.gameState.seed);
 						props.quitToLoadScreen();

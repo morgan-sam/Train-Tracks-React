@@ -21,26 +21,21 @@ export const App = () => {
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 
-	function generateMap() {
-		const gameParameters = { size: gameState.size, seed: gameState.seed, pathFinding: gameState.pathFinding };
-		const mapObject = generateNewMap(gameParameters);
-		setGameState({
-			...gameState,
-			mapObject,
-			active: true
-		});
-	}
-
-	function inGameNewMap() {
-		const seed = getRandomSeed();
+	function generateMap(seed = gameState.seed) {
 		const gameParameters = { size: gameState.size, seed, pathFinding: gameState.pathFinding };
 		const mapObject = generateNewMap(gameParameters);
 		setGameState({
 			...gameState,
 			seed,
-			mapObject
+			mapObject,
+			active: true
 		});
 	}
+
+	const inGameNewMap = () => {
+		const newSeed = getRandomSeed();
+		generateMap(newSeed);
+	};
 
 	function quitGame() {
 		setGameState({
