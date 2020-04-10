@@ -4,7 +4,7 @@ import Board from './Board';
 import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
 import { getCombinedArrayOfNewAndOldTiles } from '../trackFunctions/trackPlacement';
 import { railDragEvent } from '../trackFunctions/railDragEvent';
-import { getAllDefaultTiles } from '../trackFunctions/trackParsing';
+import { getAllDefaultTiles, getRailTypeOfPlacedTile } from '../trackFunctions/trackParsing';
 
 import MapAmbientBackground from './MapAmbientBackground.jsx';
 
@@ -32,13 +32,14 @@ export const Map = (props) => {
 	}
 
 	function setRightClickDragValue(mouseEventObject) {
-		const tileValue = getRailTypeOfCoordinate(mouseEventObject.tile);
+		const tileValue = getRailTypeOfPlacedTile(mouseEventObject.tile, props.placedTracks);
 		rightClickDragValue.current = tileValue === null ? 'X' : 'DELETE';
 	}
 
 	function determineRemoveOrPlaceX(mouseEventObject) {
 		if (mouseEventObject.tileClass === 'mapTile') {
-			if (getRailTypeOfCoordinate(mouseEventObject.tile)) removePlacedTrack(mouseEventObject.tile);
+			if (getRailTypeOfPlacedTile(mouseEventObject.tile, props.placedTracks))
+				removePlacedTrack(mouseEventObject.tile);
 			else placeTile(mouseEventObject.tile, rightClickDragValue.current);
 		}
 	}
@@ -136,16 +137,6 @@ export const Map = (props) => {
 		});
 		await props.setPlacedTracks(filteredTracks);
 		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
-	}
-
-	///////////// MAP - RETRIEVAL FUNCTIONS /////////////
-
-	function getRailTypeOfCoordinate(trackCoordinates) {
-		let railType = null;
-		props.placedTracks.forEach(function(el) {
-			if (el.tile[0] === trackCoordinates[0] && el.tile[1] === trackCoordinates[1]) railType = el.railType;
-		});
-		return railType;
 	}
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
