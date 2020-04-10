@@ -104,5 +104,5 @@ export const randomArrayEntry = (array) => {
 };
 
 export const shiftPushArray = (array, items) => {
-	return [ ...array.slice(items.length), ...items ];
+	return array.slice(items.length).concat(items);
 };

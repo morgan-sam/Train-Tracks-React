@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Board from './Board';
 
-import { compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
+import { compareArrays, isNonEmptyArray, shiftPushArray } from '../utility/utilityFunctions';
 import { getCombinedArrayOfNewAndOldTiles } from '../trackFunctions/trackPlacement';
 import { railDragEvent } from '../trackFunctions/railDragEvent';
 import { getRailTypeOfPlacedTile, checkIfPlacedTilesAllCorrect } from '../trackFunctions/trackParsing';
@@ -90,8 +90,7 @@ export const Map = (props) => {
 
 	function hoverWhileHoldingLeftMouseButton(mouseEventObject) {
 		if (isNonEmptyArray(dragArray.current)) {
-			dragArray.current.shift();
-			dragArray.current.push(mouseEventObject.tile);
+			dragArray.current = shiftPushArray(dragArray.current, [ mouseEventObject.tile ]);
 			const draggedTilesToPlace = railDragEvent(dragArray.current, currentMapInfo);
 			placeMultipleTiles(draggedTilesToPlace);
 		}
