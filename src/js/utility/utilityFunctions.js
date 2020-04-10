@@ -102,3 +102,7 @@ export const findCommonArraysOfAllMatrices = (arrayOfMatrices) => {
 export const randomArrayEntry = (array) => {
 	return array[randomIntFromInterval(0, array.length - 1)];
 };
+
+export const shiftPushArray = (array, items) => {
+	return [ ...array.slice(items.length), ...items ];
+};
