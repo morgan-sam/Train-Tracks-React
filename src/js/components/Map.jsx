@@ -128,7 +128,7 @@ export const Map = (props) => {
 			placedTracks: props.placedTracks
 		});
 		await props.setPlacedTracks(allTilesOnMap);
-		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
+		await checkIfGameComplete();
 	}
 
 	async function removePlacedTrack(trackCoordinates) {
@@ -136,25 +136,32 @@ export const Map = (props) => {
 			return !(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1]);
 		});
 		await props.setPlacedTracks(filteredTracks);
-		await checkIfPlacedTilesAllCorrect(props.trainTrackMap);
+		await checkIfGameComplete();
 	}
 
 	///////////// MAP - WIN STATE FUNCTIONS /////////////
 
-	function checkIfPlacedTilesAllCorrect(trainTrackMap) {
-		const correctTileCount = getCorrectTileCount(trainTrackMap, props.placedTracks);
+	const checkIfGameComplete = async () => {
+		const placedTilesAllCorrect = await checkIfPlacedTilesAllCorrect(props.trainTrackMap, props.placedTracks);
+		props.setGameCompleteState(placedTilesAllCorrect);
+	};
+
+	function checkIfPlacedTilesAllCorrect(trainTrackMap, placedTracks) {
+		const correctTileCount = getCorrectTileCount(trainTrackMap, placedTracks);
 		const defaultTileCount = getAllDefaultTiles(trainTrackMap).length;
-		const placedRailTrackCount = getPlacedRailTrackCount();
+		const placedRailTrackCount = getPlacedRailTrackCount(placedTracks);
 		if (
 			correctTileCount === trainTrackMap.tracks.length &&
 			trainTrackMap.tracks.length === placedRailTrackCount + defaultTileCount
 		) {
-			props.setGameCompleteState(true);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-	function getPlacedRailTrackCount() {
-		const placedTiles = props.placedTracks;
+	function getPlacedRailTrackCount(placedTracks) {
+		const placedTiles = placedTracks;
 		const placedRailTrackCount = placedTiles.filter((el) => el.railType !== 'X').length;
 		return placedRailTrackCount;
 	}
@@ -172,7 +179,7 @@ export const Map = (props) => {
 
 	useEffect(
 		() => {
-			checkIfPlacedTilesAllCorrect(props.trainTrackMap);
+			checkIfGameComplete();
 		},
 		[ props.placedTracks ]
 	);

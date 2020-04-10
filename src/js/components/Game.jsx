@@ -35,6 +35,7 @@ export const Game = (props) => {
 		[ display.savePopUp ]
 	);
 
+	console.log(display);
 	return (
 		<div>
 			<div className="gameMapContainer">
@@ -58,6 +59,7 @@ export const Game = (props) => {
 					mapHeight={props.gameState.size}
 					mapWidth={props.gameState.size}
 					setGameCompleteState={(val) => {
+						console.log(val);
 						setGameWinState(val);
 						setDisplay({ ...display, winPopUp: val });
 					}}
