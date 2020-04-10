@@ -10,7 +10,7 @@ import {
 	removeArraysFromMatrix
 } from '../utility/utilityFunctions';
 
-export const generateNewMap = (mapWidth, mapHeight, mapSeed, pathFindingDisabled = false) => {
+export const generateNewMap = (mapWidth, mapHeight, mapSeed, pathFinding) => {
 	seedrandom(mapSeed, { global: true });
 
 	let trainTrackMap = {
@@ -101,7 +101,7 @@ export const generateNewMap = (mapWidth, mapHeight, mapSeed, pathFindingDisabled
 	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
 		let moveMutateFunctions = [ removeSealingMoves, removeAroundExitMoves, removeHookMoves ];
 
-		if (!pathFindingDisabled) moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
+		if (pathFinding) moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
 			let currentFunc = moveMutateFunctions[i];
