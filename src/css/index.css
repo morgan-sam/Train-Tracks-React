@@ -265,7 +265,6 @@ button {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border: 2px solid black;
 	box-sizing: 'border-box';
 }
 .loadMapDropdown {
@@ -361,6 +360,9 @@ button {
 	display: inline-grid;
 	position: relative;
 	overflow: hidden;
+	border: 1px solid black;
+	border-bottom-width: 2px;
+	border-right-width: 2px;
 }
 .inGameOptions {
 	margin: 0.5rem;
