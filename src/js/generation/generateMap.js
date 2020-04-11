@@ -83,16 +83,7 @@ function removeOutOfBoundsMoves(moves, parameters) {
 }
 
 function removeMovesToVisitedTiles(moves, tiles) {
-	let legalMoves = moves.filter(function(move) {
-		let boo = false;
-		tiles.forEach(function(remove) {
-			if (compareArrays(move, remove)) {
-				boo = true;
-			}
-		});
-		return !boo;
-	});
-	return legalMoves;
+	return removeArraysFromMatrix(tiles, moves);
 }
 
 function newMove(genMap) {
