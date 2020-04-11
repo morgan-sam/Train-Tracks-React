@@ -269,8 +269,7 @@ function getRandomNonDuplicateCoordinatesFromMatrix(matrix) {
 }
 
 function filterForFullSquares(allTiles, squares) {
-	const fullSquares = squares.filter((square) => checkIfSquareIsFull(square, allTiles));
-	return fullSquares;
+	return squares.filter((square) => checkIfSquareIsFull(square, allTiles));
 }
 
 function checkIfSquareIsFull(square, allTiles) {
