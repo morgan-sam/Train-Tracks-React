@@ -101,8 +101,9 @@ export const generateNewMap = (gameParameters) => {
 	}
 
 	function mutateMoveArray(legalMoves, generatedTiles, endCoordinate) {
-		let moveMutateFunctions = [ removeSealingMoves, removeAroundExitMoves, removeHookMoves ];
+		let moveMutateFunctions = [ removeSealingMoves, removeAroundExitMoves ];
 
+		// moveMutateFunctions.push(removeHookMoves)
 		// if (pathFinding) moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
 
 		for (let i = 0; i < moveMutateFunctions.length; i++) {
@@ -196,13 +197,6 @@ export const generateNewMap = (gameParameters) => {
 	////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////
 
-	function removeHookMoves(legalMoves, generatedTiles, endCoordinate) {
-		if (generatedTiles.length > 2) {
-			legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedTiles));
-		}
-		return legalMoves;
-	}
-
 	//Single goal but structure is obtuse and variable naming is vague
 	function getTilesInEachDirection(currentTile, generatedTiles) {
 		let tilesInEachDirection = [];
@@ -215,47 +209,6 @@ export const generateNewMap = (gameParameters) => {
 			tilesInEachDirection.push(directionTiles);
 		}
 		return tilesInEachDirection;
-	}
-
-	function checkIfMoveWillBeHook(prospectiveMove, generatedTiles) {
-		const lastThreeTiles = getLastSpecifiedAmountOfTiles(3, generatedTiles);
-		const prospectiveLastFourTiles = [ prospectiveMove, ...lastThreeTiles ];
-		const dirArr = getSeriesOfDirectionsFromMoveArray(prospectiveLastFourTiles);
-		let wasHook = checkIfMoveArrayFormsHook(dirArr);
-		return wasHook;
-	}
-
-	function getSeriesOfDirectionsFromMoveArray(moves) {
-		let directions = [];
-		for (let i = 0; i < moves.length - 1; i++) {
-			directions.unshift(findDirectionFromMove(moves[i], moves[i + 1]));
-		}
-		return directions;
-	}
-
-	function getLastSpecifiedAmountOfTiles(numberOfTiles, tiles) {
-		return tiles.slice(Math.max(tiles.length - numberOfTiles, 0)).reverse();
-	}
-
-	function checkIfMoveArrayFormsHook(moveArray) {
-		let movesFormHook = false;
-		if (
-			compareArrays(moveArray, [ 0, 1, 2 ]) ||
-			compareArrays(moveArray, [ 1, 2, 3 ]) ||
-			compareArrays(moveArray, [ 2, 3, 0 ]) ||
-			compareArrays(moveArray, [ 3, 0, 1 ])
-		) {
-			movesFormHook = true;
-		}
-		if (
-			compareArrays(moveArray, [ 3, 2, 1 ]) ||
-			compareArrays(moveArray, [ 2, 1, 0 ]) ||
-			compareArrays(moveArray, [ 1, 0, 3 ]) ||
-			compareArrays(moveArray, [ 0, 3, 2 ])
-		) {
-			movesFormHook = true;
-		}
-		return movesFormHook;
 	}
 
 	function checkIfPossibleToReachTarget(startingTile, targetTile, generatedTiles) {
