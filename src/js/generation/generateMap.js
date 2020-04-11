@@ -6,7 +6,8 @@ import {
 	isNonEmptyArray,
 	findIndexOfArrayInMatrix,
 	removeDuplicateArraysFromMatrix,
-	removeArraysFromMatrix
+	removeArraysFromMatrix,
+	findCommonArraysOfAllMatrices
 } from '../utility/utilityFunctions';
 import { generateStartEndPoints } from './generateStartEndPoints';
 
@@ -273,13 +274,7 @@ function filterForFullSquares(allTiles, squares) {
 }
 
 function checkIfSquareIsFull(square, allTiles) {
-	let tileCount = 0;
-	square.forEach(function(squareTile) {
-		allTiles.forEach(function(tile) {
-			if (compareArrays(squareTile, tile)) tileCount++;
-		});
-	});
-	return tileCount === 4;
+	return findCommonArraysOfAllMatrices([ square, allTiles ]).length === 4;
 }
 
 function splitMapIntoSquares(offset, parameters) {
