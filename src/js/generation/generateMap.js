@@ -5,7 +5,6 @@ import {
 	compareArrays,
 	isNonEmptyArray,
 	findIndexOfArrayInMatrix,
-	getIndexOfLongestArrayInMatrix,
 	removeDuplicateArraysFromMatrix,
 	removeArraysFromMatrix
 } from '../utility/utilityFunctions';
