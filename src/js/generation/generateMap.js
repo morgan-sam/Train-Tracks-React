@@ -268,15 +268,15 @@ function getRandomNonDuplicateCoordinatesFromMatrix(matrix) {
 }
 
 function filterForFullSquares(allTiles, squares) {
-	const fullSquares = squares.filter((rec) => checkIfSquareIsFull(rec, allTiles));
+	const fullSquares = squares.filter((square) => checkIfSquareIsFull(square, allTiles));
 	return fullSquares;
 }
 
-function checkIfSquareIsFull(rec, allTiles) {
+function checkIfSquareIsFull(square, allTiles) {
 	let tileCount = 0;
-	rec.forEach(function(recTile) {
+	square.forEach(function(squareTile) {
 		allTiles.forEach(function(tile) {
-			if (compareArrays(recTile, tile)) tileCount++;
+			if (compareArrays(squareTile, tile)) tileCount++;
 		});
 	});
 	return tileCount === 4;
