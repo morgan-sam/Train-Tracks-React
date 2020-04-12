@@ -32,3 +32,14 @@ export const directionsToTrackRailType = (dirs) => {
 	}
 	return railTypeArray;
 };
+
+export const getTilesInEachDirection = (currentTile, generatedTiles) => {
+	let tilesInEachDirection = [];
+	for (let i = 0; i < 4; i++) {
+		let sign = Math.ceil((i % 3) / 2) * 2 + 1; //
+		let lineTiles = generatedTiles.filter((tile) => tile[i % 2] === currentTile[i % 2]);
+		let directionTiles = lineTiles.filter((tile) => tile[(i + 1) % 2] * -sign < currentTile[(i + 1) % 2] * -sign);
+		tilesInEachDirection.push(directionTiles);
+	}
+	return tilesInEachDirection;
+};
