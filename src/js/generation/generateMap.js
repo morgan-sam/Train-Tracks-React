@@ -9,7 +9,7 @@ import {
 	removeArraysFromMatrix,
 	findCommonArraysOfAllMatrices
 } from '../utility/utilityFunctions';
-import { findDirectionFromMove } from '../utility/directionsConversions.js';
+import { findDirectionFromMove, directionsToTrackRailType } from '../utility/directionsConversions.js';
 
 import { generateStartEndPoints } from './generateStartEndPoints';
 import { getLegalMoves, getAdjacentTiles } from './genericGenerationFunctions';
@@ -178,25 +178,6 @@ function getPossibleEndDirections(end, parameters) {
 	if (end[0] === mapWidth - 1) possibleDirections.push(1); // leaves via right
 	if (end[1] === mapHeight - 1) possibleDirections.push(2); // leaves via bottom
 	return possibleDirections;
-}
-
-function directionsToTrackRailType(dirs) {
-	let railTypeArray = [];
-	for (let i = 0; i < dirs.length; i++) {
-		if ((dirs[i] === 0 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 2))
-			railTypeArray.push('vertical');
-		if ((dirs[i] === 1 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 3))
-			railTypeArray.push('horizontal');
-		if ((dirs[i] === 2 && dirs[i + 1] === 1) || (dirs[i] === 3 && dirs[i + 1] === 0))
-			railTypeArray.push('topRightCorner');
-		if ((dirs[i] === 3 && dirs[i + 1] === 2) || (dirs[i] === 0 && dirs[i + 1] === 1))
-			railTypeArray.push('bottomRightCorner');
-		if ((dirs[i] === 0 && dirs[i + 1] === 3) || (dirs[i] === 1 && dirs[i + 1] === 2))
-			railTypeArray.push('bottomLeftCorner');
-		if ((dirs[i] === 1 && dirs[i + 1] === 0) || (dirs[i] === 2 && dirs[i + 1] === 3))
-			railTypeArray.push('topLeftCorner');
-	}
-	return railTypeArray;
 }
 
 function generateDefaultTileIndices(allTiles, parameters) {
