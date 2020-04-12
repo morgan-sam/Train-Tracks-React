@@ -41,7 +41,3 @@ const getIndicesOfLargestElementsInArray = (array) => {
 	}
 	return largestIndices;
 };
-
-// const arr = [ 2, 54, 7, 893, 76, 86, 6, 893 ];
-// const largest = getIndicesOfLargestElementsInArray(arr);
-// console.log(largest);
