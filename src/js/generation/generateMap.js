@@ -14,6 +14,7 @@ import { getLegalMoves, getAdjacentTiles } from './genericGenerationFunctions';
 import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
 
 import { removeSealingMoves } from './mutateMoveArray/removeSealingMoves';
+import { removeAroundExitMoves } from './mutateMoveArray/removeAroundExitMoves';
 
 export const generateNewMap = (passedParameters) => {
 	seedrandom(passedParameters.seed, { global: true });
@@ -96,7 +97,7 @@ function mutateMoveArray(legalMoves, genMap) {
 	let moveMutateFunctions = [];
 
 	moveMutateFunctions.push(removeSealingMoves);
-	// moveMutateFunctions.push(removeAroundExitMoves)
+	moveMutateFunctions.push(removeAroundExitMoves);
 	// moveMutateFunctions.push(removeHookMoves)
 	// moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
 
