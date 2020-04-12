@@ -1,4 +1,4 @@
-import { compareArrays } from './utilityFunctions';
+import { randomIntFromInterval, compareArrays } from '../utility/utilityFunctions';
 
 export const findDirectionFromMove = (currentMove, lastMove) => {
 	let moveDirection;
@@ -43,3 +43,44 @@ export const getTilesInEachDirection = (currentTile, generatedTiles) => {
 	}
 	return tilesInEachDirection;
 };
+
+export const getDirectionOfEachMove = (allTiles, parameters) => {
+	let directions = [];
+	directions.push(getStartingDirection(allTiles[0], parameters));
+	for (let i = 0; i < allTiles.length - 1; i++) {
+		let currentMoveDir = findDirectionFromMove(allTiles[i + 1], allTiles[i]);
+		directions.push(currentMoveDir);
+	}
+	directions.push(getEndingDirection(allTiles[allTiles.length - 1], parameters));
+	return directions;
+};
+
+function getStartingDirection(start, parameters) {
+	const possibleStartDirections = getPossibleStartDirections(start, parameters);
+	return possibleStartDirections[randomIntFromInterval(0, possibleStartDirections.length - 1)];
+}
+
+function getEndingDirection(end, parameters) {
+	const possibleEndDirections = getPossibleEndDirections(end, parameters);
+	return possibleEndDirections[randomIntFromInterval(0, possibleEndDirections.length - 1)];
+}
+
+function getPossibleStartDirections(start, parameters) {
+	const { mapWidth, mapHeight } = parameters;
+	let possibleDirections = [];
+	if (start[0] === 0) possibleDirections.push(1); // comes in from left
+	if (start[1] === 0) possibleDirections.push(2); // comes in from top
+	if (start[0] === mapWidth - 1) possibleDirections.push(3); // comes in from right
+	if (start[1] === mapHeight - 1) possibleDirections.push(0); // comes in from bottom
+	return possibleDirections;
+}
+
+function getPossibleEndDirections(end, parameters) {
+	const { mapWidth, mapHeight } = parameters;
+	let possibleDirections = [];
+	if (end[0] === 0) possibleDirections.push(3); // leaves via left
+	if (end[1] === 0) possibleDirections.push(0); // leaves via top
+	if (end[0] === mapWidth - 1) possibleDirections.push(1); // leaves via right
+	if (end[1] === mapHeight - 1) possibleDirections.push(2); // leaves via bottom
+	return possibleDirections;
+}
