@@ -10,7 +10,7 @@ import {
 	findCommonArraysOfAllMatrices
 } from '../utility/utilityFunctions';
 import { generateStartEndPoints } from './generateStartEndPoints';
-import { getLegalMoves } from './getLegalMoves';
+import { getLegalMoves, getAdjacentTiles } from './genericGenerationFunctions';
 import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
 
 import { removeSealingMoves } from './mutateMoveArray/removeSealingMoves';
@@ -70,10 +70,6 @@ function generateMapTiles(parameters) {
 		}
 	}
 	return genMap.tiles;
-}
-
-function getAdjacentTiles(coordinate) {
-	return Array(4).fill(coordinate).map((el, i) => [ el[0] + (i - 1) % 2, el[1] + (i - 2) % 2 ]);
 }
 
 function newMove(genMap) {
