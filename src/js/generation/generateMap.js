@@ -15,7 +15,7 @@ import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachT
 
 export const generateNewMap = (passedParameters) => {
 	seedrandom(passedParameters.seed, { global: true });
-	console.log(passedParameters.iterative);
+
 	const parameters = {
 		mapWidth: passedParameters.size,
 		mapHeight: passedParameters.size,
