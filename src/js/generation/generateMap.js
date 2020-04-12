@@ -9,12 +9,14 @@ import {
 	removeArraysFromMatrix,
 	findCommonArraysOfAllMatrices
 } from '../utility/utilityFunctions';
+import { findDirectionFromMove } from '../conversions/directions';
 import { generateStartEndPoints } from './generateStartEndPoints';
 import { getLegalMoves, getAdjacentTiles } from './genericGenerationFunctions';
 import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
 
 import { removeSealingMoves } from './mutateMoveArray/removeSealingMoves';
 import { removeAroundExitMoves } from './mutateMoveArray/removeAroundExitMoves';
+import { removeHookMoves } from './mutateMoveArray/removeHookMoves';
 
 export const generateNewMap = (passedParameters) => {
 	seedrandom(passedParameters.seed, { global: true });
@@ -98,7 +100,7 @@ function mutateMoveArray(legalMoves, genMap) {
 
 	moveMutateFunctions.push(removeSealingMoves);
 	moveMutateFunctions.push(removeAroundExitMoves);
-	// moveMutateFunctions.push(removeHookMoves)
+	moveMutateFunctions.push(removeHookMoves);
 	// moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
 
 	for (let i = 0; i < moveMutateFunctions.length; i++) {
@@ -283,19 +285,6 @@ function getTwoByTwoSquare(x, y) {
 		}
 	}
 	return square;
-}
-export const findDirectionFromMove = (currentMove, lastMove) => {
-	let moveDirection;
-	const moveCalc = differenceBetweenTwoMoves(currentMove, lastMove);
-	if (compareArrays(moveCalc, [ 0, -1 ])) moveDirection = 0; //= 'up';
-	if (compareArrays(moveCalc, [ 1, 0 ])) moveDirection = 1; //= 'right';
-	if (compareArrays(moveCalc, [ 0, 1 ])) moveDirection = 2; //= 'down';
-	if (compareArrays(moveCalc, [ -1, 0 ])) moveDirection = 3; //= 'left';
-	return moveDirection;
-};
-
-function differenceBetweenTwoMoves(moveOne, moveTwo) {
-	return [ moveOne[0] - moveTwo[0], moveOne[1] - moveTwo[1] ];
 }
 
 function checkIfPossibleToReachTarget(startingTile, genMap) {

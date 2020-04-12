@@ -1,5 +1,5 @@
 import { checkIfArrayIsInMatrix } from '../utility/utilityFunctions';
-import { findDirectionFromMove } from '../generation/generateMap';
+import { findDirectionFromMove } from '../conversions/directions';
 
 function getAdjacentTiles(coordinate, axisMax) {
 	let adjacentTiles = [];

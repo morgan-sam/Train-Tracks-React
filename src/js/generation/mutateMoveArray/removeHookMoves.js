@@ -1,31 +1,34 @@
-function removeHookMoves(legalMoves, generatedTiles, endCoordinate) {
-	if (generatedTiles.length > 2) {
-		legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, generatedTiles));
+import { compareArrays } from '../../utility/utilityFunctions';
+import { findDirectionFromMove } from '../../conversions/directions';
+
+export const removeHookMoves = (legalMoves, genMap) => {
+	if (genMap.tiles.length > 2) {
+		legalMoves = legalMoves.filter((move) => !checkIfMoveWillBeHook(move, genMap.tiles));
 	}
 	return legalMoves;
-}
+};
 
-function checkIfMoveWillBeHook(prospectiveMove, generatedTiles) {
+const checkIfMoveWillBeHook = (prospectiveMove, generatedTiles) => {
 	const lastThreeTiles = getLastSpecifiedAmountOfTiles(3, generatedTiles);
 	const prospectiveLastFourTiles = [ prospectiveMove, ...lastThreeTiles ];
 	const dirArr = getSeriesOfDirectionsFromMoveArray(prospectiveLastFourTiles);
 	let wasHook = checkIfMoveArrayFormsHook(dirArr);
 	return wasHook;
-}
+};
 
-function getSeriesOfDirectionsFromMoveArray(moves) {
+const getSeriesOfDirectionsFromMoveArray = (moves) => {
 	let directions = [];
 	for (let i = 0; i < moves.length - 1; i++) {
 		directions.unshift(findDirectionFromMove(moves[i], moves[i + 1]));
 	}
 	return directions;
-}
+};
 
-function getLastSpecifiedAmountOfTiles(numberOfTiles, tiles) {
+const getLastSpecifiedAmountOfTiles = (numberOfTiles, tiles) => {
 	return tiles.slice(Math.max(tiles.length - numberOfTiles, 0)).reverse();
-}
+};
 
-function checkIfMoveArrayFormsHook(moveArray) {
+const checkIfMoveArrayFormsHook = (moveArray) => {
 	let movesFormHook = false;
 	if (
 		compareArrays(moveArray, [ 0, 1, 2 ]) ||
@@ -44,4 +47,4 @@ function checkIfMoveArrayFormsHook(moveArray) {
 		movesFormHook = true;
 	}
 	return movesFormHook;
-}
+};

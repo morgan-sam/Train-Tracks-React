@@ -3,7 +3,7 @@ import {
 	checkIfTwoRailTypesConnected,
 	checkIfAdjacentTileConnected
 } from './railTypeProcessing';
-import { findDirectionFromMove } from '../generation/generateMap';
+import { findDirectionFromMove } from '../conversions/directions';
 import { getAdjacentTracks, convertMoveArrayToDirections } from '../trackFunctions/trackUtilities';
 import { randomArrayEntry, isNonEmptyArray, compareArrays } from '../utility/utilityFunctions';
 
