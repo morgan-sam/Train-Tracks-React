@@ -9,7 +9,7 @@ import {
 	removeArraysFromMatrix,
 	findCommonArraysOfAllMatrices
 } from '../utility/utilityFunctions';
-import { findDirectionFromMove } from '../conversions/directions';
+import { findDirectionFromMove } from '../utility/directionsConversions.js';
 import { generateStartEndPoints } from './generateStartEndPoints';
 import { getLegalMoves, getAdjacentTiles } from './genericGenerationFunctions';
 import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';

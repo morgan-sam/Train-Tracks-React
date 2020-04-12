@@ -1,4 +1,4 @@
-import { compareArrays } from '../utility/utilityFunctions';
+import { compareArrays } from './utilityFunctions';
 
 export const findDirectionFromMove = (currentMove, lastMove) => {
 	let moveDirection;
