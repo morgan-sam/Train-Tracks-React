@@ -14,8 +14,9 @@ import { generateStartEndPoints } from './generateStartEndPoints';
 import { getLegalMoves, getAdjacentTiles } from './genericGenerationFunctions';
 import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
 
-import { removeSealingMoves } from './mutateMoveArray/removeSealingMoves';
+import { removeExitMove } from './mutateMoveArray/removeExitMove';
 import { removeAroundExitMoves } from './mutateMoveArray/removeAroundExitMoves';
+import { removeSealingMoves } from './mutateMoveArray/removeSealingMoves';
 import { removeHookMoves } from './mutateMoveArray/removeHookMoves';
 import { removeMovesWithLessTilesFromExit } from './mutateMoveArray/removeMovesWithLessTilesFromExit';
 
@@ -99,8 +100,9 @@ function checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate) {
 function mutateMoveArray(legalMoves, genMap) {
 	let moveMutateFunctions = [];
 
-	moveMutateFunctions.push(removeSealingMoves);
+	moveMutateFunctions.push(removeExitMove);
 	moveMutateFunctions.push(removeAroundExitMoves);
+	moveMutateFunctions.push(removeSealingMoves);
 	moveMutateFunctions.push(removeHookMoves);
 	moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
 
