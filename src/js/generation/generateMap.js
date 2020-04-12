@@ -26,8 +26,7 @@ export const generateNewMap = (passedParameters) => {
 
 	const parameters = {
 		mapWidth: passedParameters.size,
-		mapHeight: passedParameters.size,
-		...passedParameters.genParams
+		mapHeight: passedParameters.size
 	};
 
 	let trainTrackMap = {
@@ -85,9 +84,7 @@ function newMove(genMap) {
 	if (checkIfOnlyLegalMoveIsExit(legalMoves, genMap.end)) {
 		nextMove = genMap.end;
 	} else {
-		if (genMap.parameters.iterative)
-			legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTargetIterative(move, genMap));
-		else legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, genMap));
+		legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTargetIterative(move, genMap));
 		legalMoves = mutateMoveArray(legalMoves, genMap);
 		nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 	}
@@ -289,30 +286,4 @@ function getTwoByTwoSquare(x, y) {
 		}
 	}
 	return square;
-}
-
-function checkIfPossibleToReachTarget(startingTile, genMap) {
-	let possibleToReach = false;
-	if (compareArrays(startingTile, genMap.end)) {
-		possibleToReach = true;
-	} else {
-		let reachableTiles = [ ...genMap.tiles ];
-		reachableTiles.push(spreadInAllDirections(startingTile, reachableTiles, genMap));
-		reachableTiles.forEach(function(el) {
-			if (compareArrays(el, genMap.end)) possibleToReach = true;
-		});
-	}
-	return possibleToReach;
-}
-
-function spreadInAllDirections(prospectiveMove, hitTiles, genMap) {
-	const newMapObj = { ...genMap, tiles: hitTiles };
-	const newTiles = getLegalMoves(prospectiveMove, newMapObj);
-	if (isNonEmptyArray(newTiles)) {
-		newTiles.forEach(function(el) {
-			hitTiles.push(el);
-			hitTiles.push(spreadInAllDirections(el, hitTiles, newMapObj));
-		});
-	}
-	return hitTiles;
 }

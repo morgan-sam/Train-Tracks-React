@@ -14,9 +14,6 @@ export const App = () => {
 		size: 8,
 		seed: getRandomSeed(),
 		mapObject: null,
-		genParams: {
-			iterative: true
-		},
 		active: false,
 		balloonCloud: true
 	});
@@ -24,7 +21,7 @@ export const App = () => {
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 
 	function generateMap(seed = gameState.seed) {
-		const gameParameters = { size: gameState.size, seed, genParams: gameState.genParams };
+		const gameParameters = { size: gameState.size, seed };
 		const mapObject = generateNewMap(gameParameters);
 		setGameState({
 			...gameState,
