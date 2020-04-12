@@ -13,6 +13,8 @@ import { generateStartEndPoints } from './generateStartEndPoints';
 import { getLegalMoves } from './getLegalMoves';
 import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
 
+import { removeSealingMoves } from './mutateMoveArray/removeSealingMoves';
+
 export const generateNewMap = (passedParameters) => {
 	seedrandom(passedParameters.seed, { global: true });
 
@@ -97,7 +99,7 @@ function checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate) {
 function mutateMoveArray(legalMoves, genMap) {
 	let moveMutateFunctions = [];
 
-	// moveMutateFunctions.push(removeSealingMoves)
+	moveMutateFunctions.push(removeSealingMoves);
 	// moveMutateFunctions.push(removeAroundExitMoves)
 	// moveMutateFunctions.push(removeHookMoves)
 	// moveMutateFunctions.push(removeMovesWithLessTilesFromExit);

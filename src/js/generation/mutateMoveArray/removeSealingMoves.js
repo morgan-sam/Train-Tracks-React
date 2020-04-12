@@ -1,22 +1,24 @@
-function removeSealingMoves(legalMoves, generatedTiles, endCoordinate) {
-	if (!checkIfMapCovered(generatedTiles, 0.5)) {
-		legalMoves = legalMoves.filter((move) => !checkIfMoveSeals(move, generatedTiles, endCoordinate));
+import { getLegalMoves } from '../getLegalMoves';
+import { checkIfPossibleToReachTargetIterative } from '../checkIfPossibleToReachTargetIterative';
+
+export const removeSealingMoves = (legalMoves, genMap) => {
+	if (!checkIfMapCovered(genMap, 0.5)) {
+		legalMoves = legalMoves.filter((move) => !checkIfMoveSeals(move, genMap));
 	}
 	return legalMoves;
-}
+};
 
-function checkIfMapCovered(generatedTiles, modifier) {
+const checkIfMapCovered = (genMap, modifier) => {
+	const { mapWidth, mapHeight } = genMap.parameters;
 	const mapCoverage = modifier * mapWidth * mapHeight;
-	return generatedTiles.length >= mapCoverage;
-}
+	return genMap.tiles.length >= mapCoverage;
+};
 
-function checkIfMoveSeals(move, generatedTiles, endCoordinate) {
-	const nextLegalMoves = getLegalMoves(move, generatedTiles);
-	let pathSealed = false;
-	nextLegalMoves.forEach((nextMove) => {
-		if (!checkIfPossibleToReachTarget(nextMove, endCoordinate, [ ...generatedTiles, move ])) {
-			pathSealed = true;
-		}
-	});
-	return pathSealed;
-}
+const checkIfMoveSeals = (move, genMap) => {
+	const newGenMapObj = { ...genMap, tiles: [ ...genMap.tiles, move ] };
+	const nextLegalMoves = getLegalMoves(move, genMap);
+	for (let i = 0; i < nextLegalMoves.length; i++) {
+		if (!checkIfPossibleToReachTargetIterative(nextLegalMoves[i], newGenMapObj)) return true;
+	}
+	return false;
+};
