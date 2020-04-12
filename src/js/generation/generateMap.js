@@ -11,13 +11,16 @@ import {
 } from '../utility/utilityFunctions';
 import { generateStartEndPoints } from './generateStartEndPoints';
 import { getLegalMoves } from './getLegalMoves';
+import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
 
 export const generateNewMap = (passedParameters) => {
 	seedrandom(passedParameters.seed, { global: true });
+	console.log(passedParameters.iterative);
 	const parameters = {
 		mapWidth: passedParameters.size,
 		mapHeight: passedParameters.size,
-		pathFinding: passedParameters.pathFinding
+		pathFinding: passedParameters.pathFinding,
+		iterative: passedParameters.iterative
 	};
 
 	let trainTrackMap = {
@@ -79,7 +82,9 @@ function newMove(genMap) {
 	if (checkIfOnlyLegalMoveIsExit(legalMoves, genMap.end)) {
 		nextMove = genMap.end;
 	} else {
-		legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, genMap));
+		if (genMap.parameters.iterative)
+			legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTargetIterative(move, genMap));
+		else legalMoves = legalMoves.filter((move) => checkIfPossibleToReachTarget(move, genMap));
 		legalMoves = mutateMoveArray(legalMoves, genMap);
 		nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 	}

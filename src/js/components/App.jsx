@@ -15,6 +15,7 @@ export const App = () => {
 		seed: getRandomSeed(),
 		mapObject: null,
 		pathFinding: true,
+		iterative: true,
 		active: false,
 		balloonCloud: true
 	});
@@ -22,7 +23,7 @@ export const App = () => {
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 
 	function generateMap(seed = gameState.seed) {
-		const gameParameters = { size: gameState.size, seed, pathFinding: gameState.pathFinding };
+		const gameParameters = { size: gameState.size, seed, pathFinding: gameState.pathFinding, iterative: true };
 		const mapObject = generateNewMap(gameParameters);
 		setGameState({
 			...gameState,
