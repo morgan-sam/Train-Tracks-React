@@ -19,8 +19,7 @@ export const generateNewMap = (passedParameters) => {
 	const parameters = {
 		mapWidth: passedParameters.size,
 		mapHeight: passedParameters.size,
-		pathFinding: passedParameters.pathFinding,
-		iterative: passedParameters.iterative
+		...passedParameters.genParams
 	};
 
 	let trainTrackMap = {
@@ -101,7 +100,7 @@ function mutateMoveArray(legalMoves, genMap) {
 	// moveMutateFunctions.push(removeSealingMoves)
 	// moveMutateFunctions.push(removeAroundExitMoves)
 	// moveMutateFunctions.push(removeHookMoves)
-	// if (pathFinding) moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
+	// moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
 
 	for (let i = 0; i < moveMutateFunctions.length; i++) {
 		let currentFunc = moveMutateFunctions[i];

@@ -15,8 +15,7 @@ function renderSavedMapsDropdownValues() {
 			display: el.name,
 			seed: el.seed,
 			size: el.size,
-			mapObject: el.mapObject,
-			pathFinding: el.pathFinding
+			mapObject: el.mapObject
 		});
 	});
 

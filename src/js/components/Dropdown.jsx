@@ -81,8 +81,8 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 		onHover(false);
 	};
 
-	const optionSelected = (item, mapObject, pathFindingDisabled) => {
-		onChange(item, mapObject, pathFindingDisabled);
+	const optionSelected = (item, mapObject) => {
+		onChange(item, mapObject);
 		setListOpen(false);
 	};
 

@@ -58,28 +58,15 @@ export const StartMapScreen = (props) => {
 					<span className="diceSymbol">⚄</span>
 				</div>
 			</div>
-			<div className="pathFindingOptionRow">
+			<div className="startOptionOptionRow">
 				<input
 					type="checkbox"
-					className="pathFindingCheckbox"
-					onChange={(e) => props.setGameState({ ...props.gameState, pathFinding: !e.target.checked })}
-				/>
-				<p className="pathFindingLabel">Disable Map Generation Path Finding</p>
-				<div className="pathFindingQuestionBox">?</div>
-				<div className="pathFindingExplanation">
-					Disables use of breadth first search algorithm in map generation. Can increase performance on old
-					browsers/PCs. Maps may be lessed balanced.
-				</div>
-			</div>
-			<div className="pathFindingOptionRow">
-				<input
-					type="checkbox"
-					className="pathFindingCheckbox"
+					className="startOptionCheckbox"
 					onChange={(e) => props.setGameState({ ...props.gameState, balloonCloud: !e.target.checked })}
 				/>
-				<p className="pathFindingLabel">Disable Win Screen Balloon Cloud</p>
-				<div className="pathFindingQuestionBox">?</div>
-				<div className="pathFindingExplanation">
+				<p className="startOptionLabel">Disable Win Screen Balloon Cloud</p>
+				<div className="startOptionQuestionBox">?</div>
+				<div className="startOptionExplanation">
 					Disables the balloon cloud effect at the end of a game win. Can increase performance on old
 					browsers/PCs.
 				</div>
