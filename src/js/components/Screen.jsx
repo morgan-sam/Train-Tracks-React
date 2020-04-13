@@ -26,7 +26,14 @@ export const Screen = (props) => {
 		}
 	};
 
-	return <div className="screen">{getScreenDisplay(props.currentScreen)}</div>;
+	return (
+		<div className="screen" key={props.currentScreen}>
+			<h1 key={'title'} className="gameTitle">
+				Train Tracks
+			</h1>
+			{getScreenDisplay(props.currentScreen)}
+		</div>
+	);
 };
 
 export default Screen;

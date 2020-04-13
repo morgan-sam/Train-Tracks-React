@@ -39,12 +39,15 @@ select {
 	position: relative;
 }
 
+.screen {
+	animation: fadeIn ease-in-out 1s;
+}
+
 .menu {
 	display: flex;
 	flex-direction: column;
 	text-align: center;
 	align-items: center;
-	animation: fadeIn ease 1s;
 }
 
 .mainMenu > * {
