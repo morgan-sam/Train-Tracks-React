@@ -44,6 +44,7 @@ select {
 	flex-direction: column;
 	text-align: center;
 	align-items: center;
+	animation: fadeIn ease 1s;
 }
 
 .mainMenu > * {
