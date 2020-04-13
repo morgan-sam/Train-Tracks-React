@@ -18,6 +18,16 @@
 	padding-top: 1rem;
 }
 
+.mapSeedOptionRow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.mapSeedInput {
+	display: flex;
+}
+
 .rerollSeedBtn {
 	width: 1.4rem;
 	height: 1.4rem;
@@ -38,12 +48,6 @@
 	justify-content: center;
 }
 
-.mapSeedOptionRow {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
-
 .startOptionOptionRow {
 	position: relative;
 	height: 1.6rem;
@@ -54,15 +58,15 @@
 	display: inline-flex;
 }
 
-.startOptionRowLabel {
-	font-size: 0.8rem;
-}
-
 .startOptionCheckbox {
 	margin-right: 0.5rem;
 	vertical-align: middle;
 	width: 1rem;
 	height: 1rem;
+}
+
+.startOptionRowLabel {
+	font-size: 0.8rem;
 }
 
 .startOptionQuestionBox {
@@ -100,10 +104,6 @@
 .startOptionQuestionBox:hover ~ .startOptionExplanation {
 	opacity: 1;
 	right: -11.5rem;
-}
-
-.mapSeedInput {
-	display: flex;
 }
 
 .generateMapBtn {
