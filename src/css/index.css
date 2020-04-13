@@ -82,13 +82,6 @@ select {
 	margin: 0.5rem auto;
 }
 
-/* ////////////////////////////////////////////////// */
-
-.deleteConfirmationLabel {
-	margin-top: 0.75rem;
-	margin-bottom: 1.25rem;
-}
-
 .mapIcon {
 	position: absolute;
 	left: 50%;
