@@ -90,25 +90,7 @@ const generateCanvas = async (mapObject, options) => {
 	canvasObj.context = drawWhiteBackground(canvasObj);
 	canvasObj.context = drawAllTracks(mapObject, canvasObj);
 	canvasObj.context = drawGrid(mapObject, canvasObj);
-
-	function cutOutBackgroundBox() {
-		const boxWidth = 250;
-		const boxHeight = 150;
-		context.clearRect(
-			(mapWidth + 1) * iconTileWidth / 2 - boxWidth / 2,
-			(mapHeight - 1) * iconTileHeight / 2 - boxHeight / 2,
-			boxWidth,
-			boxHeight
-		);
-		context.strokeRect(
-			(mapWidth + 1) * iconTileWidth / 2 - boxWidth / 2,
-			(mapHeight - 1) * iconTileHeight / 2 - boxHeight / 2,
-			boxWidth,
-			boxHeight
-		);
-	}
-
-	if (options.cutOut) cutOutBackgroundBox();
+	if (options.cutOut) canvasObj.context = cutOutBackgroundBox();
 
 	return canvas;
 };
@@ -235,4 +217,23 @@ function getHeaderBoxText(drawObj, canvasObj) {
 	if (y === 0 && x !== mapWidth) headerText = mapObject.headerLabels.x[x];
 	if (x === mapWidth && y !== 0) headerText = mapObject.headerLabels.y[y - 1];
 	return headerText;
+}
+
+function cutOutBackgroundBox(canvasObj) {
+	let { context, iconTile, map } = canvasObj;
+	const boxWidth = 250;
+	const boxHeight = 150;
+	context.clearRect(
+		(map.width + 1) * iconTile.width / 2 - boxWidth / 2,
+		(map.height - 1) * iconTile.height / 2 - boxHeight / 2,
+		boxWidth,
+		boxHeight
+	);
+	context.strokeRect(
+		(map.width + 1) * iconTile.width / 2 - boxWidth / 2,
+		(map.height - 1) * iconTile.height / 2 - boxHeight / 2,
+		boxWidth,
+		boxHeight
+	);
+	return context;
 }
