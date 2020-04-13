@@ -111,7 +111,9 @@ const generateCanvas = async (mapObject, options) => {
 		}
 	});
 
-	(function drawGrid() {
+	drawGrid();
+
+	function drawGrid() {
 		for (let i = 0; i < gridMapWidth * gridMapHeight; i++) {
 			let x = i % gridMapWidth;
 			let y = Math.floor(i / gridMapHeight);
@@ -119,7 +121,7 @@ const generateCanvas = async (mapObject, options) => {
 			context.fillStyle = 'black';
 			context.strokeRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
 		}
-	})();
+	}
 
 	function drawHeaderBox(x, y) {
 		drawHeaderBoxBackground(x, y);
