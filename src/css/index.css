@@ -120,10 +120,8 @@ button {
 	width: 5rem;
 }
 
-.deleteConfirmationScreen {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.deleteButtons {
+	padding: 1rem;
 }
 
 .rerollSeedBtn {
@@ -229,6 +227,7 @@ button {
 	vertical-align: middle;
 	margin: 1rem;
 }
+
 .howToPlayMapField {
 	width: auto;
 }
