@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import '../../css/game.css';
+
 import Map from './Map';
 import OptionsButtons from './OptionsButtons';
 import SaveMapDisplay from './SaveMapDisplay';
