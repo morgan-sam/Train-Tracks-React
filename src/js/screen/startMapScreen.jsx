@@ -24,7 +24,6 @@ export const StartMapScreen = (props) => {
 	return (
 		<div className="menu startMapScreen">
 			<p key={'Map Size Label'}>Map Size</p>
-			<div>{props.selectedMap ? props.selectedMap.size : null}</div>
 			<Dropdown
 				key={'selectMapSize'}
 				style={{ width: '3rem', height: '2rem', textAlign: 'center', padding: '0 1.25rem 0 0.5rem' }}
