@@ -15,12 +15,6 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.gameTitle {
-	margin: 2rem;
-	font-size: 200%;
-	font-weight: bold;
-}
-
 button {
 	text-align: center;
 	width: auto;
@@ -52,6 +46,12 @@ button {
 	animation: fadeIn ease-in-out 1s;
 }
 
+.gameTitle {
+	margin: 2rem;
+	font-size: 200%;
+	font-weight: bold;
+}
+
 .menu {
 	display: flex;
 	flex-direction: column;
@@ -74,6 +74,11 @@ button {
 	margin: 0.5rem auto;
 }
 
+.loadMapDropdown {
+	z-index: 2;
+	padding-bottom: 0.6rem;
+}
+
 .mapIcon {
 	position: absolute;
 	left: 50%;
@@ -86,9 +91,4 @@ button {
 	margin: 2rem;
 	width: 10rem;
 	font-size: 0.75rem;
-}
-
-.loadMapDropdown {
-	z-index: 2;
-	padding-bottom: 0.6rem;
 }
