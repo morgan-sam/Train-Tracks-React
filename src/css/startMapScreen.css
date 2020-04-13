@@ -7,6 +7,17 @@
 	padding-top: 1rem;
 }
 
+.startMapOptionsContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 1rem 0 2rem 0;
+}
+
+.startMapOptionsContainer > * {
+	margin: 0.35rem;
+}
+
 .mapSizeOption {
 	z-index: 3;
 }
@@ -41,6 +52,7 @@
 }
 
 .startOptionOptionRow {
+	position: relative;
 	height: 1.6rem;
 	padding: 0.5rem;
 }
