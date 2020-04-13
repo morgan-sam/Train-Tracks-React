@@ -244,16 +244,9 @@ button {
 	padding: 1rem;
 }
 
-.howToPlayScreen {
-	align-items: center;
-}
-
-.howToPlayScreen > button {
-	width: 10rem;
-}
-
 .returnToMainMenuBtn {
 	margin: 2rem;
+	width: 10rem;
 	font-size: 0.75rem;
 }
 
