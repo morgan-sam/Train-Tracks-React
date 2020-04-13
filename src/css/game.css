@@ -1,0 +1,230 @@
+.topRowInGameButtons {
+	z-index: 0;
+}
+
+.topRowInGameButtons > * {
+	margin: 0.25rem 0.5rem;
+}
+
+.bottomRowInGameButtons {
+	position: relative;
+	display: inline-flex;
+	z-index: 1;
+}
+
+.bottomRowInGameButtons > * {
+	margin: 0.25rem 0.5rem;
+}
+
+.mapSeedOptionContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	vertical-align: middle;
+	height: 3rem;
+	width: auto;
+}
+
+.mapSeedExplanation {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	vertical-align: middle;
+	opacity: 0;
+	width: 10rem;
+	height: 3rem;
+	transform: translate(0, 0);
+	background-color: #eee;
+	border-radius: 1rem;
+	border: 1px solid black;
+	z-index: -3;
+	line-height: 1.4rem;
+	transition: 0.8s cubic-bezier(0, 0, 0.03, 1);
+	text-align: center;
+}
+
+.mapSeedBtn:hover ~ .mapSeedExplanation {
+	opacity: 0.8;
+	transform: translate(0, -120%);
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg) scale(1) skewY(10deg);
+	}
+	50% {
+		transform: rotate(180deg) scale(0.75) skewY(0deg);
+	}
+	100% {
+		transform: rotate(360deg) scale(1) skewY(10deg);
+	}
+}
+
+.mapBackgroundContainer {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	height: 200%;
+	width: 200%;
+	z-index: -3;
+	background: none;
+}
+
+.mapBackgroundShape {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+}
+
+.map {
+	display: inline-grid;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid black;
+	border-bottom-width: 2px;
+	border-right-width: 2px;
+}
+.inGameOptions {
+	margin: 0.5rem;
+}
+.inGameOptions > * {
+	padding: 0.5rem;
+}
+
+.winDisplay {
+	position: absolute;
+	text-align: center;
+	left: calc(50% + 1px);
+	top: calc(50% + 1px);
+	transform: translate(-50%, -50%);
+	z-index: 3;
+	border: 1px black solid;
+	box-sizing: border-box;
+	z-index: 5;
+	height: 20rem;
+	width: 20rem;
+	line-height: 10rem;
+	font-size: 2rem;
+	background-color: white;
+	overflow: hidden;
+}
+
+.winText {
+	z-index: 3;
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	height: 2rem;
+	line-height: 2rem;
+	width: 10rem;
+	padding: 1rem;
+	border: 2px black solid;
+}
+
+.saveMapDisplay {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 0.87rem;
+	padding: 25px;
+	height: 100px;
+	width: 200px;
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 4;
+	animation: fadeIn ease 1s;
+}
+
+.saveMapDisplay > * {
+	margin: 0.35rem;
+}
+
+.closePopUpWindow {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	font-size: 1.2rem;
+	height: 1.5rem;
+	width: 1.5rem;
+	line-height: 0rem;
+	top: 5px;
+	right: 5px;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 'none';
+	transition: 0.2s;
+	color: black;
+	z-index: 15;
+}
+
+.closePopUpWindow:hover {
+	background-color: #d34a4a;
+	color: #eee;
+	cursor: pointer;
+}
+
+body {
+	margin: 1rem;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.mapRow {
+	display: inline-flex;
+	flex-wrap: nowrap;
+}
+
+.tile-display {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background-size: 100% 100%;
+	border: 1px solid black;
+	z-index: -1;
+	font-size: 3rem;
+	display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+	display: -ms-flexbox; /* TWEENER - IE 10 */
+	display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+	display: flex; /* NEW, Spec - Firefox, Chrome, Opera */
+	justify-content: center;
+	align-items: center;
+}
+
+.tile-button-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	border: 1px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.table-heading {
+	background: none;
+}
+
+.boxLabel {
+	position: absolute;
+	font-size: 2rem;
+}
