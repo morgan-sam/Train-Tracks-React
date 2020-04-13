@@ -22,7 +22,7 @@ export const StartMapScreen = (props) => {
 	}, []);
 
 	return (
-		<div className="generateMapSection">
+		<div className="menu startMapScreen">
 			<p key={'Map Size Label'}>Map Size</p>
 			<div>{props.selectedMap ? props.selectedMap.size : null}</div>
 			<Dropdown

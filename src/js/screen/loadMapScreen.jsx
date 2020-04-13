@@ -32,7 +32,7 @@ export const LoadMapScreen = (props) => {
 
 	if (screenState === 'load') {
 		return (
-			<div className="loadMapSection">
+			<div className="menu loadMapScreen">
 				<Dropdown
 					className="loadMapDropdown"
 					style={{ width: '12rem', height: '2rem' }}

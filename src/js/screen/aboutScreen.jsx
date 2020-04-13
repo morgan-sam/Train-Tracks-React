@@ -3,7 +3,7 @@ import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 
 export const AboutScreen = (props) => {
 	return (
-		<div>
+		<div className="menu aboutScreen">
 			<p>This game was created with React.</p>
 			<p>
 				<a href="https://github.com/morgan-sam/Train-Tracks-React">Source Code</a>

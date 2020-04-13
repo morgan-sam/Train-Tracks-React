@@ -3,7 +3,7 @@ import WaveButton from '../components/WaveButton';
 
 export const MainMenuScreen = (props) => {
 	return (
-		<div className="mainMenuScreen" key="mainMenuScreen">
+		<div className="menu mainMenu" key="mainMenuScreen">
 			<WaveButton
 				className="startGameBtn"
 				key={'startGameBtn'}

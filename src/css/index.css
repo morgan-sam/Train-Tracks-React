@@ -30,7 +30,7 @@ select {
 	height: 2rem;
 }
 
-.appScreen {
+.app {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -45,38 +45,41 @@ select {
 	justify-content: center;
 }
 
-.menuScreen > * {
-	display: flex;
-	flex-direction: column;
+.screenContainer {
+	position: relative;
 }
 
-.menuScreen > * > * {
-	margin: 0.4rem;
-}
-
-.menuOptions {
+.menu {
 	display: flex;
 	flex-direction: column;
 	text-align: center;
 	align-items: center;
 }
 
-.menuOptions > * {
+.mainMenu > * {
+	margin: 0.5rem;
+	width: 8rem;
+	height: 2.2rem;
+}
+
+.startMapScreen > * {
+	margin: 0.5rem auto;
+	position: relative;
+}
+
+.aboutScreen > * {
 	margin: 0.5rem;
 }
 
-.generateMapSection > * {
-	margin: 0.5rem auto;
+.loadMapScreen > * {
 	position: relative;
+	margin: 0.5rem auto;
 }
+
+/* ////////////////////////////////////////////////// */
 
 .mapSizeOption {
 	z-index: 3;
-}
-
-.loadMapSection > * {
-	position: relative;
-	margin: 0.5rem auto;
 }
 
 .deleteConfirmationLabel {

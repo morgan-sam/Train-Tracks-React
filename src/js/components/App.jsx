@@ -70,8 +70,8 @@ export const App = () => {
 	};
 
 	return (
-		<div key={'appScreen'} className="appScreen">
-			<div key={'menuScreen'} className="menuScreen">
+		<div key={'app'} className="app">
+			<div key={'screenContainer'} className="screenContainer">
 				<h1 key={'title'} className="gameTitle">
 					Train Tracks
 				</h1>
