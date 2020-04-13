@@ -72,6 +72,14 @@ const generateCanvas = async (mapObject, options) => {
 			width: iconTileWidth,
 			height: iconTileHeight
 		},
+		map: {
+			width: mapWidth,
+			height: mapHeight
+		},
+		gridMap: {
+			width: gridMapWidth,
+			height: gridMapHeight
+		},
 		trackImage: {
 			straight: straightTrackImage,
 			curved: curvedTrackImage
@@ -81,43 +89,7 @@ const generateCanvas = async (mapObject, options) => {
 
 	canvasObj.context = drawWhiteBackground(canvasObj);
 	canvasObj.context = drawAllTracks(mapObject, canvasObj);
-
-	drawGrid();
-
-	function drawGrid() {
-		for (let i = 0; i < gridMapWidth * gridMapHeight; i++) {
-			let x = i % gridMapWidth;
-			let y = Math.floor(i / gridMapHeight);
-			if (options.headers && (x === mapWidth || y === 0)) drawHeaderBox(x, y);
-			context.fillStyle = 'black';
-			context.strokeRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
-		}
-	}
-
-	function drawHeaderBox(x, y) {
-		drawHeaderBoxBackground(x, y);
-		if ((y === 0 && x !== mapWidth) || (x === mapWidth && y !== 0)) drawHeaderBoxText(x, y);
-	}
-
-	function drawHeaderBoxBackground(x, y) {
-		context.fillStyle = '#FFE4B5';
-		context.fillRect(x * iconTileWidth, y * iconTileHeight, iconTileWidth, iconTileHeight);
-	}
-
-	function drawHeaderBoxText(x, y) {
-		context.fillStyle = 'black';
-		context.font = '1.5rem Georgia';
-		context.textAlign = 'center';
-		context.textBaseline = 'middle';
-		context.fillText(getHeaderBoxText(x, y), (x + 0.5) * iconTileWidth, (y + 0.5) * iconTileHeight);
-	}
-
-	function getHeaderBoxText(x, y) {
-		let headerText = 'ERROR';
-		if (y === 0 && x !== mapWidth) headerText = mapObject.headerLabels.x[x];
-		if (x === mapWidth && y !== 0) headerText = mapObject.headerLabels.y[y - 1];
-		return headerText;
-	}
+	canvasObj.context = drawGrid(mapObject, canvasObj);
 
 	function cutOutBackgroundBox() {
 		const boxWidth = 250;
@@ -149,6 +121,7 @@ const loadImage = (imgURL) => {
 		img.src = imgURL;
 	});
 };
+
 const drawRotatedImage = (el, canvasObj) => {
 	const { context, options } = canvasObj;
 	const { width, height } = canvasObj.iconTile;
@@ -207,3 +180,59 @@ const drawAllTracks = (mapObject, canvasObj) => {
 	});
 	return context;
 };
+
+function drawGrid(mapObject, canvasObj) {
+	let { context, gridMap, iconTile, options, map } = canvasObj;
+	for (let i = 0; i < gridMap.width * gridMap.height; i++) {
+		let x = i % gridMap.width;
+		let y = Math.floor(i / gridMap.height);
+		if (options.headers && (x === map.width || y === 0)) {
+			const drawObj = {
+				tile: { x, y },
+				mapObject
+			};
+			context = drawHeaderBox(drawObj, canvasObj);
+		}
+		context.fillStyle = 'black';
+		context.strokeRect(x * iconTile.width, y * iconTile.height, iconTile.width, iconTile.height);
+	}
+	return context;
+}
+
+function drawHeaderBox(drawObj, canvasObj) {
+	let context = canvasObj.context;
+	let mapWidth = canvasObj.map.width;
+	const { x, y } = drawObj.tile;
+	context = drawHeaderBoxBackground(drawObj.tile, canvasObj);
+	if ((y === 0 && x !== mapWidth) || (x === mapWidth && y !== 0)) context = drawHeaderBoxText(drawObj, canvasObj);
+	return context;
+}
+
+function drawHeaderBoxBackground(tile, canvasObj) {
+	let { context, iconTile } = canvasObj;
+	const { x, y } = tile;
+	context.fillStyle = '#FFE4B5';
+	context.fillRect(x * iconTile.width, y * iconTile.height, iconTile.width, iconTile.height);
+	return context;
+}
+
+function drawHeaderBoxText(drawObj, canvasObj) {
+	let { context, iconTile } = canvasObj;
+	const { x, y } = drawObj.tile;
+	context.fillStyle = 'black';
+	context.font = '1.5rem Georgia';
+	context.textAlign = 'center';
+	context.textBaseline = 'middle';
+	context.fillText(getHeaderBoxText(drawObj, canvasObj), (x + 0.5) * iconTile.width, (y + 0.5) * iconTile.height);
+	return context;
+}
+
+function getHeaderBoxText(drawObj, canvasObj) {
+	const mapWidth = canvasObj.map.width;
+	const mapObject = drawObj.mapObject;
+	const { x, y } = drawObj.tile;
+	let headerText = 'ERROR';
+	if (y === 0 && x !== mapWidth) headerText = mapObject.headerLabels.x[x];
+	if (x === mapWidth && y !== 0) headerText = mapObject.headerLabels.y[y - 1];
+	return headerText;
+}
