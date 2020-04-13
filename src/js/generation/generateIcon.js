@@ -47,25 +47,26 @@ const getRotationFromRailType = (railType) => {
 	return rotation;
 };
 
-const generateCanvas = async (mapObject, options) => {
-	let canvas = document.createElement('canvas');
+const getTrackImages = async () => {
+	return await Promise.all([ loadImage(straighttrack), loadImage(curvedtrack) ]);
+};
 
-	const mapWidth = mapObject.headerLabels.x.length;
-	const mapHeight = mapObject.headerLabels.y.length;
+const generateCanvasObject = async (mapObject, options) => {
+	let canvas = document.createElement('canvas');
+	let context = canvas.getContext('2d');
 
 	canvas.width = options.dimensions;
 	canvas.height = options.dimensions;
+
+	const mapWidth = mapObject.headerLabels.x.length;
+	const mapHeight = mapObject.headerLabels.y.length;
 	const gridMapWidth = mapWidth + options.headers;
 	const gridMapHeight = mapHeight + options.headers;
 	const iconTileWidth = canvas.width / gridMapWidth;
 	const iconTileHeight = canvas.height / gridMapHeight;
+	const [ straightTrackImage, curvedTrackImage ] = await getTrackImages();
 
-	let context = canvas.getContext('2d');
-
-	let curvedTrackImage = await loadImage(curvedtrack);
-	let straightTrackImage = await loadImage(straighttrack);
-
-	let canvasObj = {
+	return {
 		canvas,
 		context,
 		iconTile: {
@@ -86,13 +87,16 @@ const generateCanvas = async (mapObject, options) => {
 		},
 		options
 	};
+};
 
+const generateCanvas = async (mapObject, options) => {
+	let canvasObj = await generateCanvasObject(mapObject, options);
 	canvasObj.context = drawWhiteBackground(canvasObj);
 	canvasObj.context = drawAllTracks(mapObject, canvasObj);
 	canvasObj.context = drawGrid(mapObject, canvasObj);
-	if (options.cutOut) canvasObj.context = cutOutBackgroundBox();
+	if (options.cutOut) canvasObj.context = cutOutBackgroundBox(canvasObj);
 
-	return canvas;
+	return canvasObj.canvas;
 };
 
 const loadImage = (imgURL) => {
@@ -138,6 +142,7 @@ const drawStraightImage = (el, canvasObj) => {
 };
 
 const drawWhiteBackground = (canvasObj) => {
+	console.log(canvasObj);
 	const { canvas, context } = canvasObj;
 	context.fillStyle = 'white';
 	context.fillRect(0, 0, canvas.width, canvas.height);
