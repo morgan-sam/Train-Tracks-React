@@ -1,13 +1,3 @@
-:root {
-	--color-1: #ffe7bc;
-	--color-2: #ffc095;
-	--color-3: #f4aa91;
-	--color-4: #f49595;
-	--color-5: #ee8096;
-
-	--box-dim: 3.8rem;
-}
-
 @keyframes fadeIn {
 	0% {
 		opacity: 0;
