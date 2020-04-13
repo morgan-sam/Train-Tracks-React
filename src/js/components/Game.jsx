@@ -5,6 +5,7 @@ import SaveMapDisplay from './SaveMapDisplay';
 import GameWinDisplay from './GameWinDisplay';
 
 import { generateMapBackground } from '../generation/generateIcon';
+import { getGameMapContainerStyle } from '../styles/game';
 
 export const Game = (props) => {
 	const [ gameWon, setGameWinState ] = useState(false);
@@ -35,24 +36,9 @@ export const Game = (props) => {
 		[ display.savePopUp ]
 	);
 
-	const gameMapContainerStyle = {
-		display: 'inline-block',
-		position: 'relative',
-		zIndex: '0',
-		marginBottom: '1rem',
-		WebkitUserSelect: 'none',
-		MozUserSelect: 'none',
-		msUserSelect: 'none',
-		userSelect: 'none',
-		boxSizing: 'border-box',
-		position: 'relative',
-		width: `${(props.gameState.size + 1) * props.tileRemSize}rem`,
-		height: `${(props.gameState.size + 1) * props.tileRemSize}rem`
-	};
-
 	return (
 		<div>
-			<div style={gameMapContainerStyle}>
+			<div style={getGameMapContainerStyle(props.gameState.size, props.tileRemSize)}>
 				{display.winPopUp && (
 					<GameWinDisplay
 						display={display}
