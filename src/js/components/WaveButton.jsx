@@ -9,7 +9,6 @@ const WaveButton = ({ className, onClick, text }) => {
 	const { btnDefaultStyle, btnPressedStyle, rectangleStyle, textStyle } = getWaveButtonStyles(hovered);
 
 	const rectangleCount = 5;
-
 	const startRotation = 30;
 	const rotationOffset = 2;
 	const endRotation = -15 + rectangleCount * rotationOffset;
@@ -18,7 +17,7 @@ const WaveButton = ({ className, onClick, text }) => {
 	const transitionOffset = 0.1;
 	const cubicBezierFunction = 'cubic-bezier(0,1.84,0,.32)';
 
-	let rectangleArray = createRectangleArray(rectangleCount);
+	const rectangleArray = createRectangleArray(rectangleCount);
 
 	function createRectangleArray(recCount) {
 		let rectangleArray = [];
