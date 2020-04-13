@@ -25,6 +25,8 @@ button {
 	text-align: center;
 	width: auto;
 	height: 2rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 }
 
 .app {
@@ -78,11 +80,6 @@ button {
 	top: 50%;
 	margin: 2rem;
 	transform: translate(50%, -50%);
-}
-
-button {
-	padding-left: 0.5rem;
-	padding-right: 0.5rem;
 }
 
 .returnToMainMenuBtn {
