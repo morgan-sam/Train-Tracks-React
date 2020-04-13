@@ -46,10 +46,6 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const btnStyle = buttonPressed ? { ...btnDefaultStyle, ...btnPressedStyle } : btnDefaultStyle;
 
-	function renderButtonWhiteBackground() {
-		return <div style={whiteBackground} />;
-	}
-
 	return (
 		<button
 			style={btnStyle}
@@ -68,7 +64,7 @@ const WaveButton = ({ className, onClick, text }) => {
 		>
 			{rectangleArray}
 			<div style={textStyle}>{text}</div>
-			{renderButtonWhiteBackground()}
+			<div style={whiteBackground} />
 		</button>
 	);
 };
