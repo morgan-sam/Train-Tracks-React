@@ -1,0 +1,50 @@
+@keyframes float {
+	0% {
+		transform: translate(0, 28rem) scaleY(1.2);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(0, -8rem) scaleY(1.2);
+		opacity: 1;
+	}
+}
+
+@keyframes sway {
+	0% {
+		margin-left: 0%;
+	}
+	100% {
+		margin-left: 10%;
+	}
+}
+
+.balloonContainer {
+	top: 0;
+	left: 0;
+	height: 20rem;
+	width: 20rem;
+	overflow: hidden;
+	position: relative;
+	z-index: -4;
+}
+
+.balloon {
+	top: -8rem;
+	position: absolute;
+	height: 4rem;
+	width: 4rem;
+	border-radius: 100%;
+	animation: float 10s infinite linear, sway 1s ease-in-out infinite alternate;
+}
+
+.balloonString {
+	font-size: 2rem;
+	display: block;
+	text-align: center;
+	width: 100%;
+	transform: rotate(-90deg);
+	left: -110%;
+	top: 75%;
+	position: absolute;
+	bottom: -2rem;
+}
