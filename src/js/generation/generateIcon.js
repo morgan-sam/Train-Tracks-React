@@ -142,7 +142,6 @@ const drawStraightImage = (el, canvasObj) => {
 };
 
 const drawWhiteBackground = (canvasObj) => {
-	console.log(canvasObj);
 	const { canvas, context } = canvasObj;
 	context.fillStyle = 'white';
 	context.fillRect(0, 0, canvas.width, canvas.height);

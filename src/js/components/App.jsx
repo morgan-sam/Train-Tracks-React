@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Game from './Game';
-import LoadMapScreen from '../screen/loadMapScreen.jsx';
-import HowToPlayScreen from '../screen/howToPlayScreen.jsx';
-import StartMapScreen from '../screen/startMapScreen.jsx';
-import AboutScreen from '../screen/aboutScreen.jsx';
-import MainMenuScreen from '../screen/mainMenuScreen.jsx';
+import Screen from './Screen';
 
 import { generateNewMap } from '../generation/generateMap';
 import { getRandomSeed } from '../utility/utilityFunctions';
@@ -46,34 +41,6 @@ export const App = () => {
 		setCurrentScreen('mainMenu');
 	}
 
-	function switchToScreen() {
-		const props = {
-			setCurrentScreen,
-			gameState,
-			setGameState,
-			inGameNewMap,
-			generateMap,
-			quitGame,
-			tileRemSize
-		};
-		switch (currentScreen) {
-			case 'mainMenu':
-				return <MainMenuScreen {...props} />;
-			case 'startMap':
-				return <StartMapScreen {...props} />;
-			case 'loadMap':
-				return <LoadMapScreen {...props} />;
-			case 'howToPlay':
-				return <HowToPlayScreen {...props} />;
-			case 'about':
-				return <AboutScreen {...props} />;
-			case 'game':
-				return <Game {...props} />;
-			default:
-				return <MainMenuScreen {...props} />;
-		}
-	}
-
 	useEffect(
 		() => {
 			if (gameState.mapObject !== null && gameState.active) {
@@ -91,13 +58,24 @@ export const App = () => {
 		[ gameState.seed ]
 	);
 
+	const screenProps = {
+		currentScreen,
+		setCurrentScreen,
+		gameState,
+		setGameState,
+		inGameNewMap,
+		generateMap,
+		quitGame,
+		tileRemSize
+	};
+
 	return (
 		<div key={'appScreen'} className="appScreen">
 			<div key={'menuScreen'} className="menuScreen">
 				<h1 key={'title'} className="gameTitle">
 					Train Tracks
 				</h1>
-				{switchToScreen()}
+				<Screen {...screenProps} />
 			</div>
 		</div>
 	);
