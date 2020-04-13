@@ -66,6 +66,7 @@ const generateCanvas = async (mapObject, options) => {
 	let straightTrackImage = await loadImage(straighttrack);
 
 	let canvasObj = {
+		canvas,
 		context,
 		iconTile: {
 			width: iconTileWidth,
@@ -78,8 +79,7 @@ const generateCanvas = async (mapObject, options) => {
 		options
 	};
 
-	context.fillStyle = 'white';
-	context.fillRect(0, 0, canvas.width, canvas.height);
+	canvasObj.context = drawWhiteBackground(canvasObj);
 
 	mapObject.tracks.forEach((el) => {
 		if (options.complete || el.defaultTrack) {
@@ -193,5 +193,12 @@ const drawStraightImage = (el, canvasObj) => {
 		width,
 		height
 	);
+	return context;
+};
+
+const drawWhiteBackground = (canvasObj) => {
+	const { canvas, context } = canvasObj;
+	context.fillStyle = 'white';
+	context.fillRect(0, 0, canvas.width, canvas.height);
 	return context;
 };
