@@ -35,9 +35,24 @@ export const Game = (props) => {
 		[ display.savePopUp ]
 	);
 
+	const gameMapContainerStyle = {
+		display: 'inline-block',
+		position: 'relative',
+		zIndex: '0',
+		marginBottom: '1rem',
+		WebkitUserSelect: 'none',
+		MozUserSelect: 'none',
+		msUserSelect: 'none',
+		userSelect: 'none',
+		boxSizing: 'border-box',
+		position: 'relative',
+		width: `${(props.gameState.size + 1) * props.tileRemSize}rem`,
+		height: `${(props.gameState.size + 1) * props.tileRemSize}rem`
+	};
+
 	return (
 		<div>
-			<div className="gameMapContainer">
+			<div style={gameMapContainerStyle}>
 				{display.winPopUp && (
 					<GameWinDisplay
 						display={display}

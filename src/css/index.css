@@ -254,19 +254,6 @@ button {
 	font-size: 0.75rem;
 }
 
-.gameMapContainer {
-	display: inline-block;
-	position: relative;
-	z-index: 0;
-	height: auto;
-	width: auto;
-	margin-bottom: 1rem;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	box-sizing: 'border-box';
-}
 .loadMapDropdown {
 	z-index: 2;
 }
