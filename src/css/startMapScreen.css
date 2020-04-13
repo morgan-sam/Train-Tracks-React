@@ -87,3 +87,7 @@
 	opacity: 1;
 	right: -11.5rem;
 }
+
+.mapSeedInput {
+	display: flex;
+}
