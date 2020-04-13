@@ -48,7 +48,6 @@ export const App = () => {
 
 	function switchToScreen() {
 		const props = {
-			currentScreen,
 			setCurrentScreen,
 			gameState,
 			setGameState,
