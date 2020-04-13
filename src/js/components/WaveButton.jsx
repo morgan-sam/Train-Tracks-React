@@ -48,17 +48,6 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const btnStyle = buttonPressed ? { ...btnDefaultStyle, ...btnPressedStyle } : btnDefaultStyle;
 
-	// useEffect(() => {
-	// 	// start timeout
-
-	// 	// cleanup function to cancel the timeout if it hasn't finished.
-	// 	return () => {
-	// 		if (timeout.current) {
-	// 			clearTimeout(timeout.current);
-	// 		}
-	// 	};
-	// }, []);
-
 	return (
 		<button
 			style={btnStyle}
