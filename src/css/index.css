@@ -64,15 +64,6 @@ select {
 	height: 2.2rem;
 }
 
-.startMapScreen > * {
-	margin: 0.5rem auto;
-	position: relative;
-}
-
-.startMapOptionLabel {
-	padding-top: 1rem;
-}
-
 .aboutScreen > * {
 	margin: 0.5rem;
 }

@@ -1,3 +1,12 @@
+.startMapScreen > * {
+	margin: 0.5rem auto;
+	position: relative;
+}
+
+.startMapOptionLabel {
+	padding-top: 1rem;
+}
+
 .mapSizeOption {
 	z-index: 3;
 }
