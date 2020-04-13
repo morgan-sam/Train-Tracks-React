@@ -19,11 +19,13 @@ export const OptionsButtons = (props) => {
 				/>
 				<WaveButton
 					key={'highlightDefaultTilesBtn'}
+					clickDelay={50}
 					onClick={() => setDisplay({ ...display, defaultHighlights: !display.defaultHighlights })}
 					text={display.defaultHighlights ? 'Hide Default Tiles' : 'Show Default Tiles'}
 				/>
 				<WaveButton
 					key={'showMapSolutionBtn'}
+					clickDelay={200}
 					onClick={() => setDisplay({ ...display, solutionVisible: !display.solutionVisible })}
 					text={display.solutionVisible ? 'Hide Map Solution' : 'Show Map Solution'}
 				/>
@@ -76,6 +78,7 @@ export const OptionsButtons = (props) => {
 						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
 						inGameNewMap();
 					}}
+					clickDelay={200}
 					text={'New Map'}
 				/>
 

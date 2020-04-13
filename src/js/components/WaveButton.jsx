@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { colorToWhiteArray } from '../utility/colorFunctions';
 import { getWaveButtonStyles } from '../styles/waveButton';
 
-const WaveButton = ({ className, onClick, text }) => {
+const WaveButton = ({ className, onClick, text, bounceDelay = 200, clickDelay = 500 }) => {
 	const [ hovered, setHoveredState ] = useState(false);
 	const [ buttonPressed, setPressedState ] = useState(false);
 	const bounceTimer = useRef();
@@ -59,11 +59,11 @@ const WaveButton = ({ className, onClick, text }) => {
 				bounceTimer.current = setTimeout(() => {
 					setPressedState(false);
 					return clearTimeout(bounceTimer.current);
-				}, 200);
+				}, bounceDelay);
 				clickTimer.current = setTimeout(() => {
 					onClick();
 					return clearTimeout(clickTimer.current);
-				}, 500);
+				}, clickDelay);
 			}}
 		>
 			{rectangleArray}
