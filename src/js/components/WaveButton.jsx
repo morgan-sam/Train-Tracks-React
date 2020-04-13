@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { colorToWhiteArray } from '../utility/colorFunctions';
 import { getWaveButtonStyles } from '../styles/waveButton';
 
 const WaveButton = ({ className, onClick, text }) => {
 	const [ hovered, setHoveredState ] = useState(false);
 	const [ buttonPressed, setPressedState ] = useState(false);
+	const bounceTimer = useRef();
+	const clickTimer = useRef();
 
 	const { btnDefaultStyle, btnPressedStyle, rectangleStyle, textStyle, whiteBackground } = getWaveButtonStyles(
 		hovered
@@ -46,6 +48,17 @@ const WaveButton = ({ className, onClick, text }) => {
 
 	const btnStyle = buttonPressed ? { ...btnDefaultStyle, ...btnPressedStyle } : btnDefaultStyle;
 
+	// useEffect(() => {
+	// 	// start timeout
+
+	// 	// cleanup function to cancel the timeout if it hasn't finished.
+	// 	return () => {
+	// 		if (timeout.current) {
+	// 			clearTimeout(timeout.current);
+	// 		}
+	// 	};
+	// }, []);
+
 	return (
 		<button
 			style={btnStyle}
@@ -53,13 +66,15 @@ const WaveButton = ({ className, onClick, text }) => {
 			onMouseOver={() => setHoveredState(true)}
 			onMouseLeave={() => (!buttonPressed ? setHoveredState(false) : null)}
 			onClick={() => {
-				setHoveredState(true);
-				// setPressedState(true);
-				// const menuBtn = onClick.toString().match(/(?:Screen|setGameState)/g);
-				// const waitTime = menuBtn ? 600 : 100;
-				// setTimeout(() => setPressedState(false), 200);
-				// setTimeout(onClick, waitTime);
-				onClick();
+				setPressedState(true);
+				bounceTimer.current = setTimeout(() => {
+					setPressedState(false);
+					return clearTimeout(bounceTimer.current);
+				}, 200);
+				clickTimer.current = setTimeout(() => {
+					onClick();
+					return clearTimeout(clickTimer.current);
+				}, 500);
 			}}
 		>
 			{rectangleArray}
