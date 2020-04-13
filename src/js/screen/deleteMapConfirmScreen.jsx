@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../css/confirmDeleteScreen.css';
 import WaveButton from '../components/WaveButton';
 
 import { deleteLocalSavedMap, deleteAllLocalSavedMaps } from '../utility/localStorage';

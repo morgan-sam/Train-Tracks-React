@@ -81,35 +81,9 @@ select {
 	transform: translate(50%, -50%);
 }
 
-.confirmDeleteIcon {
-	height: auto;
-	width: auto;
-	margin: 1rem;
-	object-fit: contain;
-}
-
 button {
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
-}
-
-.deleteButtons > * {
-	margin: 1rem;
-}
-
-.confirmDeleteBtn {
-	width: 5rem;
-	background-color: #bf3d3b;
-	padding: 0;
-	color: white;
-}
-.cancelDeleteBtn {
-	padding: 0;
-	width: 5rem;
-}
-
-.deleteButtons {
-	padding: 1rem;
 }
 
 .returnToMainMenuBtn {

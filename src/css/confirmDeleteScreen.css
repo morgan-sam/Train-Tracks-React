@@ -1,0 +1,25 @@
+.deleteButtons > * {
+	margin: 1rem;
+}
+
+.confirmDeleteBtn {
+	width: 5rem;
+	background-color: #bf3d3b;
+	padding: 0;
+	color: white;
+}
+.cancelDeleteBtn {
+	padding: 0;
+	width: 5rem;
+}
+
+.deleteButtons {
+	padding: 1rem;
+}
+
+.confirmDeleteIcon {
+	height: auto;
+	width: auto;
+	margin: 1rem;
+	object-fit: contain;
+}
