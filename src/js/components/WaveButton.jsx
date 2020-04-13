@@ -6,7 +6,9 @@ const WaveButton = ({ className, onClick, text }) => {
 	const [ hovered, setHoveredState ] = useState(false);
 	const [ buttonPressed, setPressedState ] = useState(false);
 
-	const { btnDefaultStyle, btnPressedStyle, rectangleStyle, textStyle } = getWaveButtonStyles(hovered);
+	const { btnDefaultStyle, btnPressedStyle, rectangleStyle, textStyle, whiteBackground } = getWaveButtonStyles(
+		hovered
+	);
 
 	const rectangleCount = 5;
 	const startRotation = 30;
@@ -45,19 +47,7 @@ const WaveButton = ({ className, onClick, text }) => {
 	const btnStyle = buttonPressed ? { ...btnDefaultStyle, ...btnPressedStyle } : btnDefaultStyle;
 
 	function renderButtonWhiteBackground() {
-		return (
-			<div
-				style={{
-					zIndex: '-2',
-					top: '0',
-					left: '0',
-					position: 'absolute',
-					height: '100%',
-					width: '100%',
-					backgroundColor: 'white'
-				}}
-			/>
-		);
+		return <div style={whiteBackground} />;
 	}
 
 	return (

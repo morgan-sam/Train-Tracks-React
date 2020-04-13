@@ -34,6 +34,16 @@ export const getWaveButtonStyles = (hovered) => {
 			zIndex: '1',
 			color: hovered ? 'white' : 'black',
 			transition: hovered ? 'color 1s cubic-bezier(0,2.53,.53,-1.51)' : `color 0s`
+		},
+
+		whiteBackground: {
+			zIndex: '-2',
+			top: '0',
+			left: '0',
+			position: 'absolute',
+			height: '100%',
+			width: '100%',
+			backgroundColor: 'white'
 		}
 	};
 };
