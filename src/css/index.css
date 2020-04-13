@@ -128,42 +128,6 @@ button {
 	padding: 1rem;
 }
 
-.howToPlayGrid {
-	display: grid;
-	grid-template-columns: auto auto;
-	grid-template-rows: auto auto;
-	transition: 1.2s;
-	transition-timing-function: cubic-bezier(0.5, -0.08, .83, .67);
-	opacity: 0;
-}
-
-.howToPlayGrid > * {
-	width: 30rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	vertical-align: middle;
-	margin: 1rem;
-}
-
-.howToPlayMapField {
-	width: auto;
-}
-
-.howToPlayTextField > * {
-	margin: 1rem;
-	text-align: left;
-}
-
-.howToPlayMap {
-	object-fit: contain;
-}
-
-.howToPlayTitle {
-	font-size: 1.5rem;
-	padding: 1rem;
-}
-
 .returnToMainMenuBtn {
 	margin: 2rem;
 	width: 10rem;

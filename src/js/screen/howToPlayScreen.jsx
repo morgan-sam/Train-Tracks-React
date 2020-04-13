@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../../css/howToPlayScreen.css';
 import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 import { generateNewMap } from '../generation/generateMap';
 import { generateMapIcon } from '../generation/generateIcon';
