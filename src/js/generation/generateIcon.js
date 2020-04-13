@@ -65,32 +65,17 @@ const generateCanvas = async (mapObject, options) => {
 	let curvedTrackImage = await loadImage(curvedtrack);
 	let straightTrackImage = await loadImage(straighttrack);
 
-	const drawRotatedImage = (el) => {
-		let rotation = getRotationFromRailType(el.railType);
-		context.save();
-		context.translate(
-			el.tile[0] * iconTileWidth + iconTileWidth / 2,
-			(el.tile[1] + options.headers) * iconTileHeight + iconTileHeight / 2
-		);
-		context.rotate(rotation * (Math.PI / 180));
-		context.drawImage(
-			el.railType === 'vertical' || el.railType === 'horizontal' ? straightTrackImage : curvedTrackImage,
-			-iconTileWidth / 2,
-			-iconTileHeight / 2,
-			iconTileWidth,
-			iconTileHeight
-		);
-		context.restore();
-	};
-
-	const drawStraightImage = (el) => {
-		context.drawImage(
-			el.railType === 'vertical' || el.railType === 'horizontal' ? straightTrackImage : curvedTrackImage,
-			el.tile[0] * iconTileWidth,
-			(el.tile[1] + options.headers) * iconTileHeight,
-			iconTileWidth,
-			iconTileHeight
-		);
+	let canvasObj = {
+		context,
+		iconTile: {
+			width: iconTileWidth,
+			height: iconTileHeight
+		},
+		trackImage: {
+			straight: straightTrackImage,
+			curved: curvedTrackImage
+		},
+		options
 	};
 
 	context.fillStyle = 'white';
@@ -104,9 +89,9 @@ const generateCanvas = async (mapObject, options) => {
 				el.railType === 'topRightCorner' ||
 				el.railType === 'bottomRightCorner'
 			) {
-				drawRotatedImage(el);
+				canvasObj.context = drawRotatedImage(el, canvasObj);
 			} else {
-				drawStraightImage(el);
+				canvasObj.context = drawStraightImage(el, canvasObj);
 			}
 		}
 	});
@@ -177,4 +162,36 @@ const loadImage = (imgURL) => {
 		img.onerror = reject;
 		img.src = imgURL;
 	});
+};
+const drawRotatedImage = (el, canvasObj) => {
+	const { context, options } = canvasObj;
+	const { width, height } = canvasObj.iconTile;
+	const { straight, curved } = canvasObj.trackImage;
+	let rotation = getRotationFromRailType(el.railType);
+	context.save();
+	context.translate(el.tile[0] * width + width / 2, (el.tile[1] + options.headers) * height + height / 2);
+	context.rotate(rotation * (Math.PI / 180));
+	context.drawImage(
+		el.railType === 'vertical' || el.railType === 'horizontal' ? straight : curved,
+		-width / 2,
+		-height / 2,
+		width,
+		height
+	);
+	context.restore();
+	return context;
+};
+
+const drawStraightImage = (el, canvasObj) => {
+	const { context, options } = canvasObj;
+	const { width, height } = canvasObj.iconTile;
+	const { straight, curved } = canvasObj.trackImage;
+	context.drawImage(
+		el.railType === 'vertical' || el.railType === 'horizontal' ? straight : curved,
+		el.tile[0] * width,
+		(el.tile[1] + options.headers) * height,
+		width,
+		height
+	);
+	return context;
 };
