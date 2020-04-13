@@ -3,10 +3,6 @@
 	position: relative;
 }
 
-.startMapOptionLabel {
-	padding-top: 1rem;
-}
-
 .startMapOptionsContainer {
 	display: flex;
 	flex-direction: column;
@@ -16,6 +12,10 @@
 
 .startMapOptionsContainer > * {
 	margin: 0.35rem;
+}
+
+.startMapOptionLabel {
+	padding-top: 1rem;
 }
 
 .rerollSeedBtn {
@@ -54,7 +54,7 @@
 	display: inline-flex;
 }
 
-.startOptionLabel {
+.startOptionRowLabel {
 	font-size: 0.8rem;
 }
 

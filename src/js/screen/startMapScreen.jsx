@@ -69,7 +69,7 @@ export const StartMapScreen = (props) => {
 						className="startOptionCheckbox"
 						onChange={(e) => props.setGameState({ ...props.gameState, balloonCloud: !e.target.checked })}
 					/>
-					<p className="startOptionLabel">Disable Win Screen Balloon Cloud</p>
+					<p className="startOptionRowLabel">Disable Win Screen Balloon Cloud</p>
 					<div className="startOptionQuestionBox">?</div>
 					<div className="startOptionExplanation">
 						Disables the balloon cloud effect at the end of a game win. Can increase performance on old
