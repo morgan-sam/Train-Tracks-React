@@ -80,21 +80,7 @@ const generateCanvas = async (mapObject, options) => {
 	};
 
 	canvasObj.context = drawWhiteBackground(canvasObj);
-
-	mapObject.tracks.forEach((el) => {
-		if (options.complete || el.defaultTrack) {
-			if (
-				el.railType === 'horizontal' ||
-				el.railType === 'topLeftCorner' ||
-				el.railType === 'topRightCorner' ||
-				el.railType === 'bottomRightCorner'
-			) {
-				canvasObj.context = drawRotatedImage(el, canvasObj);
-			} else {
-				canvasObj.context = drawStraightImage(el, canvasObj);
-			}
-		}
-	});
+	canvasObj.context = drawAllTracks(mapObject, canvasObj);
 
 	drawGrid();
 
@@ -200,5 +186,24 @@ const drawWhiteBackground = (canvasObj) => {
 	const { canvas, context } = canvasObj;
 	context.fillStyle = 'white';
 	context.fillRect(0, 0, canvas.width, canvas.height);
+	return context;
+};
+
+const drawAllTracks = (mapObject, canvasObj) => {
+	let { options, context } = canvasObj;
+	mapObject.tracks.forEach((el) => {
+		if (options.complete || el.defaultTrack) {
+			if (
+				el.railType === 'horizontal' ||
+				el.railType === 'topLeftCorner' ||
+				el.railType === 'topRightCorner' ||
+				el.railType === 'bottomRightCorner'
+			) {
+				context = drawRotatedImage(el, canvasObj);
+			} else {
+				context = drawStraightImage(el, canvasObj);
+			}
+		}
+	});
 	return context;
 };
