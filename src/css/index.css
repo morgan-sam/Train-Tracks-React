@@ -111,9 +111,12 @@ button {
 
 .confirmDeleteBtn {
 	width: 5rem;
+	background-color: #bf3d3b;
+	padding: 0;
+	color: white;
 }
-
 .cancelDeleteBtn {
+	padding: 0;
 	width: 5rem;
 }
 
