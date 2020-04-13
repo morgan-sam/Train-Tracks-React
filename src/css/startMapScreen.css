@@ -50,7 +50,7 @@
 .startOptionOptionRow {
 	position: relative;
 	height: 1.6rem;
-	padding: 0.5rem;
+	padding: 1rem;
 }
 
 .startOptionOptionRow > * {
@@ -107,4 +107,10 @@
 
 .mapSeedInput {
 	display: flex;
+}
+
+.generateMapBtn {
+	height: 2.5rem;
+	width: 10rem;
+	margin-top: 1rem;
 }

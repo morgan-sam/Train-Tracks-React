@@ -77,6 +77,7 @@ export const StartMapScreen = (props) => {
 					</div>
 				</div>
 				<WaveButton
+					className="generateMapBtn"
 					key={'generateMapBtn'}
 					onClick={() => {
 						props.generateMap();
