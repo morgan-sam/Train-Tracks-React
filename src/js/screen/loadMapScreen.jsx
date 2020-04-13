@@ -27,7 +27,7 @@ export const LoadMapScreen = (props) => {
 	const [ mapIcon, setMapIcon ] = useState(null);
 
 	async function displaySavedGameMapIcon(mapObject) {
-		setMapIcon(mapObject ? await generateMapIcon(mapObject) : null);
+		setMapIcon(mapObject ? await generateMapIcon(mapObject, false) : null);
 	}
 
 	if (screenState === 'load') {

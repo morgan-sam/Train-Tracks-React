@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 import { generateNewMap } from '../generation/generateMap';
-import { generateMapIcon, generateCompletedMapIcon } from '../generation/generateIcon';
+import { generateMapIcon } from '../generation/generateIcon';
 
 export const HowToPlayScreen = (props) => {
 	const [ maps, setMaps ] = useState(false);
@@ -11,7 +11,7 @@ export const HowToPlayScreen = (props) => {
 			const gameParameters = { size: 6, seed: 986707260499975 };
 			const map = generateNewMap(gameParameters);
 			const emptyMap = await generateMapIcon(map, false);
-			const completeMap = await generateCompletedMapIcon(map, true);
+			const completeMap = await generateMapIcon(map, true);
 			setMaps({ empty: emptyMap, complete: completeMap });
 		}
 		getMaps();
