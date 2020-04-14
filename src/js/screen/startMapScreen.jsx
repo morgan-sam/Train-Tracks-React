@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import '../../css/startMapScreen.css';
 import WaveButton from '../components/WaveButton';
 import Dropdown from '../components/Dropdown';
-import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
+import ReturnToMainMenuBtn from '../components/ReturnToMainMenuBtn.jsx';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
 const DIFFICULTY_SLIDER_WIDTH_REM = 5;
