@@ -81,9 +81,9 @@ export const StartMapScreen = (props) => {
 					<div className="questionBox difficultyQuestionBox">?</div>
 					<div className="startOptionExplanation difficultyExplanation">
 						Adjusts the amount of default tiles in game. Center difficulty ensures the absolute minimum
-						required default tiles for a map that has one definitive solution.<br />
-						<br />Difficulties above center will require trial and error and may have multiple possible
-						solutions (only one solution accepted).
+						amount of default tiles required for a map that has one definitive solution.<br />
+						<br />Difficulties above center may require trial and error and will likely have multiple
+						possible solutions (only one solution accepted).
 					</div>
 				</div>
 
