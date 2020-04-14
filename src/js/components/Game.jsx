@@ -85,8 +85,10 @@ export const Game = (props) => {
 			</div>
 			<OptionsButtons
 				setGameWinState={setGameWinState}
+				placedTracks={placedTracks}
 				setPlacedTracks={setPlacedTracks}
 				setDisplay={setDisplay}
+				mapTracks={props.gameState.mapObject.tracks}
 				display={display}
 				seed={props.gameState.seed}
 				inGameNewMap={props.inGameNewMap}

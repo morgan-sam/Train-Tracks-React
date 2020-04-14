@@ -13,6 +13,7 @@ export const App = () => {
 		active: false,
 		balloonCloud: true
 	});
+
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 
@@ -33,13 +34,13 @@ export const App = () => {
 	};
 
 	function quitGame() {
+		setCurrentScreen('mainMenu');
 		setGameState({
 			...gameState,
 			mapObject: null,
 			seed: getRandomSeed(),
 			active: false
 		});
-		setCurrentScreen('mainMenu');
 	}
 
 	useEffect(

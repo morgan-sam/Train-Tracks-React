@@ -16,7 +16,7 @@ const filterNewTilesOfDefaultTiles = (newTiles, mapTracks) => {
 	return filteredTiles;
 };
 
-function filterAlreadyPlacedTracksOfNewTiles(newTiles, placedTracks) {
+const filterAlreadyPlacedTracksOfNewTiles = (newTiles, placedTracks) => {
 	let nonConflictingPlacedTracks = [];
 	placedTracks.forEach(function(track) {
 		let placedTrackConflict = false;
@@ -26,4 +26,4 @@ function filterAlreadyPlacedTracksOfNewTiles(newTiles, placedTracks) {
 		if (!placedTrackConflict) nonConflictingPlacedTracks.push(track);
 	});
 	return nonConflictingPlacedTracks;
-}
+};
