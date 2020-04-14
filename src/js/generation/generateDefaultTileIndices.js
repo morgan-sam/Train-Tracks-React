@@ -7,15 +7,15 @@ import {
 } from '../utility/utilityFunctions';
 import { getAdjacentTiles } from './genericGenerationFunctions';
 
+// Definitive indices are required for a single solution without trial and error
 export const generateDefaultTileIndices = (allTiles, parameters) => {
-	let optionalIndices = getAllTwoByTwoDefaultIndices(allTiles, parameters);
-	optionalIndices = modifyOptionalIndices(optionalIndices);
+	let definitiveIndices = getAllTwoByTwoDefaultIndices(allTiles, parameters);
 	const mandatoryIndices = getStartAndEndIndices(allTiles);
-	return [ ...new Set([ ...optionalIndices, ...mandatoryIndices ]) ];
+	return [ ...new Set([ ...definitiveIndices, ...mandatoryIndices ]) ];
 };
 
-const modifyOptionalIndices = (optionalIndices) => {
-	console.log(optionalIndices);
+const modifyDefinitiveIndices = (definitiveIndices, defaultTileMod) => {
+	const optionalIndices = definitiveIndices;
 	return optionalIndices;
 };
 
