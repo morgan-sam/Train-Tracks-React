@@ -106,3 +106,8 @@ export const randomArrayEntry = (array) => {
 export const shiftPushArray = (array, items) => {
 	return array.slice(items.length).concat(items);
 };
+
+export const halveArray = (array) => {
+	const halfIndex = Math.floor(array.length / 2);
+	return array.slice(0, halfIndex);
+};

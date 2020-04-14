@@ -3,7 +3,8 @@ import {
 	findIndexOfArrayInMatrix,
 	removeDuplicateArraysFromMatrix,
 	removeArraysFromMatrix,
-	findCommonArraysOfAllMatrices
+	findCommonArraysOfAllMatrices,
+	halveArray
 } from '../utility/utilityFunctions';
 import { getAdjacentTiles } from './genericGenerationFunctions';
 
@@ -18,12 +19,15 @@ export const generateDefaultTileIndices = (allTiles, parameters) => {
 
 const modifyDefinitiveIndices = (definitiveIndices, mapInfo) => {
 	const { mapLength, difficulty } = mapInfo;
-	console.log(difficulty);
-	console.log(mapLength);
-	console.log(definitiveIndices);
-	const optionalIndices = definitiveIndices;
+	if (difficulty === 3) return definitiveIndices;
+	if (difficulty === 4) return halveArray(definitiveIndices);
 	if (difficulty === 5) return [];
-	return optionalIndices;
+};
+
+const addRemoveNewMapIndices = (indices, mapInfo) => {
+	const { mapLength, difficulty } = mapInfo;
+	const defaultMod = difficulty - 3;
+	//
 };
 
 function getStartAndEndIndices(allTiles) {
