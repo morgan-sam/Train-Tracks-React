@@ -20,7 +20,9 @@ import { removeMovesWithLessTilesFromExit } from './mutateMoveArray/removeMovesW
 import { generateDefaultTileIndices } from './generateDefaultTileIndices';
 
 export const generateNewMap = (passedParameters) => {
-	seedrandom(passedParameters.seed, { global: true });
+	// console.log(passedParameters.seed);
+	// seedrandom(passedParameters.seed, { global: true });
+	seedrandom(400745579743964, { global: true });
 
 	const parameters = {
 		mapWidth: passedParameters.size,
@@ -64,6 +66,7 @@ function generateMapTiles(parameters) {
 
 	let mapComplete = false;
 
+	console.log(genMap);
 	while (!mapComplete) {
 		let nextMove = newMove(genMap);
 		genMap.tiles.push(nextMove);
@@ -96,11 +99,11 @@ function checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate) {
 function mutateMoveArray(legalMoves, genMap) {
 	let moveMutateFunctions = [];
 
-	moveMutateFunctions.push(removeExitMove);
-	moveMutateFunctions.push(removeAroundExitMoves);
-	moveMutateFunctions.push(removeSealingMoves);
-	moveMutateFunctions.push(removeHookMoves);
+	// moveMutateFunctions.push(removeExitMove);
 	moveMutateFunctions.push(removeMovesWithLessTilesFromExit);
+	// moveMutateFunctions.push(removeAroundExitMoves);
+	// moveMutateFunctions.push(removeSealingMoves);
+	// moveMutateFunctions.push(removeHookMoves);
 
 	for (let i = 0; i < moveMutateFunctions.length; i++) {
 		let currentFunc = moveMutateFunctions[i];
