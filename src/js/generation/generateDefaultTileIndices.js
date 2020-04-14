@@ -4,7 +4,8 @@ import {
 	removeDuplicateArraysFromMatrix,
 	removeArraysFromMatrix,
 	findCommonArraysOfAllMatrices,
-	halveArray
+	halveArray,
+	shuffleArray
 } from '../utility/utilityFunctions';
 import { getAdjacentTiles } from './genericGenerationFunctions';
 
@@ -19,7 +20,7 @@ export const generateDefaultTileIndices = (allTiles, parameters) => {
 
 const modifyDefinitiveIndices = (definitiveIndices, mapInfo) => {
 	const { mapLength, difficulty } = mapInfo;
-	const helperIndices = getHelperIndices(definitiveIndices, mapInfo.mapLength);
+	const helperIndices = getHelperIndices(definitiveIndices, mapLength);
 	if (difficulty === 1) return [ ...definitiveIndices, ...helperIndices ];
 	if (difficulty === 2) return [ ...definitiveIndices, ...halveArray(helperIndices) ];
 	if (difficulty === 3) return definitiveIndices;
@@ -28,10 +29,10 @@ const modifyDefinitiveIndices = (definitiveIndices, mapInfo) => {
 };
 
 const getHelperIndices = (indices, mapLength) => {
-	console.log(indices);
-	let possibleIndices = [ ...Array(mapLength).keys() ];
-	possibleIndices = possibleIndices.filter((el) => indices.indexOf(el) === -1);
-	//
+	const all = [ ...Array(mapLength).keys() ];
+	const possible = all.filter((el) => indices.indexOf(el) === -1);
+	const shuffled = shuffleArray(possible);
+	return halveArray(shuffled);
 };
 
 function getStartAndEndIndices(allTiles) {
