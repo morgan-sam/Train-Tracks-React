@@ -8,10 +8,9 @@ import {
 import { getAdjacentTiles } from './genericGenerationFunctions';
 
 export const generateDefaultTileIndices = (allTiles, parameters) => {
-	let indices = [];
-	indices.push(...getAllTwoByTwoDefaultIndices(allTiles, parameters));
-	indices.push(...getStartAndEndIndices(allTiles));
-	return [ ...new Set(indices) ];
+	let optionalIndices = getAllTwoByTwoDefaultIndices(allTiles, parameters);
+	const mandatoryIndices = getStartAndEndIndices(allTiles);
+	return [ ...new Set([ ...optionalIndices, ...mandatoryIndices ]) ];
 };
 
 function getStartAndEndIndices(allTiles) {

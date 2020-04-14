@@ -25,7 +25,8 @@ export const generateNewMap = (passedParameters) => {
 
 	const parameters = {
 		mapWidth: passedParameters.size,
-		mapHeight: passedParameters.size
+		mapHeight: passedParameters.size,
+		defaultTileMod: passedParameters.difficulty
 	};
 
 	let trainTrackMap = {
