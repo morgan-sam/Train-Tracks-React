@@ -67,6 +67,23 @@ export const OptionsButtons = (props) => {
 				/>
 			</div>
 			<div className="bottomRowInGameButtons">
+				<WaveButton
+					key={'resetMapBtn'}
+					onClick={async () => {
+						setGameWinState(false);
+						setPlacedTracks([]);
+						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
+					}}
+					text={'Reset Map'}
+				/>
+				<WaveButton
+					key={'saveMapBtn'}
+					onClick={() => {
+						setDisplay({ ...display, savePopUp: true, winPopUp: false });
+					}}
+					clickDelay={100}
+					text={'Save Map'}
+				/>
 				<div className="mapSeedOptionContainer">
 					<WaveButton
 						style={{ zIndex: '4' }}
@@ -98,24 +115,6 @@ export const OptionsButtons = (props) => {
 						value={seed}
 					/>
 				</div>
-				<WaveButton
-					key={'resetMapBtn'}
-					onClick={async () => {
-						setGameWinState(false);
-						setPlacedTracks([]);
-						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
-					}}
-					text={'Reset Map'}
-				/>
-				<WaveButton
-					key={'saveMapBtn'}
-					onClick={() => {
-						setDisplay({ ...display, savePopUp: true, winPopUp: false });
-					}}
-					clickDelay={100}
-					text={'Save Map'}
-				/>
-
 				<WaveButton
 					key={'newMapBtn'}
 					onClick={() => {
