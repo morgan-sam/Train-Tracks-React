@@ -71,7 +71,7 @@ export const StartMapScreen = (props) => {
 						onChange={(e) =>
 							props.setGameState({
 								...props.gameState,
-								difficulty: e.target.value
+								difficulty: parseInt(e.target.value)
 							})}
 						type="range"
 						min="1"

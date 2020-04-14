@@ -20,13 +20,12 @@ import { removeMovesWithLessTilesFromExit } from './mutateMoveArray/removeMovesW
 import { generateDefaultTileIndices } from './generateDefaultTileIndices';
 
 export const generateNewMap = (passedParameters) => {
-	console.log(passedParameters);
 	seedrandom(passedParameters.seed, { global: true });
 
 	const parameters = {
 		mapWidth: passedParameters.size,
 		mapHeight: passedParameters.size,
-		defaultTileMod: passedParameters.difficulty
+		difficulty: passedParameters.difficulty
 	};
 
 	let trainTrackMap = {

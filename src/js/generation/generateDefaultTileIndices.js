@@ -9,13 +9,20 @@ import { getAdjacentTiles } from './genericGenerationFunctions';
 
 // Definitive indices are required for a single solution without trial and error
 export const generateDefaultTileIndices = (allTiles, parameters) => {
-	let definitiveIndices = getAllTwoByTwoDefaultIndices(allTiles, parameters);
+	const definitiveIndices = getAllTwoByTwoDefaultIndices(allTiles, parameters);
+	const mapInfo = { mapLength: allTiles.length, difficulty: parameters.difficulty };
+	const optionalIndices = modifyDefinitiveIndices(definitiveIndices, mapInfo);
 	const mandatoryIndices = getStartAndEndIndices(allTiles);
-	return [ ...new Set([ ...definitiveIndices, ...mandatoryIndices ]) ];
+	return [ ...new Set([ ...optionalIndices, ...mandatoryIndices ]) ];
 };
 
-const modifyDefinitiveIndices = (definitiveIndices, defaultTileMod) => {
+const modifyDefinitiveIndices = (definitiveIndices, mapInfo) => {
+	const { mapLength, difficulty } = mapInfo;
+	console.log(difficulty);
+	console.log(mapLength);
+	console.log(definitiveIndices);
 	const optionalIndices = definitiveIndices;
+	if (difficulty === 5) return [];
 	return optionalIndices;
 };
 
