@@ -77,8 +77,6 @@ export const StartMapScreen = (props) => {
 						min="1"
 						max="5"
 						value={props.gameState.difficulty}
-						class="slider"
-						id="myRange"
 					/>{' '}
 					<div className="questionBox difficultyQuestionBox">?</div>
 					<div className="startOptionExplanation difficultyExplanation">

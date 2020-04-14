@@ -20,6 +20,7 @@ import { removeMovesWithLessTilesFromExit } from './mutateMoveArray/removeMovesW
 import { generateDefaultTileIndices } from './generateDefaultTileIndices';
 
 export const generateNewMap = (passedParameters) => {
+	console.log(passedParameters);
 	seedrandom(passedParameters.seed, { global: true });
 
 	const parameters = {
