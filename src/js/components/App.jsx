@@ -4,6 +4,8 @@ import Screen from './Screen';
 import { generateNewMap } from '../generation/generateMap';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
+import { generateUnknownTrackIcon } from '../generation/generateUnknownTrackIcon';
+
 export const App = () => {
 	const [ gameState, setGameState ] = useState({
 		size: 8,
@@ -16,6 +18,7 @@ export const App = () => {
 
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
+	const [ unknownRailImage, setUnknownRailImage ] = useState(generateUnknownTrackIcon(tileRemSize));
 
 	function generateMap(seed = gameState.seed) {
 		const gameParameters = { size: gameState.size, seed, difficulty: gameState.difficulty };
@@ -68,7 +71,8 @@ export const App = () => {
 		inGameNewMap,
 		generateMap,
 		quitGame,
-		tileRemSize
+		tileRemSize,
+		unknownRailImage
 	};
 
 	return (

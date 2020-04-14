@@ -80,7 +80,7 @@ export const getRandomSeed = () => {
 	return Math.floor(Math.random() * Math.pow(10, 15));
 };
 
-export const convertPxToRem = (rem) => {
+export const convertRemToPx = (rem) => {
 	return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 };
 

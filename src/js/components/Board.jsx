@@ -14,6 +14,7 @@ export const Board = (props) => {
 			<MapTile
 				className="mapTile"
 				tileRemSize={props.tileRemSize}
+				unknownRailImage={props.unknownRailImage}
 				key={x}
 				x={x}
 				y={y}

@@ -55,7 +55,7 @@ export const Square = (props) => {
 	///////////// SQUARE - RAIL IMAGE FUNCTIONS /////////////
 
 	function setHoverTrackImage() {
-		let squareStyling, trackText;
+		let squareStyling;
 		const trackImage = convertRailTypeToTrackImage(hoverTrack);
 		if (trackImage.trackType !== 'T') {
 			squareStyling = {
@@ -64,12 +64,12 @@ export const Square = (props) => {
 				opacity: 0.5
 			};
 		} else {
-			trackText = trackImage.trackType;
 			squareStyling = {
-				opacity: 0.5
+				backgroundImage: `url(${props.unknownRailImage})`,
+				opacity: 1
 			};
 		}
-		return [ squareStyling, trackText ];
+		return squareStyling;
 	}
 
 	function setPlacedTrackImage() {
@@ -78,6 +78,11 @@ export const Square = (props) => {
 			squareStyling = {
 				backgroundImage: `url(${props.trackData.trackType})`,
 				transform: `rotate(${props.trackData.trackRotation}deg)`,
+				opacity: 1
+			};
+		} else if (props.trackData.trackType === 'T') {
+			squareStyling = {
+				backgroundImage: `url(${props.unknownRailImage})`,
 				opacity: 1
 			};
 		} else {
@@ -103,16 +108,17 @@ export const Square = (props) => {
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
-	let squareStyling, trackText, boxStyling;
+	let squareStyling, trackText, boxStyling, backgroundEnabled;
 
 	if (!props.trackData && hoverTrack) {
-		[ squareStyling, trackText ] = setHoverTrackImage();
+		squareStyling = setHoverTrackImage();
 	}
 
 	if (props.className === 'mapTile') {
 		if (props.trackData) {
 			[ squareStyling, trackText ] = setPlacedTrackImage();
-		}
+			backgroundEnabled = props.trackData.trackType !== 'T';
+		} else backgroundEnabled = true;
 	}
 
 	if (
@@ -138,7 +144,7 @@ export const Square = (props) => {
 			<div className={'tile-display'} style={squareStyling}>
 				{trackText}
 			</div>
-			<WhiteSquareBackground {...props} />
+			{backgroundEnabled && hoverTrack !== 'T' && <WhiteSquareBackground {...props} />}
 		</div>
 	);
 };

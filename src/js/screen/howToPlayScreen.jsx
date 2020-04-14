@@ -9,7 +9,7 @@ export const HowToPlayScreen = (props) => {
 
 	useEffect(() => {
 		async function getMaps() {
-			const gameParameters = { size: 6, seed: 986707260499975 };
+			const gameParameters = { size: 6, seed: 986707260499975, difficulty: 3 };
 			const map = generateNewMap(gameParameters);
 			const emptyMap = await generateMapIcon(map, false);
 			const completeMap = await generateMapIcon(map, true);
@@ -36,8 +36,8 @@ export const HowToPlayScreen = (props) => {
 					</p>
 					<p>Tracks cannot overlap. In order to win the path must be fully connected with no extra tracks.</p>
 					<p>
-						Default tiles (such as the entrance and exit) cannot be removed from the map. You can toggle the
-						colour of default tiles (blue/brown) in game.
+						Default tiles (such as the entrance and exit) cannot be removed from the map. The higher the
+						difficulty selected, the less default tiles on the map.
 					</p>
 				</div>
 				<div className="howToPlayMapField">
@@ -49,11 +49,12 @@ export const HowToPlayScreen = (props) => {
 						track will be placed on left click.
 					</p>
 					<p>
-						Right clicking places an X mark. X marks are useful for tiles where you know there is no track.
+						Right clicking places an X mark. X marks are for labelling tiles where you know there is no
+						track.
 					</p>
 					<p>
-						Pressing both mouse buttons at the same time places a T mark. T marks are useful for tiles where
-						you know there is a track but are not sure which type.
+						Pressing both mouse buttons at the same time places a dot mark. Dot marks are for labelling
+						tiles where you know there is a track but are not sure which type.
 					</p>
 					<p>Holding down a mouse button and dragging over other tiles will place multiple tracks/markers.</p>
 				</div>
