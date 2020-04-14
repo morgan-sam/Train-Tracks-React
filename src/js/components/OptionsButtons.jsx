@@ -67,6 +67,7 @@ export const OptionsButtons = (props) => {
 					onClick={() => {
 						setDisplay({ ...display, savePopUp: true, winPopUp: false });
 					}}
+					clickDelay={100}
 					text={'Save Map'}
 				/>
 
