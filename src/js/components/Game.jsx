@@ -70,6 +70,7 @@ export const Game = (props) => {
 					setPlacedTracks={(val) => setPlacedTracks(val)}
 					placedTracks={placedTracks}
 					unknownRailImage={props.unknownRailImage}
+					themeColor={props.themeColor}
 				/>
 				<img
 					alt=""

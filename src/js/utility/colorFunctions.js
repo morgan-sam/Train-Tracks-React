@@ -32,7 +32,7 @@ function convertRgbArrayToHex(rgbArray) {
 	const hexCode = rgbArray
 		.map(function(el) {
 			const value = el.toString(16);
-			if (value === '0') return '00';
+			if (value.length === 1) return '0' + value;
 			else return value;
 		})
 		.join('');

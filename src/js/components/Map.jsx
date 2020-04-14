@@ -193,7 +193,7 @@ export const Map = (props) => {
 				activeMouseEventsObject={activeMouseEventsObject}
 				emptyMouseEventsObject={emptyMouseEventsObject}
 			/>
-			<MapAmbientBackground />
+			<MapAmbientBackground themeColor={props.themeColor} />
 		</div>
 	);
 };

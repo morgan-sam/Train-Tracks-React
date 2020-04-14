@@ -2,8 +2,9 @@ import React from 'react';
 import { colorToWhiteArray } from '../utility/colorFunctions';
 
 export const MapBackground = (props) => {
+	const colorSelected = props.themeColor.available[props.themeColor.selected];
 	const numberOfShapes = 20;
-	const colorArray = colorToWhiteArray('#b19cd9', numberOfShapes + 1);
+	const colorArray = colorToWhiteArray(colorSelected, numberOfShapes + 1);
 	let backgroundShapes = [];
 	for (let i = 0; i < numberOfShapes; i++) {
 		const backgroundShapeStyle = {
