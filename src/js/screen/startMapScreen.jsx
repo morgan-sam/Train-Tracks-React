@@ -5,7 +5,7 @@ import Dropdown from '../components/Dropdown';
 import ReturnToMainMenuBtn from '../components/ReturnToMainMenuBtn.jsx';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
-const DIFFICULTY_SLIDER_WIDTH_REM = 5;
+const SLIDER_WIDTH_REM = 5;
 
 function getMapSizeOptions() {
 	let mapSizeOptions = [];
@@ -80,7 +80,7 @@ export const StartMapScreen = (props) => {
 						min="1"
 						max="5"
 						value={props.gameState.difficulty}
-						style={{ width: `${DIFFICULTY_SLIDER_WIDTH_REM}rem` }}
+						style={{ width: `${SLIDER_WIDTH_REM}rem` }}
 					/>
 					<div
 						className="difficultyLabel"
@@ -99,6 +99,26 @@ export const StartMapScreen = (props) => {
 					</div>
 				</div>
 
+				<p className="startMapOptionLabel">Theme Color:</p>
+				<div className="startMapSliderRow">
+					<input
+						className="colorSlider"
+						onChange={(e) =>
+							props.setThemeColor({
+								...props.themeColor,
+								selected: parseInt(e.target.value)
+							})}
+						type="range"
+						min={0}
+						max={props.themeColor.available.length - 1}
+						value={props.themeColor.selected}
+						style={{ width: `${SLIDER_WIDTH_REM * 2}rem` }}
+					/>
+					<div
+						className="colorDemoBox"
+						style={{ backgroundColor: props.themeColor.available[props.themeColor.selected] }}
+					/>
+				</div>
 				<div className="startOptionOptionRow">
 					<input
 						type="checkbox"

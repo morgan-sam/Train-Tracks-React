@@ -81,6 +81,13 @@
 	transform: translate(0, 100%);
 }
 
+.colorDemoBox {
+	height: 2rem;
+	width: 2rem;
+	border: 1px solid black;
+	margin: 1rem;
+}
+
 .startOptionOptionRow {
 	position: relative;
 	height: 1.6rem;

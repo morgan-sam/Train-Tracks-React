@@ -5,6 +5,7 @@ import { generateNewMap } from '../generation/generateMap';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
 import { generateUnknownTrackIcon } from '../generation/generateUnknownTrackIcon';
+import { roygbivArray } from '../utility/colorFunctions';
 
 export const App = () => {
 	const [ gameState, setGameState ] = useState({
@@ -19,6 +20,7 @@ export const App = () => {
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 	const [ unknownRailImage, setUnknownRailImage ] = useState(generateUnknownTrackIcon(tileRemSize));
+	const [ themeColor, setThemeColor ] = useState({ available: roygbivArray(), selected: 0 });
 
 	function generateMap(seed = gameState.seed) {
 		const gameParameters = { size: gameState.size, seed, difficulty: gameState.difficulty };
@@ -72,7 +74,9 @@ export const App = () => {
 		generateMap,
 		quitGame,
 		tileRemSize,
-		unknownRailImage
+		unknownRailImage,
+		themeColor,
+		setThemeColor
 	};
 
 	return (

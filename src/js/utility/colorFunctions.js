@@ -1,4 +1,5 @@
 import { randomIntFromInterval } from './utilityFunctions';
+const ROYGBIV_HEX_CODES = [ '#ff0000', '#ffa500', '#ffff00', '#008000', '#0000ff', '#4b0082', '#ee82ee' ];
 
 export const generateRandomRGBColor = () => {
 	let minValue = 100;
@@ -13,7 +14,12 @@ export const generateRandomRGBColor = () => {
 
 export const colorToWhiteArray = (hexColor, numberOfShades) => {
 	const colorArray = convertHexToRgbArray(hexColor);
-	const colorMatrix = createColorMatrixByStep(colorArray, Math.ceil(numberOfShades));
+	const colorData = {
+		colorOneArray: colorArray,
+		colorTwoArray: [ 255, 255, 255 ],
+		numberOfShades: Math.ceil(numberOfShades)
+	};
+	const colorMatrix = createColorMatrixByStep(colorData);
 	return colorMatrix.map((el) => convertRgbArrayToHex(el));
 };
 
@@ -33,16 +39,40 @@ function convertRgbArrayToHex(rgbArray) {
 	return '#' + hexCode;
 }
 
-function getColorStepValues(colorArray, numberOfShades) {
-	return colorArray.map((el) => (255 - el) / (numberOfShades - 1));
+function getColorStepValues(colorData) {
+	const { colorOneArray, colorTwoArray, numberOfShades } = colorData;
+	return colorOneArray.map((el, i) => (colorTwoArray[i] - el) / (numberOfShades - 1));
 }
 
-function createColorMatrixByStep(colorArray, numberOfShades) {
+function createColorMatrixByStep(colorData) {
+	const { colorOneArray, numberOfShades } = colorData;
 	let colorMatrix = [];
-	const colorStepValues = getColorStepValues(colorArray, numberOfShades);
+	const colorStepValues = getColorStepValues(colorData);
 	for (let iteration = 0; iteration < numberOfShades; iteration++) {
-		const color = colorArray.map((el, index) => Math.floor(el + iteration * colorStepValues[index]));
+		const color = colorOneArray.map((el, index) => Math.floor(el + iteration * colorStepValues[index]));
 		colorMatrix.push(color);
 	}
 	return colorMatrix;
 }
+
+const colorToColorArray = (colorOne, colorTwo, numberOfShades) => {
+	const colorOneArray = convertHexToRgbArray(colorOne);
+	const colorTwoArray = convertHexToRgbArray(colorTwo);
+	const colorData = {
+		colorOneArray,
+		colorTwoArray,
+		numberOfShades: Math.ceil(numberOfShades)
+	};
+	const colorMatrix = createColorMatrixByStep(colorData);
+	return colorMatrix.map((el) => convertRgbArrayToHex(el));
+};
+
+export const roygbivArray = () => {
+	let roygbivArray = [];
+	for (let i = 0; i < ROYGBIV_HEX_CODES.length - 1; i++) {
+		const rainbowPart = colorToColorArray(ROYGBIV_HEX_CODES[i], ROYGBIV_HEX_CODES[i + 1], 100);
+		roygbivArray.push(rainbowPart);
+	}
+	roygbivArray = roygbivArray.flat();
+	return roygbivArray;
+};
