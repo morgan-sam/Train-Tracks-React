@@ -9,8 +9,14 @@ import { getAdjacentTiles } from './genericGenerationFunctions';
 
 export const generateDefaultTileIndices = (allTiles, parameters) => {
 	let optionalIndices = getAllTwoByTwoDefaultIndices(allTiles, parameters);
+	optionalIndices = modifyOptionalIndices(optionalIndices);
 	const mandatoryIndices = getStartAndEndIndices(allTiles);
 	return [ ...new Set([ ...optionalIndices, ...mandatoryIndices ]) ];
+};
+
+const modifyOptionalIndices = (optionalIndices) => {
+	console.log(optionalIndices);
+	return optionalIndices;
 };
 
 function getStartAndEndIndices(allTiles) {
@@ -21,7 +27,7 @@ function getAllTwoByTwoDefaultIndices(allTiles, parameters) {
 	let defaultCoordinates = iterateThroughEachPossibleSquare(allTiles, parameters);
 	defaultCoordinates = removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates);
 	const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
-	return defaultIndices;
+	return [ ...new Set(defaultIndices) ];
 }
 function iterateThroughEachPossibleSquare(allTiles, parameters) {
 	let nonDefaultTrackTiles = allTiles;
