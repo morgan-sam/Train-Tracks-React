@@ -6,16 +6,13 @@ import {
 import { getLegalMoves } from '../genericGenerationFunctions.js';
 
 export const removeMovesWithLessTilesFromExit = (legalMoves, genMap) => {
-	console.log(legalMoves);
 	const moveWithMore = getMovesWithMoreTilesAwayFromExit(legalMoves, genMap);
-	console.log(moveWithMore);
 	if (isNonEmptyArray(moveWithMore)) return [ ...moveWithMore ];
 	else return legalMoves;
 };
 
 function getMovesWithMoreTilesAwayFromExit(legalMoves, genMap) {
-	const pathLengths = legalMoves.map((el) => getMinimumDistanceToExit(el, genMap));
-	console.log(pathLengths);
+	let pathLengths = legalMoves.map((el) => getMinimumDistanceToExit(el, genMap));
 	const indices = getIndicesOfLargestElementsInArray(pathLengths);
 	let moves = [];
 	for (let i = 0; i < indices.length; i++) {
@@ -35,7 +32,6 @@ const getMinimumDistanceToExit = (move, genMap) => {
 		currentMoves.forEach((move) => tiles.push(move));
 		currentMoves = [];
 		if (checkIfArrayIsInMatrix(genMap.end, tiles)) return i;
-		if (legalMoves.length === 0) return i;
 		legalMoves = removeDuplicateArraysFromMatrix(legalMoves);
 		legalMoves.forEach((move) => currentMoves.push(move));
 	}

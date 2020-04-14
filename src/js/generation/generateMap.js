@@ -66,7 +66,6 @@ function generateMapTiles(parameters) {
 
 	let mapComplete = false;
 
-	console.log(genMap);
 	while (!mapComplete) {
 		let nextMove = newMove(genMap);
 		genMap.tiles.push(nextMove);
