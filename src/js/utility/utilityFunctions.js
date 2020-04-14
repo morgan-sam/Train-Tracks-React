@@ -111,3 +111,17 @@ export const halveArray = (array) => {
 	const halfIndex = Math.floor(array.length / 2);
 	return array.slice(0, halfIndex);
 };
+
+export const shuffleArray = (array) => {
+	let remaining = array.length;
+	let temp, index;
+	while (remaining) {
+		index = Math.floor(Math.random() * remaining);
+		remaining--;
+		temp = array[remaining];
+		array[remaining] = array[index];
+		array[index] = temp;
+	}
+
+	return array;
+};

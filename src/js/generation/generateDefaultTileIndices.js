@@ -19,14 +19,18 @@ export const generateDefaultTileIndices = (allTiles, parameters) => {
 
 const modifyDefinitiveIndices = (definitiveIndices, mapInfo) => {
 	const { mapLength, difficulty } = mapInfo;
+	const helperIndices = getHelperIndices(definitiveIndices, mapInfo.mapLength);
+	if (difficulty === 1) return [ ...definitiveIndices, ...helperIndices ];
+	if (difficulty === 2) return [ ...definitiveIndices, ...halveArray(helperIndices) ];
 	if (difficulty === 3) return definitiveIndices;
 	if (difficulty === 4) return halveArray(definitiveIndices);
 	if (difficulty === 5) return [];
 };
 
-const addRemoveNewMapIndices = (indices, mapInfo) => {
-	const { mapLength, difficulty } = mapInfo;
-	const defaultMod = difficulty - 3;
+const getHelperIndices = (indices, mapLength) => {
+	console.log(indices);
+	let possibleIndices = [ ...Array(mapLength).keys() ];
+	possibleIndices = possibleIndices.filter((el) => indices.indexOf(el) === -1);
 	//
 };
 
