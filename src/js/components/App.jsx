@@ -8,6 +8,7 @@ export const App = () => {
 	const [ gameState, setGameState ] = useState({
 		size: 8,
 		seed: getRandomSeed(),
+		difficulty: 3,
 		mapObject: null,
 		active: false,
 		balloonCloud: true

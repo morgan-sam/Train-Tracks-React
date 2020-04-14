@@ -63,6 +63,32 @@ export const StartMapScreen = (props) => {
 						<span className="diceSymbol">⚄</span>
 					</div>
 				</div>
+
+				<p className="startMapOptionLabel">Difficulty:</p>
+
+				<div className="startMapSliderRow">
+					<input
+						onChange={(e) =>
+							props.setGameState({
+								...props.gameState,
+								difficulty: e.target.value
+							})}
+						type="range"
+						min="1"
+						max="5"
+						value={props.gameState.difficulty}
+						class="slider"
+						id="myRange"
+					/>{' '}
+					<div className="questionBox difficultyQuestionBox">?</div>
+					<div className="startOptionExplanation difficultyExplanation">
+						Adjusts the amount of default tiles in game. Center difficulty ensures the absolute minimum
+						required default tiles for a map that has one definitive solution.<br />
+						<br />Difficulties above center will require trial and error and may have multiple possible
+						solutions (only one solution accepted).
+					</div>
+				</div>
+
 				<div className="startOptionOptionRow">
 					<input
 						type="checkbox"
@@ -70,8 +96,8 @@ export const StartMapScreen = (props) => {
 						onChange={(e) => props.setGameState({ ...props.gameState, balloonCloud: !e.target.checked })}
 					/>
 					<p className="startOptionRowLabel">Disable Win Screen Balloon Cloud</p>
-					<div className="startOptionQuestionBox">?</div>
-					<div className="startOptionExplanation">
+					<div className="questionBox balloonCloudQuestionBox">?</div>
+					<div className="startOptionExplanation balloonCloudExplanation">
 						Disables the balloon cloud effect at the end of a game win. Can increase performance on old
 						browsers/PCs.
 					</div>
