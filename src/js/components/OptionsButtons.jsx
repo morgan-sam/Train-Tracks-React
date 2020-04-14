@@ -9,15 +9,6 @@ export const OptionsButtons = (props) => {
 		<div className="inGameOptions">
 			<div className="topRowInGameButtons">
 				<WaveButton
-					key={'resetMapBtn'}
-					onClick={async () => {
-						setGameWinState(false);
-						setPlacedTracks([]);
-						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
-					}}
-					text={'Reset Map'}
-				/>
-				<WaveButton
 					key={'highlightDefaultTilesBtn'}
 					clickDelay={50}
 					onClick={() => setDisplay({ ...display, defaultHighlights: !display.defaultHighlights })}
@@ -62,6 +53,15 @@ export const OptionsButtons = (props) => {
 						value={seed}
 					/>
 				</div>
+				<WaveButton
+					key={'resetMapBtn'}
+					onClick={async () => {
+						setGameWinState(false);
+						setPlacedTracks([]);
+						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
+					}}
+					text={'Reset Map'}
+				/>
 				<WaveButton
 					key={'saveMapBtn'}
 					onClick={() => {
