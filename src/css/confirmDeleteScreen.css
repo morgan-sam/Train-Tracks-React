@@ -2,6 +2,10 @@
 	margin: 1rem;
 }
 
+.deleteConfirmLabel {
+	padding: 1rem;
+}
+
 .confirmDeleteBtn {
 	width: 5rem;
 	background-color: #bf3d3b;
@@ -20,6 +24,7 @@
 .confirmDeleteIcon {
 	height: auto;
 	width: auto;
-	margin: 1rem;
+	margin: 2rem auto;
 	object-fit: contain;
+	align-items: center;
 }
