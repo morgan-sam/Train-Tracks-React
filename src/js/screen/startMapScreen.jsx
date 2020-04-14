@@ -5,6 +5,8 @@ import Dropdown from '../components/Dropdown';
 import ReturnToMainMenuBtn from '../components/returnToMainMenuBtn.jsx';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
+const DIFFICULTY_SLIDER_WIDTH_REM = 5;
+
 function getMapSizeOptions() {
 	let mapSizeOptions = [];
 	for (let i = 0; i < 3; i++) {
@@ -68,6 +70,7 @@ export const StartMapScreen = (props) => {
 
 				<div className="startMapSliderRow">
 					<input
+						className="difficultySlider"
 						onChange={(e) =>
 							props.setGameState({
 								...props.gameState,
@@ -77,13 +80,22 @@ export const StartMapScreen = (props) => {
 						min="1"
 						max="5"
 						value={props.gameState.difficulty}
-					/>{' '}
+						style={{ width: `${DIFFICULTY_SLIDER_WIDTH_REM}rem` }}
+					/>
+					<div
+						className="difficultyLabel"
+						style={{
+							left: `${-0.2 + props.gameState.difficulty}rem`
+						}}
+					>
+						{props.gameState.difficulty}
+					</div>
 					<div className="questionBox difficultyQuestionBox">?</div>
 					<div className="startOptionExplanation difficultyExplanation">
-						Adjusts the amount of default tiles in game. Center difficulty ensures the absolute minimum
-						amount of default tiles required for a map that has one definitive solution.<br />
-						<br />Difficulties above center may require trial and error and will likely have multiple
-						possible solutions (only one solution accepted).
+						Adjusts the amount of default tiles in game. Difficulty 3 ensures the absolute minimum amount of
+						default tiles required for a map that has one definitive solution.<br />
+						<br />Difficulties above 3 may require trial and error and will likely have multiple possible
+						solutions (only one solution accepted).
 					</div>
 				</div>
 
