@@ -45,25 +45,25 @@ export const OptionsButtons = (props) => {
 			<div className="topRowInGameButtons">
 				<WaveButton
 					key={'addHintTrackButton'}
-					clickDelay={50}
 					onClick={() => {
 						const randomTrack = getRandomNonPlacedTrack(mapTracks, placedTracks);
 						const newTrackArray = replaceOldTrackInArray(randomTrack, placedTracks);
 						setPlacedTracks(newTrackArray);
 					}}
 					text={'Add Hint Track'}
+					clickDelay={50}
 				/>
 				<WaveButton
 					key={'highlightDefaultTilesBtn'}
-					clickDelay={50}
 					onClick={() => setDisplay({ ...display, defaultHighlights: !display.defaultHighlights })}
 					text={display.defaultHighlights ? 'Hide Default Tiles' : 'Show Default Tiles'}
+					clickDelay={50}
 				/>
 				<WaveButton
 					key={'showMapSolutionBtn'}
-					clickDelay={200}
 					onClick={() => setDisplay({ ...display, solutionVisible: !display.solutionVisible })}
 					text={display.solutionVisible ? 'Hide Map Solution' : 'Show Map Solution'}
+					clickDelay={200}
 				/>
 			</div>
 			<div className="bottomRowInGameButtons">
@@ -75,14 +75,15 @@ export const OptionsButtons = (props) => {
 						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
 					}}
 					text={'Reset Map'}
+					clickDelay={100}
 				/>
 				<WaveButton
 					key={'saveMapBtn'}
 					onClick={() => {
 						setDisplay({ ...display, savePopUp: true, winPopUp: false });
 					}}
-					clickDelay={100}
 					text={'Save Map'}
+					clickDelay={100}
 				/>
 				<div className="mapSeedOptionContainer">
 					<WaveButton
@@ -123,8 +124,8 @@ export const OptionsButtons = (props) => {
 						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
 						inGameNewMap();
 					}}
-					clickDelay={200}
 					text={'New Map'}
+					clickDelay={200}
 				/>
 
 				<WaveButton key={'quitBtn'} onClick={() => quitGame()} text={'Quit Game'} />
