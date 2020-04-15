@@ -104,6 +104,7 @@ export const StartMapScreen = (props) => {
 					<input
 						type="checkbox"
 						className="startOptionCheckbox"
+						defaultChecked={!props.visualEffects}
 						onChange={(e) => props.setVisualEffects(!e.target.checked)}
 					/>
 					<p className="startOptionRowLabel">Disable Visual Effects</p>
