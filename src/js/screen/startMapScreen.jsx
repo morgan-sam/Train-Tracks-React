@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import 'css/startMapScreen.css';
 import WaveButton from 'js/components/WaveButton';
 import Dropdown from 'js/components/Dropdown';
+import DifficultySlider from 'js/components/DifficultySlider';
 import ReturnToMainMenuBtn from 'js/components/ReturnToMainMenuBtn.jsx';
 import { getRandomSeed } from 'js/utility/utilityFunctions';
 
@@ -69,27 +70,7 @@ export const StartMapScreen = (props) => {
 				<p className="startMapOptionLabel">Difficulty:</p>
 
 				<div className="startMapSliderRow">
-					<input
-						className="difficultySlider"
-						onChange={(e) =>
-							props.setGameState({
-								...props.gameState,
-								difficulty: parseInt(e.target.value)
-							})}
-						type="range"
-						min="1"
-						max="5"
-						value={props.gameState.difficulty}
-						style={{ width: `${SLIDER_WIDTH_REM}rem` }}
-					/>
-					<div
-						className="difficultyLabel"
-						style={{
-							left: `${-0.2 + props.gameState.difficulty}rem`
-						}}
-					>
-						{props.gameState.difficulty}
-					</div>
+					<DifficultySlider {...props} />
 					<div className="questionBox difficultyQuestionBox">?</div>
 					<div className="startOptionExplanation difficultyExplanation">
 						Adjusts the amount of default tiles in game. Difficulty 3 ensures the absolute minimum amount of

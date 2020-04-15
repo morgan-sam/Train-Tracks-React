@@ -58,7 +58,7 @@
 	justify-content: center;
 	align-items: center;
 }
-
+/* 
 .difficultySlider:hover ~ .difficultyLabel {
 	transform: translate(0, 120%);
 	opacity: 1;
@@ -79,7 +79,7 @@
 	opacity: 0;
 	transition: 0.5s;
 	transform: translate(0, 100%);
-}
+} */
 
 .colorSlider:active ~ .colorDemoBox {
 	transition: 0.4s ease-in-out;
