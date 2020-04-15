@@ -7,7 +7,7 @@ import {
 	halveArray,
 	shuffleArray
 } from '../../utility/utilityFunctions';
-import { getAdjacentTiles } from './genericGenerationFunctions';
+import { getAdjacentTiles } from './genericGenMapFunctions';
 
 // Definitive indices are required for a single solution without trial and error
 export const generateDefaultTileIndices = (allTiles, parameters) => {

@@ -3,7 +3,7 @@ import {
 	removeDuplicateArraysFromMatrix,
 	checkIfArrayIsInMatrix
 } from '../../../utility/utilityFunctions.js';
-import { getLegalMoves } from '../genericGenerationFunctions.js';
+import { getLegalMoves } from '../genericGenMapFunctions.js';
 
 export const removeMovesWithLessTilesFromExit = (legalMoves, genMap) => {
 	const moveWithMore = getMovesWithMoreTilesAwayFromExit(legalMoves, genMap);

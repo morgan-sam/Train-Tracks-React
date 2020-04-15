@@ -8,7 +8,7 @@ import {
 } from '../../utility/directionsConversions.js';
 
 import { generateStartEndPoints } from './generateStartEndPoints';
-import { getLegalMoves } from './genericGenerationFunctions';
+import { getLegalMoves } from './genericGenMapFunctions';
 import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
 
 import { removeExitMove } from './mutateMoveArray/removeExitMove';

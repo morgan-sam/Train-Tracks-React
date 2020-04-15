@@ -1,4 +1,4 @@
-import { getLegalMoves } from '../genericGenerationFunctions';
+import { getLegalMoves } from '../genericGenMapFunctions';
 import { checkIfPossibleToReachTargetIterative } from '../checkIfPossibleToReachTargetIterative';
 
 export const removeSealingMoves = (legalMoves, genMap) => {

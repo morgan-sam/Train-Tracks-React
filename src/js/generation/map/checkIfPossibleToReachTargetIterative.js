@@ -1,4 +1,4 @@
-import { getLegalMoves } from './genericGenerationFunctions.js';
+import { getLegalMoves } from './genericGenMapFunctions.js';
 import { removeDuplicateArraysFromMatrix, checkIfArrayIsInMatrix } from '../../utility/utilityFunctions.js';
 
 export const checkIfPossibleToReachTargetIterative = (move, genMap) => {
