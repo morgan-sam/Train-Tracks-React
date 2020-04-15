@@ -18,8 +18,8 @@ export const setHoverTrackImage = (hoverTrack, unknownRailImage) => {
 	return squareStyling;
 };
 
-export const setPlacedTrackImage = (trackData, unknownRailImage) => {
-	let squareStyling, trackText;
+export const setPlacedTrackImage = (trackData, railImages) => {
+	let squareStyling;
 	if (trackData.trackType !== 'T' && trackData.trackType !== 'X') {
 		squareStyling = {
 			backgroundImage: `url(${trackData.trackType})`,
@@ -28,16 +28,16 @@ export const setPlacedTrackImage = (trackData, unknownRailImage) => {
 		};
 	} else if (trackData.trackType === 'T') {
 		squareStyling = {
-			backgroundImage: `url(${unknownRailImage})`,
+			backgroundImage: `url(${railImages.unknown})`,
 			opacity: 1
 		};
 	} else {
-		trackText = trackData.trackType;
 		squareStyling = {
+			backgroundImage: `url(${railImages.cross})`,
 			opacity: 1
 		};
 	}
-	return [ squareStyling, trackText ];
+	return squareStyling;
 };
 
 export const setDefaultTrackImage = (trackData, highlighted) => {

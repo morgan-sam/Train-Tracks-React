@@ -5,6 +5,7 @@ import { generateNewMap } from 'js/generation/map/generateMap';
 import { getRandomSeed } from 'js/utility/utilityFunctions';
 
 import { generateUnknownTrackIcon } from 'js/generation/icon/generateUnknownTrackIcon';
+import { generateCrossTrackIcon } from 'js/generation/icon/generateCrossTrackIcon';
 import { roygbivArray } from 'js/utility/colorFunctions';
 
 export const App = () => {
@@ -19,7 +20,10 @@ export const App = () => {
 
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
-	const [ unknownRailImage, setUnknownRailImage ] = useState(generateUnknownTrackIcon(tileRemSize));
+	const [ railImages, setRailImages ] = useState({
+		unknown: generateUnknownTrackIcon(tileRemSize),
+		cross: generateCrossTrackIcon(tileRemSize)
+	});
 	const [ themeColor, setThemeColor ] = useState({ available: roygbivArray(), selected: 0 });
 
 	function generateMap(seed = gameState.seed) {
@@ -74,7 +78,7 @@ export const App = () => {
 		generateMap,
 		quitGame,
 		tileRemSize,
-		unknownRailImage,
+		railImages,
 		themeColor,
 		setThemeColor
 	};

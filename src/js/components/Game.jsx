@@ -69,7 +69,7 @@ export const Game = (props) => {
 					mapVisible={!display.saveBoxCutOut}
 					setPlacedTracks={(val) => setPlacedTracks(val)}
 					placedTracks={placedTracks}
-					unknownRailImage={props.unknownRailImage}
+					railImages={props.railImages}
 					themeColor={props.themeColor}
 				/>
 				<img

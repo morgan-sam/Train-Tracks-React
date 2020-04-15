@@ -58,12 +58,12 @@ export const Square = (props) => {
 	let squareStyling, trackText, boxStyling;
 
 	if (!props.trackData && hoverTrack) {
-		squareStyling = setHoverTrackImage(hoverTrack, props.unknownRailImage);
+		squareStyling = setHoverTrackImage(hoverTrack, props.railImages.unknown);
 	}
 
 	if (props.className === 'mapTile') {
 		if (props.trackData) {
-			[ squareStyling, trackText ] = setPlacedTrackImage(props.trackData, props.unknownRailImage);
+			squareStyling = setPlacedTrackImage(props.trackData, props.railImages);
 		}
 	}
 
@@ -96,7 +96,7 @@ export const Square = (props) => {
 			<div className={'tile-display'} style={squareStyling}>
 				{trackText}
 			</div>
-			{backgroundEnabled && <WhiteSquareBackground {...props} />}
+			{/* {backgroundEnabled && <WhiteSquareBackground {...props} />} */}
 		</div>
 	);
 };
