@@ -1,4 +1,4 @@
-import { convertRemToPx } from '../utility/utilityFunctions';
+import { convertRemToPx } from '../../utility/utilityFunctions';
 
 export const generateUnknownTrackIcon = (tileRemSize) => {
 	const tilePixelSize = convertRemToPx(tileRemSize);

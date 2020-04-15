@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/howToPlayScreen.css';
 import ReturnToMainMenuBtn from '../components/ReturnToMainMenuBtn.jsx';
-import { generateNewMap } from '../generation/generateMap';
+import { generateNewMap } from '../generation/map/generateMap';
 import { generateMapIcon } from '../generation/icon/generateIcon';
 
 export const HowToPlayScreen = (props) => {

@@ -1,11 +1,11 @@
 import seedrandom from 'seedrandom';
 
-import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../utility/utilityFunctions';
+import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../../utility/utilityFunctions';
 import {
 	directionsToTrackRailType,
 	getTilesInEachDirection,
 	getDirectionOfEachMove
-} from '../utility/directionsConversions.js';
+} from '../../utility/directionsConversions.js';
 
 import { generateStartEndPoints } from './generateStartEndPoints';
 import { getLegalMoves } from './genericGenerationFunctions';

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Screen from './Screen';
 
-import { generateNewMap } from '../generation/generateMap';
+import { generateNewMap } from '../generation/map/generateMap';
 import { getRandomSeed } from '../utility/utilityFunctions';
 
-import { generateUnknownTrackIcon } from '../generation/generateUnknownTrackIcon';
+import { generateUnknownTrackIcon } from '../generation/icon/generateUnknownTrackIcon';
 import { roygbivArray } from '../utility/colorFunctions';
 
 export const App = () => {

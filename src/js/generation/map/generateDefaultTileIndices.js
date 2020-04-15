@@ -6,7 +6,7 @@ import {
 	findCommonArraysOfAllMatrices,
 	halveArray,
 	shuffleArray
-} from '../utility/utilityFunctions';
+} from '../../utility/utilityFunctions';
 import { getAdjacentTiles } from './genericGenerationFunctions';
 
 // Definitive indices are required for a single solution without trial and error

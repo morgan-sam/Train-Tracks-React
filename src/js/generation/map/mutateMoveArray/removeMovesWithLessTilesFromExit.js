@@ -2,7 +2,7 @@ import {
 	isNonEmptyArray,
 	removeDuplicateArraysFromMatrix,
 	checkIfArrayIsInMatrix
-} from '../../utility/utilityFunctions.js';
+} from '../../../utility/utilityFunctions.js';
 import { getLegalMoves } from '../genericGenerationFunctions.js';
 
 export const removeMovesWithLessTilesFromExit = (legalMoves, genMap) => {

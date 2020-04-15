@@ -1,4 +1,4 @@
-import { compareArrays, findIndexOfArrayInMatrix } from '../../utility/utilityFunctions';
+import { compareArrays, findIndexOfArrayInMatrix } from '../../../utility/utilityFunctions';
 import { removeOutOfBoundsMoves, getAdjacentTiles } from '../genericGenerationFunctions';
 
 export const removeAroundExitMoves = (legalMoves, genMap) => {
