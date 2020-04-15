@@ -81,11 +81,20 @@
 	transform: translate(0, 100%);
 }
 
+.colorSlider:active ~ .colorDemoBox {
+	transition: 0.4s ease-in-out;
+	transform: rotate(90deg);
+	border-radius: 100%;
+	transition-property: transform, border-radius;
+}
+
 .colorDemoBox {
 	height: 2rem;
 	width: 2rem;
 	border: 1px solid black;
 	margin: 1rem;
+	transition: 0.4s ease-in-out;
+	transition-property: transform, border-radius;
 }
 
 .startOptionOptionRow {
