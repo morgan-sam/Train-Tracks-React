@@ -9,7 +9,7 @@ export const HowToPlayScreen = (props) => {
 
 	useEffect(() => {
 		async function getMaps() {
-			const gameParameters = { size: 6, seed: 986707260499975, difficulty: 3 };
+			const gameParameters = { size: 6, seed: 251583746297744, difficulty: 3 };
 			const map = generateNewMap(gameParameters);
 			const emptyMap = await generateMapIcon(map, false);
 			const completeMap = await generateMapIcon(map, true);
