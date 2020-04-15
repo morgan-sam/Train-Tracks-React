@@ -222,5 +222,14 @@
 
 .boxLabel {
 	position: absolute;
-	font-size: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Ubuntu', sans-serif;
+
+	font-size: 2.7rem;
+	-webkit-text-fill-color: white;
+
+	-webkit-text-stroke-width: 1.7px;
+	-webkit-text-stroke-color: white;
 }

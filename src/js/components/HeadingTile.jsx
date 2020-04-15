@@ -2,16 +2,28 @@ import React from 'react';
 import { getSquareStyle } from '../styles/square';
 
 export const HeadingTile = (props) => {
-	function convertFillStateToColor(fillState) {
+	function convertFillStateToStyle(fillState) {
 		switch (fillState) {
 			case 'underfilled':
-				return 'black';
+				return {
+					WebkitTextFillColor: 'white',
+					WebkitTextStrokeColor: 'black'
+				};
 			case 'full':
-				return 'green';
+				return {
+					WebkitTextFillColor: 'green',
+					WebkitTextStrokeColor: 'white'
+				};
 			case 'overfilled':
-				return 'red';
+				return {
+					WebkitTextFillColor: 'red',
+					WebkitTextStrokeColor: 'white'
+				};
 			default:
-				return 'black';
+				return {
+					WebkitTextFillColor: 'white',
+					WebkitTextStrokeColor: 'black'
+				};
 		}
 	}
 
@@ -27,7 +39,7 @@ export const HeadingTile = (props) => {
 	return (
 		<div style={getSquareStyle(props.tileRemSize)} className={`square`} onContextMenu={(e) => e.preventDefault()}>
 			<div style={headerTextBoxStyle}>
-				<p className="boxLabel" style={{ color: convertFillStateToColor(props.fillState) }}>
+				<p className="boxLabel" style={convertFillStateToStyle(props.fillState)}>
 					{props.headerLabel}
 				</p>
 			</div>
