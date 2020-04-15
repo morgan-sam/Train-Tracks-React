@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import WaveButton from '../components/WaveButton';
 import Dropdown from '../components/Dropdown';
 import DeleteMapConfirmScreen from './deleteMapConfirmScreen.jsx';
-import { generateMapIcon } from '../generation/generateIcon';
+import { generateMapIcon } from '../generation/icon/generateIcon';
 import ReturnToMainMenuBtn from '../components/ReturnToMainMenuBtn.jsx';
 
 import { getLocalStorageMaps } from '../utility/localStorage';

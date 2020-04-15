@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../css/howToPlayScreen.css';
 import ReturnToMainMenuBtn from '../components/ReturnToMainMenuBtn.jsx';
 import { generateNewMap } from '../generation/generateMap';
-import { generateMapIcon } from '../generation/generateIcon';
+import { generateMapIcon } from '../generation/icon/generateIcon';
 
 export const HowToPlayScreen = (props) => {
 	const [ maps, setMaps ] = useState(false);

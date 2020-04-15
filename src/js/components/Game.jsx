@@ -6,7 +6,7 @@ import OptionsButtons from './OptionsButtons';
 import SaveMapDisplay from './SaveMapDisplay';
 import GameWinDisplay from './GameWinDisplay';
 
-import { generateMapBackground } from '../generation/generateIcon';
+import { generateMapBackground } from '../generation/icon/generateIcon';
 import { getGameMapContainerStyle } from '../styles/game';
 
 export const Game = (props) => {
