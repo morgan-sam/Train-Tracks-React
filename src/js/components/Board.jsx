@@ -25,7 +25,7 @@ export const Board = (props) => {
 		);
 	}
 
-	function renderDefaultTrack(x, y, defaultRailType, highlighted) {
+	const staticTile = (x, y, defaultRailType, highlighted, mouseEvents) => {
 		return (
 			<MapTile
 				className="defaultTrack"
@@ -35,24 +35,17 @@ export const Board = (props) => {
 				y={y}
 				highlighted={highlighted}
 				trackData={convertRailTypeToTrackImage(defaultRailType)}
-				{...props.activeMouseEventsObject}
+				{...mouseEvents}
 			/>
 		);
+	};
+
+	function renderDefaultTrack(x, y, defaultRailType, highlighted) {
+		return staticTile(x, y, defaultRailType, highlighted, props.activeMouseEventsObject);
 	}
 
 	function renderCompleteTrack(x, y, defaultRailType, highlighted) {
-		return (
-			<MapTile
-				className="completeTrack"
-				tileRemSize={props.tileRemSize}
-				key={x}
-				x={x}
-				y={y}
-				highlighted={highlighted}
-				trackData={convertRailTypeToTrackImage(defaultRailType)}
-				{...props.emptyMouseEventsObject}
-			/>
-		);
+		return staticTile(x, y, defaultRailType, highlighted, props.emptyMouseEventsObject);
 	}
 
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
