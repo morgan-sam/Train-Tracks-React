@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import WhiteSquareBackground from 'js/components/WhiteSquareBackground';
 import TileButtons from 'js/components/TileButtons';
-import { convertRailTypeToTrackImage, convertButtonClassToRailType } from 'js/trackFunctions/railTypeProcessing';
+import { convertButtonClassToRailType } from 'js/trackFunctions/railTypeProcessing';
+import { setHoverTrackImage, setPlacedTrackImage, setDefaultTrackImage } from 'js/trackFunctions/railImageProcessing';
 import { getSquareStyle } from 'js/styles/square';
 
 export const Square = (props) => {
@@ -52,71 +53,17 @@ export const Square = (props) => {
 		return tileClass;
 	}
 
-	///////////// SQUARE - RAIL IMAGE FUNCTIONS /////////////
-
-	function setHoverTrackImage() {
-		let squareStyling;
-		const trackImage = convertRailTypeToTrackImage(hoverTrack);
-		if (trackImage.trackType !== 'T') {
-			squareStyling = {
-				backgroundImage: `url(${trackImage.trackType})`,
-				transform: `rotate(${trackImage.trackRotation}deg)`,
-				opacity: 0.5
-			};
-		} else {
-			squareStyling = {
-				backgroundImage: `url(${props.unknownRailImage})`,
-				opacity: 1
-			};
-		}
-		return squareStyling;
-	}
-
-	function setPlacedTrackImage() {
-		let squareStyling, trackText;
-		if (props.trackData.trackType !== 'T' && props.trackData.trackType !== 'X') {
-			squareStyling = {
-				backgroundImage: `url(${props.trackData.trackType})`,
-				transform: `rotate(${props.trackData.trackRotation}deg)`,
-				opacity: 1
-			};
-		} else if (props.trackData.trackType === 'T') {
-			squareStyling = {
-				backgroundImage: `url(${props.unknownRailImage})`,
-				opacity: 1
-			};
-		} else {
-			trackText = props.trackData.trackType;
-			squareStyling = {
-				opacity: 1
-			};
-		}
-		return [ squareStyling, trackText ];
-	}
-
-	function setDefaultTrackImage() {
-		let squareStyling;
-		squareStyling = {
-			backgroundImage: `url(${props.trackData.trackType})`,
-			transform: `rotate(${props.trackData.trackRotation}deg)`,
-			opacity: 1,
-			filter: props.highlighted ? 'hue-rotate(200deg) saturate(10)' : 'none',
-			transition: 'filter 1s ease-in-out'
-		};
-		return [ squareStyling, null ];
-	}
-
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
 	let squareStyling, trackText, boxStyling;
 
 	if (!props.trackData && hoverTrack) {
-		squareStyling = setHoverTrackImage();
+		squareStyling = setHoverTrackImage(hoverTrack, props.unknownRailImage);
 	}
 
 	if (props.className === 'mapTile') {
 		if (props.trackData) {
-			[ squareStyling, trackText ] = setPlacedTrackImage();
+			[ squareStyling, trackText ] = setPlacedTrackImage(props.trackData, props.unknownRailImage);
 		}
 	}
 
@@ -124,7 +71,7 @@ export const Square = (props) => {
 		(props.trackData && props.className === 'defaultTrack') ||
 		(props.trackData && props.className === 'completeTrack')
 	) {
-		[ squareStyling, trackText ] = setDefaultTrackImage();
+		squareStyling = setDefaultTrackImage(props.trackData, props.highlighted);
 	}
 
 	let backgroundEnabled = true;
