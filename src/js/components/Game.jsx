@@ -45,7 +45,8 @@ export const Game = (props) => {
 					<GameWinDisplay
 						display={display}
 						setDisplay={setDisplay}
-						balloonCloud={props.gameState.balloonCloud}
+						visualEffects={props.gameState.visualEffects}
+						themeColor={props.themeColor}
 					/>
 				)}
 				{display.savePopUp && (

@@ -3,7 +3,7 @@ import 'css/balloon.css';
 import WinDisplayBackground from 'js/components/WinDisplayBackground';
 
 export const GameWinDisplay = (props) => {
-	const { display, setDisplay, balloonCloud } = props;
+	const { display, setDisplay, visualEffects, themeColor } = props;
 	return (
 		<div key={'gameWinDisplay'} className="winDisplay" onContextMenu={(e) => e.preventDefault()}>
 			<h2 key={'winText'} className="winText">
@@ -17,7 +17,7 @@ export const GameWinDisplay = (props) => {
 				X
 			</button>
 			<div key={'balloonContainer'} className={'balloonContainer'}>
-				<WinDisplayBackground balloonCloud={balloonCloud} />
+				<WinDisplayBackground visualEffects={visualEffects} themeColor={themeColor} />
 			</div>
 		</div>
 	);

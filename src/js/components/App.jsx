@@ -15,7 +15,7 @@ export const App = () => {
 		difficulty: 3,
 		mapObject: null,
 		active: false,
-		balloonCloud: true
+		visualEffects: true
 	});
 
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
