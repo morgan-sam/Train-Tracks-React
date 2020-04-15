@@ -25,6 +25,7 @@ export const App = () => {
 		cross: generateCrossTrackIcon(tileRemSize)
 	});
 	const [ themeColor, setThemeColor ] = useState({ available: roygbivArray(), selected: 0 });
+	const [ visualEffects, setVisualEffects ] = useState(true);
 
 	function generateMap(seed = gameState.seed) {
 		const gameParameters = { size: gameState.size, seed, difficulty: gameState.difficulty };
@@ -80,7 +81,9 @@ export const App = () => {
 		tileRemSize,
 		railImages,
 		themeColor,
-		setThemeColor
+		setThemeColor,
+		visualEffects,
+		setVisualEffects
 	};
 
 	return (

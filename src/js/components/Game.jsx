@@ -45,7 +45,7 @@ export const Game = (props) => {
 					<GameWinDisplay
 						display={display}
 						setDisplay={setDisplay}
-						visualEffects={props.gameState.visualEffects}
+						visualEffects={props.visualEffects}
 						themeColor={props.themeColor}
 					/>
 				)}
@@ -72,6 +72,7 @@ export const Game = (props) => {
 					placedTracks={placedTracks}
 					railImages={props.railImages}
 					themeColor={props.themeColor}
+					visualEffects={props.visualEffects}
 				/>
 				<img
 					alt=""
@@ -96,6 +97,7 @@ export const Game = (props) => {
 				seed={props.gameState.seed}
 				inGameNewMap={props.inGameNewMap}
 				quitGame={props.quitGame}
+				visualEffects={props.visualEffects}
 			/>
 		</div>
 	);
