@@ -1,7 +1,7 @@
 import React from 'react';
 import { colorToWhiteArray } from 'js/utility/colorFunctions';
 
-export const MapBackground = (props) => {
+export const MapAmbientBackground = (props) => {
 	const colorSelected = props.themeColor.available[props.themeColor.selected];
 	let backgroundShapes = [];
 	if (props.visualEffects) {
@@ -20,4 +20,4 @@ export const MapBackground = (props) => {
 	return <div className="mapBackgroundContainer">{backgroundShapes}</div>;
 };
 
-export default MapBackground;
+export default MapAmbientBackground;
