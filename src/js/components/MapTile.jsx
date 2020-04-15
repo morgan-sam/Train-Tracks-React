@@ -76,7 +76,7 @@ export const Square = (props) => {
 
 	let backgroundEnabled = true;
 	if (props.className === 'mapTile') {
-		if (props.trackData) backgroundEnabled = props.trackData.trackType !== 'T';
+		if (props.trackData) backgroundEnabled = props.trackData.trackType.length !== 1;
 		else if (hoverTrack) backgroundEnabled = hoverTrack !== 'T';
 	}
 
@@ -96,7 +96,7 @@ export const Square = (props) => {
 			<div className={'tile-display'} style={squareStyling}>
 				{trackText}
 			</div>
-			{/* {backgroundEnabled && <WhiteSquareBackground {...props} />} */}
+			{backgroundEnabled && <WhiteSquareBackground {...props} />}
 		</div>
 	);
 };

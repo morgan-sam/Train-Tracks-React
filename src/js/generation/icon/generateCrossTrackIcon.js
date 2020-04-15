@@ -13,7 +13,7 @@ const generateCanvas = (tilePixelSize) => {
 	canvas.width = tilePixelSize;
 	canvas.height = tilePixelSize;
 	canvas.context = drawWhiteBackground(canvas);
-	canvas.context = clearCross(canvas, tilePixelSize / 3);
+	canvas.context = clearCross(canvas);
 	return canvas;
 };
 
@@ -24,7 +24,7 @@ const drawWhiteBackground = (canvas) => {
 	return context;
 };
 
-const clearCross = (canvas, radius) => {
+const clearCross = (canvas) => {
 	let context = canvas.getContext('2d');
 	let x = canvas.width / 2;
 	let y = canvas.height / 2;
