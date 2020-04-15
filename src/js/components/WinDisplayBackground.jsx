@@ -1,6 +1,6 @@
 import React from 'react';
 import { randomIntFromInterval } from 'js/utility/utilityFunctions';
-import { generateRandomRGBColor } from 'js/utility/colorFunctions';
+import { generateRandomRGBColor, colorToWhiteArray } from 'js/utility/colorFunctions';
 
 export const WinDisplayBackground = (props) => {
 	let balloonContainer = [];
@@ -26,7 +26,10 @@ export const WinDisplayBackground = (props) => {
 				</div>
 			);
 		}
-	} else balloonContainer.push(<div style={{ width: '100%', height: '100%', backgroundColor: colorSelected }} />);
+	} else {
+		const lightenedColor = colorToWhiteArray(colorSelected, 10)[8];
+		balloonContainer.push(<div style={{ width: '100%', height: '100%', backgroundColor: lightenedColor }} />);
+	}
 	return balloonContainer;
 };
 

@@ -16,7 +16,10 @@ export const MapAmbientBackground = (props) => {
 			};
 			backgroundShapes.push(<div key={i} className="mapBackgroundShape" style={backgroundShapeStyle} />);
 		}
-	} else backgroundShapes.push(<div style={{ width: '100%', height: '100%', backgroundColor: colorSelected }} />);
+	} else {
+		const lightenedColor = colorToWhiteArray(colorSelected, 10)[6];
+		backgroundShapes.push(<div style={{ width: '100%', height: '100%', backgroundColor: lightenedColor }} />);
+	}
 	return <div className="mapBackgroundContainer">{backgroundShapes}</div>;
 };
 

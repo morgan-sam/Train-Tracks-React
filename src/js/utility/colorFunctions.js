@@ -23,12 +23,12 @@ export const colorToWhiteArray = (hexColor, numberOfShades) => {
 	return colorMatrix.map((el) => convertRgbArrayToHex(el));
 };
 
-function convertHexToRgbArray(hexColor) {
+export const convertHexToRgbArray = (hexColor) => {
 	const parseStringAsArray = hexColor.replace('#', '').match(/.{1,2}/g);
 	return parseStringAsArray.map((el) => parseInt(Number(`0x${el}`), 10));
-}
+};
 
-function convertRgbArrayToHex(rgbArray) {
+export const convertRgbArrayToHex = (rgbArray) => {
 	const hexCode = rgbArray
 		.map(function(el) {
 			const value = el.toString(16);
@@ -37,7 +37,7 @@ function convertRgbArrayToHex(rgbArray) {
 		})
 		.join('');
 	return '#' + hexCode;
-}
+};
 
 function getColorStepValues(colorData) {
 	const { colorOneArray, colorTwoArray, numberOfShades } = colorData;
