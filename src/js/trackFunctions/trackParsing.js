@@ -1,4 +1,4 @@
-import { compareArrays } from '../utility/utilityFunctions';
+import { compareArrays } from 'js/utility/utilityFunctions';
 
 export const getAllDefaultTiles = (trainTrackMap) => {
 	let defaultTileArr = [];

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { colorToWhiteArray } from '../utility/colorFunctions';
-import { getWaveButtonStyles } from '../styles/waveButton';
+import { colorToWhiteArray } from 'js/utility/colorFunctions';
+import { getWaveButtonStyles } from 'js/styles/waveButton';
 
 const WaveButton = ({ className, onClick, text, bounceDelay = 200, clickDelay = 500 }) => {
 	const [ hovered, setHoveredState ] = useState(false);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSquareStyle } from '../styles/square';
+import { getSquareStyle } from 'js/styles/square';
 
 export const TransparentTile = (props) => {
 	const transparentTileStyle = {

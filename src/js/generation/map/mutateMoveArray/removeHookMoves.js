@@ -1,5 +1,5 @@
-import { compareArrays } from '../../../utility/utilityFunctions';
-import { findDirectionFromMove } from '../../../utility/directionsConversions.js';
+import { compareArrays } from 'js/utility/utilityFunctions';
+import { findDirectionFromMove } from 'js/utility/directionsConversions.js';
 
 export const removeHookMoves = (legalMoves, genMap) => {
 	if (genMap.tiles.length > 2) {

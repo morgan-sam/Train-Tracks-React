@@ -1,12 +1,12 @@
 import React from 'react';
 
-import MapTile from './MapTile';
-import HeadingTile from './HeadingTile';
-import EmptyTile from './EmptyTile';
-import TransparentTile from './TransparentTile';
+import MapTile from 'js/components/MapTile';
+import HeadingTile from 'js/components/HeadingTile';
+import EmptyTile from 'js/components/EmptyTile';
+import TransparentTile from 'js/components/TransparentTile';
 
-import { convertRailTypeToTrackImage } from '../trackFunctions/railTypeProcessing';
-import { getAllDefaultTiles } from '../trackFunctions/trackParsing';
+import { convertRailTypeToTrackImage } from 'js/trackFunctions/railTypeProcessing';
+import { getAllDefaultTiles } from 'js/trackFunctions/trackParsing';
 
 export const Board = (props) => {
 	function renderMapTile(x, y, railImage, mapSolutionVisible) {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import WaveButton from '../components/WaveButton';
-import Dropdown from '../components/Dropdown';
-import DeleteMapConfirmScreen from './deleteMapConfirmScreen.jsx';
-import { generateMapIcon } from '../generation/icon/generateMapIcon';
-import ReturnToMainMenuBtn from '../components/ReturnToMainMenuBtn.jsx';
+import WaveButton from 'js/components/WaveButton';
+import Dropdown from 'js/components/Dropdown';
+import DeleteMapConfirmScreen from 'js/screen/deleteMapConfirmScreen.jsx';
+import { generateMapIcon } from 'js/generation/icon/generateMapIcon';
+import ReturnToMainMenuBtn from 'js/components/ReturnToMainMenuBtn.jsx';
 
-import { getLocalStorageMaps } from '../utility/localStorage';
+import { getLocalStorageMaps } from 'js/utility/localStorage';
 
 function renderSavedMapsDropdownValues() {
 	const localMaps = getLocalStorageMaps();

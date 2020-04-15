@@ -1,4 +1,4 @@
-import { randomIntFromInterval } from './utilityFunctions';
+import { randomIntFromInterval } from 'js/utility/utilityFunctions';
 const ROYGBIV_HEX_CODES = [ '#ff0000', '#ffa500', '#ffff00', '#008000', '#0000ff', '#4b0082', '#ee82ee' ];
 
 export const generateRandomRGBColor = () => {

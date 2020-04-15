@@ -1,7 +1,7 @@
 import React from 'react';
-import { getCornerStyle } from '../styles/tileCornerBtn';
-import { getAxisStyle } from '../styles/tileAxisBtn';
-import { getCenterStyle } from '../styles/tileCenterBtn';
+import { getCornerStyle } from 'js/styles/tileCornerBtn';
+import { getAxisStyle } from 'js/styles/tileAxisBtn';
+import { getCenterStyle } from 'js/styles/tileCenterBtn';
 
 const CornerButton = (props) => {
 	const cornerStyle = getCornerStyle(props.tileRemSize, props.corner);
@@ -27,3 +27,5 @@ export const TileButtons = (props) => {
 		<CentreButton key={props.x} tileRemSize={props.tileRemSize} />
 	];
 };
+
+export default TileButtons;

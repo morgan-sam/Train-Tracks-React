@@ -1,5 +1,5 @@
 import React from 'react';
-import { colorToWhiteArray } from '../utility/colorFunctions';
+import { colorToWhiteArray } from 'js/utility/colorFunctions';
 
 export const MapBackground = (props) => {
 	const colorSelected = props.themeColor.available[props.themeColor.selected];

@@ -1,23 +1,22 @@
 import seedrandom from 'seedrandom';
 
-import { randomIntFromInterval, compareArrays, isNonEmptyArray } from '../../utility/utilityFunctions';
+import { randomIntFromInterval, compareArrays, isNonEmptyArray } from 'js/utility/utilityFunctions';
 import {
 	directionsToTrackRailType,
 	getTilesInEachDirection,
 	getDirectionOfEachMove
-} from '../../utility/directionsConversions.js';
+} from 'js/utility/directionsConversions.js';
 
-import { generateStartEndPoints } from './generateStartEndPoints';
-import { getLegalMoves } from './genericGenMapFunctions';
-import { checkIfPossibleToReachTargetIterative } from './checkIfPossibleToReachTargetIterative';
+import { generateStartEndPoints } from 'js/generation/map/generateStartEndPoints';
+import { getLegalMoves } from 'js/generation/map/genericGenMapFunctions';
+import { checkIfPossibleToReachTargetIterative } from 'js/generation/map/checkIfPossibleToReachTargetIterative';
+import { generateDefaultTileIndices } from 'js/generation/map/generateDefaultTileIndices';
 
-import { removeExitMove } from './mutateMoveArray/removeExitMove';
-import { removeAroundExitMoves } from './mutateMoveArray/removeAroundExitMoves';
-import { removeSealingMoves } from './mutateMoveArray/removeSealingMoves';
-import { removeHookMoves } from './mutateMoveArray/removeHookMoves';
-import { removeMovesWithLessTilesFromExit } from './mutateMoveArray/removeMovesWithLessTilesFromExit';
-
-import { generateDefaultTileIndices } from './generateDefaultTileIndices';
+import { removeExitMove } from 'js/generation/map/mutateMoveArray/removeExitMove';
+import { removeAroundExitMoves } from 'js/generation/map/mutateMoveArray/removeAroundExitMoves';
+import { removeSealingMoves } from 'js/generation/map/mutateMoveArray/removeSealingMoves';
+import { removeHookMoves } from 'js/generation/map/mutateMoveArray/removeHookMoves';
+import { removeMovesWithLessTilesFromExit } from 'js/generation/map/mutateMoveArray/removeMovesWithLessTilesFromExit';
 
 export const generateNewMap = (passedParameters) => {
 	seedrandom(passedParameters.seed, { global: true });

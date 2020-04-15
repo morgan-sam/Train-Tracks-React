@@ -1,6 +1,6 @@
-import curvedtrack from '../../../img/curvedtrack.png';
-import straighttrack from '../../../img/straighttrack.png';
-import { convertRemToPx } from '../../utility/utilityFunctions';
+import curvedtrack from 'img/curvedtrack.png';
+import straighttrack from 'img/straighttrack.png';
+import { convertRemToPx } from 'js/utility/utilityFunctions';
 
 export const generateMapIcon = async (mapObject, complete) => {
 	const options = {

@@ -1,5 +1,5 @@
-import { getLegalMoves } from '../genericGenMapFunctions';
-import { checkIfPossibleToReachTargetIterative } from '../checkIfPossibleToReachTargetIterative';
+import { getLegalMoves } from 'js/generation/map/genericGenMapFunctions';
+import { checkIfPossibleToReachTargetIterative } from 'js/generation/map/checkIfPossibleToReachTargetIterative';
 
 export const removeSealingMoves = (legalMoves, genMap) => {
 	if (!checkIfMapCovered(genMap, 0.5)) {

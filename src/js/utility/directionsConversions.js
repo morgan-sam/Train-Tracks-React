@@ -1,4 +1,4 @@
-import { randomIntFromInterval, compareArrays } from '../utility/utilityFunctions';
+import { randomIntFromInterval, compareArrays } from 'js/utility/utilityFunctions';
 
 export const findDirectionFromMove = (currentMove, lastMove) => {
 	let moveDirection;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { saveMapToLocal } from '../utility/localStorage';
-import WaveButton from './WaveButton';
+import { saveMapToLocal } from 'js/utility/localStorage';
+import WaveButton from 'js/components/WaveButton';
 
 export const SaveMapDisplay = (props) => {
 	const { display, setDisplay, gameState } = props;

@@ -1,4 +1,4 @@
-import { removeArraysFromMatrix } from '../../utility/utilityFunctions.js';
+import { removeArraysFromMatrix } from 'js/utility/utilityFunctions.js';
 
 export const getLegalMoves = (coordinate, genMap) => {
 	const adjacentMoves = getAdjacentTiles(coordinate);

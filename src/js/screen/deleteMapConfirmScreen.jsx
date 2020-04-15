@@ -1,8 +1,7 @@
 import React from 'react';
-import '../../css/confirmDeleteScreen.css';
-import WaveButton from '../components/WaveButton';
-
-import { deleteLocalSavedMap, deleteAllLocalSavedMaps } from '../utility/localStorage';
+import 'css/confirmDeleteScreen.css';
+import WaveButton from 'js/components/WaveButton';
+import { deleteLocalSavedMap, deleteAllLocalSavedMaps } from 'js/utility/localStorage';
 
 export const DeleteMapConfirmScreen = (props) => {
 	return (

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import '../../css/startMapScreen.css';
-import WaveButton from '../components/WaveButton';
-import Dropdown from '../components/Dropdown';
-import ReturnToMainMenuBtn from '../components/ReturnToMainMenuBtn.jsx';
-import { getRandomSeed } from '../utility/utilityFunctions';
+import 'css/startMapScreen.css';
+import WaveButton from 'js/components/WaveButton';
+import Dropdown from 'js/components/Dropdown';
+import ReturnToMainMenuBtn from 'js/components/ReturnToMainMenuBtn.jsx';
+import { getRandomSeed } from 'js/utility/utilityFunctions';
 
 const SLIDER_WIDTH_REM = 5;
 

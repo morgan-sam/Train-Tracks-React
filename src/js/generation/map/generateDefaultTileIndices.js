@@ -6,8 +6,8 @@ import {
 	findCommonArraysOfAllMatrices,
 	halveArray,
 	shuffleArray
-} from '../../utility/utilityFunctions';
-import { getAdjacentTiles } from './genericGenMapFunctions';
+} from 'js/utility/utilityFunctions';
+import { getAdjacentTiles } from 'js/generation/map/genericGenMapFunctions';
 
 // Definitive indices are required for a single solution without trial and error
 export const generateDefaultTileIndices = (allTiles, parameters) => {

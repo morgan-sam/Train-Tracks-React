@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../css/balloon.css';
-import WinDisplayBackground from './WinDisplayBackground';
+import 'css/balloon.css';
+import WinDisplayBackground from 'js/components/WinDisplayBackground';
 
 export const GameWinDisplay = (props) => {
 	const { display, setDisplay, balloonCloud } = props;

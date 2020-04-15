@@ -2,10 +2,10 @@ import {
 	convertDirectionTupleToRailTypes,
 	checkIfTwoRailTypesConnected,
 	checkIfAdjacentTileConnected
-} from './railTypeProcessing';
-import { findDirectionFromMove } from '../utility/directionsConversions.js';
-import { getAdjacentTracks, convertMoveArrayToDirections } from '../trackFunctions/trackUtilities';
-import { randomArrayEntry, isNonEmptyArray, compareArrays } from '../utility/utilityFunctions';
+} from 'js/trackFunctions/railTypeProcessing';
+import { findDirectionFromMove } from 'js/utility/directionsConversions.js';
+import { getAdjacentTracks, convertMoveArrayToDirections } from 'js/trackFunctions/trackUtilities';
+import { randomArrayEntry, isNonEmptyArray, compareArrays } from 'js/utility/utilityFunctions';
 
 export const railDragEvent = (dragArray, currentMapInfo) => {
 	const truncatedDragArray = dragArray.slice(1);

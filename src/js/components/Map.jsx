@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
-import Board from './Board';
+import Board from 'js/components/Board';
 
-import { compareArrays, isNonEmptyArray, shiftPushArray } from '../utility/utilityFunctions';
-import { getCombinedArrayOfNewAndOldTiles } from '../trackFunctions/trackPlacement';
-import { railDragEvent } from '../trackFunctions/railDragEvent';
-import { getRailTypeOfPlacedTile, checkIfPlacedTilesAllCorrect } from '../trackFunctions/trackParsing';
+import { compareArrays, isNonEmptyArray, shiftPushArray } from 'js/utility/utilityFunctions';
+import { getCombinedArrayOfNewAndOldTiles } from 'js/trackFunctions/trackPlacement';
+import { railDragEvent } from 'js/trackFunctions/railDragEvent';
+import { getRailTypeOfPlacedTile, checkIfPlacedTilesAllCorrect } from 'js/trackFunctions/trackParsing';
 
-import MapAmbientBackground from './MapAmbientBackground.jsx';
+import MapAmbientBackground from 'js/components/MapAmbientBackground.jsx';
 
 export const Map = (props) => {
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);

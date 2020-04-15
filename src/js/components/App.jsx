@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Screen from './Screen';
+import Screen from 'js/components/Screen';
 
-import { generateNewMap } from '../generation/map/generateMap';
-import { getRandomSeed } from '../utility/utilityFunctions';
+import { generateNewMap } from 'js/generation/map/generateMap';
+import { getRandomSeed } from 'js/utility/utilityFunctions';
 
-import { generateUnknownTrackIcon } from '../generation/icon/generateUnknownTrackIcon';
-import { roygbivArray } from '../utility/colorFunctions';
+import { generateUnknownTrackIcon } from 'js/generation/icon/generateUnknownTrackIcon';
+import { roygbivArray } from 'js/utility/colorFunctions';
 
 export const App = () => {
 	const [ gameState, setGameState ] = useState({

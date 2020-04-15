@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import WhiteSquareBackground from './WhiteSquareBackground';
-import { convertRailTypeToTrackImage, convertButtonClassToRailType } from '../trackFunctions/railTypeProcessing';
-import { TileButtons } from './TileButtons';
-import { getSquareStyle } from '../styles/square';
+import WhiteSquareBackground from 'js/components/WhiteSquareBackground';
+import TileButtons from 'js/components/TileButtons';
+import { convertRailTypeToTrackImage, convertButtonClassToRailType } from 'js/trackFunctions/railTypeProcessing';
+import { getSquareStyle } from 'js/styles/square';
 
 export const Square = (props) => {
 	const [ hoverTrack, setHoverTrack ] = useState(null);

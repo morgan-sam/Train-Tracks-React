@@ -1,10 +1,10 @@
 import React from 'react';
-import Game from './Game';
-import LoadMapScreen from '../screen/loadMapScreen.jsx';
-import HowToPlayScreen from '../screen/howToPlayScreen.jsx';
-import StartMapScreen from '../screen/startMapScreen.jsx';
-import AboutScreen from '../screen/aboutScreen.jsx';
-import MainMenuScreen from '../screen/mainMenuScreen.jsx';
+import Game from 'js/components/Game';
+import LoadMapScreen from 'js/screen/loadMapScreen.jsx';
+import HowToPlayScreen from 'js/screen/howToPlayScreen.jsx';
+import StartMapScreen from 'js/screen/startMapScreen.jsx';
+import AboutScreen from 'js/screen/aboutScreen.jsx';
+import MainMenuScreen from 'js/screen/mainMenuScreen.jsx';
 
 export const Screen = (props) => {
 	const getScreenDisplay = (screen) => {

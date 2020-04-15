@@ -1,4 +1,4 @@
-import { generateNewMap } from '../js/generation/map/generateMap';
+import { generateNewMap } from 'js/generation/map/generateMap';
 
 const size = 16;
 const seed = 986707260499975;

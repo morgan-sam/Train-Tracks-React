@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
-import WaveButton from './WaveButton';
+import WaveButton from 'js/components/WaveButton';
 import {
 	findIndexOfArrayInMatrix,
 	randomArrayEntry,
 	isNonEmptyArray,
 	compareArrays
-} from '../utility/utilityFunctions';
+} from 'js/utility/utilityFunctions';
 
 export const OptionsButtons = (props) => {
 	const {

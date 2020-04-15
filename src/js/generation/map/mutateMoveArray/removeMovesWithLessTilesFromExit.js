@@ -2,8 +2,8 @@ import {
 	isNonEmptyArray,
 	removeDuplicateArraysFromMatrix,
 	checkIfArrayIsInMatrix
-} from '../../../utility/utilityFunctions.js';
-import { getLegalMoves } from '../genericGenMapFunctions.js';
+} from 'js/utility/utilityFunctions.js';
+import { getLegalMoves } from 'js/generation/map/genericGenMapFunctions.js';
 
 export const removeMovesWithLessTilesFromExit = (legalMoves, genMap) => {
 	const moveWithMore = getMovesWithMoreTilesAwayFromExit(legalMoves, genMap);

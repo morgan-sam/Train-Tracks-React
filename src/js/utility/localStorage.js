@@ -1,4 +1,4 @@
-import { isNonEmptyArray } from './utilityFunctions';
+import { isNonEmptyArray } from 'js/utility/utilityFunctions';
 
 export const saveMapToLocal = async (mapToSave) => {
 	let localMaps = JSON.parse(window.localStorage.getItem('savedMaps'));

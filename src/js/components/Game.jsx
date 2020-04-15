@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import '../../css/game.css';
+import 'css/game.css';
 
-import Map from './Map';
-import OptionsButtons from './OptionsButtons';
-import SaveMapDisplay from './SaveMapDisplay';
-import GameWinDisplay from './GameWinDisplay';
+import Map from 'js/components/Map';
+import OptionsButtons from 'js/components/OptionsButtons';
+import SaveMapDisplay from 'js/components/SaveMapDisplay';
+import GameWinDisplay from 'js/components/GameWinDisplay';
 
-import { generateMapBackground } from '../generation/icon/generateMapIcon';
-import { getGameMapContainerStyle } from '../styles/game';
+import { generateMapBackground } from 'js/generation/icon/generateMapIcon';
+import { getGameMapContainerStyle } from 'js/styles/game';
 
 export const Game = (props) => {
 	const [ gameWon, setGameWinState ] = useState(false);

@@ -1,5 +1,5 @@
-import { compareArrays, findIndexOfArrayInMatrix } from '../../../utility/utilityFunctions';
-import { removeOutOfBoundsMoves, getAdjacentTiles } from '../genericGenMapFunctions';
+import { compareArrays, findIndexOfArrayInMatrix } from 'js/utility/utilityFunctions';
+import { removeOutOfBoundsMoves, getAdjacentTiles } from 'js/generation/map/genericGenMapFunctions';
 
 export const removeAroundExitMoves = (legalMoves, genMap) => {
 	legalMoves = legalMoves.filter((move) => !checkIfMoveIsAroundExitTile(move, genMap));

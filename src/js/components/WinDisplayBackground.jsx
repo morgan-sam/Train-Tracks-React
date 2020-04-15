@@ -1,6 +1,6 @@
 import React from 'react';
-import { randomIntFromInterval } from '../utility/utilityFunctions';
-import { generateRandomRGBColor } from '../utility/colorFunctions';
+import { randomIntFromInterval } from 'js/utility/utilityFunctions';
+import { generateRandomRGBColor } from 'js/utility/colorFunctions';
 
 export const WinDisplayBackground = (props) => {
 	const balloonCount = props.balloonCloud ? 300 : 1;
