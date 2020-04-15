@@ -108,7 +108,7 @@ export const Square = (props) => {
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
-	let squareStyling, trackText, boxStyling, backgroundEnabled;
+	let squareStyling, trackText, boxStyling;
 
 	if (!props.trackData && hoverTrack) {
 		squareStyling = setHoverTrackImage();
@@ -117,8 +117,7 @@ export const Square = (props) => {
 	if (props.className === 'mapTile') {
 		if (props.trackData) {
 			[ squareStyling, trackText ] = setPlacedTrackImage();
-			backgroundEnabled = props.trackData.trackType !== 'T';
-		} else backgroundEnabled = true;
+		}
 	}
 
 	if (
@@ -126,6 +125,12 @@ export const Square = (props) => {
 		(props.trackData && props.className === 'completeTrack')
 	) {
 		[ squareStyling, trackText ] = setDefaultTrackImage();
+	}
+
+	let backgroundEnabled = true;
+	if (props.className === 'mapTile') {
+		if (props.trackData) backgroundEnabled = props.trackData.trackType !== 'T';
+		else if (hoverTrack) backgroundEnabled = hoverTrack !== 'T';
 	}
 
 	return (
@@ -144,7 +149,7 @@ export const Square = (props) => {
 			<div className={'tile-display'} style={squareStyling}>
 				{trackText}
 			</div>
-			{backgroundEnabled && hoverTrack !== 'T' && <WhiteSquareBackground {...props} />}
+			{backgroundEnabled && <WhiteSquareBackground {...props} />}
 		</div>
 	);
 };
