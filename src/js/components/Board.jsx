@@ -137,20 +137,19 @@ export const Board = (props) => {
 	}
 
 	let mapBoard = [];
-	if (props.trainTrackMap) {
-		for (let y = 0; y < props.mapHeight + 1; y++) {
-			mapBoard.push(
-				<div className="mapRow" key={y}>
-					{[ ...Array(props.mapWidth + 1) ].map((el, x) => {
-						if (y === 0) return placeColumnHeader(props.trainTrackMap, x, y);
-						else if (x === props.mapWidth) return placeRowHeader(props.trainTrackMap, x, y);
-						else if (!props.mapVisible) return <TransparentTile key={x} tileRemSize={props.tileRemSize} />;
-						else return placeMainMapTile(props.trainTrackMap, x, y);
-					})}
-				</div>
-			);
-		}
+	for (let y = 0; y < props.mapHeight + 1; y++) {
+		mapBoard.push(
+			<div className="mapRow" key={y}>
+				{[ ...Array(props.mapWidth + 1) ].map((el, x) => {
+					if (y === 0) return placeColumnHeader(props.trainTrackMap, x, y);
+					else if (x === props.mapWidth) return placeRowHeader(props.trainTrackMap, x, y);
+					else if (!props.mapVisible) return <TransparentTile key={x} tileRemSize={props.tileRemSize} />;
+					else return placeMainMapTile(props.trainTrackMap, x, y);
+				})}
+			</div>
+		);
 	}
+
 	return mapBoard;
 };
 
