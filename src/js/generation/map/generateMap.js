@@ -51,7 +51,7 @@ export const generateNewMap = (passedParameters) => {
 	return trainTrackMap;
 };
 
-function generateMapTiles(parameters) {
+const generateMapTiles = (parameters) => {
 	const [ start, end ] = generateStartEndPoints(parameters);
 
 	let genMap = {
@@ -75,7 +75,7 @@ function generateMapTiles(parameters) {
 	return genMap.tiles;
 }
 
-function newMove(genMap) {
+const newMove = (genMap) => {
 	let nextMove;
 	let legalMoves = getLegalMoves(genMap.current, genMap);
 
@@ -89,11 +89,11 @@ function newMove(genMap) {
 	return nextMove;
 }
 
-function checkIfOnlyLegalMoveIsExit(legalMoves, endCoordinate) {
+const checkIfOnlyLegalMoveIsExit = (legalMoves, endCoordinate) => {
 	return legalMoves.length === 1 && compareArrays(legalMoves[0], endCoordinate);
 }
 
-function mutateMoveArray(legalMoves, genMap) {
+const mutateMoveArray = (legalMoves, genMap) => {
 	let moveMutateFunctions = [];
 
 	moveMutateFunctions.push(removeExitMove);
@@ -114,7 +114,7 @@ function mutateMoveArray(legalMoves, genMap) {
 	return legalMoves;
 }
 
-function generateMapHeaders(allTiles, parameters) {
+const generateMapHeaders = (allTiles, parameters) => {
 	const { mapWidth, mapHeight } = parameters;
 	let mapHeaders = { x: [], y: [] };
 	for (let i = 0; i < mapWidth; i++) {

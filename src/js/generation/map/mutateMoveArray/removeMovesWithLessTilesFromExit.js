@@ -11,7 +11,7 @@ export const removeMovesWithLessTilesFromExit = (legalMoves, genMap) => {
 	else return legalMoves;
 };
 
-function getMovesWithMoreTilesAwayFromExit(legalMoves, genMap) {
+const getMovesWithMoreTilesAwayFromExit = (legalMoves, genMap) => {
 	let pathLengths = legalMoves.map((el) => getMinimumDistanceToExit(el, genMap));
 	const indices = getIndicesOfLargestElementsInArray(pathLengths);
 	let moves = [];

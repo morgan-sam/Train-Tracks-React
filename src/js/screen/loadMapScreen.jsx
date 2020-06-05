@@ -7,7 +7,7 @@ import ReturnToMainMenuBtn from 'js/components/ReturnToMainMenuBtn.jsx';
 
 import { getLocalStorageMaps } from 'js/utility/localStorage';
 
-function renderSavedMapsDropdownValues() {
+const renderSavedMapsDropdownValues = () => {
 	const localMaps = getLocalStorageMaps();
 	let dropDownValues = [];
 	localMaps.forEach(async (el) => {
@@ -26,9 +26,9 @@ export const LoadMapScreen = (props) => {
 	const [ screenState, setScreenState ] = useState('load');
 	const [ mapIcon, setMapIcon ] = useState(null);
 
-	async function displaySavedGameMapIcon(mapObject) {
+	const displaySavedGameMapIcon = async (mapObject) => {
 		setMapIcon(mapObject ? await generateMapIcon(mapObject, false) : null);
-	}
+	};
 
 	if (screenState === 'load') {
 		return (

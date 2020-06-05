@@ -39,12 +39,12 @@ export const convertRgbArrayToHex = (rgbArray) => {
 	return '#' + hexCode;
 };
 
-function getColorStepValues(colorData) {
+const getColorStepValues = (colorData) => {
 	const { colorOneArray, colorTwoArray, numberOfShades } = colorData;
 	return colorOneArray.map((el, i) => (colorTwoArray[i] - el) / (numberOfShades - 1));
 }
 
-function createColorMatrixByStep(colorData) {
+const createColorMatrixByStep = (colorData) => {
 	const { colorOneArray, numberOfShades } = colorData;
 	let colorMatrix = [];
 	const colorStepValues = getColorStepValues(colorData);

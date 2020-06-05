@@ -18,53 +18,53 @@ export const Map = (props) => {
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
-	function leftClickEvent(mouseEventObject) {
+	const leftClickEvent = (mouseEventObject) => {
 		dragArray.current = [ null, null, mouseEventObject.tile ];
-	}
+	};
 
-	function rightClickEvent(mouseEventObject) {
+	const rightClickEvent = (mouseEventObject) => {
 		setRightClickDragValue(mouseEventObject);
 		determineRemoveOrPlaceX(mouseEventObject);
-	}
+	};
 
-	function bothClickEvent(mouseEventObject) {
+	const bothClickEvent = (mouseEventObject) => {
 		determineIfToPlaceT(mouseEventObject);
-	}
+	};
 
-	function setRightClickDragValue(mouseEventObject) {
+	const setRightClickDragValue = (mouseEventObject) => {
 		const tileValue = getRailTypeOfPlacedTile(mouseEventObject.tile, props.placedTracks);
 		rightClickDragValue.current = tileValue === null ? 'X' : 'DELETE';
-	}
+	};
 
-	function determineRemoveOrPlaceX(mouseEventObject) {
+	const determineRemoveOrPlaceX = (mouseEventObject) => {
 		if (mouseEventObject.tileClass === 'mapTile') {
 			if (getRailTypeOfPlacedTile(mouseEventObject.tile, props.placedTracks))
 				removePlacedTrack(mouseEventObject.tile);
 			else placeTile(mouseEventObject.tile, rightClickDragValue.current);
 		}
-	}
+	};
 
-	function leftReleaseEvent(mouseEventObject) {
+	const leftReleaseEvent = (mouseEventObject) => {
 		if (dragArray.current.filter((o) => o).length === 1 && mouseEventObject.tileClass === 'mapTile') {
 			placeTile(mouseEventObject.tile, mouseEventObject.railType);
 			dragArray.current = [];
 		}
-	}
+	};
 
-	function rightReleaseEvent() {
+	const rightReleaseEvent = () => {
 		rightClickDragValue.current = undefined;
 	}
 
-	function checkIfHoverTileChanged(mouseEventObject) {
+	const checkIfHoverTileChanged = (mouseEventObject) => {
 		return !compareArrays(mouseEventObject.tile, currentHoverTile.current);
-	}
+	};
 
-	function updateHoverTileState(mouseEventObject) {
+	const updateHoverTileState = (mouseEventObject) => {
 		previousHoverTile.current = currentHoverTile.current;
 		currentHoverTile.current = mouseEventObject.tile;
-	}
+	};
 
-	function hoverStartEvent(mouseEventObject) {
+	const hoverStartEvent = (mouseEventObject) => {
 		if (checkIfHoverTileChanged(mouseEventObject)) {
 			updateHoverTileState(mouseEventObject);
 			if (mouseEventObject.mouseButton === 1 && checkIfHoverToAdjacent()) {
@@ -77,9 +77,9 @@ export const Map = (props) => {
 				hoverWhileHoldingBothMouseButtons(mouseEventObject);
 			}
 		}
-	}
+	};
 
-	function checkIfHoverToAdjacent() {
+	const checkIfHoverToAdjacent = () => {
 		let hoverAdjacent = true;
 		if (currentHoverTile.current[0] > previousHoverTile.current[0] + 1) hoverAdjacent = false;
 		if (currentHoverTile.current[0] < previousHoverTile.current[0] - 1) hoverAdjacent = false;
@@ -88,55 +88,55 @@ export const Map = (props) => {
 		return hoverAdjacent;
 	}
 
-	function hoverWhileHoldingLeftMouseButton(mouseEventObject) {
+	const hoverWhileHoldingLeftMouseButton = (mouseEventObject) => {
 		if (isNonEmptyArray(dragArray.current)) {
 			dragArray.current = shiftPushArray(dragArray.current, [ mouseEventObject.tile ]);
 			const draggedTilesToPlace = railDragEvent(dragArray.current, currentMapInfo);
 			placeMultipleTiles(draggedTilesToPlace);
 		}
-	}
+	};
 
-	function hoverWhileHoldingRightMouseButton(mouseEventObject) {
+	const hoverWhileHoldingRightMouseButton = (mouseEventObject) => {
 		if (rightClickDragValue.current === 'X') {
 			if (mouseEventObject.tileClass === 'mapTile') placeTile(mouseEventObject.tile, rightClickDragValue.current);
 		} else if (rightClickDragValue.current === 'DELETE') removePlacedTrack(mouseEventObject.tile);
-	}
+	};
 
-	function hoverWhileHoldingBothMouseButtons(mouseEventObject) {
+	const hoverWhileHoldingBothMouseButtons = (mouseEventObject) => {
 		determineIfToPlaceT(mouseEventObject);
-	}
+	};
 
-	function determineIfToPlaceT(mouseEventObject) {
+	const determineIfToPlaceT = (mouseEventObject) => {
 		const { tile, mouseButton, tileClass } = mouseEventObject;
 		if (mouseButton === 3 && tileClass === 'mapTile') placeTile(tile, 'T');
-	}
+	};
 
 	///////////// MAP - TRACK PLACEMENT FUNCTIONS /////////////
 
-	function placeTile(coordinate, value) {
+	const placeTile = (coordinate, value) => {
 		const trackSquareInfo = {
 			tile: coordinate,
 			railType: value
 		};
 		placeMultipleTiles([ trackSquareInfo ]);
-	}
+	};
 
-	async function placeMultipleTiles(newTiles) {
+	const placeMultipleTiles = async (newTiles) => {
 		const allTilesOnMap = getCombinedArrayOfNewAndOldTiles(newTiles, {
 			mapTracks: props.trainTrackMap.tracks,
 			placedTracks: props.placedTracks
 		});
 		await props.setPlacedTracks(allTilesOnMap);
 		await checkIfGameComplete();
-	}
+	};
 
-	async function removePlacedTrack(trackCoordinates) {
+	const removePlacedTrack = async (trackCoordinates) => {
 		const filteredTracks = props.placedTracks.filter(function(track) {
 			return !(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1]);
 		});
 		await props.setPlacedTracks(filteredTracks);
 		await checkIfGameComplete();
-	}
+	};
 
 	///////////// ///////////// /////////////
 

@@ -21,9 +21,7 @@ const WaveButton = ({ className, onClick, text, bounceDelay = 200, clickDelay = 
 	const transitionOffset = 0.1;
 	const cubicBezierFunction = 'cubic-bezier(0,1.84,0,.32)';
 
-	const rectangleArray = createRectangleArray(rectangleCount);
-
-	function createRectangleArray(recCount) {
+	const createRectangleArray = (recCount) => {
 		let rectangleArray = [];
 		const blueRecColors = colorToWhiteArray('#5bb1cd', recCount * 1.2);
 		const purpleRecColors = colorToWhiteArray('#800080', recCount * 1.2);
@@ -44,8 +42,9 @@ const WaveButton = ({ className, onClick, text, bounceDelay = 200, clickDelay = 
 			);
 		}
 		return rectangleArray;
-	}
+	};
 
+	const rectangleArray = createRectangleArray(rectangleCount);
 	const btnStyle = buttonPressed ? { ...btnDefaultStyle, ...btnPressedStyle } : btnDefaultStyle;
 
 	return (

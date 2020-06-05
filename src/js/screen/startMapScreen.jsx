@@ -8,7 +8,7 @@ import { getRandomSeed } from 'js/utility/utilityFunctions';
 
 const SLIDER_WIDTH_REM = 5;
 
-function getMapSizeOptions() {
+const getMapSizeOptions = () => {
 	let mapSizeOptions = [];
 	for (let i = 0; i < 3; i++) {
 		const mapSize = 6 + i * 2;

@@ -9,7 +9,7 @@ import { convertRailTypeToTrackImage } from 'js/trackFunctions/railTypeProcessin
 import { getAllDefaultTiles } from 'js/trackFunctions/trackParsing';
 
 export const Board = (props) => {
-	function renderMapTile(x, y, railImage, mapSolutionVisible) {
+	const renderMapTile = (x, y, railImage, mapSolutionVisible) => {
 		return (
 			<MapTile
 				className="mapTile"
@@ -40,17 +40,17 @@ export const Board = (props) => {
 		);
 	};
 
-	function renderDefaultTrack(x, y, defaultRailType, highlighted) {
+	const renderDefaultTrack = (x, y, defaultRailType, highlighted) => {
 		return staticTile(x, y, defaultRailType, highlighted, props.activeMouseEventsObject);
 	}
 
-	function renderCompleteTrack(x, y, defaultRailType, highlighted) {
+	const renderCompleteTrack = (x, y, defaultRailType, highlighted) => {
 		return staticTile(x, y, defaultRailType, highlighted, props.emptyMouseEventsObject);
 	}
 
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
 
-	function placeColumnHeader(trainTrackMap, x, y) {
+	const placeColumnHeader = (trainTrackMap, x, y) => {
 		const headerLabel = trainTrackMap.headerLabels.x[x];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
 		return (
@@ -65,7 +65,7 @@ export const Board = (props) => {
 		);
 	}
 
-	function placeRowHeader(trainTrackMap, x, y) {
+	const placeRowHeader = (trainTrackMap, x, y) => {
 		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
 		return (
@@ -80,7 +80,7 @@ export const Board = (props) => {
 		);
 	}
 
-	function placeCompletedMapTrack(trainTrackMap, x, y) {
+	const placeCompletedMapTrack = (trainTrackMap, x, y) => {
 		let defaultTile;
 		let highlighted = false;
 		trainTrackMap.tracks.forEach(function(el) {
@@ -93,7 +93,7 @@ export const Board = (props) => {
 		else return <EmptyTile key={x} tileRemSize={props.tileRemSize} />;
 	}
 
-	function placeUserPlacedTrack(x, y) {
+	const placeUserPlacedTrack = (x, y) => {
 		let railImage;
 		props.placedTracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y - 1) railImage = convertRailTypeToTrackImage(el.railType);
@@ -102,17 +102,17 @@ export const Board = (props) => {
 		else return renderMapTile(x, y - 1, null);
 	}
 
-	function placeGameActiveMapTrack(trainTrackMap, x, y) {
+	const placeGameActiveMapTrack = (trainTrackMap, x, y) => {
 		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y - 1);
 		if (defaultTile) return renderDefaultTrack(x, y - 1, defaultTile, props.defaultTilesHighlighted);
 		else return placeUserPlacedTrack(x, y);
 	}
-	function placeMainMapTile(trainTrackMap, x, y) {
+	const placeMainMapTile = (trainTrackMap, x, y) => {
 		if (props.gameComplete || props.mapSolutionVisible) return placeCompletedMapTrack(trainTrackMap, x, y);
 		else return placeGameActiveMapTrack(trainTrackMap, x, y);
 	}
 
-	function checkIfTileIsDefault(trainTrackMap, x, y) {
+	const checkIfTileIsDefault = (trainTrackMap, x, y) => {
 		let trackDefaultTile = null;
 		trainTrackMap.tracks.forEach(function(el) {
 			if (el.tile[0] === x && el.tile[1] === y && el.defaultTrack) trackDefaultTile = el.railType;
@@ -120,7 +120,7 @@ export const Board = (props) => {
 		return trackDefaultTile;
 	}
 
-	function getRowColumnFillstate(axis, index) {
+	const getRowColumnFillstate = (axis, index) => {
 		let fillState = 'underfilled';
 		const defaultTiles = getAllDefaultTiles(props.trainTrackMap);
 		let axisNum = axis === 'x' ? 0 : 1;

@@ -5,7 +5,7 @@ export const generateStartEndPoints = (parameters) => {
 	return [ startCoordinate, endCoordinate ];
 };
 
-function getEdgeCoordinatesClockwiseOrder(parameters) {
+const getEdgeCoordinatesClockwiseOrder = (parameters) => {
 	const { mapWidth, mapHeight } = parameters;
 	let coordinates = [];
 	for (let x = 0; x < mapWidth - 1; x++) coordinates.push([ x, 0 ]); //top

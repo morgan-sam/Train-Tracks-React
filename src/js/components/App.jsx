@@ -43,7 +43,7 @@ export const App = () => {
 		generateMap(newSeed);
 	};
 
-	function quitGame() {
+	const quitGame = () => {
 		setCurrentScreen('mainMenu');
 		setGameState({
 			...gameState,

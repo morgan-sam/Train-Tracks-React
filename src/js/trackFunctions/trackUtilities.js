@@ -1,7 +1,7 @@
 import { checkIfArrayIsInMatrix } from 'js/utility/utilityFunctions';
 import { findDirectionFromMove } from 'js/utility/directionsConversions';
 
-function getAdjacentTiles(coordinate, axisMax) {
+const getAdjacentTiles = (coordinate, axisMax) => {
 	let adjacentTiles = [];
 	if (coordinate[1] > 0) adjacentTiles.push({ tile: [ coordinate[0], coordinate[1] - 1 ], position: 0 });
 	if (coordinate[0] < axisMax.x) adjacentTiles.push({ tile: [ coordinate[0] + 1, coordinate[1] ], position: 1 });

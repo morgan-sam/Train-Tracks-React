@@ -10,7 +10,7 @@ export const findDirectionFromMove = (currentMove, lastMove) => {
 	return moveDirection;
 };
 
-function differenceBetweenTwoMoves(moveOne, moveTwo) {
+const differenceBetweenTwoMoves = (moveOne, moveTwo) => {
 	return [ moveOne[0] - moveTwo[0], moveOne[1] - moveTwo[1] ];
 }
 
@@ -55,17 +55,17 @@ export const getDirectionOfEachMove = (allTiles, parameters) => {
 	return directions;
 };
 
-function getStartingDirection(start, parameters) {
+const getStartingDirection = (start, parameters) => {
 	const possibleStartDirections = getPossibleStartDirections(start, parameters);
 	return possibleStartDirections[randomIntFromInterval(0, possibleStartDirections.length - 1)];
 }
 
-function getEndingDirection(end, parameters) {
+const getEndingDirection = (end, parameters) => {
 	const possibleEndDirections = getPossibleEndDirections(end, parameters);
 	return possibleEndDirections[randomIntFromInterval(0, possibleEndDirections.length - 1)];
 }
 
-function getPossibleStartDirections(start, parameters) {
+const getPossibleStartDirections = (start, parameters) => {
 	const { mapWidth, mapHeight } = parameters;
 	let possibleDirections = [];
 	if (start[0] === 0) possibleDirections.push(1); // comes in from left
@@ -75,7 +75,7 @@ function getPossibleStartDirections(start, parameters) {
 	return possibleDirections;
 }
 
-function getPossibleEndDirections(end, parameters) {
+const getPossibleEndDirections = (end, parameters) => {
 	const { mapWidth, mapHeight } = parameters;
 	let possibleDirections = [];
 	if (end[0] === 0) possibleDirections.push(3); // leaves via left

@@ -2,7 +2,7 @@ import React from 'react';
 import { getSquareStyle } from 'js/styles/square';
 
 export const HeadingTile = (props) => {
-	function convertFillStateToStyle(fillState) {
+	const convertFillStateToStyle = (fillState) => {
 		switch (fillState) {
 			case 'underfilled':
 				return {

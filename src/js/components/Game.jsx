@@ -23,7 +23,7 @@ export const Game = (props) => {
 
 	useEffect(
 		() => {
-			async function addCutOutToScreen() {
+			const addCutOutToScreen = async () => {
 				if (display.savePopUp) {
 					setDisplay({
 						...display,
@@ -32,7 +32,7 @@ export const Game = (props) => {
 				} else {
 					setDisplay({ ...display, saveBoxCutOut: null });
 				}
-			}
+			};
 			addCutOutToScreen();
 		},
 		[ display.savePopUp ]

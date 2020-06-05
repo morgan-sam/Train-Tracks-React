@@ -10,7 +10,7 @@ export const Square = (props) => {
 
 	///////////// SQUARE - MOUSE EVENTS FUNCTIONS /////////////
 
-	function getMouseEventObject(e) {
+	const getMouseEventObject = (e) => {
 		const mouseEventObject = {
 			tile: [ props.x, props.y ],
 			railType: convertButtonClassToRailType(e),
@@ -20,24 +20,24 @@ export const Square = (props) => {
 		return mouseEventObject;
 	}
 
-	function squareHoverStart(e) {
+	const squareHoverStart = (e) => {
 		const mouseEventObject = getMouseEventObject(e);
 		props.hoverStartEvent(mouseEventObject);
 		if (e.buttons === 0) setHoverTrack(mouseEventObject.railType);
 	}
 
-	function squareHoverEnd(e) {
+	const squareHoverEnd = (e) => {
 		setHoverTrack(null);
 	}
 
-	function squareMouseDown(e) {
+	const squareMouseDown = (e) => {
 		const mouseEventObject = getMouseEventObject(e);
 		if (mouseEventObject.mouseButton === 1) props.leftClickEvent(mouseEventObject);
 		if (mouseEventObject.mouseButton === 2) props.rightClickEvent(mouseEventObject);
 		if (mouseEventObject.mouseButton === 3) props.bothClickEvent(mouseEventObject);
 	}
 
-	function squareMouseUp(e) {
+	const squareMouseUp = (e) => {
 		const mouseEventObject = getMouseEventObject(e);
 		if (e.button === 0) props.leftReleaseEvent(mouseEventObject);
 		if (e.button === 2) props.rightReleaseEvent();
@@ -45,7 +45,7 @@ export const Square = (props) => {
 
 	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
 
-	function getTileClassFromEvent(e) {
+	const getTileClassFromEvent = (e) => {
 		const classList = e.currentTarget.className;
 		let tileClass;
 		if (classList.includes('mapTile')) tileClass = 'mapTile';

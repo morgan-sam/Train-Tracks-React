@@ -167,7 +167,7 @@ const drawAllTracks = (mapObject, canvasObj) => {
 	return context;
 };
 
-function drawGrid(mapObject, canvasObj) {
+const drawGrid = (mapObject, canvasObj) => {
 	let { context, gridMap, iconTile, options, map } = canvasObj;
 	for (let i = 0; i < gridMap.width * gridMap.height; i++) {
 		let x = i % gridMap.width;
@@ -185,7 +185,7 @@ function drawGrid(mapObject, canvasObj) {
 	return context;
 }
 
-function drawHeaderBox(drawObj, canvasObj) {
+const drawHeaderBox = (drawObj, canvasObj) => {
 	let context = canvasObj.context;
 	let mapWidth = canvasObj.map.width;
 	const { x, y } = drawObj.tile;
@@ -194,7 +194,7 @@ function drawHeaderBox(drawObj, canvasObj) {
 	return context;
 }
 
-function drawHeaderBoxBackground(tile, canvasObj) {
+const drawHeaderBoxBackground = (tile, canvasObj) => {
 	let { context, iconTile } = canvasObj;
 	const { x, y } = tile;
 	context.fillStyle = '#FFE4B5';
@@ -202,7 +202,7 @@ function drawHeaderBoxBackground(tile, canvasObj) {
 	return context;
 }
 
-function drawHeaderBoxText(drawObj, canvasObj) {
+const drawHeaderBoxText = (drawObj, canvasObj) => {
 	let { context, iconTile } = canvasObj;
 	const { x, y } = drawObj.tile;
 	context.fillStyle = 'black';
@@ -213,7 +213,7 @@ function drawHeaderBoxText(drawObj, canvasObj) {
 	return context;
 }
 
-function getHeaderBoxText(drawObj, canvasObj) {
+const getHeaderBoxText = (drawObj, canvasObj) => {
 	const mapWidth = canvasObj.map.width;
 	const mapObject = drawObj.mapObject;
 	const { x, y } = drawObj.tile;
@@ -223,7 +223,7 @@ function getHeaderBoxText(drawObj, canvasObj) {
 	return headerText;
 }
 
-function cutOutBackgroundBox(canvasObj) {
+const cutOutBackgroundBox = (canvasObj) => {
 	let { context, iconTile, map } = canvasObj;
 	const boxWidth = 250;
 	const boxHeight = 150;
