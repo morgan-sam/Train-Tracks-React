@@ -36,6 +36,11 @@ export const Game = (props) => {
 		[ display.savePopUp ]
 	);
 
+	const commonProps = {
+		placedTracks,
+		setPlacedTracks,
+		visualEffects: props.visualEffects
+	};
 	return (
 		<div>
 			<div style={getGameMapContainerStyle(props.gameState.size, props.tileRemSize)}>
@@ -66,11 +71,9 @@ export const Game = (props) => {
 					gameComplete={gameWon}
 					controlsActive={!display.savePopUp}
 					mapVisible={!display.saveBoxCutOut}
-					setPlacedTracks={setPlacedTracks}
-					placedTracks={placedTracks}
 					railImages={props.railImages}
 					themeColor={props.themeColor}
-					visualEffects={props.visualEffects}
+					{...commonProps}
 				/>
 				<img
 					alt=""
@@ -87,15 +90,13 @@ export const Game = (props) => {
 			</div>
 			<OptionsButtons
 				setGameWinState={setGameWinState}
-				placedTracks={placedTracks}
-				setPlacedTracks={setPlacedTracks}
 				setDisplay={setDisplay}
 				mapTracks={props.gameState.mapObject.tracks}
 				display={display}
 				seed={props.gameState.seed}
 				inGameNewMap={props.inGameNewMap}
 				quitGame={props.quitGame}
-				visualEffects={props.visualEffects}
+				{...commonProps}
 			/>
 		</div>
 	);
