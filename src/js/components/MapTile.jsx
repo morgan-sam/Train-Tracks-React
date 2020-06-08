@@ -18,30 +18,28 @@ export const Square = (props) => {
 			mouseButton: e.buttons
 		};
 		return mouseEventObject;
-	}
+	};
 
 	const squareHoverStart = (e) => {
 		const mouseEventObject = getMouseEventObject(e);
 		props.hoverStartEvent(mouseEventObject);
 		if (e.buttons === 0) setHoverTrack(mouseEventObject.railType);
-	}
+	};
 
-	const squareHoverEnd = (e) => {
-		setHoverTrack(null);
-	}
+	const squareHoverEnd = (e) => setHoverTrack(null);
 
 	const squareMouseDown = (e) => {
 		const mouseEventObject = getMouseEventObject(e);
 		if (mouseEventObject.mouseButton === 1) props.leftClickEvent(mouseEventObject);
 		if (mouseEventObject.mouseButton === 2) props.rightClickEvent(mouseEventObject);
 		if (mouseEventObject.mouseButton === 3) props.bothClickEvent(mouseEventObject);
-	}
+	};
 
 	const squareMouseUp = (e) => {
 		const mouseEventObject = getMouseEventObject(e);
 		if (e.button === 0) props.leftReleaseEvent(mouseEventObject);
 		if (e.button === 2) props.rightReleaseEvent();
-	}
+	};
 
 	///////////// SQUARE - CLASSNAME CONVERSION FUNCTIONS /////////////
 
@@ -51,28 +49,22 @@ export const Square = (props) => {
 		if (classList.includes('mapTile')) tileClass = 'mapTile';
 		if (classList.includes('defaultTrack')) tileClass = 'defaultTrack';
 		return tileClass;
-	}
+	};
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
 
 	let squareStyling, trackText, boxStyling;
 
-	if (!props.trackData && hoverTrack) {
-		squareStyling = setHoverTrackImage(hoverTrack, props.railImages.unknown);
-	}
+	if (!props.trackData && hoverTrack) squareStyling = setHoverTrackImage(hoverTrack, props.railImages.unknown);
 
-	if (props.className === 'mapTile') {
-		if (props.trackData) {
-			squareStyling = setPlacedTrackImage(props.trackData, props.railImages);
-		}
-	}
+	if (props.className === 'mapTile' && props.trackData)
+		squareStyling = setPlacedTrackImage(props.trackData, props.railImages);
 
 	if (
 		(props.trackData && props.className === 'defaultTrack') ||
 		(props.trackData && props.className === 'completeTrack')
-	) {
+	)
 		squareStyling = setDefaultTrackImage(props.trackData, props.highlighted);
-	}
 
 	let backgroundEnabled = true;
 	if (props.className === 'mapTile') {
