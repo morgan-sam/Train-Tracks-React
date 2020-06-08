@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'css/game.css';
 
 import Map from 'js/components/Map';
+import SaveCutout from 'js/components/SaveCutout';
 import OptionsButtons from 'js/components/OptionsButtons';
 import SaveMapDisplay from 'js/components/SaveMapDisplay';
 import GameWinDisplay from 'js/components/GameWinDisplay';
@@ -75,18 +76,7 @@ export const Game = (props) => {
 					themeColor={props.themeColor}
 					{...commonProps}
 				/>
-				<img
-					alt=""
-					draggable="false"
-					src={display.saveBoxCutOut}
-					className="saveBoxMapCutout"
-					style={{
-						position: 'absolute',
-						top: `${props.tileRemSize}rem`,
-						left: '0px',
-						border: display.saveBoxCutOut ? '1px solid black' : 'none'
-					}}
-				/>
+				<SaveCutout saveBoxCutOut={display.saveBoxCutOut} tileRemSize={props.tileRemSize} />
 			</div>
 			<OptionsButtons
 				setGameWinState={setGameWinState}
