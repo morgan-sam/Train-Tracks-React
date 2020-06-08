@@ -29,9 +29,7 @@ export const Game = (props) => {
 						...display,
 						saveBoxCutOut: await generateMapBackground(props.gameState.mapObject, props.tileRemSize)
 					});
-				} else {
-					setDisplay({ ...display, saveBoxCutOut: null });
-				}
+				} else setDisplay({ ...display, saveBoxCutOut: null });
 			};
 			addCutOutToScreen();
 		},

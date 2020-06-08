@@ -18,18 +18,14 @@ export const Map = (props) => {
 
 	///////////// MAP - MOUSE EVENTS FUNCTIONS /////////////
 
-	const leftClickEvent = (mouseEventObject) => {
-		dragArray.current = [ null, null, mouseEventObject.tile ];
-	};
+	const leftClickEvent = (mouseEventObject) => (dragArray.current = [ null, null, mouseEventObject.tile ]);
 
 	const rightClickEvent = (mouseEventObject) => {
 		setRightClickDragValue(mouseEventObject);
 		determineRemoveOrPlaceX(mouseEventObject);
 	};
 
-	const bothClickEvent = (mouseEventObject) => {
-		determineIfToPlaceT(mouseEventObject);
-	};
+	const bothClickEvent = (mouseEventObject) => determineIfToPlaceT(mouseEventObject);
 
 	const setRightClickDragValue = (mouseEventObject) => {
 		const tileValue = getRailTypeOfPlacedTile(mouseEventObject.tile, props.placedTracks);
@@ -51,9 +47,7 @@ export const Map = (props) => {
 		}
 	};
 
-	const rightReleaseEvent = () => {
-		rightClickDragValue.current = undefined;
-	}
+	const rightReleaseEvent = () => (rightClickDragValue.current = undefined);
 
 	const checkIfHoverTileChanged = (mouseEventObject) => {
 		return !compareArrays(mouseEventObject.tile, currentHoverTile.current);
@@ -67,15 +61,10 @@ export const Map = (props) => {
 	const hoverStartEvent = (mouseEventObject) => {
 		if (checkIfHoverTileChanged(mouseEventObject)) {
 			updateHoverTileState(mouseEventObject);
-			if (mouseEventObject.mouseButton === 1 && checkIfHoverToAdjacent()) {
+			if (mouseEventObject.mouseButton === 1 && checkIfHoverToAdjacent())
 				hoverWhileHoldingLeftMouseButton(mouseEventObject);
-			}
-			if (mouseEventObject.mouseButton === 2) {
-				hoverWhileHoldingRightMouseButton(mouseEventObject);
-			}
-			if (mouseEventObject.mouseButton === 3) {
-				hoverWhileHoldingBothMouseButtons(mouseEventObject);
-			}
+			if (mouseEventObject.mouseButton === 2) hoverWhileHoldingRightMouseButton(mouseEventObject);
+			if (mouseEventObject.mouseButton === 3) hoverWhileHoldingBothMouseButtons(mouseEventObject);
 		}
 	};
 
@@ -86,7 +75,7 @@ export const Map = (props) => {
 		if (currentHoverTile.current[1] > previousHoverTile.current[1] + 1) hoverAdjacent = false;
 		if (currentHoverTile.current[1] < previousHoverTile.current[1] - 1) hoverAdjacent = false;
 		return hoverAdjacent;
-	}
+	};
 
 	const hoverWhileHoldingLeftMouseButton = (mouseEventObject) => {
 		if (isNonEmptyArray(dragArray.current)) {
@@ -102,9 +91,7 @@ export const Map = (props) => {
 		} else if (rightClickDragValue.current === 'DELETE') removePlacedTrack(mouseEventObject.tile);
 	};
 
-	const hoverWhileHoldingBothMouseButtons = (mouseEventObject) => {
-		determineIfToPlaceT(mouseEventObject);
-	};
+	const hoverWhileHoldingBothMouseButtons = (mouseEventObject) => determineIfToPlaceT(mouseEventObject);
 
 	const determineIfToPlaceT = (mouseEventObject) => {
 		const { tile, mouseButton, tileClass } = mouseEventObject;
@@ -145,12 +132,7 @@ export const Map = (props) => {
 		if (placedTilesAllCorrect) props.setGameCompleteState(true);
 	};
 
-	useEffect(
-		() => {
-			checkIfGameComplete();
-		},
-		[ props.placedTracks ]
-	);
+	useEffect(() => checkIfGameComplete(), [ props.placedTracks ]);
 
 	useEffect(
 		() => {
