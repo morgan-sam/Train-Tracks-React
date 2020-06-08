@@ -83,7 +83,7 @@ export const Board = (props) => {
 	const placeCompletedMapTrack = (trainTrackMap, x, y) => {
 		let defaultTile;
 		let highlighted = false;
-		trainTrackMap.tracks.forEach(function(el) {
+		trainTrackMap.tracks.forEach((el) => {
 			if (el.tile[0] === x && el.tile[1] === y - 1) {
 				defaultTile = el.railType;
 				if (props.defaultTilesHighlighted && el.defaultTrack) highlighted = true;
@@ -95,7 +95,7 @@ export const Board = (props) => {
 
 	const placeUserPlacedTrack = (x, y) => {
 		let railImage;
-		props.placedTracks.forEach(function(el) {
+		props.placedTracks.forEach((el) => {
 			if (el.tile[0] === x && el.tile[1] === y - 1) railImage = convertRailTypeToTrackImage(el.railType);
 		});
 		if (railImage) return renderMapTile(x, y - 1, railImage);
