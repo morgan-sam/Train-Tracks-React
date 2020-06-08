@@ -49,9 +49,8 @@ export const Map = (props) => {
 
 	const rightReleaseEvent = () => (rightClickDragValue.current = undefined);
 
-	const checkIfHoverTileChanged = (mouseEventObject) => {
-		return !compareArrays(mouseEventObject.tile, currentHoverTile.current);
-	};
+	const checkIfHoverTileChanged = (mouseEventObject) =>
+		!compareArrays(mouseEventObject.tile, currentHoverTile.current);
 
 	const updateHoverTileState = (mouseEventObject) => {
 		previousHoverTile.current = currentHoverTile.current;
