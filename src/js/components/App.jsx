@@ -51,13 +51,11 @@ export const App = () => {
 			seed: getRandomSeed(),
 			active: false
 		});
-	}
+	};
 
 	useEffect(
 		() => {
-			if (gameState.mapObject !== null && gameState.active) {
-				setCurrentScreen('game');
-			}
+			if (gameState.mapObject !== null && gameState.active) setCurrentScreen('game');
 		},
 		[ gameState.mapObject, gameState.active ]
 	);
