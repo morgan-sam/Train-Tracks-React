@@ -66,7 +66,7 @@ export const Game = (props) => {
 					gameComplete={gameWon}
 					controlsActive={!display.savePopUp}
 					mapVisible={!display.saveBoxCutOut}
-					setPlacedTracks={(val) => setPlacedTracks(val)}
+					setPlacedTracks={setPlacedTracks}
 					placedTracks={placedTracks}
 					railImages={props.railImages}
 					themeColor={props.themeColor}

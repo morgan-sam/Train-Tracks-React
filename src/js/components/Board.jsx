@@ -23,7 +23,7 @@ export const Board = (props) => {
 				{...props.activeMouseEventsObject}
 			/>
 		);
-	}
+	};
 
 	const staticTile = (x, y, defaultRailType, highlighted, mouseEvents) => {
 		return (
@@ -42,11 +42,11 @@ export const Board = (props) => {
 
 	const renderDefaultTrack = (x, y, defaultRailType, highlighted) => {
 		return staticTile(x, y, defaultRailType, highlighted, props.activeMouseEventsObject);
-	}
+	};
 
 	const renderCompleteTrack = (x, y, defaultRailType, highlighted) => {
 		return staticTile(x, y, defaultRailType, highlighted, props.emptyMouseEventsObject);
-	}
+	};
 
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
 
@@ -63,7 +63,7 @@ export const Board = (props) => {
 				tileRemSize={props.tileRemSize}
 			/>
 		);
-	}
+	};
 
 	const placeRowHeader = (trainTrackMap, x, y) => {
 		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
@@ -78,7 +78,7 @@ export const Board = (props) => {
 				tileRemSize={props.tileRemSize}
 			/>
 		);
-	}
+	};
 
 	const placeCompletedMapTrack = (trainTrackMap, x, y) => {
 		let defaultTile;
@@ -91,7 +91,7 @@ export const Board = (props) => {
 		});
 		if (defaultTile) return renderCompleteTrack(x, y - 1, defaultTile, highlighted);
 		else return <EmptyTile key={x} tileRemSize={props.tileRemSize} />;
-	}
+	};
 
 	const placeUserPlacedTrack = (x, y) => {
 		let railImage;
@@ -100,25 +100,25 @@ export const Board = (props) => {
 		});
 		if (railImage) return renderMapTile(x, y - 1, railImage);
 		else return renderMapTile(x, y - 1, null);
-	}
+	};
 
 	const placeGameActiveMapTrack = (trainTrackMap, x, y) => {
 		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y - 1);
 		if (defaultTile) return renderDefaultTrack(x, y - 1, defaultTile, props.defaultTilesHighlighted);
 		else return placeUserPlacedTrack(x, y);
-	}
+	};
 	const placeMainMapTile = (trainTrackMap, x, y) => {
 		if (props.gameComplete || props.mapSolutionVisible) return placeCompletedMapTrack(trainTrackMap, x, y);
 		else return placeGameActiveMapTrack(trainTrackMap, x, y);
-	}
+	};
 
 	const checkIfTileIsDefault = (trainTrackMap, x, y) => {
 		let trackDefaultTile = null;
-		trainTrackMap.tracks.forEach(function(el) {
+		trainTrackMap.tracks.forEach((el) => {
 			if (el.tile[0] === x && el.tile[1] === y && el.defaultTrack) trackDefaultTile = el.railType;
 		});
 		return trackDefaultTile;
-	}
+	};
 
 	const getRowColumnFillstate = (axis, index) => {
 		let fillState = 'underfilled';
@@ -127,14 +127,14 @@ export const Board = (props) => {
 
 		let placedTrackCount = defaultTiles.filter((el) => el.tile[axisNum] === index).length;
 		const tilesOnAxis = props.trainTrackMap.tracks.filter((el) => el.tile[axisNum] === index).length;
-		props.placedTracks.forEach(function(el) {
+		props.placedTracks.forEach((el) => {
 			if (el.tile[axisNum] === index && el.railType !== 'X') placedTrackCount++;
 		});
 
 		if (tilesOnAxis < placedTrackCount) fillState = 'overfilled';
 		else if (tilesOnAxis === placedTrackCount) fillState = 'full';
 		return fillState;
-	}
+	};
 
 	let mapBoard = [];
 	for (let y = 0; y < props.mapHeight + 1; y++) {
