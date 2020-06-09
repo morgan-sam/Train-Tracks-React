@@ -11,6 +11,8 @@ import { generateMapBackground } from 'js/generation/icon/generateMapIcon';
 import { getGameMapContainerStyle } from 'js/styles/game';
 
 export const Game = (props) => {
+	const { gameState, tileRemSize, visualEffects, themeColor, mapSeed, railImages, inGameNewMap, quitGame } = props;
+
 	const [ gameWon, setGameWinState ] = useState(false);
 	const [ placedTracks, setPlacedTracks ] = useState([]);
 
@@ -28,7 +30,7 @@ export const Game = (props) => {
 				if (display.savePopUp) {
 					setDisplay({
 						...display,
-						saveBoxCutOut: await generateMapBackground(props.gameState.mapObject, props.tileRemSize)
+						saveBoxCutOut: await generateMapBackground(gameState.mapObject, tileRemSize)
 					});
 				} else setDisplay({ ...display, saveBoxCutOut: null });
 			};
@@ -40,31 +42,31 @@ export const Game = (props) => {
 	const commonProps = {
 		placedTracks,
 		setPlacedTracks,
-		visualEffects: props.visualEffects
+		visualEffects
 	};
 	return (
 		<div>
-			<div style={getGameMapContainerStyle(props.gameState.size, props.tileRemSize)}>
+			<div style={getGameMapContainerStyle(gameState.size, tileRemSize)}>
 				{display.winPopUp && (
 					<GameWinDisplay
 						display={display}
 						setDisplay={setDisplay}
-						visualEffects={props.visualEffects}
-						themeColor={props.themeColor}
+						visualEffects={visualEffects}
+						themeColor={themeColor}
 					/>
 				)}
 				{display.savePopUp && (
-					<SaveMapDisplay display={display} setDisplay={setDisplay} gameState={props.gameState} />
+					<SaveMapDisplay display={display} setDisplay={setDisplay} gameState={gameState} />
 				)}
 				<Map
-					key={props.mapSeed}
+					key={mapSeed}
 					className="gameMap"
-					tileRemSize={props.tileRemSize}
+					tileRemSize={tileRemSize}
 					defaultTilesHighlighted={display.defaultHighlights}
 					mapSolutionVisible={display.solutionVisible}
-					trainTrackMap={props.gameState.mapObject}
-					mapHeight={props.gameState.size}
-					mapWidth={props.gameState.size}
+					trainTrackMap={gameState.mapObject}
+					mapHeight={gameState.size}
+					mapWidth={gameState.size}
 					setGameCompleteState={(val) => {
 						setGameWinState(val);
 						setDisplay({ ...display, winPopUp: val });
@@ -72,20 +74,20 @@ export const Game = (props) => {
 					gameComplete={gameWon}
 					controlsActive={!display.savePopUp}
 					mapVisible={!display.saveBoxCutOut}
-					railImages={props.railImages}
-					themeColor={props.themeColor}
+					railImages={railImages}
+					themeColor={themeColor}
 					{...commonProps}
 				/>
-				<SaveCutout saveBoxCutOut={display.saveBoxCutOut} tileRemSize={props.tileRemSize} />
+				<SaveCutout saveBoxCutOut={display.saveBoxCutOut} tileRemSize={tileRemSize} />
 			</div>
 			<OptionsButtons
 				setGameWinState={setGameWinState}
 				setDisplay={setDisplay}
-				mapTracks={props.gameState.mapObject.tracks}
+				mapTracks={gameState.mapObject.tracks}
 				display={display}
-				seed={props.gameState.seed}
-				inGameNewMap={props.inGameNewMap}
-				quitGame={props.quitGame}
+				seed={gameState.seed}
+				inGameNewMap={inGameNewMap}
+				quitGame={quitGame}
 				{...commonProps}
 			/>
 		</div>
