@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import WaveButton from 'js/components/WaveButton';
+import MapSeedCopyButton from 'js/components/MapSeedCopyButton';
 import { addHintTrack } from 'js/trackFunctions/addHintTrack';
 
 export const OptionsButtons = (props) => {
@@ -14,8 +15,6 @@ export const OptionsButtons = (props) => {
 		inGameNewMap,
 		quitGame
 	} = props;
-
-	const clipboard = useRef(null);
 
 	return (
 		<div className="inGameOptions">
@@ -61,37 +60,7 @@ export const OptionsButtons = (props) => {
 					text={'Save Map'}
 					clickDelay={100}
 				/>
-				<div className="mapSeedOptionContainer">
-					<WaveButton
-						style={{ zIndex: '4' }}
-						className="mapSeedBtn"
-						key="mapSeedBtn"
-						onClick={() => {
-							clipboard.current.select();
-							document.execCommand('copy');
-						}}
-						text={'🌱'}
-					/>
-					<div className="mapSeedExplanation">
-						<span>Copy map seed to clipboard</span>
-					</div>
-					<textarea
-						ref={clipboard}
-						readOnly
-						unselectable="on"
-						style={{
-							position: 'absolute',
-							top: 0,
-							left: 0,
-							opacity: 0,
-							width: 0,
-							height: 0,
-							resize: 'none',
-							cursor: 'default'
-						}}
-						value={seed}
-					/>
-				</div>
+				<MapSeedCopyButton seed={seed} />
 				<WaveButton
 					key={'newMapBtn'}
 					onClick={() => {
