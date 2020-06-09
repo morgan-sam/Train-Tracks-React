@@ -65,8 +65,6 @@ export const Game = (props) => {
 					defaultTilesHighlighted={display.defaultHighlights}
 					mapSolutionVisible={display.solutionVisible}
 					trainTrackMap={gameState.mapObject}
-					mapHeight={gameState.size}
-					mapWidth={gameState.size}
 					setGameCompleteState={(val) => {
 						setGameWinState(val);
 						setDisplay({ ...display, winPopUp: val });

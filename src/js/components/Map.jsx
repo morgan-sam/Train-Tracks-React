@@ -9,6 +9,7 @@ import { getRailTypeOfPlacedTile, checkIfPlacedTilesAllCorrect } from 'js/trackF
 import MapAmbientBackground from 'js/components/MapAmbientBackground.jsx';
 
 export const Map = (props) => {
+	console.log(props);
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
 	const dragArray = useRef([ null, null, null ]);
 	const rightClickDragValue = useRef();
@@ -139,7 +140,7 @@ export const Map = (props) => {
 			const placedTracks = props.placedTracks.filter((el) => el.railType !== 'X');
 			setCurrentMapInfo({
 				tracksOnMap: [ ...defaultTracks, ...placedTracks ],
-				axisMax: { x: props.mapWidth, y: props.mapHeight }
+				axisMax: { x: props.trainTrackMap.headerLabels.x.length, y: props.trainTrackMap.headerLabels.y.length }
 			});
 		},
 		[ props.placedTracks ]
