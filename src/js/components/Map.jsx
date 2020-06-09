@@ -156,24 +156,9 @@ export const Map = (props) => {
 		hoverStartEvent: !props.savePopUp ? hoverStartEvent : () => null
 	};
 
-	const emptyMouseEventsObject = {
-		leftClickEvent: () => null,
-		rightClickEvent: () => null,
-		bothClickEvent: () => null,
-		leftReleaseEvent: () => null,
-		rightReleaseEvent: () => null,
-		hoverStartEvent: () => null,
-		dragArray: null,
-		rightClickDragValue: null
-	};
-
 	return (
 		<div className="map">
-			<Board
-				{...props}
-				activeMouseEventsObject={activeMouseEventsObject}
-				emptyMouseEventsObject={emptyMouseEventsObject}
-			/>
+			<Board {...props} activeMouseEventsObject={activeMouseEventsObject} />
 			<MapAmbientBackground themeColor={props.themeColor} visualEffects={props.visualEffects} />
 		</div>
 	);

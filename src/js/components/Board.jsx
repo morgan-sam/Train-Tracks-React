@@ -8,6 +8,8 @@ import TransparentTile from 'js/components/TransparentTile';
 import { convertRailTypeToTrackImage } from 'js/trackFunctions/railTypeProcessing';
 import { getAllDefaultTiles } from 'js/trackFunctions/trackParsing';
 
+import { emptyMouseEventsObject } from 'js/events/mouse';
+
 export const Board = (props) => {
 	const { defaultHighlights, solutionVisible, saveBoxCutOut } = props.display;
 
@@ -47,7 +49,7 @@ export const Board = (props) => {
 	};
 
 	const renderCompleteTrack = (x, y, defaultRailType, highlighted) => {
-		return staticTile(x, y, defaultRailType, highlighted, props.emptyMouseEventsObject);
+		return staticTile(x, y, defaultRailType, highlighted, emptyMouseEventsObject);
 	};
 
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
