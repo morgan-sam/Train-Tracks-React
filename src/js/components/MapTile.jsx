@@ -45,10 +45,9 @@ export const Square = (props) => {
 
 	const getTileClassFromEvent = (e) => {
 		const classList = e.currentTarget.className;
-		let tileClass;
-		if (classList.includes('mapTile')) tileClass = 'mapTile';
-		if (classList.includes('defaultTrack')) tileClass = 'defaultTrack';
-		return tileClass;
+		if (classList.includes('mapTile')) return 'mapTile';
+		else if (classList.includes('defaultTrack')) return 'defaultTrack';
+		else return null;
 	};
 
 	///////////// SQUARE - RENDER FUNCTIONS /////////////
