@@ -26,15 +26,14 @@ export const Game = (props) => {
 
 	useEffect(
 		() => {
-			const addCutOutToScreen = async () => {
+			(async () => {
 				if (display.savePopUp) {
 					setDisplay({
 						...display,
 						saveBoxCutOut: await generateMapBackground(gameState.mapObject, tileRemSize)
 					});
 				} else setDisplay({ ...display, saveBoxCutOut: null });
-			};
-			addCutOutToScreen();
+			})();
 		},
 		[ display.savePopUp ]
 	);
