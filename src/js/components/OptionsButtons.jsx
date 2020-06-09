@@ -54,9 +54,7 @@ export const OptionsButtons = (props) => {
 				/>
 				<WaveButton
 					key={'saveMapBtn'}
-					onClick={() => {
-						setDisplay({ ...display, savePopUp: true, winPopUp: false });
-					}}
+					onClick={() => setDisplay({ ...display, savePopUp: true, winPopUp: false })}
 					text={'Save Map'}
 					clickDelay={100}
 				/>
