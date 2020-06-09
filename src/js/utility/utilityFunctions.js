@@ -70,7 +70,7 @@ export const removeNonDuplicateArraysFromMatrix = (matrix) => {
 };
 
 export const removeArraysFromMatrix = (arrays, matrix) => {
-	arrays.forEach(function(arr) {
+	arrays.forEach((arr) => {
 		matrix = matrix.filter((el) => !compareArrays(el, arr));
 	});
 	return matrix;

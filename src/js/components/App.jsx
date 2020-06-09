@@ -27,7 +27,7 @@ export const App = () => {
 	const [ themeColor, setThemeColor ] = useState({ available: roygbivArray(), selected: 0 });
 	const [ visualEffects, setVisualEffects ] = useState(true);
 
-	function generateMap(seed = gameState.seed) {
+	const generateMap = (seed = gameState.seed) => {
 		const gameParameters = { size: gameState.size, seed, difficulty: gameState.difficulty };
 		const mapObject = generateNewMap(gameParameters);
 		setGameState({
@@ -36,7 +36,7 @@ export const App = () => {
 			mapObject,
 			active: true
 		});
-	}
+	};
 
 	const inGameNewMap = () => {
 		const newSeed = getRandomSeed();

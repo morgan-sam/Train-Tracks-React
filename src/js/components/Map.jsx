@@ -117,7 +117,7 @@ export const Map = (props) => {
 	};
 
 	const removePlacedTrack = async (trackCoordinates) => {
-		const filteredTracks = props.placedTracks.filter(function(track) {
+		const filteredTracks = props.placedTracks.filter((track) => {
 			return !(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1]);
 		});
 		await props.setPlacedTracks(filteredTracks);

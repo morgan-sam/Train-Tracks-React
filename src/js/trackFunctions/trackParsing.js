@@ -2,7 +2,7 @@ import { compareArrays } from 'js/utility/utilityFunctions';
 
 export const getAllDefaultTiles = (trainTrackMap) => {
 	let defaultTileArr = [];
-	trainTrackMap.tracks.forEach(function(el) {
+	trainTrackMap.tracks.forEach((el) => {
 		if (el.defaultTrack) defaultTileArr.push(el);
 	});
 	return defaultTileArr;
@@ -10,7 +10,7 @@ export const getAllDefaultTiles = (trainTrackMap) => {
 
 export const getRailTypeOfPlacedTile = (coordinate, placedTracks) => {
 	let railType = null;
-	placedTracks.forEach(function(el) {
+	placedTracks.forEach((el) => {
 		if (el.tile[0] === coordinate[0] && el.tile[1] === coordinate[1]) railType = el.railType;
 	});
 	return railType;
@@ -37,9 +37,9 @@ const getPlacedRailTrackCount = (placedTracks) => {
 };
 
 const getCorrectTileCount = (trainTrackMap, placedTracks) => {
-	return trainTrackMap.tracks.filter(function(winning) {
+	return trainTrackMap.tracks.filter((winning) => {
 		let correctTile = winning.defaultTrack;
-		placedTracks.forEach(function(placed) {
+		placedTracks.forEach((placed) => {
 			if (compareArrays(winning.tile, placed.tile) && winning.railType === placed.railType) correctTile = true;
 		});
 		return correctTile;

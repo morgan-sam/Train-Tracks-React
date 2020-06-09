@@ -9,11 +9,11 @@ export const removeAroundExitMoves = (legalMoves, genMap) => {
 const checkIfMoveIsAroundExitTile = (move, genMap) => {
 	const tilesAroundExit = chooseSurroundOrAdjacentExitTiles(move, genMap);
 	let moveIsAdjExit = false;
-	tilesAroundExit.forEach(function(tile) {
+	tilesAroundExit.forEach((tile) => {
 		if (compareArrays(move, tile)) moveIsAdjExit = true;
 	});
 	return moveIsAdjExit;
-}
+};
 
 const chooseSurroundOrAdjacentExitTiles = (move, genMap) => {
 	if (checkIfTilesAdjacent(move, genMap)) {
@@ -21,18 +21,18 @@ const chooseSurroundOrAdjacentExitTiles = (move, genMap) => {
 	} else {
 		return getTilesAdjacentAndExit(genMap);
 	}
-}
+};
 
 const checkIfTilesAdjacent = (tile, genMap) => {
 	const adjacentTiles = getTilesAdjacentAndExit(genMap);
 	const tileIsAdjacent = findIndexOfArrayInMatrix(tile, adjacentTiles) !== -1;
 	return tileIsAdjacent;
-}
+};
 
 const getTilesSurroundingExit = (genMap) => {
 	const adjacentTiles = getSurroundingTiles(genMap.end);
 	return removeOutOfBoundsMoves(adjacentTiles, genMap.parameters);
-}
+};
 
 const getSurroundingTiles = (coordinate) => {
 	let tileArray = [];
@@ -42,9 +42,9 @@ const getSurroundingTiles = (coordinate) => {
 		}
 	}
 	return tileArray;
-}
+};
 
 const getTilesAdjacentAndExit = (genMap) => {
 	const adjacentTiles = getAdjacentTiles(genMap.end);
 	return removeOutOfBoundsMoves(adjacentTiles, genMap.parameters);
-}
+};

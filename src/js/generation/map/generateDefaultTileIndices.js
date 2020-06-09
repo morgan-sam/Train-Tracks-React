@@ -37,14 +37,14 @@ const getHelperIndices = (indices, mapLength) => {
 
 const getStartAndEndIndices = (allTiles) => {
 	return [ 0, allTiles.length - 1 ];
-}
+};
 
 const getAllTwoByTwoDefaultIndices = (allTiles, parameters) => {
 	let defaultCoordinates = iterateThroughEachPossibleSquare(allTiles, parameters);
 	defaultCoordinates = removeDefaultTilesWithMoreThanOneAdjacent(defaultCoordinates);
 	const defaultIndices = defaultCoordinates.map((el) => findIndexOfArrayInMatrix(el, allTiles));
 	return [ ...new Set(defaultIndices) ];
-}
+};
 const iterateThroughEachPossibleSquare = (allTiles, parameters) => {
 	let nonDefaultTrackTiles = allTiles;
 	let defaultCoordinates = [];
@@ -57,43 +57,43 @@ const iterateThroughEachPossibleSquare = (allTiles, parameters) => {
 		}
 	}
 	return [].concat(...defaultCoordinates);
-}
+};
 
 const removeDefaultTilesWithMoreThanOneAdjacent = (defaultCoordinates) => {
 	let currentDefaultTiles = [ ...defaultCoordinates ];
-	return defaultCoordinates.filter(function(tile) {
+	return defaultCoordinates.filter((tile) => {
 		const adjDefTileCount = getAdjacentDefaultTileCount(tile, currentDefaultTiles);
 		const moreThanOneAdj = adjDefTileCount > 1;
 		if (moreThanOneAdj) currentDefaultTiles = removeArraysFromMatrix([ tile ], currentDefaultTiles);
 		return !moreThanOneAdj;
 	});
-}
+};
 
 const getAdjacentDefaultTileCount = (tile, currentDefaultTiles) => {
 	const adjTiles = getAdjacentTiles(tile);
 	const nonDefTiles = removeArraysFromMatrix(currentDefaultTiles, adjTiles);
 	return 4 - nonDefTiles.length;
-}
+};
 
 const getSquareDefaultCoordinates = (nonDefaultTrackTiles, offset, parameters) => {
 	const squares = splitMapIntoSquares(offset, parameters);
 	const fullSquares = filterForFullSquares(nonDefaultTrackTiles, squares);
 	const defaultCoordinates = getRandomNonDuplicateCoordinatesFromMatrix(fullSquares);
 	return defaultCoordinates;
-}
+};
 
 const getRandomNonDuplicateCoordinatesFromMatrix = (matrix) => {
 	const coordinates = matrix.map((el) => el[randomIntFromInterval(0, el.length - 1)]);
 	return removeDuplicateArraysFromMatrix(coordinates);
-}
+};
 
 const filterForFullSquares = (allTiles, squares) => {
 	return squares.filter((square) => checkIfSquareIsFull(square, allTiles));
-}
+};
 
 const checkIfSquareIsFull = (square, allTiles) => {
 	return findCommonArraysOfAllMatrices([ square, allTiles ]).length === 4;
-}
+};
 
 const splitMapIntoSquares = (offset, parameters) => {
 	const { mapWidth, mapHeight } = parameters;
@@ -104,7 +104,7 @@ const splitMapIntoSquares = (offset, parameters) => {
 		}
 	}
 	return squares;
-}
+};
 
 const getTwoByTwoSquare = (x, y) => {
 	let square = [];
@@ -114,4 +114,4 @@ const getTwoByTwoSquare = (x, y) => {
 		}
 	}
 	return square;
-}
+};

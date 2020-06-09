@@ -30,7 +30,7 @@ export const convertHexToRgbArray = (hexColor) => {
 
 export const convertRgbArrayToHex = (rgbArray) => {
 	const hexCode = rgbArray
-		.map(function(el) {
+		.map((el) => {
 			const value = el.toString(16);
 			if (value.length === 1) return '0' + value;
 			else return value;
@@ -42,7 +42,7 @@ export const convertRgbArrayToHex = (rgbArray) => {
 const getColorStepValues = (colorData) => {
 	const { colorOneArray, colorTwoArray, numberOfShades } = colorData;
 	return colorOneArray.map((el, i) => (colorTwoArray[i] - el) / (numberOfShades - 1));
-}
+};
 
 const createColorMatrixByStep = (colorData) => {
 	const { colorOneArray, numberOfShades } = colorData;
@@ -53,7 +53,7 @@ const createColorMatrixByStep = (colorData) => {
 		colorMatrix.push(color);
 	}
 	return colorMatrix;
-}
+};
 
 const colorToColorArray = (colorOne, colorTwo, numberOfShades) => {
 	const colorOneArray = convertHexToRgbArray(colorOne);
