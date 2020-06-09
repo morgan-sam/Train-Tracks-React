@@ -11,7 +11,7 @@ export const OptionsButtons = (props) => {
 	const {
 		mapTracks,
 		placedTracks,
-		setGameWinState,
+		setGameWon,
 		setPlacedTracks,
 		setDisplay,
 		display,
@@ -19,6 +19,7 @@ export const OptionsButtons = (props) => {
 		inGameNewMap,
 		quitGame
 	} = props;
+
 	const clipboard = useRef(null);
 
 	const getRandomNonPlacedTrack = (mapTracks, placedTracks) => {
@@ -70,7 +71,7 @@ export const OptionsButtons = (props) => {
 				<WaveButton
 					key={'resetMapBtn'}
 					onClick={async () => {
-						setGameWinState(false);
+						setGameWon(false);
 						setPlacedTracks([]);
 						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
 					}}
@@ -119,7 +120,7 @@ export const OptionsButtons = (props) => {
 				<WaveButton
 					key={'newMapBtn'}
 					onClick={() => {
-						setGameWinState(false);
+						setGameWon(false);
 						setPlacedTracks([]);
 						setDisplay({ ...display, winPopUp: false, solutionVisible: false });
 						inGameNewMap();

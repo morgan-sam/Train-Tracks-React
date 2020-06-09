@@ -13,7 +13,7 @@ import { getGameMapContainerStyle } from 'js/styles/game';
 export const Game = (props) => {
 	const { gameState, tileRemSize, visualEffects, themeColor, mapSeed, railImages, inGameNewMap, quitGame } = props;
 
-	const [ gameWon, setGameWinState ] = useState(false);
+	const [ gameWon, setGameWon ] = useState(false);
 	const [ placedTracks, setPlacedTracks ] = useState([]);
 
 	const [ display, setDisplay ] = useState({
@@ -49,7 +49,8 @@ export const Game = (props) => {
 		placedTracks,
 		setPlacedTracks,
 		visualEffects,
-		display
+		display,
+		setGameWon
 	};
 
 	return (
@@ -71,7 +72,6 @@ export const Game = (props) => {
 					className="gameMap"
 					tileRemSize={tileRemSize}
 					trainTrackMap={gameState.mapObject}
-					setGameWinState={setGameWinState}
 					gameComplete={gameWon}
 					railImages={railImages}
 					themeColor={themeColor}
@@ -80,7 +80,6 @@ export const Game = (props) => {
 				<SaveCutout saveBoxCutOut={display.saveBoxCutOut} tileRemSize={tileRemSize} />
 			</div>
 			<OptionsButtons
-				setGameWinState={setGameWinState}
 				setDisplay={setDisplay}
 				mapTracks={gameState.mapObject.tracks}
 				seed={gameState.seed}
