@@ -8,9 +8,7 @@ export const MapSeedCopyButton = (props) => {
 				style={{ zIndex: '4' }}
 				className="mapSeedBtn"
 				key="mapSeedBtn"
-				onClick={() => {
-					navigator.clipboard.writeText(props.seed);
-				}}
+				onClick={() => navigator.clipboard.writeText(props.seed)}
 				text={'🌱'}
 			/>
 			<div className="mapSeedExplanation">
