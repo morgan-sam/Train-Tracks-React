@@ -55,31 +55,13 @@ export const Board = (props) => {
 	const placeColumnHeader = (trainTrackMap, x, y) => {
 		const headerLabel = trainTrackMap.headerLabels.x[x];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
-		return (
-			<HeadingTile
-				key={x}
-				x={x}
-				y={y - 1}
-				headerLabel={headerLabel}
-				fillState={fillState}
-				tileRemSize={props.tileRemSize}
-			/>
-		);
+		return <HeadingTile key={x} headerLabel={headerLabel} fillState={fillState} tileRemSize={props.tileRemSize} />;
 	};
 
 	const placeRowHeader = (trainTrackMap, x, y) => {
 		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
-		return (
-			<HeadingTile
-				key={x}
-				x={x}
-				y={y - 1}
-				headerLabel={headerLabel}
-				fillState={fillState}
-				tileRemSize={props.tileRemSize}
-			/>
-		);
+		return <HeadingTile key={x} headerLabel={headerLabel} fillState={fillState} tileRemSize={props.tileRemSize} />;
 	};
 
 	const placeCompletedMapTrack = (trainTrackMap, x, y) => {
