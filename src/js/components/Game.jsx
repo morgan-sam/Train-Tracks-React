@@ -38,12 +38,20 @@ export const Game = (props) => {
 		[ display.savePopUp ]
 	);
 
+	useEffect(
+		() => {
+			if (gameWon) setDisplay({ ...display, winPopUp: true });
+		},
+		[ gameWon ]
+	);
+
 	const commonProps = {
 		placedTracks,
 		setPlacedTracks,
 		visualEffects,
 		display
 	};
+
 	return (
 		<div>
 			<div style={getGameMapContainerStyle(gameState.size, tileRemSize)}>
@@ -63,10 +71,7 @@ export const Game = (props) => {
 					className="gameMap"
 					tileRemSize={tileRemSize}
 					trainTrackMap={gameState.mapObject}
-					setGameCompleteState={(val) => {
-						setGameWinState(val);
-						setDisplay({ ...display, winPopUp: val });
-					}}
+					setGameWinState={setGameWinState}
 					gameComplete={gameWon}
 					railImages={railImages}
 					themeColor={themeColor}

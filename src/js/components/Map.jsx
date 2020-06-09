@@ -128,7 +128,7 @@ export const Map = (props) => {
 
 	const checkIfGameComplete = () => {
 		const placedTilesAllCorrect = checkIfPlacedTilesAllCorrect(props.trainTrackMap, props.placedTracks);
-		if (placedTilesAllCorrect) props.setGameCompleteState(true);
+		if (placedTilesAllCorrect) props.setGameWinState(true);
 	};
 
 	useEffect(() => checkIfGameComplete(), [ props.placedTracks ]);
