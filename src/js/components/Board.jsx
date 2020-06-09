@@ -42,13 +42,11 @@ export const Board = (props) => {
 		);
 	};
 
-	const renderDefaultTrack = (x, y, defaultRailType, highlighted) => {
-		return staticTile(x, y, defaultRailType, highlighted, props.activeMouseEventsObject);
-	};
+	const renderDefaultTrack = (x, y, defaultRailType, highlighted) =>
+		staticTile(x, y, defaultRailType, highlighted, props.activeMouseEventsObject);
 
-	const renderCompleteTrack = (x, y, defaultRailType, highlighted) => {
-		return staticTile(x, y, defaultRailType, highlighted, emptyMouseEventsObject);
-	};
+	const renderCompleteTrack = (x, y, defaultRailType, highlighted) =>
+		staticTile(x, y, defaultRailType, highlighted, emptyMouseEventsObject);
 
 	///////////// MAP - MAP COMPONENT GENERATION FUNCTIONS /////////////
 
