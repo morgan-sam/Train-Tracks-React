@@ -42,7 +42,8 @@ export const Game = (props) => {
 	const commonProps = {
 		placedTracks,
 		setPlacedTracks,
-		visualEffects
+		visualEffects,
+		display
 	};
 	return (
 		<div>
@@ -62,16 +63,12 @@ export const Game = (props) => {
 					key={mapSeed}
 					className="gameMap"
 					tileRemSize={tileRemSize}
-					defaultTilesHighlighted={display.defaultHighlights}
-					mapSolutionVisible={display.solutionVisible}
 					trainTrackMap={gameState.mapObject}
 					setGameCompleteState={(val) => {
 						setGameWinState(val);
 						setDisplay({ ...display, winPopUp: val });
 					}}
 					gameComplete={gameWon}
-					controlsActive={!display.savePopUp}
-					mapVisible={!display.saveBoxCutOut}
 					railImages={railImages}
 					themeColor={themeColor}
 					{...commonProps}
@@ -82,7 +79,6 @@ export const Game = (props) => {
 				setGameWinState={setGameWinState}
 				setDisplay={setDisplay}
 				mapTracks={gameState.mapObject.tracks}
-				display={display}
 				seed={gameState.seed}
 				inGameNewMap={inGameNewMap}
 				quitGame={quitGame}

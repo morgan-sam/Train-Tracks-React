@@ -9,7 +9,6 @@ import { getRailTypeOfPlacedTile, checkIfPlacedTilesAllCorrect } from 'js/trackF
 import MapAmbientBackground from 'js/components/MapAmbientBackground.jsx';
 
 export const Map = (props) => {
-	console.log(props);
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
 	const dragArray = useRef([ null, null, null ]);
 	const rightClickDragValue = useRef();
@@ -149,12 +148,12 @@ export const Map = (props) => {
 	///////////// MAP - MOUSE EVENTS OBJECTS /////////////
 
 	const activeMouseEventsObject = {
-		leftClickEvent: props.controlsActive ? leftClickEvent : () => null,
-		rightClickEvent: props.controlsActive ? rightClickEvent : () => null,
-		bothClickEvent: props.controlsActive ? bothClickEvent : () => null,
-		leftReleaseEvent: props.controlsActive ? leftReleaseEvent : () => null,
-		rightReleaseEvent: props.controlsActive ? rightReleaseEvent : () => null,
-		hoverStartEvent: props.controlsActive ? hoverStartEvent : () => null
+		leftClickEvent: !props.savePopUp ? leftClickEvent : () => null,
+		rightClickEvent: !props.savePopUp ? rightClickEvent : () => null,
+		bothClickEvent: !props.savePopUp ? bothClickEvent : () => null,
+		leftReleaseEvent: !props.savePopUp ? leftReleaseEvent : () => null,
+		rightReleaseEvent: !props.savePopUp ? rightReleaseEvent : () => null,
+		hoverStartEvent: !props.savePopUp ? hoverStartEvent : () => null
 	};
 
 	const emptyMouseEventsObject = {

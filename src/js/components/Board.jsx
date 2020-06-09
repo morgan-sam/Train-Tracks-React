@@ -9,7 +9,9 @@ import { convertRailTypeToTrackImage } from 'js/trackFunctions/railTypeProcessin
 import { getAllDefaultTiles } from 'js/trackFunctions/trackParsing';
 
 export const Board = (props) => {
-	const renderMapTile = (x, y, railImage, mapSolutionVisible) => {
+	const { defaultHighlights, solutionVisible, saveBoxCutOut } = props.display;
+
+	const renderMapTile = (x, y, railImage, solutionVisible) => {
 		return (
 			<MapTile
 				className="mapTile"
@@ -18,7 +20,7 @@ export const Board = (props) => {
 				key={x}
 				x={x}
 				y={y}
-				mapSolutionVisible={mapSolutionVisible}
+				solutionVisible={solutionVisible}
 				trackData={railImage}
 				{...props.activeMouseEventsObject}
 			/>
@@ -86,7 +88,7 @@ export const Board = (props) => {
 		trainTrackMap.tracks.forEach((el) => {
 			if (el.tile[0] === x && el.tile[1] === y - 1) {
 				defaultTile = el.railType;
-				if (props.defaultTilesHighlighted && el.defaultTrack) highlighted = true;
+				if (defaultHighlights && el.defaultTrack) highlighted = true;
 			}
 		});
 		if (defaultTile) return renderCompleteTrack(x, y - 1, defaultTile, highlighted);
@@ -104,11 +106,11 @@ export const Board = (props) => {
 
 	const placeGameActiveMapTrack = (trainTrackMap, x, y) => {
 		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y - 1);
-		if (defaultTile) return renderDefaultTrack(x, y - 1, defaultTile, props.defaultTilesHighlighted);
+		if (defaultTile) return renderDefaultTrack(x, y - 1, defaultTile, defaultHighlights);
 		else return placeUserPlacedTrack(x, y);
 	};
 	const placeMainMapTile = (trainTrackMap, x, y) => {
-		if (props.gameComplete || props.mapSolutionVisible) return placeCompletedMapTrack(trainTrackMap, x, y);
+		if (props.gameComplete || solutionVisible) return placeCompletedMapTrack(trainTrackMap, x, y);
 		else return placeGameActiveMapTrack(trainTrackMap, x, y);
 	};
 
@@ -145,7 +147,7 @@ export const Board = (props) => {
 				{[ ...Array(mapWidth + 1) ].map((el, x) => {
 					if (y === 0) return placeColumnHeader(props.trainTrackMap, x, y);
 					else if (x === mapWidth) return placeRowHeader(props.trainTrackMap, x, y);
-					else if (!props.mapVisible) return <TransparentTile key={x} tileRemSize={props.tileRemSize} />;
+					else if (saveBoxCutOut) return <TransparentTile key={x} tileRemSize={props.tileRemSize} />;
 					else return placeMainMapTile(props.trainTrackMap, x, y);
 				})}
 			</div>
