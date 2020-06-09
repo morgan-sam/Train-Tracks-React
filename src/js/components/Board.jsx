@@ -20,8 +20,7 @@ export const Board = (props) => {
 				tileRemSize={props.tileRemSize}
 				railImages={props.railImages}
 				key={x}
-				x={x}
-				y={y}
+				coordinate={[ x, y ]}
 				solutionVisible={solutionVisible}
 				trackData={railImage}
 				{...props.activeMouseEventsObject}
@@ -35,8 +34,7 @@ export const Board = (props) => {
 				className="defaultTrack"
 				tileRemSize={props.tileRemSize}
 				key={x}
-				x={x}
-				y={y}
+				coordinate={[ x, y ]}
 				highlighted={highlighted}
 				trackData={convertRailTypeToTrackImage(defaultRailType)}
 				{...mouseEvents}

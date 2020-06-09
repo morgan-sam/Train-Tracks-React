@@ -12,7 +12,7 @@ export const Square = (props) => {
 
 	const getMouseEventObject = (e) => {
 		const mouseEventObject = {
-			tile: [ props.x, props.y ],
+			tile: props.coordinate,
 			railType: convertButtonClassToRailType(e),
 			tileClass: getTileClassFromEvent(e),
 			mouseButton: e.buttons
