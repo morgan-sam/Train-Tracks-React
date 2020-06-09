@@ -86,9 +86,7 @@ const Dropdown = ({ style, placeholder, options, onChange, onHover, className })
 		setListOpen(false);
 	};
 
-	const optionHovered = (item) => {
-		onHover(item);
-	};
+	const optionHovered = (item) => onHover(item);
 
 	return (
 		<div className={className}>
