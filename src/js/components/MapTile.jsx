@@ -12,7 +12,7 @@ export const Square = (props) => {
 
 	const getMouseEventObject = (e) => {
 		const mouseEventObject = {
-			tile: props.coordinate,
+			tile: e.currentTarget.id.split(',').map((x) => parseInt(x)),
 			railType: convertButtonClassToRailType(e),
 			tileClass: getTileClassFromEvent(e),
 			mouseButton: e.buttons
@@ -73,6 +73,7 @@ export const Square = (props) => {
 
 	return (
 		<div
+			id={props.coordinate.toString()}
 			style={getSquareStyle(props.tileRemSize)}
 			className={`square ${props.className}`}
 			onContextMenu={(e) => e.preventDefault()}
