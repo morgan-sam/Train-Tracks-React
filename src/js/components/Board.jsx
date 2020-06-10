@@ -55,7 +55,7 @@ export const Board = (props) => {
 		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('x', x);
 		return (
 			<HeadingTile
-				key={`${x},${y - 1}`}
+				key={`${x},${y}`}
 				headerLabel={headerLabel}
 				fillState={fillState}
 				tileRemSize={props.tileRemSize}
@@ -64,8 +64,8 @@ export const Board = (props) => {
 	};
 
 	const placeRowHeader = (trainTrackMap, x, y) => {
-		const headerLabel = trainTrackMap.headerLabels.y[y - 1];
-		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y - 1);
+		const headerLabel = trainTrackMap.headerLabels.y[y];
+		const fillState = props.gameComplete ? 'full' : getRowColumnFillstate('y', y);
 		return (
 			<HeadingTile
 				key={`${x},${y}`}
@@ -80,27 +80,27 @@ export const Board = (props) => {
 		let defaultTile;
 		let highlighted = false;
 		trainTrackMap.tracks.forEach((el) => {
-			if (el.tile[0] === x && el.tile[1] === y - 1) {
+			if (el.tile[0] === x && el.tile[1] === y) {
 				defaultTile = el.railType;
 				if (defaultHighlights && el.defaultTrack) highlighted = true;
 			}
 		});
-		if (defaultTile) return renderCompleteTrack(x, y - 1, defaultTile, highlighted);
-		else return <EmptyTile coordinate={[ x, y - 1 ]} key={`${x},${y - 1}`} tileRemSize={props.tileRemSize} />;
+		if (defaultTile) return renderCompleteTrack(x, y, defaultTile, highlighted);
+		else return <EmptyTile coordinate={[ x, y ]} key={`${x},${y}`} tileRemSize={props.tileRemSize} />;
 	};
 
 	const placeUserPlacedTrack = (x, y) => {
 		let railImage;
 		props.placedTracks.forEach((el) => {
-			if (el.tile[0] === x && el.tile[1] === y - 1) railImage = convertRailTypeToTrackImage(el.railType);
+			if (el.tile[0] === x && el.tile[1] === y) railImage = convertRailTypeToTrackImage(el.railType);
 		});
-		if (railImage) return renderMapTile(x, y - 1, railImage);
-		else return renderMapTile(x, y - 1, null);
+		if (railImage) return renderMapTile(x, y, railImage);
+		else return renderMapTile(x, y, null);
 	};
 
 	const placeGameActiveMapTrack = (trainTrackMap, x, y) => {
-		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y - 1);
-		if (defaultTile) return renderDefaultTrack(x, y - 1, defaultTile, defaultHighlights);
+		const defaultTile = checkIfTileIsDefault(trainTrackMap, x, y);
+		if (defaultTile) return renderDefaultTrack(x, y, defaultTile, defaultHighlights);
 		else return placeUserPlacedTrack(x, y);
 	};
 	const placeMainMapTile = (trainTrackMap, x, y) => {
@@ -137,8 +137,8 @@ export const Board = (props) => {
 
 	const mapBoard = [ ...Array((mapWidth + 1) * (mapHeight + 1)) ].map((el, i) => {
 		const x = i % (mapWidth + 1);
-		const y = Math.floor(i / (mapHeight + 1));
-		if (y === 0) return placeColumnHeader(props.trainTrackMap, x, y);
+		const y = Math.floor(i / (mapHeight + 1)) - 1;
+		if (y === -1) return placeColumnHeader(props.trainTrackMap, x, y);
 		else if (x === mapWidth) return placeRowHeader(props.trainTrackMap, x, y);
 		else if (saveBoxCutOut) return <TransparentTile key={`${x},${y}`} tileRemSize={props.tileRemSize} />;
 		else return placeMainMapTile(props.trainTrackMap, x, y);
