@@ -1,5 +1,3 @@
-import seedrandom from 'seedrandom';
-
 import { randomIntFromInterval, compareArrays, isNonEmptyArray } from 'js/utility/utilityFunctions';
 import {
 	directionsToTrackRailType,
@@ -19,8 +17,6 @@ import { removeHookMoves } from 'js/generation/map/mutateMoveArray/removeHookMov
 import { removeMovesWithLessTilesFromExit } from 'js/generation/map/mutateMoveArray/removeMovesWithLessTilesFromExit';
 
 export const generateNewMap = (passedParameters) => {
-	seedrandom(passedParameters.seed, { global: true });
-
 	const parameters = {
 		mapWidth: passedParameters.size,
 		mapHeight: passedParameters.size,
@@ -73,7 +69,7 @@ const generateMapTiles = (parameters) => {
 		}
 	}
 	return genMap.tiles;
-}
+};
 
 const newMove = (genMap) => {
 	let nextMove;
@@ -87,11 +83,11 @@ const newMove = (genMap) => {
 		nextMove = legalMoves[randomIntFromInterval(0, legalMoves.length - 1)];
 	}
 	return nextMove;
-}
+};
 
 const checkIfOnlyLegalMoveIsExit = (legalMoves, endCoordinate) => {
 	return legalMoves.length === 1 && compareArrays(legalMoves[0], endCoordinate);
-}
+};
 
 const mutateMoveArray = (legalMoves, genMap) => {
 	let moveMutateFunctions = [];
@@ -112,7 +108,7 @@ const mutateMoveArray = (legalMoves, genMap) => {
 		}
 	}
 	return legalMoves;
-}
+};
 
 const generateMapHeaders = (allTiles, parameters) => {
 	const { mapWidth, mapHeight } = parameters;
@@ -124,4 +120,4 @@ const generateMapHeaders = (allTiles, parameters) => {
 		mapHeaders.y.push(getTilesInEachDirection([ -1, i ], allTiles)[1].length);
 	}
 	return mapHeaders;
-}
+};
