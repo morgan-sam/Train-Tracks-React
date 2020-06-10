@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { colorToWhiteArray } from 'js/utility/colorFunctions';
-import { getWaveButtonStyles } from 'js/styles/waveButton';
+import { getWaveButtonStyles, rectangleParameters } from 'js/styles/waveButton';
 
 const WaveButton = ({ className, onClick, text, bounceDelay = 200, clickDelay = 500 }) => {
 	const [ hovered, setHoveredState ] = useState(false);
@@ -12,14 +12,16 @@ const WaveButton = ({ className, onClick, text, bounceDelay = 200, clickDelay = 
 		hovered
 	);
 
-	const rectangleCount = 5;
-	const startRotation = 30;
-	const rotationOffset = 2;
-	const endRotation = -15 + rectangleCount * rotationOffset;
-	const startTransition = 1.5;
-	const endTransition = 3;
-	const transitionOffset = 0.1;
-	const cubicBezierFunction = 'cubic-bezier(0,1.84,0,.32)';
+	const {
+		rectangleCount,
+		startRotation,
+		rotationOffset,
+		endRotation,
+		startTransition,
+		endTransition,
+		transitionOffset,
+		cubicBezierFunction
+	} = rectangleParameters;
 
 	const createRectangleArray = (recCount) => {
 		let rectangleArray = [];

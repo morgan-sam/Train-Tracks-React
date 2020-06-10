@@ -47,3 +47,16 @@ export const getWaveButtonStyles = (hovered) => {
 		}
 	};
 };
+
+export const rectangleParameters = {
+	rectangleCount: 5,
+	startRotation: 30,
+	rotationOffset: 2,
+	get endRotation() {
+		return -15 + this.rectangleCount * this.rotationOffset;
+	},
+	startTransition: 1.5,
+	endTransition: 3,
+	transitionOffset: 0.1,
+	cubicBezierFunction: 'cubic-bezier(0,1.84,0,.32)'
+};
