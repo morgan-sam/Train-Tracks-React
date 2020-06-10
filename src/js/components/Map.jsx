@@ -157,7 +157,14 @@ export const Map = (props) => {
 	};
 
 	return (
-		<div className="map">
+		<div
+			className="map"
+			style={{
+				display: 'grid',
+				gridTemplateColumns: `repeat(${props.trainTrackMap.headerLabels.x.length + 1}, 1fr)`,
+				gridTemplateRows: `repeat(${props.trainTrackMap.headerLabels.y.length + 1}, 1fr)`
+			}}
+		>
 			<Board {...props} activeMouseEventsObject={activeMouseEventsObject} />
 			<MapAmbientBackground themeColor={props.themeColor} visualEffects={props.visualEffects} />
 		</div>

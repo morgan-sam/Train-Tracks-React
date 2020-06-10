@@ -82,6 +82,7 @@ export const Square = (props) => {
 			onMouseDown={(e) => squareMouseDown(e)}
 			onMouseUp={(e) => squareMouseUp(e)}
 		>
+			{props.coordinate.toString()}
 			<div className={`tile-button-container`} style={boxStyling}>
 				<TileButtons {...props} />
 			</div>
