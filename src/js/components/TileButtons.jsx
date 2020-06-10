@@ -22,9 +22,9 @@ export const TileButtons = (props) => {
 	const corners = [ 'top-left', 'top-right', 'bottom-left', 'bottom-right' ];
 	const edges = [ 'top', 'right', 'bottom', 'left' ];
 	return [
-		corners.map((el) => <CornerButton corner={el} key={el} tileRemSize={props.tileRemSize} />),
-		edges.map((el) => <AxisButton edge={el} key={el} tileRemSize={props.tileRemSize} />),
-		<CentreButton key={props.x} tileRemSize={props.tileRemSize} />
+		corners.map((el, i) => <CornerButton key={`corner:${i}`} corner={el} tileRemSize={props.tileRemSize} />),
+		edges.map((el, i) => <AxisButton key={`edge:${i}`} edge={el} tileRemSize={props.tileRemSize} />),
+		<CentreButton key={'center'} tileRemSize={props.tileRemSize} />
 	];
 };
 
