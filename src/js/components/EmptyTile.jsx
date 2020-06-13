@@ -11,7 +11,6 @@ export const EmptyTile = (props) => {
 	};
 	return (
 		<div style={emptyTileStyle}>
-			{props.coordinate.toString()}
 			<div className={'tile-display'} style={squareStyling} />
 		</div>
 	);
