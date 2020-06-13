@@ -2,7 +2,7 @@ export const getSquareStyle = (BOX_DIM_REM) => {
 	return {
 		minHeight: `${BOX_DIM_REM}rem`,
 		minWidth: `${BOX_DIM_REM}rem`,
-		display: 'block',
+		display: 'flex',
 		position: 'relative',
 		top: '0',
 		left: '0',
