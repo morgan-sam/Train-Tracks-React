@@ -10,7 +10,7 @@ import { roygbivArray } from 'js/utility/colorFunctions';
 
 export const App = () => {
 	const [ gameState, setGameState ] = useState({
-		size: 5,
+		size: 8,
 		seed: getRandomSeed(),
 		difficulty: 3,
 		mapObject: null,
