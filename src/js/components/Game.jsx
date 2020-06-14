@@ -70,10 +70,12 @@ export const Game = (props) => {
 				<SaveCutout {...{ display, tileRemSize }} />
 			</div>
 			<OptionsButtons
-				setDisplay={setDisplay}
-				gameState={gameState}
-				inGameNewMap={inGameNewMap}
-				quitGame={quitGame}
+				{...{
+					setDisplay,
+					gameState,
+					inGameNewMap,
+					quitGame
+				}}
 				{...commonProps}
 			/>
 		</div>
