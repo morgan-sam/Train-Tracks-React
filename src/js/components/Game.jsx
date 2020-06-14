@@ -56,23 +56,16 @@ export const Game = (props) => {
 	return (
 		<div>
 			<div style={getGameMapContainerStyle(gameState.size, tileRemSize)}>
-				{display.winPopUp && (
-					<GameWinDisplay
-						display={display}
-						setDisplay={setDisplay}
-						visualEffects={visualEffects}
-						themeColor={themeColor}
-					/>
-				)}
-				{display.savePopUp && (
-					<SaveMapDisplay display={display} setDisplay={setDisplay} gameState={gameState} />
-				)}
+				{display.winPopUp && <GameWinDisplay {...{ display, setDisplay, visualEffects, themeColor }} />}
+				{display.savePopUp && <SaveMapDisplay {...{ display, setDisplay, gameState }} />}
 				<Map
 					key={mapSeed}
 					className="gameMap"
-					tileRemSize={tileRemSize}
-					railImages={railImages}
-					themeColor={themeColor}
+					{...{
+						tileRemSize,
+						railImages,
+						themeColor
+					}}
 					trainTrackMap={gameState.mapObject}
 					{...commonProps}
 				/>
