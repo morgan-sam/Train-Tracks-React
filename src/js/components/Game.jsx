@@ -71,10 +71,9 @@ export const Game = (props) => {
 					key={mapSeed}
 					className="gameMap"
 					tileRemSize={tileRemSize}
-					trainTrackMap={gameState.mapObject}
-					gameComplete={gameWon}
 					railImages={railImages}
 					themeColor={themeColor}
+					trainTrackMap={gameState.mapObject}
 					{...commonProps}
 				/>
 				<SaveCutout saveBoxCutOut={display.saveBoxCutOut} tileRemSize={tileRemSize} />
