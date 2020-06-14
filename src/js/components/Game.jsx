@@ -60,7 +60,6 @@ export const Game = (props) => {
 				{display.savePopUp && <SaveMapDisplay {...{ display, setDisplay, gameState }} />}
 				<Map
 					key={mapSeed}
-					className="gameMap"
 					{...{
 						tileRemSize,
 						railImages,
