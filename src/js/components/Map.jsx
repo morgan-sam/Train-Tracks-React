@@ -9,6 +9,8 @@ import { getRailTypeOfPlacedTile, checkIfPlacedTilesAllCorrect } from 'js/trackF
 import MapAmbientBackground from 'js/components/MapAmbientBackground.jsx';
 
 export const Map = (props) => {
+	const { trainTrackMap, placedTracks, setPlacedTracks, setGameWon, savePopUp, themeColor, visualEffects } = props;
+
 	const [ currentMapInfo, setCurrentMapInfo ] = useState([]);
 	const dragArray = useRef([ null, null, null ]);
 	const rightClickDragValue = useRef();
@@ -28,14 +30,13 @@ export const Map = (props) => {
 	const bothClickEvent = (mouseEventObject) => determineIfToPlaceT(mouseEventObject);
 
 	const setRightClickDragValue = (mouseEventObject) => {
-		const tileValue = getRailTypeOfPlacedTile(mouseEventObject.tile, props.placedTracks);
+		const tileValue = getRailTypeOfPlacedTile(mouseEventObject.tile, placedTracks);
 		rightClickDragValue.current = tileValue === null ? 'X' : 'DELETE';
 	};
 
 	const determineRemoveOrPlaceX = (mouseEventObject) => {
 		if (mouseEventObject.tileClass === 'mapTile') {
-			if (getRailTypeOfPlacedTile(mouseEventObject.tile, props.placedTracks))
-				removePlacedTrack(mouseEventObject.tile);
+			if (getRailTypeOfPlacedTile(mouseEventObject.tile, placedTracks)) removePlacedTrack(mouseEventObject.tile);
 			else placeTile(mouseEventObject.tile, rightClickDragValue.current);
 		}
 	};
@@ -109,51 +110,51 @@ export const Map = (props) => {
 
 	const placeMultipleTiles = async (newTiles) => {
 		const allTilesOnMap = getCombinedArrayOfNewAndOldTiles(newTiles, {
-			mapTracks: props.trainTrackMap.tracks,
-			placedTracks: props.placedTracks
+			mapTracks: trainTrackMap.tracks,
+			placedTracks: placedTracks
 		});
-		await props.setPlacedTracks(allTilesOnMap);
+		await setPlacedTracks(allTilesOnMap);
 		await checkIfGameComplete();
 	};
 
 	const removePlacedTrack = async (trackCoordinates) => {
-		const filteredTracks = props.placedTracks.filter((track) => {
+		const filteredTracks = placedTracks.filter((track) => {
 			return !(track.tile[0] === trackCoordinates[0] && track.tile[1] === trackCoordinates[1]);
 		});
-		await props.setPlacedTracks(filteredTracks);
+		await setPlacedTracks(filteredTracks);
 		await checkIfGameComplete();
 	};
 
 	///////////// ///////////// /////////////
 
 	const checkIfGameComplete = () => {
-		const placedTilesAllCorrect = checkIfPlacedTilesAllCorrect(props.trainTrackMap, props.placedTracks);
-		if (placedTilesAllCorrect) props.setGameWon(true);
+		const placedTilesAllCorrect = checkIfPlacedTilesAllCorrect(trainTrackMap, placedTracks);
+		if (placedTilesAllCorrect) setGameWon(true);
 	};
 
-	useEffect(() => checkIfGameComplete(), [ props.placedTracks ]);
+	useEffect(() => checkIfGameComplete(), [ placedTracks ]);
 
 	useEffect(
 		() => {
-			const defaultTracks = props.trainTrackMap.tracks.filter((el) => el.defaultTrack);
-			const placedTracks = props.placedTracks.filter((el) => el.railType !== 'X');
+			const defaultTracks = trainTrackMap.tracks.filter((el) => el.defaultTrack);
+			const filteredTracks = placedTracks.filter((el) => el.railType !== 'X');
 			setCurrentMapInfo({
-				tracksOnMap: [ ...defaultTracks, ...placedTracks ],
-				axisMax: { x: props.trainTrackMap.headerLabels.x.length, y: props.trainTrackMap.headerLabels.y.length }
+				tracksOnMap: [ ...defaultTracks, ...filteredTracks ],
+				axisMax: { x: trainTrackMap.headerLabels.x.length, y: trainTrackMap.headerLabels.y.length }
 			});
 		},
-		[ props.placedTracks ]
+		[ placedTracks ]
 	);
 
 	///////////// MAP - MOUSE EVENTS OBJECTS /////////////
 
 	const activeMouseEventsObject = {
-		leftClickEvent: !props.savePopUp ? leftClickEvent : () => null,
-		rightClickEvent: !props.savePopUp ? rightClickEvent : () => null,
-		bothClickEvent: !props.savePopUp ? bothClickEvent : () => null,
-		leftReleaseEvent: !props.savePopUp ? leftReleaseEvent : () => null,
-		rightReleaseEvent: !props.savePopUp ? rightReleaseEvent : () => null,
-		hoverStartEvent: !props.savePopUp ? hoverStartEvent : () => null
+		leftClickEvent: !savePopUp ? leftClickEvent : () => null,
+		rightClickEvent: !savePopUp ? rightClickEvent : () => null,
+		bothClickEvent: !savePopUp ? bothClickEvent : () => null,
+		leftReleaseEvent: !savePopUp ? leftReleaseEvent : () => null,
+		rightReleaseEvent: !savePopUp ? rightReleaseEvent : () => null,
+		hoverStartEvent: !savePopUp ? hoverStartEvent : () => null
 	};
 
 	return (
@@ -161,12 +162,12 @@ export const Map = (props) => {
 			className="map"
 			style={{
 				display: 'grid',
-				gridTemplateColumns: `repeat(${props.trainTrackMap.headerLabels.x.length + 1}, 1fr)`,
-				gridTemplateRows: `repeat(${props.trainTrackMap.headerLabels.y.length + 1}, 1fr)`
+				gridTemplateColumns: `repeat(${trainTrackMap.headerLabels.x.length + 1}, 1fr)`,
+				gridTemplateRows: `repeat(${trainTrackMap.headerLabels.y.length + 1}, 1fr)`
 			}}
 		>
 			<Board {...props} activeMouseEventsObject={activeMouseEventsObject} />
-			<MapAmbientBackground themeColor={props.themeColor} visualEffects={props.visualEffects} />
+			<MapAmbientBackground themeColor={themeColor} visualEffects={visualEffects} />
 		</div>
 	);
 };
