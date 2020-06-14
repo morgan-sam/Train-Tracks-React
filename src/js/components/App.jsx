@@ -38,10 +38,7 @@ export const App = () => {
 		});
 	};
 
-	const inGameNewMap = () => {
-		const newSeed = getRandomSeed();
-		generateMap(newSeed);
-	};
+	const inGameNewMap = () => generateMap(getRandomSeed());
 
 	const quitGame = () => {
 		setCurrentScreen('mainMenu');
