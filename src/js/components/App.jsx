@@ -2,22 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Screen from 'js/components/Screen';
 
 import { generateNewMap } from 'js/generation/map/generateMap';
-import { getRandomSeed } from 'js/utility/utilityFunctions';
-
 import { generateUnknownTrackIcon } from 'js/generation/icon/generateUnknownTrackIcon';
 import { generateCrossTrackIcon } from 'js/generation/icon/generateCrossTrackIcon';
 import { roygbivArray } from 'js/utility/colorFunctions';
+import { getRandomSeed } from 'js/utility/utilityFunctions';
+import { defaultGameState } from 'js/data/defaultState';
 
 export const App = () => {
-	const [ gameState, setGameState ] = useState({
-		size: 8,
-		seed: getRandomSeed(),
-		difficulty: 3,
-		mapObject: null,
-		active: false,
-		visualEffects: true
-	});
-
+	const [ gameState, setGameState ] = useState(defaultGameState);
 	const [ currentScreen, setCurrentScreen ] = useState('mainMenu');
 	const [ tileRemSize, setTileRemSize ] = useState(3.5);
 	const [ railImages, setRailImages ] = useState({
