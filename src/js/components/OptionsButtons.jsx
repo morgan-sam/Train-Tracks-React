@@ -4,17 +4,10 @@ import MapSeedCopyButton from 'js/components/MapSeedCopyButton';
 import { addHintTrack } from 'js/trackFunctions/addHintTrack';
 
 export const OptionsButtons = (props) => {
-	const {
-		mapTracks,
-		placedTracks,
-		setGameWon,
-		setPlacedTracks,
-		setDisplay,
-		display,
-		seed,
-		inGameNewMap,
-		quitGame
-	} = props;
+	const { gameState, placedTracks, setGameWon, setPlacedTracks, setDisplay, display, inGameNewMap, quitGame } = props;
+
+	const seed = gameState.seed;
+	const tracks = gameState.mapObject.tracks;
 
 	return (
 		<div className="inGameOptions">
@@ -22,7 +15,7 @@ export const OptionsButtons = (props) => {
 				<WaveButton
 					key={'addHintTrackButton'}
 					onClick={() => {
-						const newTrackArray = addHintTrack(mapTracks, placedTracks);
+						const newTrackArray = addHintTrack(tracks, placedTracks);
 						setPlacedTracks(newTrackArray);
 					}}
 					text={'Add Hint Track'}

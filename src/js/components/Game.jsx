@@ -71,8 +71,7 @@ export const Game = (props) => {
 			</div>
 			<OptionsButtons
 				setDisplay={setDisplay}
-				mapTracks={gameState.mapObject.tracks}
-				seed={gameState.seed}
+				gameState={gameState}
 				inGameNewMap={inGameNewMap}
 				quitGame={quitGame}
 				{...commonProps}
