@@ -68,7 +68,7 @@ export const Game = (props) => {
 					trainTrackMap={gameState.mapObject}
 					{...commonProps}
 				/>
-				<SaveCutout saveBoxCutOut={display.saveBoxCutOut} tileRemSize={tileRemSize} />
+				<SaveCutout {...{ display, tileRemSize }} />
 			</div>
 			<OptionsButtons
 				setDisplay={setDisplay}
