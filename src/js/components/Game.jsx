@@ -59,7 +59,6 @@ export const Game = (props) => {
 				{display.winPopUp && <GameWinDisplay {...{ display, setDisplay, visualEffects, themeColor }} />}
 				{display.savePopUp && <SaveMapDisplay {...{ display, setDisplay, gameState }} />}
 				<Map
-					key={mapSeed}
 					{...{
 						tileRemSize,
 						railImages,
