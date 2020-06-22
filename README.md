@@ -1,4 +1,8 @@
-React app version of the train tracks puzzle game.
+<h2>Train Tracks Puzzle</h2>
+
+A React implementation of the train tracks puzzle.
+
+Play <a href='https://morgan-sam.github.io/Train-Tracks-React/'>here</a>.
 
 A map is randomly generated with an entrance and an exit. The number of tiles in row or column is shown on the top and right of the map. You must created a track that meets the required number of tracks for each row and column. There are three modes: Easy (6x6), Medium (8x8) and Hard (10x10).
 
