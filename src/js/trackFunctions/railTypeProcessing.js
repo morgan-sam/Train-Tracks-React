@@ -67,7 +67,7 @@ export const convertRailTypeToTrackImage = (railType) => {
 				trackRotation: 270
 			};
 			break;
-		case 'T':
+		case '?':
 			trackData = {
 				trackType: railType,
 				trackRotation: 'none'
@@ -102,7 +102,7 @@ export const convertButtonClassToRailType = (e) => {
 		if (e.target.classList.contains('bottom-right')) railType = 'bottomRightCorner';
 	}
 	if (e.target.classList.contains('centreButton')) {
-		railType = 'T';
+		railType = '?';
 	}
 	return railType;
 };

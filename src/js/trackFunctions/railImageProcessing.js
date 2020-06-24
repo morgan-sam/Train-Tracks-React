@@ -3,7 +3,7 @@ import { convertRailTypeToTrackImage } from 'js/trackFunctions/railTypeProcessin
 export const setHoverTrackImage = (hoverTrack, unknownRailImage) => {
 	let squareStyling;
 	const trackImage = convertRailTypeToTrackImage(hoverTrack);
-	if (trackImage.trackType !== 'T') {
+	if (trackImage.trackType !== '?') {
 		squareStyling = {
 			backgroundImage: `url(${trackImage.trackType})`,
 			transform: `rotate(${trackImage.trackRotation}deg)`,
@@ -20,13 +20,13 @@ export const setHoverTrackImage = (hoverTrack, unknownRailImage) => {
 
 export const setPlacedTrackImage = (trackData, railImages) => {
 	let squareStyling;
-	if (trackData.trackType !== 'T' && trackData.trackType !== 'X') {
+	if (trackData.trackType !== '?' && trackData.trackType !== 'X') {
 		squareStyling = {
 			backgroundImage: `url(${trackData.trackType})`,
 			transform: `rotate(${trackData.trackRotation}deg)`,
 			opacity: 1
 		};
-	} else if (trackData.trackType === 'T') {
+	} else if (trackData.trackType === '?') {
 		squareStyling = {
 			backgroundImage: `url(${railImages.unknown})`,
 			opacity: 1

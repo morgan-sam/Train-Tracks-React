@@ -68,7 +68,7 @@ export const Square = (props) => {
 	let backgroundEnabled = true;
 	if (props.className === 'mapTile') {
 		if (props.trackData) backgroundEnabled = props.trackData.trackType.length !== 1;
-		else if (hoverTrack) backgroundEnabled = hoverTrack !== 'T';
+		else if (hoverTrack) backgroundEnabled = hoverTrack !== '?';
 	}
 
 	return (
