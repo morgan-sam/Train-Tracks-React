@@ -4,6 +4,7 @@
 
 <p>Play <a href='https://morgan-sam.github.io/Train-Tracks-React/'>here</a>.</p>
 
+![Alt text](/docs/win.gif)
 
 <h3>How To Play</h3>
 <p>The goal of the game is to create a train track path between the entrance and the exit of the board..</p>
