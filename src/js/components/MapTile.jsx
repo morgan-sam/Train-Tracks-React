@@ -74,7 +74,7 @@ export const Square = (props) => {
 	return (
 		<div
 			id={props.coordinate.toString()}
-			style={getSquareStyle(props.tileRemSize)}
+			style={getSquareStyle(props.tileRemSize, props.className)}
 			className={`square ${props.className}`}
 			onContextMenu={(e) => e.preventDefault()}
 			onMouseOver={(e) => squareHoverStart(e)}
