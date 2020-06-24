@@ -42,3 +42,7 @@
 <p><blockquote>Hold a mouse button and drag to place multiple tracks/crosses/dots.</blockquote></p>
 
 ![Alt text](/docs/drag.gif)
+
+<h3>To Do:</h3>
+
+<p>Currently the game does not display properly on mobile. A mobile version would require a different control scheme as dragging does not work, and phone screens are too small to precisely press a section of a tile for a particular track type. The planned control scheme would be essentially the same as <a href='https://puzzlemadness.co.uk/traintracks/medium'>this</a>, with buttons for each individual track type.</p>
