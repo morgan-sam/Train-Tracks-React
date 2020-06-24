@@ -23,6 +23,10 @@
 
 <h3>Controls:</h3>
 
+<p><blockquote>Hover over different parts of the tile to see what track you will place on left click.</blockquote></p>
+
+![Alt text](/docs/hover.gif)
+
 <p><blockquote>Right click to place Xs to mark tiles that have no tracks.</blockquote></p>
 
 ![Alt text](/docs/crosses.gif)
@@ -34,7 +38,3 @@
 <p><blockquote>Click both mouse buttons place dots to mark tracks with an unknown rail type.</blockquote></p>
 
 ![Alt text](/docs/dots.gif)
-
-<p><blockquote>Hover over different parts of the tile to see what track you will place on left click.</blockquote></p>
-
-![Alt text](/docs/hover.gif)
