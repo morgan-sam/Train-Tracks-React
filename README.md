@@ -30,7 +30,9 @@
 
 ![Alt text](/docs/dots.gif)
 
-<p>Hover over different parts of the tile to see what track you will place on left click. </p>
+<p><blockquote>Hover over different parts of the tile to see what track you will place on left click.</blockquote></p>
+
+![Alt text](/docs/hover.gif)
 
 <h3>Controls:</h3>
 <ul>
