@@ -15,7 +15,7 @@
 
 ![Alt text](/docs/colors.gif)
 
-<p>Create a track that links the entrance and exit that also fits the required number of tracks for each row and column. Once the entrance and exit are linked and all rows/columns are satisfied, you win the game.</p> 
+<p>The track you create must fit the required number of tracks for each row and column.</p> 
 
 <h3>Modes</h3>
 <p>There are three map sizes: 6x6, 8x8 and 10x10.</p>
