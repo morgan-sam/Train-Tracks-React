@@ -21,7 +21,7 @@
 <p>There are three map sizes: 6x6, 8x8 and 10x10.</p>
 <p>There are 5 difficulty levels. Difficulties 3 and below are guaranteed a single correct solution, however difficulties 4 & 5 may require trial and error as there may be multiple possible solutions. Only one solution will be accepted. If you are stuck try using the <i>add hint track</i> button.</p>
 
-<h3>Placing Tracks</h3>
+<h3>Controls:</h3>
 
 <p><blockquote>Right click to place Xs to mark tiles that have no tracks.</blockquote></p>
 
@@ -38,11 +38,3 @@
 <p><blockquote>Hover over different parts of the tile to see what track you will place on left click.</blockquote></p>
 
 ![Alt text](/docs/hover.gif)
-
-<h3>Controls:</h3>
-<ul>
-<li>Left click: places tracks</li>
-<li>Right click: deletes tracks/places Xs</li>
-<li>Dragging either: places/deletes markers of multiple tracks</li>
-<li>Dragging both at same time: places multiple dot markers</li>
-</ul>
