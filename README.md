@@ -1,8 +1,6 @@
 <h2>Train Tracks Puzzle</h2>
-
 <p>A React implementation of the train tracks puzzle.</p>
-
-<p>Play <a href='https://morgan-sam.github.io/Train-Tracks-React/'>here</a>.</p>
+<h3>Play <a href='https://morgan-sam.github.io/Train-Tracks-React/'>here</a>.</h3>
 
 ![Alt text](/docs/win.gif)
 
