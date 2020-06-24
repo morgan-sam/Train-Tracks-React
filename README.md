@@ -38,3 +38,7 @@
 <p><blockquote>Click both mouse buttons place dots to mark tracks with an unknown rail type.</blockquote></p>
 
 ![Alt text](/docs/dots.gif)
+
+<p><blockquote>You can hold a mouse button and drag to place multiple tracks/crosses/dots.</blockquote></p>
+
+![Alt text](/docs/drag.gif)
