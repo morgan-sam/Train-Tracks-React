@@ -7,7 +7,11 @@
 
 <h3>How To Play</h3>
 <p>The goal of the game is to create a train track path between the entrance and the exit of the board..</p>
-<p>The number of tiles in each row or column is shown on the top and right of the map. If you place too many tracks a row/column will turn red, if you place the right amount it will turn green.</p>
+<p>The number of tiles in each row or column is shown on the top and right of the map.</p>
+<p>
+  <blockquote>If you place too many tracks a row/column will turn red.<br>
+  If you place the right amount it will turn green.</blockquote>
+</p>
 
 ![Alt text](/docs/colors.gif)
 
