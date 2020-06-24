@@ -12,7 +12,7 @@
 
 <h3>Modes</h3>
 <p>There are three map sizes: 6x6, 8x8 and 10x10.</p>
-<p>There are 5 difficulty levels. Difficulties 3 and below are guaranteed a single correct solution, however difficulties 4 & 5 may require trial and error as there may be multiple possible solutions. Only one solution will be accepted. If you are stuck try using the "add hint track" button.</p>
+<p>There are 5 difficulty levels. Difficulties 3 and below are guaranteed a single correct solution, however difficulties 4 & 5 may require trial and error as there may be multiple possible solutions. Only one solution will be accepted. If you are stuck try using the <i>add hint track</i> button.</p>
 
 <h3>Placing Tracks</h3>
 <p>You can place an X to mark a tile that has no tracks, and a T to mark a track where you don't know the type of rail used yet. Hover over different parts of the tile to see what track you will place on left click. </p>
