@@ -5,7 +5,7 @@
 <p>Play <a href='https://morgan-sam.github.io/Train-Tracks-React/'>here</a>.</p>
 
 
-<h3>Explanation</h3>
+<h3>How To Play</h3>
 <p>The goal of the game is to create a train track path between the entrance and the exit of the board..</p>
 <p>The number of tiles in each row or column is shown on the top and right of the map. If you place too many tracks a row/column will turn red, if you place the right amount it will turn green.</p>
 <p>Create a track that links the entrance and exit that also fits the required number of tracks for each row and column. Once the entrance and exit are linked and all rows/columns are satisfied, you win the game.</p> 
