@@ -7,15 +7,13 @@
 
 <h3>How To Play</h3>
 <p>The goal of the game is to create a train track path between the entrance and the exit of the board.</p>
-<p>The number of tiles in each row or column is shown on the top and right of the map.</p>
+<p>The path must have the same number of tracks in each row or column shown in the corresponding header.</p>
 <p>
   <blockquote>If you place too many tracks a row/column will turn red.<br>
   If you place the right amount it will turn green.</blockquote>
 </p>
 
 ![Alt text](/docs/colors.gif)
-
-<p>The track you create must fit the required number of tracks for each row and column.</p> 
 
 <h3>Modes</h3>
 <p>There are three map sizes: 6x6, 8x8 and 10x10.</p>
