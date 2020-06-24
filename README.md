@@ -7,9 +7,8 @@
 
 <h3>Explanation</h3>
 <p>A train track that leads from 2 sides of the board is randomly generated, however there are missing tracks.</p>
-<p>The number of tiles in row or column is shown on the top and right of the map. Create a track that links the entrance and exit that also fits the required number of tracks for each row and column.</p>
-<p>If you place too many tracks a row/column will turn red, if you place the right amount it will turn green.</p>
-<p>Once the 2 sides are linked and all rows/columns are satisfied, you win the game.</p> 
+<p>The number of tiles in each row or column is shown on the top and right of the map. If you place too many tracks a row/column will turn red, if you place the right amount it will turn green.</p>
+<p>Create a track that links the entrance and exit that also fits the required number of tracks for each row and column. Once the 2 sides are linked and all rows/columns are satisfied, you win the game.</p> 
 
 <h3>Modes</h3>
 <p>There are three map sizes: 6x6, 8x8 and 10x10.</p>
