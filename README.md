@@ -16,6 +16,6 @@
 <ul>
 <li>Left click: places tracks</li>
 <li>Right click: deletes tracks/places Xs</li>
-<li>Dragging either: places/delete markers of multiple tracks</li>
+<li>Dragging either: places/deletes markers of multiple tracks</li>
 <li>Dragging both at same time: places multiple T markers</li>
 </ul>
