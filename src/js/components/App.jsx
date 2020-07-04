@@ -78,7 +78,8 @@ export const App = () => {
     visualEffects,
     setVisualEffects,
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     const handleResize = () =>
       setDimensions({
         height: window.innerHeight,
@@ -87,7 +88,7 @@ export const App = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   });
-  console.log(dimensions);
+
   return (
     <div key={"app"} className="app">
       <div key={"screenContainer"} className="screenContainer">
