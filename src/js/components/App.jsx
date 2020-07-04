@@ -13,6 +13,7 @@ export const App = () => {
     height: window.innerHeight,
     width: window.innerWidth,
   });
+  const [mobileView, setMobileView] = useState(false);
   const [gameState, setGameState] = useState(defaultGameState);
   const [currentScreen, setCurrentScreen] = useState("mainMenu");
   const [tileRemSize, setTileRemSize] = useState(3.5);
@@ -80,11 +81,13 @@ export const App = () => {
   };
 
   useEffect(() => {
-    const handleResize = () =>
+    const handleResize = () => {
       setDimensions({
         height: window.innerHeight,
         width: window.innerWidth,
       });
+      setMobileView(window.innerWidth < 600);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   });
