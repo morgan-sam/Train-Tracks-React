@@ -25,6 +25,10 @@
 
 ![Alt text](/docs/hover.gif)
 
+<p><blockquote>You can change already placed tracks by clicking on a different part of the tile.</blockquote></p>
+
+![Alt text](/docs/changed.gif)
+
 <p><blockquote>Right click to place Xs to mark tiles that have no tracks.</blockquote></p>
 
 ![Alt text](/docs/crosses.gif)
