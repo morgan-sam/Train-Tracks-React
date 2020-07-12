@@ -5,6 +5,8 @@ import { generateNewMap } from 'js/generation/map/generateMap';
 import { generateMapIcon } from 'js/generation/icon/generateMapIcon';
 
 export const HowToPlayScreen = (props) => {
+	const { mobileView } = props;
+	console.log(mobileView);
 	const [ maps, setMaps ] = useState(false);
 
 	useEffect(() => {
