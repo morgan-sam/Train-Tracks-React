@@ -49,6 +49,7 @@ button {
 }
 
 .gameTitle {
+  font-family: "Roboto", sans-serif;
   margin: 2rem;
   font-size: 200%;
   font-weight: bold;
