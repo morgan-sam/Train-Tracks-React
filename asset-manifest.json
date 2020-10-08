@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/Train-Tracks-React/static/css/main.d6621a95.chunk.css",
-    "main.js": "/Train-Tracks-React/static/js/main.ac066db2.chunk.js",
-    "main.js.map": "/Train-Tracks-React/static/js/main.ac066db2.chunk.js.map",
+    "main.css": "/Train-Tracks-React/static/css/main.55081f5f.chunk.css",
+    "main.js": "/Train-Tracks-React/static/js/main.57df904d.chunk.js",
+    "main.js.map": "/Train-Tracks-React/static/js/main.57df904d.chunk.js.map",
     "runtime-main.js": "/Train-Tracks-React/static/js/runtime-main.bccee2fc.js",
     "runtime-main.js.map": "/Train-Tracks-React/static/js/runtime-main.bccee2fc.js.map",
-    "static/js/2.2ab7722a.chunk.js": "/Train-Tracks-React/static/js/2.2ab7722a.chunk.js",
-    "static/js/2.2ab7722a.chunk.js.map": "/Train-Tracks-React/static/js/2.2ab7722a.chunk.js.map",
+    "static/js/2.a0525968.chunk.js": "/Train-Tracks-React/static/js/2.a0525968.chunk.js",
+    "static/js/2.a0525968.chunk.js.map": "/Train-Tracks-React/static/js/2.a0525968.chunk.js.map",
     "index.html": "/Train-Tracks-React/index.html",
-    "precache-manifest.307a2c004bcae10b225e11c52862f9bc.js": "/Train-Tracks-React/precache-manifest.307a2c004bcae10b225e11c52862f9bc.js",
+    "precache-manifest.ed4579df5624d76e7381ddc91eafcbe3.js": "/Train-Tracks-React/precache-manifest.ed4579df5624d76e7381ddc91eafcbe3.js",
     "service-worker.js": "/Train-Tracks-React/service-worker.js",
-    "static/css/main.d6621a95.chunk.css.map": "/Train-Tracks-React/static/css/main.d6621a95.chunk.css.map",
-    "static/js/2.2ab7722a.chunk.js.LICENSE.txt": "/Train-Tracks-React/static/js/2.2ab7722a.chunk.js.LICENSE.txt",
+    "static/css/main.55081f5f.chunk.css.map": "/Train-Tracks-React/static/css/main.55081f5f.chunk.css.map",
+    "static/js/2.a0525968.chunk.js.LICENSE.txt": "/Train-Tracks-React/static/js/2.a0525968.chunk.js.LICENSE.txt",
     "static/media/curvedtrack.png": "/Train-Tracks-React/static/media/curvedtrack.513c0cf6.png",
     "static/media/straighttrack.png": "/Train-Tracks-React/static/media/straighttrack.9d34a133.png"
   },
   "entrypoints": [
     "static/js/runtime-main.bccee2fc.js",
-    "static/js/2.2ab7722a.chunk.js",
-    "static/css/main.d6621a95.chunk.css",
-    "static/js/main.ac066db2.chunk.js"
+    "static/js/2.a0525968.chunk.js",
+    "static/css/main.55081f5f.chunk.css",
+    "static/js/main.57df904d.chunk.js"
   ]
 }
