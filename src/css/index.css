@@ -1,94 +1,96 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 @keyframes fadeIn {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 :root {
-	font-family: 'Cantarell', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  font-family: "Cantarell", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 button {
-	text-align: center;
-	width: auto;
-	height: 2rem;
-	padding-left: 0.5rem;
-	padding-right: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  width: auto;
+  height: 2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .app {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100vh;
-	width: 100vw;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-	align-items: center;
-	justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .screenContainer {
-	position: relative;
+  position: relative;
 }
 
 .screen {
-	animation: fadeIn ease-in-out 1s;
+  animation: fadeIn ease-in-out 1s;
 }
 
 .gameTitle {
-	margin: 2rem;
-	font-size: 200%;
-	font-weight: bold;
+  margin: 2rem;
+  font-size: 200%;
+  font-weight: bold;
 }
 
 .menu {
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
 }
 
 .mainMenu > * {
-	margin: 0.5rem;
-	width: 8rem;
-	height: 2.2rem;
+  margin: 0.5rem;
+  width: 8rem;
+  height: 2.2rem;
 }
 
 .aboutScreen > * {
-	margin: 0.5rem;
+  margin: 0.5rem;
 }
 
 .loadMapScreen > * {
-	position: relative;
-	margin: 0.5rem auto;
+  position: relative;
+  margin: 0.5rem auto;
 }
 
 .loadMapDropdown {
-	z-index: 2;
-	padding-bottom: 0.6rem;
+  z-index: 2;
+  padding-bottom: 0.6rem;
 }
 
 .mapIcon {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	margin: 2rem;
-	transform: translate(50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 2rem;
+  transform: translate(50%, -50%);
 }
 
 .returnToMainMenuBtn {
-	margin: 2rem;
-	width: 10rem;
-	font-size: 0.75rem;
+  margin: 2rem;
+  width: 10rem;
+  font-size: 0.75rem;
 }
