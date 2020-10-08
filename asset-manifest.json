@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Train-Tracks-React/static/css/main.55081f5f.chunk.css",
+    "main.css": "/Train-Tracks-React/static/css/main.f8c60934.chunk.css",
     "main.js": "/Train-Tracks-React/static/js/main.57df904d.chunk.js",
     "main.js.map": "/Train-Tracks-React/static/js/main.57df904d.chunk.js.map",
     "runtime-main.js": "/Train-Tracks-React/static/js/runtime-main.bccee2fc.js",
@@ -8,9 +8,9 @@
     "static/js/2.a0525968.chunk.js": "/Train-Tracks-React/static/js/2.a0525968.chunk.js",
     "static/js/2.a0525968.chunk.js.map": "/Train-Tracks-React/static/js/2.a0525968.chunk.js.map",
     "index.html": "/Train-Tracks-React/index.html",
-    "precache-manifest.ed4579df5624d76e7381ddc91eafcbe3.js": "/Train-Tracks-React/precache-manifest.ed4579df5624d76e7381ddc91eafcbe3.js",
+    "precache-manifest.a0547c79f8ffcca6359b9b53bf72a630.js": "/Train-Tracks-React/precache-manifest.a0547c79f8ffcca6359b9b53bf72a630.js",
     "service-worker.js": "/Train-Tracks-React/service-worker.js",
-    "static/css/main.55081f5f.chunk.css.map": "/Train-Tracks-React/static/css/main.55081f5f.chunk.css.map",
+    "static/css/main.f8c60934.chunk.css.map": "/Train-Tracks-React/static/css/main.f8c60934.chunk.css.map",
     "static/js/2.a0525968.chunk.js.LICENSE.txt": "/Train-Tracks-React/static/js/2.a0525968.chunk.js.LICENSE.txt",
     "static/media/curvedtrack.png": "/Train-Tracks-React/static/media/curvedtrack.513c0cf6.png",
     "static/media/straighttrack.png": "/Train-Tracks-React/static/media/straighttrack.9d34a133.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.bccee2fc.js",
     "static/js/2.a0525968.chunk.js",
-    "static/css/main.55081f5f.chunk.css",
+    "static/css/main.f8c60934.chunk.css",
     "static/js/main.57df904d.chunk.js"
   ]
 }
